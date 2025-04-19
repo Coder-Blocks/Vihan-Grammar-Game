@@ -1,0 +1,2284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vihan's Grammar Master | 25-Level English Challenge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --success-color: #4cc9f0;
+            --error-color: #f72585;
+            --warning-color: #f8961e;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --bg-color: #ffffff;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fb;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--bg-color);
+            box-shadow: var(--card-shadow);
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: var(--card-shadow);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            font-size: 1.75rem;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .level-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .progress-bar {
+            width: 120px;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: white;
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .progress-bar.large {
+            width: 300px;
+            height: 12px;
+        }
+
+        .game-container {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .game-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .game-intro h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .game-intro p {
+            margin-bottom: 2rem;
+            color: var(--gray-color);
+        }
+
+        .level-buttons {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+
+        .level-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--card-shadow);
+        }
+
+        .level-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .level-btn.locked {
+            background-color: #e9ecef;
+            color: var(--gray-color);
+            cursor: not-allowed;
+        }
+
+        .level-btn.current {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .level-btn.completed {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .level-difficulty {
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            background-color: var(--light-color);
+        }
+
+        .beginner {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .elementary {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .intermediate {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .advanced {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .expert {
+            background-color: #ede9fe;
+            color: #5b21b6;
+        }
+
+        .btn-primary {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--card-shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--light-color);
+        }
+
+        .game-screen {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .question-container {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+
+        .question-content {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .option-btn {
+            padding: 1rem;
+            background-color: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-btn:hover {
+            border-color: var(--accent-color);
+            background-color: #f8f9fa;
+        }
+
+        .option-btn .option-letter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .feedback-container {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+
+        .feedback-message {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .correct {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+
+        .incorrect {
+            color: var(--error-color);
+            font-weight: 600;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            background-color: white;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--gray-color);
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .results-screen {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .result-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+
+        .result-card h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .result-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 2rem;
+        }
+
+        .result-stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .progress-container {
+            margin-bottom: 2rem;
+        }
+
+        .progress-container span {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--gray-color);
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .app-footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: var(--light-color);
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--gray-color);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Animation classes */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .level-buttons {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .app-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .user-profile {
+                align-items: center;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .level-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo-container">
+                <i class="fas fa-language logo-icon"></i>
+                <h1>Vihan's Grammar Master</h1>
+            </div>
+            <div class="user-profile">
+                <span class="username">Welcome, Grammar Champion!</span>
+                <div class="level-indicator">
+                    <span>Level: <span id="user-level">1</span></span>
+                    <div class="progress-bar">
+                        <div class="progress" id="level-progress"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="game-container">
+            <div class="game-intro" id="intro-screen">
+                <h2>Master English Grammar in 25 Levels</h2>
+                <p>Progress through carefully designed levels that build your grammar skills from beginner to expert.</p>
+                
+                <div class="level-difficulty beginner">Beginner: Levels 1-5</div>
+                <div class="level-difficulty elementary">Elementary: Levels 6-10</div>
+                <div class="level-difficulty intermediate">Intermediate: Levels 11-15</div>
+                <div class="level-difficulty advanced">Advanced: Levels 16-20</div>
+                <div class="level-difficulty expert">Expert: Levels 21-25</div>
+                
+                <div class="level-buttons" id="level-buttons">
+                    <!-- Level buttons will be generated by JavaScript -->
+                </div>
+                
+                <button class="btn-primary" id="continue-btn">Continue to Level 1</button>
+            </div>
+
+            <div class="game-screen hidden" id="game-screen">
+                <div class="question-container">
+                    <div class="question-header">
+                        <span class="question-type" id="question-type">Level 1</span>
+                        <span class="question-progress" id="question-progress">1/10</span>
+                    </div>
+                    <div class="question-content" id="question-content">
+                        <!-- Question will be inserted here by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="options-container" id="options-container">
+                    <!-- Options will be inserted here by JavaScript -->
+                </div>
+
+                <div class="feedback-container hidden" id="feedback-container">
+                    <div class="feedback-message" id="feedback-message"></div>
+                    <button class="btn-primary" id="next-btn">Continue</button>
+                </div>
+
+                <div class="game-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Score</span>
+                        <span class="stat-value" id="score">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Streak</span>
+                        <span class="stat-value" id="streak">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Time</span>
+                        <span class="stat-value" id="timer">30</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-screen hidden" id="results-screen">
+                <div class="result-card">
+                    <h2>Level <span id="completed-level">1</span> Completed!</h2>
+                    <div class="result-stats">
+                        <div class="result-stat">
+                            <span class="stat-number" id="final-score">0</span>
+                            <span class="stat-label">Points</span>
+                        </div>
+                        <div class="result-stat">
+                            <span class="stat-number" id="correct-answers">0</span>
+                            <span class="stat-label">Correct</span>
+                        </div>
+                        <div class="result-stat">
+                            <span class="stat-number" id="time-taken">0</span>
+                            <span class="stat-label">Seconds</span>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <span>Overall Progress</span>
+                        <div class="progress-bar large">
+                            <div class="progress" id="final-progress"></div>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-primary" id="retry-btn">Try Again</button>
+                        <button class="btn-primary" id="next-level-btn">Next Level</button>
+                        <button class="btn-secondary" id="level-select-btn">Level Select</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <p>© 2025 Vihan's Grammar Master | English Learning Game</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Us</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Comprehensive grammar questions for 25 levels
+        const grammarQuestions = {
+            // Beginner Levels (1-5)
+            1: [
+                {
+                    question: "Which sentence is correct?",
+                    options: [
+                        "She go to school every day.",
+                        "She goes to school every day.",
+                        "She going to school every day.",
+                        "She is go to school every day."
+                    ],
+                    answer: 1,
+                    explanation: "The correct sentence is 'She goes to school every day.' because it uses the simple present tense with the correct third-person singular form 'goes'."
+                },
+                {
+                    question: "Choose the correct article: ___ apple a day keeps the doctor away.",
+                    options: ["A", "An", "The", "No article needed"],
+                    answer: 1,
+                    explanation: "The correct article is 'An' because 'apple' begins with a vowel sound."
+                },
+                {
+                    question: "Which is the plural of 'child'?",
+                    options: ["Childs", "Children", "Childes", "Childrens"],
+                    answer: 1,
+                    explanation: "The correct plural of 'child' is 'children', which is an irregular plural form."
+                },
+                {
+                    question: "Complete the sentence: My brother ___ tall.",
+                    options: ["am", "is", "are", "be"],
+                    answer: 1,
+                    explanation: "The correct answer is 'is' because 'brother' is a singular noun and requires the singular form of 'to be'."
+                },
+                {
+                    question: "Which sentence is in the present continuous tense?",
+                    options: [
+                        "I eat breakfast every morning.",
+                        "I am eating breakfast now.",
+                        "I ate breakfast an hour ago.",
+                        "I will eat breakfast later."
+                    ],
+                    answer: 1,
+                    explanation: "'I am eating breakfast now.' is in the present continuous tense, indicated by 'am eating' for actions happening now."
+                }
+            ],
+            2: [
+                {
+                    question: "Choose the correct possessive form: This is ___ book.",
+                    options: ["John", "Johns", "John's", "Johns'"],
+                    answer: 2,
+                    explanation: "The correct possessive form is 'John's' for singular nouns."
+                },
+                {
+                    question: "Which is the correct negative form?",
+                    options: [
+                        "She doesn't likes coffee.",
+                        "She don't like coffee.",
+                        "She doesn't like coffee.",
+                        "She not like coffee."
+                    ],
+                    answer: 2,
+                    explanation: "The correct negative form is 'She doesn't like coffee.' with proper subject-verb agreement."
+                },
+                {
+                    question: "Select the correct preposition: The cat is ___ the table.",
+                    options: ["in", "on", "at", "by"],
+                    answer: 1,
+                    explanation: "The correct preposition is 'on' for objects in contact with a surface."
+                },
+                {
+                    question: "Which word is an adjective?",
+                    options: ["Quickly", "Happiness", "Beautiful", "Run"],
+                    answer: 2,
+                    explanation: "'Beautiful' is an adjective that describes nouns."
+                },
+                {
+                    question: "Choose the correct question form: ___ you speak English?",
+                    options: ["Do", "Does", "Is", "Are"],
+                    answer: 0,
+                    explanation: "The correct question form is 'Do you speak English?' for present simple questions with 'you'."
+                }
+            ],
+            3: [
+                {
+                    question: "Which sentence uses 'there is' correctly?",
+                    options: [
+                        "There is many books on the shelf.",
+                        "There is a book on the shelf.",
+                        "There is some book on the shelf.",
+                        "There is book on the shelf."
+                    ],
+                    answer: 1,
+                    explanation: "'There is a book on the shelf.' is correct because 'a book' is singular."
+                },
+                {
+                    question: "Select the correct past tense of 'go':",
+                    options: ["Goed", "Went", "Gone", "Going"],
+                    answer: 1,
+                    explanation: "The irregular past tense of 'go' is 'went'."
+                },
+                {
+                    question: "Which is the correct comparative form of 'big'?",
+                    options: ["Bigger", "More big", "Biggest", "Biger"],
+                    answer: 0,
+                    explanation: "The correct comparative form is 'bigger' for one-syllable adjectives."
+                },
+                {
+                    question: "Complete the sentence: If it rains, we ___ the picnic.",
+                    options: ["cancel", "will cancel", "cancels", "would cancel"],
+                    answer: 1,
+                    explanation: "This is a first conditional sentence, so we use 'will cancel' for the likely result."
+                },
+                {
+                    question: "Which word is a conjunction?",
+                    options: ["Quickly", "And", "Beautiful", "Under"],
+                    answer: 1,
+                    explanation: "'And' is a conjunction used to connect words or phrases."
+                }
+            ],
+            4: [
+                {
+                    question: "Choose the correct countable noun:",
+                    options: ["Water", "Rice", "Book", "Air"],
+                    answer: 2,
+                    explanation: "'Book' is countable (you can have one book or many books)."
+                },
+                {
+                    question: "Which sentence is correct?",
+                    options: [
+                        "She can to swim very well.",
+                        "She can swim very well.",
+                        "She cans swim very well.",
+                        "She can swimming very well."
+                    ],
+                    answer: 1,
+                    explanation: "After 'can' we use the base form of the verb without 'to'."
+                },
+                {
+                    question: "Select the correct pronoun: This is my sister. ___ is a doctor.",
+                    options: ["He", "She", "It", "They"],
+                    answer: 1,
+                    explanation: "We use 'she' for female subjects."
+                },
+                {
+                    question: "Which is the correct tag question: You're coming, ___?",
+                    options: ["are you", "aren't you", "do you", "don't you"],
+                    answer: 1,
+                    explanation: "The correct negative tag for 'You're' (you are) is 'aren't you'."
+                },
+                {
+                    question: "Choose the correct word order:",
+                    options: [
+                        "I always am late for school.",
+                        "I am always late for school.",
+                        "Always I am late for school.",
+                        "I am late always for school."
+                    ],
+                    answer: 1,
+                    explanation: "The adverb 'always' goes after 'be' verbs like 'am'."
+                }
+            ],
+            5: [
+                {
+                    question: "Which is the correct past participle of 'eat'?",
+                    options: ["Eated", "Ate", "Eaten", "Eating"],
+                    answer: 2,
+                    explanation: "The irregular past participle of 'eat' is 'eaten'."
+                },
+                {
+                    question: "Select the correct sentence:",
+                    options: [
+                        "She don't have any brothers.",
+                        "She doesn't has any brothers.",
+                        "She doesn't have any brothers.",
+                        "She not have any brothers."
+                    ],
+                    answer: 2,
+                    explanation: "The correct negative form is 'She doesn't have any brothers.'"
+                },
+                {
+                    question: "Which is the correct superlative form of 'good'?",
+                    options: ["Gooder", "Goodest", "Better", "Best"],
+                    answer: 3,
+                    explanation: "The irregular superlative form of 'good' is 'best'."
+                },
+                {
+                    question: "Complete the sentence: How many people ___ at the party?",
+                    options: ["was", "were", "is", "are"],
+                    answer: 1,
+                    explanation: "We use 'were' with plural nouns like 'people' in past tense."
+                },
+                {
+                    question: "Which sentence uses 'some' correctly?",
+                    options: [
+                        "I need some advices.",
+                        "Would you like some coffee?",
+                        "She gave me some informations.",
+                        "Can I have some waters?"
+                    ],
+                    answer: 1,
+                    explanation: "'Coffee' is an uncountable noun that can be used with 'some'."
+                }
+            ],
+            // Elementary Levels (6-10)
+            6: [
+                {
+                    question: "Which sentence is in the present perfect tense?",
+                    options: [
+                        "I see that movie yesterday.",
+                        "I have seen that movie before.",
+                        "I saw that movie last week.",
+                        "I am seeing that movie now."
+                    ],
+                    answer: 1,
+                    explanation: "'I have seen that movie before.' uses the present perfect (have + past participle)."
+                },
+                {
+                    question: "Choose the correct preposition: I'm good ___ math.",
+                    options: ["at", "in", "on", "for"],
+                    answer: 0,
+                    explanation: "We use 'good at' for skills or subjects."
+                },
+                {
+                    question: "Which is the correct passive voice?",
+                    options: [
+                        "The book was written by J.K. Rowling.",
+                        "J.K. Rowling was written the book.",
+                        "The book written by J.K. Rowling.",
+                        "The book is wrote by J.K. Rowling."
+                    ],
+                    answer: 0,
+                    explanation: "The correct passive form is 'was written' (past simple passive)."
+                },
+                {
+                    question: "Select the correct quantifier: There are ___ students in the class.",
+                    options: ["much", "a little", "many", "a few"],
+                    answer: 2,
+                    explanation: "We use 'many' with countable plural nouns like 'students'."
+                },
+                {
+                    question: "Which sentence uses 'used to' correctly?",
+                    options: [
+                        "I used to playing tennis when I was younger.",
+                        "I used to play tennis when I was younger.",
+                        "I use to play tennis when I was younger.",
+                        "I am used to play tennis when I was younger."
+                    ],
+                    answer: 1,
+                    explanation: "'Used to + base verb' describes past habits."
+                }
+            ],
+            7: [
+                {
+                    question: "Choose the correct reported speech: 'I am happy,' she said.",
+                    options: [
+                        "She said she is happy.",
+                        "She said she was happy.",
+                        "She said she has been happy.",
+                        "She said she will be happy."
+                    ],
+                    answer: 1,
+                    explanation: "In reported speech, present tense often changes to past tense."
+                },
+                {
+                    question: "Which is the correct second conditional?",
+                    options: [
+                        "If I will win the lottery, I buy a house.",
+                        "If I win the lottery, I will buy a house.",
+                        "If I won the lottery, I would buy a house.",
+                        "If I had won the lottery, I would have bought a house."
+                    ],
+                    answer: 2,
+                    explanation: "Second conditional uses 'if + past simple, would + base verb' for unreal situations."
+                },
+                {
+                    question: "Select the correct relative pronoun: The man ___ lives next door is a doctor.",
+                    options: ["which", "who", "where", "whose"],
+                    answer: 1,
+                    explanation: "We use 'who' for people as the subject of the relative clause."
+                },
+                {
+                    question: "Which sentence uses 'too' correctly?",
+                    options: [
+                        "This coffee is too hot to drink.",
+                        "This coffee is very hot to drink.",
+                        "This coffee is enough hot to drink.",
+                        "This coffee is so hot to drink."
+                    ],
+                    answer: 0,
+                    explanation: "'Too' means excessively and is followed by an adjective."
+                },
+                {
+                    question: "Choose the correct phrasal verb: Please ___ the lights when you leave.",
+                    options: ["turn on", "turn off", "turn up", "turn down"],
+                    answer: 1,
+                    explanation: "'Turn off' means to stop electrical devices."
+                }
+            ],
+            8: [
+                {
+                    question: "Which sentence uses the past perfect correctly?",
+                    options: [
+                        "When I arrived, they already left.",
+                        "When I arrived, they had already left.",
+                        "When I arrived, they have already left.",
+                        "When I arrived, they was already leaving."
+                    ],
+                    answer: 1,
+                    explanation: "Past perfect ('had left') shows an action completed before another past action."
+                },
+                {
+                    question: "Select the correct modal verb: You ___ smoke here; it's prohibited.",
+                    options: ["mustn't", "don't have to", "might not", "couldn't"],
+                    answer: 0,
+                    explanation: "'Mustn't' shows prohibition."
+                },
+                {
+                    question: "Which is the correct indirect question?",
+                    options: [
+                        "Can you tell me where is the station?",
+                        "Can you tell me where the station is?",
+                        "Can you tell me where be the station?",
+                        "Can you tell me where the station be?"
+                    ],
+                    answer: 1,
+                    explanation: "Indirect questions use statement word order (subject + verb)."
+                },
+                {
+                    question: "Choose the correct gerund/infinitive: I enjoy ___ to music.",
+                    options: ["listen", "to listen", "listening", "to listening"],
+                    answer: 2,
+                    explanation: "After 'enjoy' we use a gerund (verb + ing)."
+                },
+                {
+                    question: "Which sentence uses 'both' correctly?",
+                    options: [
+                        "Both of they are students.",
+                        "Both them are students.",
+                        "Both of them are students.",
+                        "They both are students."
+                    ],
+                    answer: 2,
+                    explanation: "The correct structure is 'both of + object pronoun' or 'they both'."
+                }
+            ],
+            9: [
+                {
+                    question: "Select the correct future form: By next year, I ___ my degree.",
+                    options: [
+                        "will finish",
+                        "am finishing",
+                        "will have finished",
+                        "am going to finish"
+                    ],
+                    answer: 2,
+                    explanation: "Future perfect ('will have finished') shows completion before a future time."
+                },
+                {
+                    question: "Which sentence uses 'unless' correctly?",
+                    options: [
+                        "Unless you don't hurry, you'll miss the train.",
+                        "Unless you hurry, you'll miss the train.",
+                        "Unless you hurry, you won't miss the train.",
+                        "Unless you will hurry, you'll miss the train."
+                    ],
+                    answer: 1,
+                    explanation: "'Unless' means 'if not' and shouldn't be used with another negative."
+                },
+                {
+                    question: "Choose the correct inversion: ___ should you open this door.",
+                    options: [
+                        "No sooner",
+                        "Only by",
+                        "Under no circumstances",
+                        "Not only"
+                    ],
+                    answer: 2,
+                    explanation: "'Under no circumstances' triggers inversion for emphasis."
+                },
+                {
+                    question: "Which is the correct causative form?",
+                    options: [
+                        "I cut my hair yesterday.",
+                        "I had cut my hair yesterday.",
+                        "I had my hair cut yesterday.",
+                        "I got cut my hair yesterday."
+                    ],
+                    answer: 2,
+                    explanation: "'Have + object + past participle' shows someone else did the action."
+                },
+                {
+                    question: "Select the correct adverb position: She ___ speaks ___.",
+                    options: [
+                        "never / quickly",
+                        "quickly / never",
+                        "speaks / never quickly",
+                        "quickly never / speaks"
+                    ],
+                    answer: 0,
+                    explanation: "Frequency adverbs like 'never' go before main verbs, manner adverbs like 'quickly' go after."
+                }
+            ],
+            10: [
+                {
+                    question: "Which sentence uses 'wish' correctly?",
+                    options: [
+                        "I wish I can swim.",
+                        "I wish I could swim.",
+                        "I wish I will swim.",
+                        "I wish I am swimming."
+                    ],
+                    answer: 1,
+                    explanation: "After 'wish' for present regrets, we use past simple ('could' is past of 'can')."
+                },
+                {
+                    question: "Select the correct participle clause: ___ the door, she left the room.",
+                    options: [
+                        "Opening",
+                        "Opened",
+                        "Having opened",
+                        "Being opened"
+                    ],
+                    answer: 2,
+                    explanation: "'Having opened' shows the action was completed before the main action."
+                },
+                {
+                    question: "Which is the correct mixed conditional?",
+                    options: [
+                        "If I had studied harder, I would pass the exam.",
+                        "If I studied harder, I would have passed the exam.",
+                        "If I had studied harder, I would have passed the exam.",
+                        "If I study harder, I will pass the exam."
+                    ],
+                    answer: 0,
+                    explanation: "This mixed conditional combines past condition with present result."
+                },
+                {
+                    question: "Choose the correct cleft sentence:",
+                    options: [
+                        "What I need is a long vacation.",
+                        "That I need is a long vacation.",
+                        "Which I need is a long vacation.",
+                        "Who I need is a long vacation."
+                    ],
+                    answer: 0,
+                    explanation: "Cleft sentences with 'what' emphasize specific information."
+                },
+                {
+                    question: "Which sentence uses inversion after 'so' correctly?",
+                    options: [
+                        "So beautiful was the sunset that we took photos.",
+                        "So beautiful the sunset was that we took photos.",
+                        "So was beautiful the sunset that we took photos.",
+                        "So the sunset was beautiful that we took photos."
+                    ],
+                    answer: 0,
+                    explanation: "'So + adjective' at the start triggers inversion (verb before subject)."
+                }
+            ],
+            // Intermediate Levels (11-15)
+            11: [
+                {
+                    question: "Which sentence uses the subjunctive mood correctly?",
+                    options: [
+                        "I suggest that he goes to the doctor.",
+                        "I suggest that he go to the doctor.",
+                        "I suggest that he will go to the doctor.",
+                        "I suggest that he is going to the doctor."
+                    ],
+                    answer: 1,
+                    explanation: "The subjunctive uses base form after expressions like 'suggest that'."
+                },
+                {
+                    question: "Select the correct reduced relative clause: The man ___ at the café is my uncle.",
+                    options: [
+                        "who is sitting",
+                        "sitting",
+                        "who sits",
+                        "is sitting"
+                    ],
+                    answer: 1,
+                    explanation: "We can reduce 'who is sitting' to just 'sitting' in a defining relative clause."
+                },
+                {
+                    question: "Which sentence uses 'as though' correctly?",
+                    options: [
+                        "He looks as though he is sick.",
+                        "He looks as though he was sick.",
+                        "He looks as though he sick.",
+                        "He looks as though he will be sick."
+                    ],
+                    answer: 0,
+                    explanation: "After 'as though' for real possibilities, we use normal tense rules."
+                },
+                {
+                    question: "Choose the correct inversion after 'not only':",
+                    options: [
+                        "Not only she sings but she also dances.",
+                        "Not only does she sing but she also dances.",
+                        "Not only she does sing but she also dances.",
+                        "Not only sings she but she also dances."
+                    ],
+                    answer: 1,
+                    explanation: "'Not only' at the start requires auxiliary 'does' before the subject."
+                },
+                {
+                    question: "Which is the correct passive form with two objects?",
+                    options: [
+                        "A gift was given me by her.",
+                        "I was given a gift by her.",
+                        "A gift was given to me by her.",
+                        "Both 2 and 3 are correct"
+                    ],
+                    answer: 3,
+                    explanation: "Verbs with two objects can form two correct passive constructions."
+                }
+            ],
+            12: [
+                {
+                    question: "Select the correct future continuous: This time tomorrow, I ___ on the beach.",
+                    options: [
+                        "will lie",
+                        "will be lying",
+                        "will have lain",
+                        "am lying"
+                    ],
+                    answer: 1,
+                    explanation: "Future continuous ('will be lying') shows action in progress at a future time."
+                },
+                {
+                    question: "Which sentence uses 'provided that' correctly?",
+                    options: [
+                        "I'll go provided that you will come too.",
+                        "I'll go provided that you come too.",
+                        "I'll go provided that you came too.",
+                        "I'll go provided that you would come too."
+                    ],
+                    answer: 1,
+                    explanation: "After 'provided that' (meaning 'if'), we use present tense for future conditions."
+                },
+                {
+                    question: "Choose the correct non-defining relative clause:",
+                    options: [
+                        "My brother who lives in Paris is visiting.",
+                        "My brother, who lives in Paris, is visiting.",
+                        "My brother which lives in Paris is visiting.",
+                        "My brother, that lives in Paris, is visiting."
+                    ],
+                    answer: 1,
+                    explanation: "Non-defining clauses use commas and 'who' for people, not 'that' or 'which'."
+                },
+                {
+                    question: "Which is the correct past modal for speculation?",
+                    options: [
+                        "She must be at home yesterday.",
+                        "She must have been at home yesterday.",
+                        "She must was at home yesterday.",
+                        "She must had been at home yesterday."
+                    ],
+                    answer: 1,
+                    explanation: "For past speculation, use 'must have + past participle'."
+                },
+                {
+                    question: "Select the correct prepositional verb: She ___ her father's bad temper.",
+                    options: [
+                        "put up",
+                        "put up with",
+                        "put with",
+                        "put on with"
+                    ],
+                    answer: 1,
+                    explanation: "'Put up with' means to tolerate."
+                }
+            ],
+            13: [
+                {
+                    question: "Which sentence uses 'need' as a modal verb?",
+                    options: [
+                        "You need to study harder.",
+                        "You need study harder.",
+                        "You needn't study harder.",
+                        "You don't need study harder."
+                    ],
+                    answer: 2,
+                    explanation: "'Needn't' is the negative modal form meaning 'don't have to'."
+                },
+                {
+                    question: "Select the correct conditional with inversion:",
+                    options: [
+                        "Were I you, I will accept the offer.",
+                        "Were I you, I would accept the offer.",
+                        "Was I you, I would accept the offer.",
+                        "If I were you, I would accept the offer."
+                    ],
+                    answer: 1,
+                    explanation: "Inverted conditionals use 'were' (not 'was') and maintain conditional meaning."
+                },
+                {
+                    question: "Choose the correct fronting construction:",
+                    options: [
+                        "Strange though it may seem, I like opera.",
+                        "Though strange it may seem, I like opera.",
+                        "Though it may seem strange, I like opera.",
+                        "All of the above are correct"
+                    ],
+                    answer: 3,
+                    explanation: "All versions are grammatically correct with different emphasis structures."
+                },
+                {
+                    question: "Which is the correct use of 'hardly' with inversion?",
+                    options: [
+                        "Hardly I had arrived when it started to rain.",
+                        "Hardly had I arrived when it started to rain.",
+                        "Hardly I arrived when it started to rain.",
+                        "Hardly did I arrive when it started to rain."
+                    ],
+                    answer: 1,
+                    explanation: "'Hardly' at the start requires inversion ('had I arrived')."
+                },
+                {
+                    question: "Select the correct ellipsis: A: 'Are you coming?' B: '___'",
+                    options: [
+                        "I'm.",
+                        "I am.",
+                        "Yes, I'm coming.",
+                        "Yes, I am."
+                    ],
+                    answer: 3,
+                    explanation: "We don't contract 'I am' at the end of sentences, but can omit 'coming'."
+                }
+            ],
+            14: [
+                {
+                    question: "Which sentence uses 'would' for past habits?",
+                    options: [
+                        "I would go to the beach when I was younger.",
+                        "I would go to the beach tomorrow if I could.",
+                        "I would like to go to the beach.",
+                        "I would rather go to the beach."
+                    ],
+                    answer: 0,
+                    explanation: "'Would' can describe repeated past actions (like 'used to')."
+                },
+                {
+                    question: "Select the correct participle clause with passive meaning:",
+                    options: [
+                        "Having finished the book, I returned it.",
+                        "Finished the book, I returned it.",
+                        "Being finished the book, I returned it.",
+                        "The book finished, I returned it."
+                    ],
+                    answer: 0,
+                    explanation: "'Having finished' shows the action was completed by the subject before the main action."
+                },
+                {
+                    question: "Choose the correct pseudo-cleft sentence:",
+                    options: [
+                        "What happened was the car broke down.",
+                        "What was happened the car broke down.",
+                        "What did happen was the car broke down.",
+                        "What happening was the car broke down."
+                    ],
+                    answer: 0,
+                    explanation: "Pseudo-cleft sentences with 'what' focus on the action or event."
+                },
+                {
+                    question: "Which is the correct use of 'but for'?",
+                    options: [
+                        "But for your help, I will fail.",
+                        "But for your help, I would fail.",
+                        "But for your help, I failed.",
+                        "But for your help, I had failed."
+                    ],
+                    answer: 1,
+                    explanation: "'But for' means 'if not for' and requires conditional construction."
+                },
+                {
+                    question: "Select the correct verb pattern: I overheard them ___ about me.",
+                    options: [
+                        "talk",
+                        "to talk",
+                        "talking",
+                        "Both 1 and 3 are correct"
+                    ],
+                    answer: 3,
+                    explanation: "After 'overhear' both base form and -ing form are possible with slight meaning difference."
+                }
+            ],
+            15: [
+                {
+                    question: "Which sentence uses 'may' for past possibility?",
+                    options: [
+                        "She may be at home now.",
+                        "She may have been at home yesterday.",
+                        "She might be at home now.",
+                        "She could be at home now."
+                    ],
+                    answer: 1,
+                    explanation: "'May have + past participle' expresses past possibility."
+                },
+                {
+                    question: "Select the correct use of 'as' to mean 'although':",
+                    options: [
+                        "As it was raining, we stayed home.",
+                        "Much as I like you, I can't lend you money.",
+                        "Do as I say, not as I do.",
+                        "She works as a teacher."
+                    ],
+                    answer: 1,
+                    explanation: "'Much as' can mean 'although' in concessive clauses."
+                },
+                {
+                    question: "Choose the correct use of 'what with':",
+                    options: [
+                        "What with the rain and the cold, we stayed home.",
+                        "What with does the rain mean?",
+                        "What with you being late, we missed the train.",
+                        "Both 1 and 3 are correct"
+                    ],
+                    answer: 3,
+                    explanation: "'What with' can introduce reasons meaning 'because of'."
+                },
+                {
+                    question: "Which is the correct use of 'the' with superlatives?",
+                    options: [
+                        "She is the tallest of her sisters.",
+                        "She is tallest of her sisters.",
+                        "She is the tallest of the her sisters.",
+                        "She is a tallest of her sisters."
+                    ],
+                    answer: 0,
+                    explanation: "Superlatives typically use 'the' except when comparing the same person/thing in different situations."
+                },
+                {
+                    question: "Select the correct use of 'so' as a substitute:",
+                    options: [
+                        "I think so.",
+                        "I think it.",
+                        "I think that.",
+                        "I think this."
+                    ],
+                    answer: 0,
+                    explanation: "'So' can substitute for a that-clause after certain verbs like 'think'."
+                }
+            ],
+            // Advanced Levels (16-20)
+            16: [
+                {
+                    question: "Which sentence uses 'were' subjunctive correctly?",
+                    options: [
+                        "If I was you, I'd apologize.",
+                        "I wish I was taller.",
+                        "If I were rich, I'd travel the world.",
+                        "All of the above are correct"
+                    ],
+                    answer: 2,
+                    explanation: "In hypothetical 'if' clauses, 'were' is traditionally correct for all persons."
+                },
+                {
+                    question: "Select the correct use of 'need' in a question:",
+                    options: [
+                        "Need I to remind you again?",
+                        "Need I remind you again?",
+                        "Do I need remind you again?",
+                        "Both 2 and 3 are correct"
+                    ],
+                    answer: 3,
+                    explanation: "Both modal ('Need I remind') and regular verb ('Do I need to remind') forms are possible."
+                },
+                {
+                    question: "Choose the correct use of 'it' as preparatory subject:",
+                    options: [
+                        "It is likely that he will win.",
+                        "Is likely that he will win.",
+                        "That he will win is likely.",
+                        "Both 1 and 3 are correct"
+                    ],
+                    answer: 3,
+                    explanation: "Both the preparatory 'it' construction and the more formal subject clause are correct."
+                },
+                {
+                    question: "Which is the correct use of 'as' vs 'like'?",
+                    options: [
+                        "He works like a teacher.",
+                        "He works as a teacher.",
+                        "He speaks like a teacher does.",
+                        "Both 2 and 3 are correct"
+                    ],
+                    answer: 3,
+                    explanation: "'As' introduces roles, 'like' compares manner (with or without auxiliary)."
+                },
+                {
+                    question: "Select the correct use of 'do so':",
+                    options: [
+                        "She asked me to leave, so I did so.",
+                        "She asked me to leave, so I did it.",
+                        "She asked me to leave, so I did.",
+                        "All of the above are correct"
+                    ],
+                    answer: 3,
+                    explanation: "All versions are grammatically correct with slight stylistic differences."
+                }
+            ],
+            17: [
+                {
+                    question: "Which sentence uses inversion after 'little' correctly?",
+                    options: [
+                        "Little she knew about the surprise.",
+                        "Little did she know about the surprise.",
+                        "Little knew she about the surprise.",
+                        "Little she did know about the surprise."
+                    ],
+                    answer: 1,
+                    explanation: "'Little' at the start triggers inversion with auxiliary 'did'."
+                },
+                {
+                    question: "Select the correct use of 'what' as a relative pronoun:",
+                    options: [
+                        "This is the book what I bought.",
+                        "This is what I bought.",
+                        "This is the thing what I bought.",
+                        "This is which I bought."
+                    ],
+                    answer: 1,
+                    explanation: "'What' can mean 'the thing(s) that' but not as a standard relative pronoun."
+                },
+                {
+                    question: "Choose the correct use of 'but' as a relative pronoun:",
+                    options: [
+                        "There is no one but makes mistakes.",
+                        "There is no one but he makes mistakes.",
+                        "There is no one but who makes mistakes.",
+                        "There is no one but that makes mistakes."
+                    ],
+                    answer: 0,
+                    explanation: "The rare use of 'but' as a relative pronoun means 'who/that...not'."
+                },
+                {
+                    question: "Which is the correct use of 'the more...the more'?",
+                    options: [
+                        "The more you study, the more you learn.",
+                        "More you study, more you learn.",
+                        "The more you study, you learn more.",
+                        "The more you study, the more learn you."
+                    ],
+                    answer: 0,
+                    explanation: "This parallel construction requires 'the + comparative...the + comparative'."
+                },
+                {
+                    question: "Select the correct use of 'as' after 'same' or 'such':",
+                    options: [
+                        "This is the same as I saw yesterday.",
+                        "This is the same that I saw yesterday.",
+                        "This is such book as I like.",
+                        "Both 1 and 3 are correct"
+                    ],
+                    answer: 3,
+                    explanation: "After 'same' and 'such', 'as' is the correct relative pronoun."
+                }
+            ],
+            18: [
+                {
+                    question: "Which sentence uses 'should' for unexpectedness?",
+                    options: [
+                        "You should study harder.",
+                        "It's strange that he should say that.",
+                        "Should you need help, call me.",
+                        "I should like to go now."
+                    ],
+                    answer: 1,
+                    explanation: "'Should' can express surprise or unexpectedness in that-clauses."
+                },
+                {
+                    question: "Select the correct use of 'however' with adjective:",
+                    options: [
+                        "However hard he tried, he failed.",
+                        "However he tried hard, he failed.",
+                        "He tried hard, however, he failed.",
+                        "Both 1 and 3 are correct"
+                    ],
+                    answer: 0,
+                    explanation: "'However + adjective/adverb' means 'no matter how' with different word order."
+                },
+                {
+                    question: "Choose the correct use of 'were to' in conditionals:",
+                    options: [
+                        "If he were to call, what would you say?",
+                        "If he was to call, what would you say?",
+                        "If he would call, what would you say?",
+                        "If he called, what would you say?"
+                    ],
+                    answer: 0,
+                    explanation: "'Were to' makes hypothetical conditionals more formal/emphatic."
+                },
+                {
+                    question: "Which is the correct use of 'as it were'?",
+                    options: [
+                        "He is, as it were, the king of his castle.",
+                        "As it were raining, we stayed home.",
+                        "As it were, we arrived on time.",
+                        "He spoke as it were true."
+                    ],
+                    answer: 0,
+                    explanation: "'As it were' is a fixed phrase meaning 'in a way' or 'so to speak'."
+                },
+                {
+                    question: "Select the correct use of 'than' as a relative pronoun:",
+                    options: [
+                        "She gave me more than I wanted.",
+                        "She gave me more than what I wanted.",
+                        "She gave me more than that I wanted.",
+                        "All of the above are correct"
+                    ],
+                    answer: 3,
+                    explanation: "All versions are possible though the first is most concise."
+                }
+            ],
+            19: [
+                {
+                    question: "Which sentence uses 'may well' correctly?",
+                    options: [
+                        "You may well be right about that.",
+                        "You may be well right about that.",
+                        "You well may be right about that.",
+                        "You may be right well about that."
+                    ],
+                    answer: 0,
+                    explanation: "'May well' is a fixed phrase meaning 'is quite likely to'."
+                },
+                {
+                    question: "Select the correct use of 'as' after 'regard':",
+                    options: [
+                        "I regard him as my best friend.",
+                        "I regard him my best friend.",
+                        "I regard him to be my best friend.",
+                        "Both 1 and 3 are correct"
+                    ],
+                    answer: 3,
+                    explanation: "After 'regard', both 'as' and 'to be' are possible though 'as' is more common."
+                },
+                {
+                    question: "Choose the correct use of 'far be it from me':",
+                    options: [
+                        "Far be it from me to criticize, but...",
+                        "Far it be from me to criticize, but...",
+                        "Far from me be it to criticize, but...",
+                        "Be it far from me to criticize, but..."
+                    ],
+                    answer: 0,
+                    explanation: "'Far be it from me' is a fixed phrase introducing hesitant criticism."
+                },
+                {
+                    question: "Which is the correct use of 'the' with comparative adjectives?",
+                    options: [
+                        "The more I learn, the more I realize how little I know.",
+                        "More I learn, more I realize how little I know.",
+                        "The more I learn, I realize the more how little I know.",
+                        "The more I learn, the more how little I know I realize."
+                    ],
+                    answer: 0,
+                    explanation: "This parallel comparative structure requires 'the' before each comparative."
+                },
+                {
+                    question: "Select the correct use of 'as' after 'not so much':",
+                    options: [
+                        "It's not so much a problem as a challenge.",
+                        "It's not so much a problem that a challenge.",
+                        "It's not so much a problem like a challenge.",
+                        "It's not so much a problem but a challenge."
+                    ],
+                    answer: 0,
+                    explanation: "The correct construction is 'not so much X as Y'."
+                }
+            ],
+            20: [
+                {
+                    question: "Which sentence uses 'would have' for past refusal?",
+                    options: [
+                        "He would have helped if you had asked.",
+                        "He wouldn't have helped no matter what.",
+                        "The door wouldn't open no matter how hard I pushed.",
+                        "He would have liked to help."
+                    ],
+                    answer: 2,
+                    explanation: "'Wouldn't' can express past refusal (the door 'refused' to open)."
+                },
+                {
+                    question: "Select the correct use of 'as' meaning 'though':",
+                    options: [
+                        "Tired as I was, I kept working.",
+                        "As tired I was, I kept working.",
+                        "As I was tired, I kept working.",
+                        "I was tired as I kept working."
+                    ],
+                    answer: 0,
+                    explanation: "'Adjective + as + subject + verb' can mean 'although'."
+                },
+                {
+                    question: "Choose the correct use of 'but' after 'no doubt':",
+                    options: [
+                        "No doubt but he will come.",
+                        "No doubt but what he will come.",
+                        "No doubt that he will come.",
+                        "All of the above are correct"
+                    ],
+                    answer: 3,
+                    explanation: "All versions are possible though the third is most common today."
+                },
+                {
+                    question: "Which is the correct use of 'what' for emphasis?",
+                    options: [
+                        "What a beautiful day it is!",
+                        "What it is a beautiful day!",
+                        "What beautiful a day it is!",
+                        "What is a beautiful day it is!"
+                    ],
+                    answer: 0,
+                    explanation: "Exclamatory 'what' follows the pattern 'What (+ a) + adjective + noun + clause'."
+                },
+                {
+                    question: "Select the correct use of 'as' after 'same' with inversion:",
+                    options: [
+                        "She left the room, as did I.",
+                        "She left the room, as I did.",
+                        "She left the room, like did I.",
+                        "Both 1 and 2 are correct"
+                    ],
+                    answer: 3,
+                    explanation: "Both inverted and non-inverted forms are possible after 'as' in comparisons."
+                }
+            ],
+            // Expert Levels (21-25)
+            21: [
+                {
+                    question: "Which sentence uses 'dare' as a modal verb?",
+                    options: [
+                        "He dares to speak to her.",
+                        "Dare he speak to her?",
+                        "He doesn't dare speak to her.",
+                        "Both 2 and 3 are correct"
+                    ],
+                    answer: 3,
+                    explanation: "As a modal, 'dare' is used in questions/negatives without 'to' and with bare infinitive."
+                },
+                {
+                    question: "Select the correct use of 'that' after 'so':",
+                    options: [
+                        "She was so tired that she fell asleep.",
+                        "She was so tired she fell asleep.",
+                        "She was so tired, she fell asleep.",
+                        "All of the above are correct"
+                    ],
+                    answer: 3,
+                    explanation: "'That' can be omitted in informal English, and the comma version is also acceptable."
+                },
+                {
+                    question: "Choose the correct use of 'the which' as a relative pronoun:",
+                    options: [
+                        "The book the which I bought is interesting.",
+                        "The book, the which I bought, is interesting.",
+                        "The book which I bought is interesting.",
+                        "The book that I bought is interesting."
+                    ],
+                    answer: 2,
+                    explanation: "'The which' is archaic and not used in modern English."
+                },
+                {
+                    question: "Which is the correct use of 'as' after 'same' with a noun?",
+                    options: [
+                        "This is the same idea as was proposed earlier.",
+                        "This is the same idea as it was proposed earlier.",
+                        "This is the same idea as that was proposed earlier.",
+                        "This is the same idea as proposed earlier."
+                    ],
+                    answer: 3,
+                    explanation: "The most concise version omits unnecessary pronouns/verbs after 'as'."
+                },
+                {
+                    question: "Select the correct use of 'how' in exclamations:",
+                    options: [
+                        "How beautiful is the sunset!",
+                        "How beautiful the sunset is!",
+                        "How the sunset is beautiful!",
+                        "Both 1 and 2 are correct"
+                    ],
+                    answer: 1,
+                    explanation: "Exclamatory 'how' follows the pattern 'How + adjective + subject + verb'."
+                }
+            ],
+            22: [
+                {
+                    question: "Which sentence uses 'need' with a perfect infinitive?",
+                    options: [
+                        "You needn't have waited for me.",
+                        "You didn't need to wait for me.",
+                        "You hadn't to wait for me.",
+                        "Both 1 and 2 are correct"
+                    ],
+                    answer: 3,
+                    explanation: "'Needn't have + past participle' shows unnecessary past action, while 'didn't need to' shows it wasn't necessary (whether done or not)."
+                },
+                {
+                    question: "Select the correct use of 'as' after 'not such':",
+                    options: [
+                        "He's not such a fool as he looks.",
+                        "He's not such a fool that he looks.",
+                        "He's not such a fool like he looks.",
+                        "He's not such a fool how he looks."
+                    ],
+                    answer: 0,
+                    explanation: "After 'such', 'as' is the correct relative pronoun in comparisons."
+                },
+                {
+                    question: "Choose the correct use of 'but' after 'no one':",
+                    options: [
+                        "There's no one but wishes to help.",
+                        "There's no one but he wishes to help.",
+                        "There's no one but who wishes to help.",
+                        "There's no one but that wishes to help."
+                    ],
+                    answer: 0,
+                    explanation: "The rare use of 'but' as a relative pronoun means 'who...not'."
+                },
+                {
+                    question: "Which is the correct use of 'as' after 'do'?",
+                    options: [
+                        "Do as you're told.",
+                        "Do like you're told.",
+                        "Do how you're told.",
+                        "Do that you're told."
+                    ],
+                    answer: 0,
+                    explanation: "After 'do', 'as' is the correct conjunction meaning 'in the way that'."
+                },
+                {
+                    question: "Select the correct use of 'what' for emphasis:",
+                    options: [
+                        "What few friends he had left him.",
+                        "What a few friends he had left him.",
+                        "What little money he had he spent.",
+                        "Both 1 and 3 are correct"
+                    ],
+                    answer: 3,
+                    explanation: "'What few/little' can emphasize small amounts with different meanings."
+                }
+            ],
+            23: [
+                {
+                    question: "Which sentence uses 'may' for concession?",
+                    options: [
+                        "You may be right, but I still disagree.",
+                        "May you be happy in your new job.",
+                        "He may come, he may not.",
+                        "Both 1 and 3 are correct"
+                    ],
+                    answer: 3,
+                    explanation: "'May' can concede a point ('although you are right') or show uncertainty."
+                },
+                {
+                    question: "Select the correct use of 'as' after 'much':",
+                    options: [
+                        "Much as I admire her, I can't agree.",
+                        "As much I admire her, I can't agree.",
+                        "Much I admire her as, I can't agree.",
+                        "I admire her much as, I can't agree."
+                    ],
+                    answer: 0,
+                    explanation: "'Much as' can mean 'although' in concessive clauses with inversion."
+                },
+                {
+                    question: "Choose the correct use of 'were' in a conditional:",
+                    options: [
+                        "Were he to apologize, I would forgive him.",
+                        "Were he apologize, I would forgive him.",
+                        "Was he to apologize, I would forgive him.",
+                        "If he were to apologize, I would forgive him."
+                    ],
+                    answer: 3,
+                    explanation: "All are correct except option 2, showing various formal conditional forms."
+                },
+                {
+                    question: "Which is the correct use of 'as' vs 'that' after 'so'?",
+                    options: [
+                        "It was so heavy a box as I couldn't lift.",
+                        "It was so heavy a box that I couldn't lift.",
+                        "It was so heavy a box, I couldn't lift.",
+                        "Both 2 and 3 are correct"
+                    ],
+                    answer: 3,
+                    explanation: "'That' or no conjunction is standard after 'so'; 'as' is archaic here."
+                },
+                {
+                    question: "Select the correct use of 'what' as a relative pronoun:",
+                    options: [
+                        "Give me what you have in your hand.",
+                        "Give me that what you have in your hand.",
+                        "Give me which you have in your hand.",
+                        "Give me the thing what you have in your hand."
+                    ],
+                    answer: 0,
+                    explanation: "'What' can mean 'the thing(s) that' but not as a standard relative pronoun."
+                }
+            ],
+            24: [
+                {
+                    question: "Which sentence uses 'should' in a that-clause?",
+                    options: [
+                        "It's odd that he should say that.",
+                        "That he should say that is odd.",
+                        "Should he say that, it would be odd.",
+                        "Both 1 and 2 are correct"
+                    ],
+                    answer: 3,
+                    explanation: "'Should' can express surprise in that-clauses in either subject or complement position."
+                },
+                {
+                    question: "Select the correct use of 'as' after 'the same':",
+                    options: [
+                        "This is the same man as came yesterday.",
+                        "This is the same man as he came yesterday.",
+                        "This is the same man as who came yesterday.",
+                        "This is the same man as that came yesterday."
+                    ],
+                    answer: 0,
+                    explanation: "After 'the same', 'as' is the correct relative pronoun without additional pronouns."
+                },
+                {
+                    question: "Choose the correct use of 'but' meaning 'except':",
+                    options: [
+                        "Everyone but John was there.",
+                        "Everyone except John was there.",
+                        "Everyone but for John was there.",
+                        "All of the above are correct"
+                    ],
+                    answer: 3,
+                    explanation: "'But', 'except', and 'but for' can all mean 'excluding' in this context."
+                },
+                {
+                    question: "Which is the correct use of 'as' after 'regard'?",
+                    options: [
+                        "I regard him as a friend.",
+                        "I regard him to be a friend.",
+                        "I regard him a friend.",
+                        "Both 1 and 2 are correct"
+                    ],
+                    answer: 3,
+                    explanation: "Both 'as' and 'to be' are possible after 'regard' though 'as' is more common."
+                },
+                {
+                    question: "Select the correct use of 'what' in pseudo-cleft sentences:",
+                    options: [
+                        "What I need is a vacation.",
+                        "What I need are vacations.",
+                        "What I need is vacations.",
+                        "All of the above are correct"
+                    ],
+                    answer: 3,
+                    explanation: "All are grammatically correct though the first is most natural for this context."
+                }
+            ],
+            25: [
+                {
+                    question: "Which sentence uses 'might' for past possibility?",
+                    options: [
+                        "He might come tomorrow.",
+                        "He might have come yesterday.",
+                        "He might be coming now.",
+                        "All of the above are correct"
+                    ],
+                    answer: 1,
+                    explanation: "'Might have + past participle' expresses past possibility."
+                },
+                {
+                    question: "Select the correct use of 'as' after 'not so'?",
+                    options: [
+                        "It's not so easy as you think.",
+                        "It's not so easy that you think.",
+                        "It's not so easy like you think.",
+                        "It's not so easy how you think."
+                    ],
+                    answer: 0,
+                    explanation: "After 'so', 'as' is the correct conjunction in negative comparisons."
+                },
+                {
+                    question: "Choose the correct use of 'were' subjunctive in a that-clause:",
+                    options: [
+                        "I insist that he were here on time.",
+                        "I insist that he be here on time.",
+                        "I insist that he is here on time.",
+                        "Both 2 and 3 are correct"
+                    ],
+                    answer: 1,
+                    explanation: "The subjunctive uses base form after expressions like 'insist that'."
+                },
+                {
+                    question: "Which is the correct use of 'as' after 'do'?",
+                    options: [
+                        "Do as I say, not as I do.",
+                        "Do like I say, not like I do.",
+                        "Do how I say, not how I do.",
+                        "Do that I say, not that I do."
+                    ],
+                    answer: 0,
+                    explanation: "'As' is the standard conjunction meaning 'in the way that' after 'do'."
+                },
+                {
+                    question: "Select the correct use of 'what' as a fused relative:",
+                    options: [
+                        "What money I had I spent.",
+                        "What little money I had I spent.",
+                        "What few friends I had left me.",
+                        "All of the above are correct"
+                    ],
+                    answer: 3,
+                    explanation: "'What' can fuse with nouns to mean 'the amount/number of'."
+                }
+            ]
+        };
+
+        // Game state
+        const gameState = {
+            currentLevel: 1,
+            maxLevelReached: 1,
+            currentQuestion: 0,
+            score: 0,
+            streak: 0,
+            timer: 30,
+            timerInterval: null,
+            questions: [],
+            correctAnswers: 0,
+            timeTaken: 0,
+            levelStartTime: 0
+        };
+
+        // DOM elements
+        const elements = {
+            introScreen: document.getElementById('intro-screen'),
+            gameScreen: document.getElementById('game-screen'),
+            resultsScreen: document.getElementById('results-screen'),
+            questionType: document.getElementById('question-type'),
+            questionProgress: document.getElementById('question-progress'),
+            questionContent: document.getElementById('question-content'),
+            optionsContainer: document.getElementById('options-container'),
+            feedbackContainer: document.getElementById('feedback-container'),
+            feedbackMessage: document.getElementById('feedback-message'),
+            nextBtn: document.getElementById('next-btn'),
+            scoreElement: document.getElementById('score'),
+            streakElement: document.getElementById('streak'),
+            timerElement: document.getElementById('timer'),
+            finalScore: document.getElementById('final-score'),
+            correctAnswers: document.getElementById('correct-answers'),
+            timeTaken: document.getElementById('time-taken'),
+            finalProgress: document.getElementById('final-progress'),
+            retryBtn: document.getElementById('retry-btn'),
+            nextLevelBtn: document.getElementById('next-level-btn'),
+            levelSelectBtn: document.getElementById('level-select-btn'),
+            levelProgress: document.getElementById('level-progress'),
+            userLevel: document.getElementById('user-level'),
+            completedLevel: document.getElementById('completed-level'),
+            continueBtn: document.getElementById('continue-btn'),
+            levelButtons: document.getElementById('level-buttons')
+        };
+
+        // Initialize the game
+        function initGame() {
+            createLevelButtons();
+            updateLevelProgress();
+            
+            // Event listeners
+            elements.continueBtn.addEventListener('click', startSelectedLevel);
+            elements.nextBtn.addEventListener('click', nextQuestion);
+            elements.retryBtn.addEventListener('click', retryLevel);
+            elements.nextLevelBtn.addEventListener('click', nextLevel);
+            elements.levelSelectBtn.addEventListener('click', levelSelect);
+            
+            // Set initial continue button text
+            updateContinueButton();
+        }
+
+        // Create level buttons
+        function createLevelButtons() {
+            elements.levelButtons.innerHTML = '';
+            for (let i = 1; i <= 25; i++) {
+                const levelBtn = document.createElement('button');
+                levelBtn.className = 'level-btn';
+                levelBtn.textContent = i;
+                levelBtn.id = `level-${i}`;
+                
+                if (i === 1) {
+                    levelBtn.classList.add('current');
+                } else if (i > gameState.maxLevelReached) {
+                    levelBtn.classList.add('locked');
+                    levelBtn.innerHTML = `<i class="fas fa-lock"></i>`;
+                }
+                
+                levelBtn.addEventListener('click', () => selectLevel(i));
+                elements.levelButtons.appendChild(levelBtn);
+            }
+        }
+
+        // Select a level
+        function selectLevel(level) {
+            if (level > gameState.maxLevelReached) return;
+            
+            // Update current level in UI
+            document.querySelectorAll('.level-btn').forEach(btn => {
+                btn.classList.remove('current');
+            });
+            document.getElementById(`level-${level}`).classList.add('current');
+            
+            gameState.currentLevel = level;
+            updateContinueButton();
+        }
+
+        // Update continue button text
+        function updateContinueButton() {
+            elements.continueBtn.textContent = `Continue to Level ${gameState.currentLevel}`;
+        }
+
+        // Start the selected level
+        function startSelectedLevel() {
+            startLevel(gameState.currentLevel);
+        }
+
+        // Start a specific level
+        function startLevel(level) {
+            gameState.currentLevel = level;
+            gameState.currentQuestion = 0;
+            gameState.score = 0;
+            gameState.streak = 0;
+            gameState.correctAnswers = 0;
+            gameState.questions = [...grammarQuestions[level]];
+            gameState.levelStartTime = Date.now();
+            
+            // Shuffle questions (except keep first 5 to ensure variety)
+            if (gameState.questions.length > 5) {
+                const firstFive = gameState.questions.slice(0, 5);
+                const remaining = gameState.questions.slice(5);
+                shuffleArray(remaining);
+                gameState.questions = [...firstFive, ...remaining.slice(0, 5)]; // Take 10 questions total
+            }
+            
+            // Show game screen
+            elements.introScreen.classList.add('hidden');
+            elements.gameScreen.classList.remove('hidden');
+            elements.resultsScreen.classList.add('hidden');
+            
+            // Start timer
+            startTimer();
+            
+            // Load first question
+            loadQuestion();
+        }
+
+        // Load question
+        function loadQuestion() {
+            const question = gameState.questions[gameState.currentQuestion];
+            
+            // Update UI
+            elements.questionType.textContent = `Level ${gameState.currentLevel}`;
+            elements.questionProgress.textContent = `${gameState.currentQuestion + 1}/${gameState.questions.length}`;
+            elements.questionContent.textContent = question.question;
+            
+            // Clear previous options
+            elements.optionsContainer.innerHTML = '';
+            
+            // Add new options
+            const letters = ['A', 'B', 'C', 'D'];
+            question.options.forEach((option, index) => {
+                const optionBtn = document.createElement('button');
+                optionBtn.className = 'option-btn';
+                
+                const optionLetter = document.createElement('span');
+                optionLetter.className = 'option-letter';
+                optionLetter.textContent = letters[index];
+                
+                const optionText = document.createElement('span');
+                optionText.textContent = option;
+                
+                optionBtn.appendChild(optionLetter);
+                optionBtn.appendChild(optionText);
+                optionBtn.addEventListener('click', () => selectAnswer(index));
+                elements.optionsContainer.appendChild(optionBtn);
+            });
+            
+            // Update stats
+            updateStats();
+        }
+
+        // Select answer
+        function selectAnswer(selectedIndex) {
+            const question = gameState.questions[gameState.currentQuestion];
+            const optionButtons = document.querySelectorAll('.option-btn');
+            
+            // Disable all options
+            optionButtons.forEach(btn => {
+                btn.disabled = true;
+                btn.style.cursor = 'not-allowed';
+            });
+            
+            // Highlight correct and selected answers
+            optionButtons[question.answer].classList.add('correct');
+            if (selectedIndex !== question.answer) {
+                optionButtons[selectedIndex].classList.add('incorrect');
+                gameState.streak = 0;
+            } else {
+                // Calculate points based on time left and streak
+                const timeBonus = Math.floor(gameState.timer / 3);
+                const streakBonus = gameState.streak * 2;
+                const points = 10 + timeBonus + streakBonus;
+                
+                gameState.score += points;
+                gameState.streak++;
+                gameState.correctAnswers++;
+            }
+            
+            // Show feedback
+            elements.feedbackMessage.innerHTML = `
+                <p class="${selectedIndex === question.answer ? 'correct' : 'incorrect'}">
+                    ${selectedIndex === question.answer ? 'Correct!' : 'Incorrect!'}
+                    ${selectedIndex === question.answer ? `+${10 + Math.floor(gameState.timer / 3) + (gameState.streak * 2)} points` : ''}
+                </p>
+                <p><strong>Explanation:</strong> ${question.explanation}</p>
+            `;
+            elements.feedbackContainer.classList.remove('hidden');
+            
+            // Stop timer for this question
+            clearInterval(gameState.timerInterval);
+        }
+
+        // Next question
+        function nextQuestion() {
+            gameState.currentQuestion++;
+            
+            if (gameState.currentQuestion < gameState.questions.length) {
+                // Reset timer and load next question
+                gameState.timer = 30;
+                startTimer();
+                loadQuestion();
+                elements.feedbackContainer.classList.add('hidden');
+            } else {
+                // Level completed
+                completeLevel();
+            }
+        }
+
+        // Start timer
+        function startTimer() {
+            clearInterval(gameState.timerInterval);
+            gameState.timer = 30;
+            elements.timerElement.textContent = gameState.timer;
+            
+            gameState.timerInterval = setInterval(() => {
+                gameState.timer--;
+                elements.timerElement.textContent = gameState.timer;
+                
+                // Change color when time is running low
+                if (gameState.timer <= 10) {
+                    elements.timerElement.style.color = 'var(--error-color)';
+                    elements.timerElement.classList.add('pulse');
+                } else {
+                    elements.timerElement.style.color = 'var(--primary-color)';
+                    elements.timerElement.classList.remove('pulse');
+                }
+                
+                if (gameState.timer <= 0) {
+                    clearInterval(gameState.timerInterval);
+                    timeUp();
+                }
+            }, 1000);
+        }
+
+        // Time up
+        function timeUp() {
+            const optionButtons = document.querySelectorAll('.option-btn');
+            const question = gameState.questions[gameState.currentQuestion];
+            
+            // Disable all options
+            optionButtons.forEach(btn => {
+                btn.disabled = true;
+                btn.style.cursor = 'not-allowed';
+            });
+            
+            // Highlight correct answer
+            optionButtons[question.answer].classList.add('correct');
+            gameState.streak = 0;
+            
+            // Show feedback
+            elements.feedbackMessage.innerHTML = `
+                <p class="incorrect">Time's up!</p>
+                <p>The correct answer was: <strong>${question.options[question.answer]}</strong></p>
+                <p><strong>Explanation:</strong> ${question.explanation}</p>
+            `;
+            elements.feedbackContainer.classList.remove('hidden');
+        }
+
+        // Complete level
+        function completeLevel() {
+            clearInterval(gameState.timerInterval);
+            
+            // Calculate time taken
+            gameState.timeTaken = Math.floor((Date.now() - gameState.levelStartTime) / 1000);
+            
+            // Update results screen
+            elements.completedLevel.textContent = gameState.currentLevel;
+            elements.finalScore.textContent = gameState.score;
+            elements.correctAnswers.textContent = `${gameState.correctAnswers}/${gameState.questions.length}`;
+            elements.timeTaken.textContent = gameState.timeTaken;
+            
+            // Calculate and display level progress
+            const percentage = Math.min(100, Math.floor((gameState.currentLevel / 25) * 100 + (gameState.correctAnswers / gameState.questions.length) * 4));
+            elements.finalProgress.style.width = `${percentage}%`;
+            
+            // Update max level reached if applicable
+            if (gameState.currentLevel === gameState.maxLevelReached && gameState.correctAnswers >= Math.floor(gameState.questions.length * 0.7)) {
+                gameState.maxLevelReached = Math.min(25, gameState.currentLevel + 1);
+                updateLevelProgress();
+            }
+            
+            // Hide next level button if at max level
+            if (gameState.currentLevel >= 25) {
+                elements.nextLevelBtn.style.display = 'none';
+            } else {
+                elements.nextLevelBtn.style.display = 'block';
+            }
+            
+            // Show results screen
+            elements.gameScreen.classList.add('hidden');
+            elements.resultsScreen.classList.remove('hidden');
+        }
+
+        // Retry level
+        function retryLevel() {
+            startLevel(gameState.currentLevel);
+        }
+
+        // Next level
+        function nextLevel() {
+            const nextLevel = gameState.currentLevel + 1;
+            if (nextLevel <= 25) {
+                startLevel(nextLevel);
+            }
+        }
+
+        // Return to level select
+        function levelSelect() {
+            elements.resultsScreen.classList.add('hidden');
+            elements.introScreen.classList.remove('hidden');
+            createLevelButtons();
+            updateContinueButton();
+        }
+
+        // Update stats display
+        function updateStats() {
+            elements.scoreElement.textContent = gameState.score;
+            elements.streakElement.textContent = gameState.streak;
+            elements.timerElement.textContent = gameState.timer;
+        }
+
+        // Update level progress
+        function updateLevelProgress() {
+            const percentage = Math.floor((gameState.currentLevel / 25) * 100);
+            elements.levelProgress.style.width = `${percentage}%`;
+            elements.userLevel.textContent = gameState.currentLevel;
+            
+            // Update level buttons
+            document.querySelectorAll('.level-btn').forEach((btn, index) => {
+                const level = index + 1;
+                btn.classList.remove('completed', 'current', 'locked');
+                
+                if (level === gameState.currentLevel) {
+                    btn.classList.add('current');
+                } else if (level < gameState.currentLevel) {
+                    btn.classList.add('completed');
+                } else if (level > gameState.maxLevelReached) {
+                    btn.classList.add('locked');
+                    btn.innerHTML = `<i class="fas fa-lock"></i>`;
+                }
+            });
+        }
+
+        // Utility function to shuffle array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Initialize the game when loaded
+        window.addEventListener('DOMContentLoaded', initGame);
+    </script>
+</body>
+</html>
