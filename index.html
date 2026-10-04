@@ -33,11 +33,11 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
 .winner-board{margin-top:16px;background:white;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 10px 28px rgba(50,47,100,.06);display:flex;justify-content:space-between;align-items:center;gap:15px}.dark .winner-board{background:#20223b}.winner-crown{font-size:36px}.winner-meta{font-size:12px;color:var(--muted);margin-top:4px}.winner-badge{padding:8px 11px;border-radius:999px;background:#fff4c5;color:#8d6700;font-weight:900;font-size:12px;white-space:nowrap}
 .balloon{position:fixed;top:100vh;z-index:44;width:56px;height:70px;border-radius:50% 50% 46% 46%;box-shadow:inset -8px -9px 0 rgba(0,0,0,.08),0 10px 22px rgba(35,28,80,.18);cursor:pointer;animation:balloonFly 16s linear forwards;display:grid;place-items:center;font-size:20px;user-select:none;-webkit-user-select:none;will-change:transform,opacity}.balloon:after{content:"";position:absolute;bottom:-27px;width:1px;height:30px;background:rgba(80,70,100,.4)}.balloon:before{content:"";position:absolute;bottom:-6px;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid currentColor}
 .balloon.gold{width:68px;height:84px;background:radial-gradient(circle at 32% 25%,#fff9af 0,#ffd93d 28%,#e3a600 72%,#b57700 100%);border:3px solid #fff1a0;color:#d19900;z-index:60;box-shadow:0 0 0 8px rgba(255,215,55,.12),0 18px 38px rgba(145,99,0,.32);animation-duration:22s}.balloon.gold span{font-size:24px;filter:drop-shadow(0 2px 0 rgba(255,255,255,.5))}
-.balloon.popped{animation:balloonPop .28s ease forwards}.letter-fly{position:fixed;z-index:90;font-size:38px;font-weight:950;color:#d39800;text-shadow:0 2px #fff,0 7px 22px rgba(167,115,0,.35);animation:letterFly 1.05s cubic-bezier(.15,.8,.2,1) forwards}
+.balloon.popped{animation:balloonPop .28s ease forwards}.letter-fly{position:fixed;z-index:95;font-size:52px;font-weight:1000;color:#d39800;text-shadow:0 2px #fff,0 0 16px rgba(255,221,70,.95),0 9px 28px rgba(167,115,0,.4);pointer-events:none;will-change:transform,opacity}.gold-party{position:fixed;z-index:94;font-size:24px;pointer-events:none;will-change:transform,opacity}.gold-letter.landing{animation:slotLand .7s cubic-bezier(.18,.9,.25,1)}
 .gift-unlocked{margin-top:14px;border:2px solid #efc229;background:linear-gradient(135deg,#fff8cf,#fff);border-radius:20px;padding:16px;display:none}.gift-unlocked.show{display:block;animation:cardRise .45s ease}.gift-unlocked b{display:block;font-size:18px}.gift-unlocked p{margin:5px 0 0;color:var(--muted);font-size:13px}
 @keyframes balloonFly{0%{transform:translate3d(0,25px,0) rotate(-3deg);opacity:1}20%{transform:translate3d(16px,-22vh,0) rotate(3deg);opacity:1}40%{transform:translate3d(-12px,-44vh,0) rotate(-2deg);opacity:1}60%{transform:translate3d(18px,-66vh,0) rotate(3deg);opacity:1}80%{transform:translate3d(-10px,-88vh,0) rotate(-2deg);opacity:1}100%{transform:translate3d(8px,calc(-100vh - 180px),0) rotate(0);opacity:1}}
 @keyframes balloonPop{0%{transform:scale(1)}50%{transform:scale(1.28)}100%{transform:scale(.05);opacity:0}}
-@keyframes letterFly{0%{transform:translate(0,0) scale(.6) rotate(-10deg);opacity:0}25%{opacity:1;transform:translate(0,-28px) scale(1.25) rotate(6deg)}100%{transform:translate(calc(50vw - 50%),-55vh) scale(.75);opacity:0}}
+@keyframes letterFly{0%{transform:translate(0,0) scale(.6) rotate(-10deg);opacity:0}25%{opacity:1;transform:translate(0,-28px) scale(1.25) rotate(6deg)}100%{transform:translate(calc(50vw - 50%),-55vh) scale(.75);opacity:0}}@keyframes slotLand{0%{transform:scale(.72) rotate(-8deg);box-shadow:0 0 0 rgba(255,210,0,0)}45%{transform:scale(1.38) rotate(6deg);box-shadow:0 0 0 10px rgba(255,210,0,.18)}70%{transform:scale(.94) rotate(-2deg)}100%{transform:scale(1) rotate(0);box-shadow:0 5px 16px rgba(209,157,0,.24)}}
 
 
 .contest-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px;text-align:left}.contest-form label{font-size:12px;font-weight:900;color:var(--text)}.contest-form input,.contest-form select{width:100%;margin-top:6px;border:1px solid var(--line);border-radius:13px;padding:11px 12px;background:var(--panel);color:var(--text)}.contest-form .full{grid-column:1/-1}.contest-shot{border:1.5px dashed #d4b646;border-radius:16px;padding:14px;background:rgba(255,248,205,.55)}.contest-shot input{border:0;padding:8px 0;background:transparent}.consent-row{display:flex;align-items:flex-start;gap:9px;font-size:12px;color:var(--muted);font-weight:700}.consent-row input{width:auto;margin:2px 0 0}.contest-status{font-size:12px;font-weight:800;color:var(--muted);margin-top:8px}.contest-submit[disabled]{opacity:.55;cursor:not-allowed}.contest-preview{display:none;margin-top:10px;max-height:180px;border-radius:14px;border:1px solid var(--line);max-width:100%}.contest-preview.show{display:block}.dark .contest-form input,.dark .contest-form select{background:#17192c}
@@ -479,12 +479,40 @@ function renderGoldenLetters(){var nodes=el("goldLetters")?el("goldLetters").chi
 function localDateKey(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 function hasContestConfig(){return !!(window.VIHAA_SUPABASE&&window.VIHAA_SUPABASE.url&&window.VIHAA_SUPABASE.anonKey&&window.supabase&&window.supabase.createClient);}
 function secretMinute(dateKey){var h=parseInt(hashText((balloonState.deviceId||balloonState.deviceToken)+"|"+dateKey),36)||1;return 8*60+(h%(13*60));}
-function ambientBalloon(){
-  if(document.hidden)return;var colors=["#ff6b8a","#6c7cff","#39c6d3","#ffad4b","#7bd36a","#c377ff"];var b=document.createElement("div");b.className="balloon";b.style.left=(5+Math.random()*88)+"vw";b.style.background=colors[Math.floor(Math.random()*colors.length)];b.style.color=b.style.background;b.title="Pop!";b.onclick=function(){popBalloon(b,false);};document.body.appendChild(b);setTimeout(function(){b.remove();},12500);
+function ambientBalloon(){return;}
+function goldenPartyBurst(x,y){
+  var icons=["🎉","🎊","✨","⭐","💫","🌟"],count=18;
+  for(var i=0;i<count;i++){
+    var p=document.createElement("span");p.className="gold-party";p.textContent=icons[i%icons.length];p.style.left=x+"px";p.style.top=y+"px";document.body.appendChild(p);
+    var a=(Math.PI*2/count)*i+(Math.random()*.35-.175),dist=70+Math.random()*125,dx=Math.cos(a)*dist,dy=Math.sin(a)*dist-25,rot=(Math.random()*900-450);
+    if(p.animate){p.animate([{transform:"translate(-50%,-50%) scale(.35) rotate(0deg)",opacity:0},{offset:.18,transform:"translate(-50%,-50%) scale(1.25) rotate("+rot*.2+"deg)",opacity:1},{transform:"translate(calc(-50% + "+dx+"px),calc(-50% + "+dy+"px)) scale(.65) rotate("+rot+"deg)",opacity:0}],{duration:900+Math.random()*450,easing:"cubic-bezier(.12,.75,.2,1)",fill:"forwards"});}
+    setTimeout(function(n){n.remove();}.bind(null,p),1450);
+  }
+}
+function animateGoldenLetterToSlot(letter,x,y,targetIndex,onDone){
+  goldenPartyBurst(x,y);
+  var target=el("goldLetters")&&el("goldLetters").children[targetIndex];
+  var n=document.createElement("div");n.className="letter-fly";n.textContent=letter;n.style.left=x+"px";n.style.top=y+"px";document.body.appendChild(n);
+  var finish=function(){
+    n.remove();renderGoldenLetters();var t=el("goldLetters")&&el("goldLetters").children[targetIndex];if(t){t.classList.remove("landing");void t.offsetWidth;t.classList.add("landing");setTimeout(function(){t.classList.remove("landing");},750);}if(onDone)onDone();
+  };
+  if(target){
+    var r=target.getBoundingClientRect(),tx=r.left+r.width/2,ty=r.top+r.height/2,dx=tx-x,dy=ty-y;
+    if(n.animate){
+      var anim=n.animate([
+        {transform:"translate(-50%,-50%) scale(.45) rotate(0deg)",opacity:0},
+        {offset:.18,transform:"translate(-50%,-50%) translateY(-45px) scale(1.45) rotate(180deg)",opacity:1},
+        {offset:.58,transform:"translate(calc(-50% + "+(dx*.55)+"px),calc(-50% + "+(dy*.42-55)+"px)) scale(1.18) rotate(720deg)",opacity:1},
+        {transform:"translate(calc(-50% + "+dx+"px),calc(-50% + "+dy+"px)) scale(.72) rotate(1080deg)",opacity:1}
+      ],{duration:1650,easing:"cubic-bezier(.16,.72,.18,1)",fill:"forwards"});
+      anim.onfinish=finish;return;
+    }
+  }
+  setTimeout(finish,1200);
 }
 function popBalloon(b,gold){
-  if(!b||b.classList.contains("popped"))return;b.classList.add("popped");beep(true);var r=b.getBoundingClientRect();burstAt(r.left+r.width/2,r.top+r.height/2,"✨");
-  if(gold){collectGoldenLetter(r.left+r.width/2,r.top+r.height/2);}setTimeout(function(){b.remove();},300);
+  if(!b||b.classList.contains("popped"))return;b.classList.add("popped");beep(true);var r=b.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;if(gold)goldenPartyBurst(cx,cy);else burstAt(cx,cy,"✨");
+  if(gold){collectGoldenLetter(cx,cy);}setTimeout(function(){b.remove();},300);
 }
 async function collectGoldenLetter(x,y){
   if(contestBackendReady&&contestClient){
@@ -492,22 +520,21 @@ async function collectGoldenLetter(x,y){
       var res=await contestClient.rpc("vihaa_claim_golden_letter",{p_device:balloonState.deviceToken});
       if(res.error)throw res.error;var row=res.data&&res.data[0];
       if(!row||!row.success){toast((row&&row.message)||"Golden balloon window closed");return;}
-      balloonState.letters=(row.letters||"").split("");balloonState.complete=balloonState.letters.length>=5;saveBalloonState();
-      var n=document.createElement("div");n.className="letter-fly";n.textContent=row.letter;n.style.left=x+"px";n.style.top=y+"px";document.body.appendChild(n);setTimeout(function(){n.remove();},1200);
-      if(balloonState.complete){confetti();toast("🎁 VIHAA complete! Gift entry unlocked.");}else toast("Golden letter "+row.letter+" collected!");
+      var targetIndex=Math.max(0,(row.letters||"").length-1);balloonState.letters=(row.letters||"").split("");balloonState.complete=balloonState.letters.length>=5;localStorage.setItem(BALLOON_KEY,JSON.stringify(balloonState));
+      animateGoldenLetterToSlot(row.letter,x,y,targetIndex,function(){if(balloonState.complete){confetti();toast("🎁 VIHAA complete! Gift entry unlocked.");}else toast("Golden letter "+row.letter+" collected!");});
       return;
     }catch(e){toast("Could not claim golden letter. Try again.");return;}
   }
-  var date=localDateKey();if(balloonState.collectedDates.indexOf(date)>=0||balloonState.letters.length>=5)return;var letter=BALLOON_TARGET[balloonState.letters.length];balloonState.letters.push(letter);balloonState.collectedDates.push(date);var n=document.createElement("div");n.className="letter-fly";n.textContent=letter;n.style.left=x+"px";n.style.top=y+"px";document.body.appendChild(n);setTimeout(function(){n.remove();},1200);saveBalloonState();if(balloonState.letters.length>=5){confetti();toast("🎁 VIHAA complete! Gift entry unlocked.");}else toast("Golden letter "+letter+" collected!");
+  var date=localDateKey();if(balloonState.collectedDates.indexOf(date)>=0||balloonState.letters.length>=5)return;var targetIndex=balloonState.letters.length,letter=BALLOON_TARGET[targetIndex];balloonState.letters.push(letter);balloonState.collectedDates.push(date);balloonState.complete=balloonState.letters.length>=5;localStorage.setItem(BALLOON_KEY,JSON.stringify(balloonState));animateGoldenLetterToSlot(letter,x,y,targetIndex,function(){if(balloonState.letters.length>=5){confetti();toast("🎁 VIHAA complete! Gift entry unlocked.");}else toast("Golden letter "+letter+" collected!");});
 }
 function spawnGoldenBalloon(){
-  var date=localDateKey();if(balloonState.spawnedDate===date||balloonState.letters.length>=5)return;balloonState.spawnedDate=date;saveBalloonState();var b=document.createElement("div");b.className="balloon gold";b.style.left=(8+Math.random()*82)+"vw";b.innerHTML="<span>★</span>";b.title="Golden Balloon — Blast me!";b.onclick=function(){popBalloon(b,true);};document.body.appendChild(b);setTimeout(function(){if(document.body.contains(b))b.remove();},22500);
+  var date=localDateKey();if(balloonState.spawnedDate===date||balloonState.letters.length>=5)return;balloonState.spawnedDate=date;saveBalloonState();var b=document.createElement("div");b.className="balloon gold";b.style.left=(8+Math.random()*82)+"vw";b.innerHTML="<span>★</span>";b.setAttribute("aria-label","Golden Balloon — Blast to collect VIHAA letter");b.title="GOLDEN BALLOON — Blast me!";b.onclick=function(){popBalloon(b,true);};document.body.appendChild(b);setTimeout(function(){if(document.body.contains(b))b.remove();},22500);
 }
 function scheduleGoldenBalloon(){
   if(contestBackendReady)return;
   if(goldTimer)clearTimeout(goldTimer);var date=localDateKey();if(balloonState.spawnedDate===date||balloonState.letters.length>=5)return;var now=new Date(),minute=secretMinute(date),target=new Date(now);target.setHours(Math.floor(minute/60),minute%60,0,0);var delay=target-now;if(delay<0)delay=12000+(parseInt(hashText(date+(balloonState.deviceId||balloonState.deviceToken)+"late"),36)%45000);goldTimer=setTimeout(spawnGoldenBalloon,Math.min(delay,2147483000));
 }
-function startAmbientBalloons(){ambientTimer=setInterval(function(){ambientBalloon();},22000+Math.floor(Math.random()*9000));setTimeout(ambientBalloon,7000);}
+function startAmbientBalloons(){if(ambientTimer)clearInterval(ambientTimer);ambientTimer=null;}
 function pct(n,d){return d?Math.round(n/d*100):0;}
 function openDailyChest(){
   var d=today();if(state.chestDate===d){toast("Today's treasure chest is already opened");return;}
@@ -903,7 +930,7 @@ window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();def
 el("installBtn").onclick=function(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(function(){deferredPrompt=null;});}else toast("Use your browser menu → Install app / Add to Home Screen");};
 async function syncServerProgress(){
   if(!contestClient)return;
-  try{var r=await contestClient.rpc("vihaa_balloon_status",{p_device:balloonState.deviceToken});if(r.error)throw r.error;var row=r.data&&r.data[0];if(row){balloonState.letters=(row.letters||"").split("");balloonState.complete=balloonState.letters.length>=5;saveBalloonState();if(row.active&&!document.querySelector(".balloon.gold")&&!balloonState.complete){var b=document.createElement("div");b.className="balloon gold";b.style.left=(8+Math.random()*82)+"vw";b.innerHTML="<span>★</span>";b.title="Golden Balloon — Blast me!";b.onclick=function(){popBalloon(b,true);};document.body.appendChild(b);setTimeout(function(){if(document.body.contains(b))b.remove();},22500);}}}catch(e){}
+  try{var r=await contestClient.rpc("vihaa_balloon_status",{p_device:balloonState.deviceToken});if(r.error)throw r.error;var row=r.data&&r.data[0];if(row){balloonState.letters=(row.letters||"").split("");balloonState.complete=balloonState.letters.length>=5;saveBalloonState();if(row.active&&!document.querySelector(".balloon.gold")&&!balloonState.complete){var b=document.createElement("div");b.className="balloon gold";b.style.left=(8+Math.random()*82)+"vw";b.innerHTML="<span>★</span>";b.setAttribute("aria-label","Golden Balloon — Blast to collect VIHAA letter");b.title="GOLDEN BALLOON — Blast me!";b.onclick=function(){popBalloon(b,true);};document.body.appendChild(b);setTimeout(function(){if(document.body.contains(b))b.remove();},22500);}}}catch(e){}
 }
 async function loadPublicWinner(){
   if(!contestClient)return;try{var r=await contestClient.rpc("vihaa_current_winner");if(r.error)throw r.error;var w=r.data&&r.data[0];if(w){el("winnerMeta").textContent=w.public_name+" · "+w.public_class+" · "+w.public_city+" · announced "+new Date(w.announced_at).toLocaleDateString();}else el("winnerMeta").textContent="No winner announced yet. New winner every Sunday.";}catch(e){el("winnerMeta").textContent="Winner feed will refresh automatically.";}
