@@ -925,7 +925,13 @@ async function initContestBackend(){
   if(!hasContestConfig())return;
   try{contestClient=window.supabase.createClient(window.VIHAA_SUPABASE.url,window.VIHAA_SUPABASE.anonKey,{auth:{persistSession:false,autoRefreshToken:false}});contestBackendReady=true;if(goldTimer)clearTimeout(goldTimer);var btn=el("contestSubmit");if(btn){btn.disabled=false;btn.textContent="Submit Gift Entry";el("contestStatus").textContent="Secure contest backend connected. Screenshot/contact details are private and used only for contest administration.";}await syncServerProgress();await loadPublicWinner();await loadSpectatorState();await loadGlobalLeague();await syncLeagueProfile();contestPollTimer=setInterval(function(){syncServerProgress();loadSpectatorState();},60000);setInterval(function(){loadPublicWinner();loadGlobalLeague();},15*60*1000);}catch(e){contestBackendReady=false;}
 }
-if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){});});}
+if("serviceWorker" in navigator){
+  window.addEventListener("load",function(){
+    var reloading=false;
+    navigator.serviceWorker.addEventListener("controllerchange",function(){if(reloading)return;reloading=true;if(!sessionStorage.getItem("vihaaSwReload")){sessionStorage.setItem("vihaaSwReload","1");location.reload();}});
+    navigator.serviceWorker.register("./sw.js").then(function(reg){reg.update().catch(function(){});setTimeout(function(){sessionStorage.removeItem("vihaaSwReload");},5000);}).catch(function(){});
+  });
+}
 var contestFile=el("contestScreenshot");
 if(contestFile){contestFile.onchange=function(){var file=this.files&&this.files[0],preview=el("contestPreview");if(!file){preview.classList.remove("show");preview.removeAttribute("src");return;}if(file.size>6*1024*1024){toast("Screenshot must be under 6 MB");this.value="";preview.classList.remove("show");return;}var u=URL.createObjectURL(file);preview.src=u;preview.classList.add("show");};}
 if(el("contestForm")){el("contestForm").onsubmit=function(e){e.preventDefault();if(!contestBackendReady){toast("Secure contest backend is still connecting.");return false;}submitContestEntry();return false;};}
