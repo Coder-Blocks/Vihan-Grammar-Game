@@ -184,7 +184,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
 </section>
 
 <section class="view" id="view-minigames">
-  <div class="section-head" style="margin-top:2px"><div><h3>🧩 Puzzle Arcade</h3><p>Quick English games for ages 6–60. Win XP while learning.</p></div><div class="chip">🎮 Mini Games</div></div>
+  <div class="section-head" style="margin-top:2px"><div><h3>🧩 Puzzle Arcade</h3><p>Quick English games for ages 6–60. Win XP while learning · rotation avoids repeats.</p></div><div class="chip">🎮 Mini Games</div></div>
   <div class="arcade-grid">
     <div class="arcade-card"><div class="arcade-icon">🧠</div><h3>Sentence Puzzle</h3><p>Tap shuffled words in the correct order to build a sentence.</p><span class="arcade-score">🏆 <span id="sentenceWins">0</span> wins</span><div style="margin-top:12px"><button class="btn dark" id="playSentencePuzzle">Play</button></div></div>
     <div class="arcade-card"><div class="arcade-icon">🔀</div><h3>Word Scramble</h3><p>Unscramble the letters and type the correct English word.</p><span class="arcade-score">🏆 <span id="scrambleWins">0</span> wins</span><div style="margin-top:12px"><button class="btn dark" id="playWordScramble">Play</button></div></div>
@@ -504,7 +504,7 @@ var banks={
 Object.keys(banks).forEach(function(k){banks[k].forEach(function(q){q[5]=Number(q[5]);});});
 
 var LEGACY_KEY="vihanGrammarAdventureV2", KEY="vihaaGrammarAdventureV3";
-var QUESTION_HISTORY_KEY="vihaaGrammarQuestionHistoryV1";
+var QUESTION_HISTORY_KEY="vihaaGrammarQuestionHistoryV2";
 var fresh={name:"Vihan",photo:"",highest:1,completed:{},xp:0,stars:0,streak:1,lastDay:"",mistakes:[],answers:0,correct:0,sessions:0,seconds:0,topicStats:{},speech:true,sound:true,dark:false,chestDate:"",chestReward:"",bossBadges:{},secretBadges:[],parentMission:null,leagueSchool:"",leagueClass:"",learnerMode:"auto",miniGames:{sentence:0,scramble:0,letter:0}};
 var state=loadState();
 var questionHistory=loadQuestionHistory();
@@ -666,16 +666,35 @@ function renderHome(){
 }
 var miniData={
   sentences:[
-    "I enjoy learning English","She reads a book every evening","We are going to the market","The children play in the garden","Please close the door quietly","He finished his work on time","They will travel by train tomorrow","Practice makes English easier"
+    "I enjoy learning English","She reads a book every evening","We are going to the market","The children play in the garden","Please close the door quietly","He finished his work on time","They will travel by train tomorrow","Practice makes English easier",
+    "My sister cooks dinner every night","The train arrived at the station early","We should speak politely to everyone","He usually walks to work in the morning","They are watching a movie together","I will call you after lunch","She has completed her homework already","The teacher explained the lesson clearly",
+    "Our team won the match yesterday","Please bring a glass of water","The meeting starts at ten tomorrow","I have lived here for five years","The baby is sleeping in the room","You can improve English with daily practice","He bought a new phone last week","We were waiting for the bus",
+    "She wants to learn a new language","The manager sent an email this morning","I forgot my umbrella at home","They have never visited this city","Please write your name on the form","The doctor asked me to rest","We are planning a trip next month","He speaks English with confidence",
+    "The shop closes at nine tonight","I need some help with this question","She was reading when I called","The students completed the project together","Turn left at the next signal","I would like a cup of tea","They will finish the work by Friday","Good communication builds strong relationships"
   ],
   scrambles:[
-    {w:"apple",h:"A common fruit"},{w:"school",h:"A place for learning"},{w:"friend",h:"A person you like and trust"},{w:"travel",h:"To go from one place to another"},{w:"office",h:"A place where many people work"},{w:"language",h:"A system used to communicate"},{w:"sentence",h:"A complete group of words"},{w:"career",h:"Your long-term work journey"},{w:"journey",h:"A trip from one place to another"},{w:"practice",h:"Repeated work to improve a skill"}
+    {w:"apple",h:"A common fruit"},{w:"school",h:"A place for learning"},{w:"friend",h:"A person you like and trust"},{w:"travel",h:"To go from one place to another"},{w:"office",h:"A place where many people work"},{w:"language",h:"A system used to communicate"},{w:"sentence",h:"A complete group of words"},{w:"career",h:"Your long-term work journey"},{w:"journey",h:"A trip from one place to another"},{w:"practice",h:"Repeated work to improve a skill"},
+    {w:"market",h:"A place where people buy things"},{w:"doctor",h:"A medical professional"},{w:"teacher",h:"A person who helps you learn"},{w:"family",h:"People related to you"},{w:"window",h:"An opening that lets in light"},{w:"garden",h:"A place where plants grow"},{w:"morning",h:"The early part of the day"},{w:"picture",h:"An image or photograph"},{w:"answer",h:"A response to a question"},{w:"question",h:"Something you ask"},
+    {w:"meeting",h:"A gathering for discussion"},{w:"project",h:"A planned piece of work"},{w:"message",h:"Information sent to someone"},{w:"airport",h:"Where airplanes arrive and depart"},{w:"ticket",h:"You need it for many journeys"},{w:"coffee",h:"A popular hot drink"},{w:"weather",h:"Sun rain wind and temperature"},{w:"computer",h:"An electronic machine for work"},{w:"hospital",h:"A place for medical care"},{w:"business",h:"Work involving products or services"},
+    {w:"improve",h:"To become better"},{w:"listen",h:"To pay attention to sound"},{w:"speak",h:"To say words aloud"},{w:"remember",h:"To keep something in your mind"},{w:"explain",h:"To make something clear"},{w:"choose",h:"To select one option"},{w:"complete",h:"To finish something"},{w:"success",h:"A good result"},{w:"future",h:"Time that has not happened yet"},{w:"confidence",h:"Belief in your own ability"}
   ],
   letters:[
-    {w:"APPLE",i:1,h:"Fruit"},{w:"BOOK",i:1,h:"You read it"},{w:"CHAIR",i:2,h:"You sit on it"},{w:"TRAIN",i:3,h:"Rail transport"},{w:"SMILE",i:2,h:"Happy expression"},{w:"PHONE",i:1,h:"Communication device"},{w:"BREAD",i:2,h:"Food made from flour"},{w:"WATER",i:3,h:"We drink it"},{w:"PLANT",i:2,h:"A living green thing"},{w:"MUSIC",i:1,h:"Songs and sound"}
+    {w:"APPLE",i:1,h:"Fruit"},{w:"BOOK",i:1,h:"You read it"},{w:"CHAIR",i:2,h:"You sit on it"},{w:"TRAIN",i:3,h:"Rail transport"},{w:"SMILE",i:2,h:"Happy expression"},{w:"PHONE",i:1,h:"Communication device"},{w:"BREAD",i:2,h:"Food made from flour"},{w:"WATER",i:3,h:"We drink it"},{w:"PLANT",i:2,h:"A living green thing"},{w:"MUSIC",i:1,h:"Songs and sound"},
+    {w:"HOUSE",i:2,h:"A place where people live"},{w:"LIGHT",i:1,h:"It helps us see"},{w:"TABLE",i:3,h:"Furniture with a flat top"},{w:"CLOCK",i:2,h:"It shows the time"},{w:"RIVER",i:1,h:"Flowing natural water"},{w:"CLOUD",i:3,h:"Seen in the sky"},{w:"GREEN",i:2,h:"A color"},{w:"HAPPY",i:1,h:"Feeling pleased"},{w:"WORK",i:2,h:"A job or task"},{w:"EMAIL",i:3,h:"An electronic message"},
+    {w:"LEARN",i:2,h:"Gain knowledge"},{w:"SPEAK",i:1,h:"Use your voice to communicate"},{w:"WRITE",i:3,h:"Make words using letters"},{w:"READ",i:2,h:"Understand written words"},{w:"DRIVE",i:1,h:"Control a vehicle"},{w:"PLANE",i:3,h:"An aircraft"},{w:"HOTEL",i:2,h:"A place to stay while travelling"},{w:"MONEY",i:1,h:"Used to buy things"},{w:"NURSE",i:3,h:"A healthcare professional"},{w:"WORLD",i:2,h:"The Earth and its people"},
+    {w:"SMART",i:1,h:"Clever"},{w:"BRAVE",i:2,h:"Not easily afraid"},{w:"QUICK",i:3,h:"Fast"},{w:"QUIET",i:1,h:"Making little noise"},{w:"START",i:2,h:"To begin"},{w:"FINISH",i:3,h:"To complete"},{w:"HELLO",i:1,h:"A greeting"},{w:"THANKS",i:4,h:"An expression of gratitude"},{w:"PEOPLE",i:2,h:"More than one person"},{w:"ENGLISH",i:3,h:"The language you are learning"}
   ]
 };
 var miniSession={sentence:null,sentenceSelected:[],scramble:null,letter:null,locked:false};
+var MINI_HISTORY_KEY="vihaaMiniGameHistoryV2";
+function loadMiniHistory(){try{var h=JSON.parse(localStorage.getItem(MINI_HISTORY_KEY)||"null");if(h&&h.sentence&&h.scramble&&h.letter)return h;}catch(e){}return {sentence:[],scramble:[],letter:[],last:{sentence:"",scramble:"",letter:""}};}
+var miniHistory=loadMiniHistory();
+function saveMiniHistory(){try{localStorage.setItem(MINI_HISTORY_KEY,JSON.stringify(miniHistory));}catch(e){}}
+function nextMiniItem(type,items,keyFn){
+  var used=miniHistory[type]||[],available=items.filter(function(item){return used.indexOf(keyFn(item))<0;});
+  if(!available.length){var last=miniHistory.last[type]||"";used=[];available=items.filter(function(item){return keyFn(item)!==last;});if(!available.length)available=items.slice();}
+  var item=available[Math.floor(Math.random()*available.length)],key=keyFn(item);used.push(key);miniHistory[type]=used;miniHistory.last[type]=key;saveMiniHistory();return item;
+}
 function renderMiniGameScores(){if(el("sentenceWins"))el("sentenceWins").textContent=state.miniGames.sentence||0;if(el("scrambleWins"))el("scrambleWins").textContent=state.miniGames.scramble||0;if(el("letterWins"))el("letterWins").textContent=state.miniGames.letter||0;}
 function hideMiniStages(){["sentenceStage","scrambleStage","letterStage"].forEach(function(id){if(el(id))el(id).hidden=true;});}
 function shuffleCopy(a){var x=a.slice();for(var i=x.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=x[i];x[i]=x[j];x[j]=t;}return x;}
@@ -683,7 +702,7 @@ function miniReward(type,xp){
   state.xp+=xp;state.miniGames[type]=(state.miniGames[type]||0)+1;if(state.miniGames[type]%5===0)state.stars+=1;save();renderMiniGameScores();renderHeader();confetti();toast("Correct! +"+xp+" XP"+(state.miniGames[type]%5===0?" +1⭐":""));
 }
 function newSentencePuzzle(){
-  hideMiniStages();el("sentenceStage").hidden=false;miniSession.locked=false;var sentence=miniData.sentences[Math.floor(Math.random()*miniData.sentences.length)],words=sentence.split(" ");miniSession.sentence=sentence;miniSession.sentenceSelected=[];
+  hideMiniStages();el("sentenceStage").hidden=false;miniSession.locked=false;var sentence=nextMiniItem("sentence",miniData.sentences,function(x){return x;}),words=sentence.split(" ");miniSession.sentence=sentence;miniSession.sentenceSelected=[];
   var shuffled=shuffleCopy(words);if(shuffled.join(" ")===sentence&&shuffled.length>1)shuffled.reverse();
   el("sentenceBank").innerHTML=shuffled.map(function(w,i){return '<button class="word-tile" data-word="'+w.replace(/"/g,"&quot;")+'" data-pos="'+i+'">'+w+'</button>';}).join("");
   el("sentenceAnswer").innerHTML='<span class="slot-sub">Your sentence will appear here…</span>';var f=el("sentenceFeedback");f.className="mini-feedback";f.textContent="";
@@ -693,11 +712,11 @@ function renderSentenceAnswer(){el("sentenceAnswer").innerHTML=miniSession.sente
 function checkSentencePuzzle(){if(miniSession.locked)return;var answer=miniSession.sentenceSelected.join(" "),ok=answer===miniSession.sentence,f=el("sentenceFeedback");f.className="mini-feedback show "+(ok?"ok":"no");f.textContent=ok?"✅ Perfect sentence!":"💡 Not yet. Check the word order and try again.";if(ok){miniSession.locked=true;miniReward("sentence",20);}}
 function resetSentencePuzzle(){if(miniSession.locked)return;miniSession.sentenceSelected=[];el("sentenceBank").querySelectorAll(".word-tile").forEach(function(b){b.disabled=false;b.classList.remove("selected");});renderSentenceAnswer();var f=el("sentenceFeedback");f.className="mini-feedback";f.textContent="";}
 function newScramble(){
-  hideMiniStages();el("scrambleStage").hidden=false;miniSession.locked=false;var item=miniData.scrambles[Math.floor(Math.random()*miniData.scrambles.length)],letters=item.w.toUpperCase().split(""),mix=shuffleCopy(letters);if(mix.join("")===item.w.toUpperCase())mix.reverse();miniSession.scramble=item;el("scrambleLetters").textContent=mix.join(" ");el("scrambleHint").textContent="Hint: "+item.h;el("scrambleInput").value="";var f=el("scrambleFeedback");f.className="mini-feedback";f.textContent="";setTimeout(function(){el("scrambleInput").focus();},50);
+  hideMiniStages();el("scrambleStage").hidden=false;miniSession.locked=false;var item=nextMiniItem("scramble",miniData.scrambles,function(x){return x.w;}),letters=item.w.toUpperCase().split(""),mix=shuffleCopy(letters);if(mix.join("")===item.w.toUpperCase())mix.reverse();miniSession.scramble=item;el("scrambleLetters").textContent=mix.join(" ");el("scrambleHint").textContent="Hint: "+item.h;el("scrambleInput").value="";var f=el("scrambleFeedback");f.className="mini-feedback";f.textContent="";setTimeout(function(){el("scrambleInput").focus();},50);
 }
 function checkScramble(){if(miniSession.locked)return;var val=el("scrambleInput").value.trim().toLowerCase(),ok=miniSession.scramble&&val===miniSession.scramble.w.toLowerCase(),f=el("scrambleFeedback");f.className="mini-feedback show "+(ok?"ok":"no");f.textContent=ok?"✅ Correct word!":"💡 Try again. Hint: "+miniSession.scramble.h;if(ok){miniSession.locked=true;miniReward("scramble",15);}}
 function newLetterGame(){
-  hideMiniStages();el("letterStage").hidden=false;miniSession.locked=false;var item=miniData.letters[Math.floor(Math.random()*miniData.letters.length)];miniSession.letter=item;var chars=item.w.split(""),answer=chars[item.i];chars[item.i]="_";el("missingWord").textContent=chars.join(" ");el("letterHint").textContent="Hint: "+item.h;var alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),wrong=alphabet.filter(function(x){return x!==answer;});wrong=shuffleCopy(wrong).slice(0,3);var opts=shuffleCopy([answer].concat(wrong));el("letterOptions").innerHTML=opts.map(function(x){return '<button class="letter-choice" data-letter="'+x+'">'+x+'</button>';}).join("");var f=el("letterFeedback");f.className="mini-feedback";f.textContent="";
+  hideMiniStages();el("letterStage").hidden=false;miniSession.locked=false;var item=nextMiniItem("letter",miniData.letters,function(x){return x.w+":"+x.i;});miniSession.letter=item;var chars=item.w.split(""),answer=chars[item.i];chars[item.i]="_";el("missingWord").textContent=chars.join(" ");el("letterHint").textContent="Hint: "+item.h;var alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),wrong=alphabet.filter(function(x){return x!==answer;});wrong=shuffleCopy(wrong).slice(0,3);var opts=shuffleCopy([answer].concat(wrong));el("letterOptions").innerHTML=opts.map(function(x){return '<button class="letter-choice" data-letter="'+x+'">'+x+'</button>';}).join("");var f=el("letterFeedback");f.className="mini-feedback";f.textContent="";
   el("letterOptions").querySelectorAll(".letter-choice").forEach(function(b){b.onclick=function(){if(miniSession.locked)return;var ok=this.getAttribute("data-letter")===answer,f=el("letterFeedback");if(ok){this.style.background="#dcfaee";this.style.color="#117653";f.className="mini-feedback show ok";f.textContent="✅ Correct! "+item.w;miniSession.locked=true;miniReward("letter",10);el("letterOptions").querySelectorAll(".letter-choice").forEach(function(x){x.disabled=true;});}else{this.disabled=true;this.style.opacity=".35";f.className="mini-feedback show no";f.textContent="Try another letter.";} };});
 }
 function renderPractice(){
@@ -719,8 +738,8 @@ function makeUserSeed(){
   catch(e){return Date.now().toString(36)+"-"+Math.random().toString(36).slice(2);}
 }
 function loadQuestionHistory(){
-  try{var h=JSON.parse(localStorage.getItem(QUESTION_HISTORY_KEY)||"null");if(h&&h.seed&&h.seen)return h;}catch(e){}
-  var h={seed:makeUserSeed(),seq:0,seen:{},served:0};localStorage.setItem(QUESTION_HISTORY_KEY,JSON.stringify(h));return h;
+  try{var h=JSON.parse(localStorage.getItem(QUESTION_HISTORY_KEY)||"null");if(h&&h.seed&&h.seen){h.recent=Array.isArray(h.recent)?h.recent:[];return h;}}catch(e){}
+  var h={seed:makeUserSeed(),seq:0,seen:{},served:0,recent:[]};localStorage.setItem(QUESTION_HISTORY_KEY,JSON.stringify(h));return h;
 }
 function saveQuestionHistory(){
   try{localStorage.setItem(QUESTION_HISTORY_KEY,JSON.stringify(questionHistory));}catch(e){}
@@ -773,7 +792,7 @@ var qVerbs=[
   {b:"make",s:"makes",p:"made",pp:"made",ing:"making"}
 ];
 function generatedQuestion(worldId,serial){
-  var r=rngFor(worldId,serial),boy=pick(qNamesBoy,r),girl=pick(qNamesGirl,r),name=r()<.5?boy:girl,place=pick(qPlaces,r),thing=pick(qThings,r),v=pick(qVerbs,r),adj=pick(qAdj,r),adv=pick(qAdv,r),type=Math.floor(r()*6);
+  var r=rngFor(worldId,serial),boy=pick(qNamesBoy,r),girl=pick(qNamesGirl,r),name=r()<.5?boy:girl,place=pick(qPlaces,r),thing=pick(qThings,r),v=pick(qVerbs,r),adj=pick(qAdj,r),adv=pick(qAdv,r),type=((serial-1)%6);
   if(worldId===1){
     if(type===0){var obj=pick(qVowelThings,r);return makeMC(name+" packed ___ "+obj+" for the trip.","an",["a","the","no article"],"Use 'an' before a vowel sound.",r);}
     if(type===1){var pl=pluralOf(thing);return makeMC("What is the plural of '"+thing+"'? ",pl,[thing,thing+"en",thing+"ies"],"'"+pl+"' is the correct plural form.",r);}
@@ -860,8 +879,9 @@ function nextFreshQuestion(worldId){
   for(var tries=0;tries<5000;tries++){
     questionHistory.seq=(questionHistory.seq||0)+1;
     var q=generatedQuestion(worldId,questionHistory.seq),fp=questionFingerprint(q);
-    if(!questionHistory.seen[fp]){
-      questionHistory.seen[fp]=1;questionHistory.served=(questionHistory.served||0)+1;saveQuestionHistory();return q;
+    var normalized=String(q[0]).trim().toLowerCase().replace(/\s+/g," ");
+    if(!questionHistory.seen[fp]&&(questionHistory.recent||[]).indexOf(normalized)<0){
+      questionHistory.seen[fp]=1;questionHistory.served=(questionHistory.served||0)+1;questionHistory.recent=questionHistory.recent||[];questionHistory.recent.push(normalized);if(questionHistory.recent.length>500)questionHistory.recent=questionHistory.recent.slice(-500);saveQuestionHistory();return q;
     }
   }
   // With the combinatorial generator this should be unreachable in normal use.
