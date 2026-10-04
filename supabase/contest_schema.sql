@@ -281,6 +281,89 @@ grant execute on function public.vihaa_claim_golden_letter(uuid) to anon,authent
 grant execute on function public.vihaa_submit_entry(uuid,text,smallint,text,text,text,text,text,text,boolean) to anon,authenticated;
 grant execute on function public.vihaa_current_winner() to anon,authenticated;
 
+
+-- ---------- Sunday spectator + school/class league ----------
+create table if not exists public.vihaa_league_profiles (
+  device_token uuid primary key,
+  school text not null check (char_length(school) between 1 and 80),
+  class_name text not null check (char_length(class_name) between 1 and 20),
+  points integer not null default 0 check (points >= 0),
+  week_start date not null default date_trunc('week', timezone('Asia/Kolkata',now()))::date,
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.vihaa_live_quiz_state (
+  id smallint primary key default 1 check (id=1),
+  live boolean not null default false,
+  round_no integer not null default 0,
+  remaining_players integer,
+  fastest_ms integer,
+  status_text text not null default 'Waiting for the next live quiz.',
+  updated_at timestamptz not null default now()
+);
+
+insert into public.vihaa_live_quiz_state(id)
+values(1)
+on conflict(id) do nothing;
+
+alter table public.vihaa_league_profiles enable row level security;
+alter table public.vihaa_live_quiz_state enable row level security;
+
+create or replace function public.vihaa_upsert_league_profile(
+  p_device uuid,
+  p_school text,
+  p_class_name text,
+  p_points integer
+)
+returns boolean
+language plpgsql
+security definer
+set search_path = public
+as $
+declare
+  v_week date := date_trunc('week', timezone('Asia/Kolkata',now()))::date;
+begin
+  if char_length(trim(p_school)) < 1 or char_length(trim(p_school)) > 80 then return false; end if;
+  if char_length(trim(p_class_name)) < 1 or char_length(trim(p_class_name)) > 20 then return false; end if;
+  insert into public.vihaa_league_profiles(device_token,school,class_name,points,week_start,updated_at)
+  values(p_device,trim(p_school),trim(p_class_name),greatest(0,coalesce(p_points,0)),v_week,now())
+  on conflict(device_token) do update
+  set school=excluded.school,class_name=excluded.class_name,points=excluded.points,week_start=v_week,updated_at=now();
+  return true;
+end;
+$;
+
+create or replace function public.vihaa_school_league()
+returns table(school text,class_name text,points bigint)
+language sql
+security definer
+set search_path = public
+as $
+  select l.school,l.class_name,sum(l.points)::bigint as points
+  from public.vihaa_league_profiles l
+  where l.week_start=date_trunc('week', timezone('Asia/Kolkata',now()))::date
+  group by l.school,l.class_name
+  order by points desc,l.school,l.class_name
+  limit 10;
+$;
+
+create or replace function public.vihaa_spectator_state()
+returns table(live boolean,round_no integer,remaining_players integer,fastest_ms integer,status_text text)
+language sql
+security definer
+set search_path = public
+as $
+  select q.live,q.round_no,q.remaining_players,q.fastest_ms,q.status_text
+  from public.vihaa_live_quiz_state q
+  where q.id=1;
+$;
+
+revoke all on table public.vihaa_league_profiles from anon,authenticated;
+revoke all on table public.vihaa_live_quiz_state from anon,authenticated;
+grant execute on function public.vihaa_upsert_league_profile(uuid,text,text,integer) to anon,authenticated;
+grant execute on function public.vihaa_school_league() to anon,authenticated;
+grant execute on function public.vihaa_spectator_state() to anon,authenticated;
+
 -- Sunday 18:00 IST = 12:30 UTC.
 do $$
 begin
