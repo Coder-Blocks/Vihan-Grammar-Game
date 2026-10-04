@@ -43,6 +43,9 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
 .contest-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px;text-align:left}.contest-form label{font-size:12px;font-weight:900;color:var(--text)}.contest-form input,.contest-form select{width:100%;margin-top:6px;border:1px solid var(--line);border-radius:13px;padding:11px 12px;background:var(--panel);color:var(--text)}.contest-form .full{grid-column:1/-1}.contest-shot{border:1.5px dashed #d4b646;border-radius:16px;padding:14px;background:rgba(255,248,205,.55)}.contest-shot input{border:0;padding:8px 0;background:transparent}.consent-row{display:flex;align-items:flex-start;gap:9px;font-size:12px;color:var(--muted);font-weight:700}.consent-row input{width:auto;margin:2px 0 0}.contest-status{font-size:12px;font-weight:800;color:var(--muted);margin-top:8px}.contest-submit[disabled]{opacity:.55;cursor:not-allowed}.contest-preview{display:none;margin-top:10px;max-height:180px;border-radius:14px;border:1px solid var(--line);max-width:100%}.contest-preview.show{display:block}.dark .contest-form input,.dark .contest-form select{background:#17192c}
 @media(max-width:620px){.contest-form{grid-template-columns:1fr}.contest-form .full{grid-column:auto}}
 
+.sunday-hero{background:linear-gradient(135deg,#171838,#38286f 58%,#6c4cff);color:#fff;border-radius:28px;padding:28px;box-shadow:0 24px 55px rgba(37,29,84,.22);position:relative;overflow:hidden}.sunday-hero:after{content:"🏆";position:absolute;right:25px;top:12px;font-size:110px;opacity:.09;transform:rotate(9deg)}.sunday-hero h2{font-size:clamp(28px,4vw,46px);margin:7px 0 10px}.sunday-hero p{color:#e8e3ff;max-width:720px;margin:0}.quiz-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.quiz-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:8px 11px;font-size:12px;font-weight:900}.slot-card{margin-top:15px;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 10px 28px rgba(50,47,100,.06)}.slot-top{display:flex;justify-content:space-between;align-items:end;gap:15px}.slot-num{font-size:30px;font-weight:950}.slot-sub{font-size:12px;color:var(--muted);font-weight:800}.slot-track{height:14px;background:#ececf5;border-radius:999px;overflow:hidden;margin-top:12px}.slot-track i{display:block;height:100%;width:0;background:linear-gradient(90deg,#24b47e,#28c8d8,#6c4cff);border-radius:inherit;transition:.4s width}.prize-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}.prize-card{border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:18px}.prize-card .place{font-size:12px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.1em}.prize-card .amount{font-size:28px;font-weight:950;margin-top:5px}.quiz-rule-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}.quiz-rule{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:15px}.quiz-rule b{display:block;margin-bottom:5px}.quiz-rule span{font-size:12px;color:var(--muted);line-height:1.45}.quiz-live{margin-top:16px;border:1px solid var(--line);background:var(--panel);border-radius:24px;padding:20px}.quiz-live-top{display:flex;justify-content:space-between;align-items:center;gap:14px}.countdown-ring{width:66px;height:66px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--brand) 0deg,#ececf5 0);position:relative}.countdown-ring:after{content:"";position:absolute;width:50px;height:50px;border-radius:50%;background:var(--panel)}.countdown-ring b{position:relative;z-index:1;font-size:20px}.live-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:15px}.live-stat{border:1px solid var(--line);border-radius:15px;padding:12px;text-align:center}.live-stat strong{font-size:21px;display:block}.live-stat span{font-size:11px;color:var(--muted);font-weight:800}.leaderboard{margin-top:14px;border-top:1px solid var(--line);padding-top:14px}.leader-row{display:grid;grid-template-columns:34px 1fr 90px;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}.leader-row:last-child{border-bottom:0}.leader-time{text-align:right;font-weight:900}.quiz-pay-box{margin-top:15px;border:1px solid #d9d0ff;background:#f5f2ff;border-radius:20px;padding:16px}.dark .quiz-pay-box{background:#292646;border-color:#4b4677}.quiz-pay-box p{font-size:12px;color:var(--muted);margin:6px 0 12px}.quiz-warning{margin-top:14px;background:#fff7df;border:1px solid #f0d48a;border-radius:17px;padding:13px;font-size:12px;color:#6f5820;font-weight:750;line-height:1.5}.dark .quiz-warning{background:#3a311b;border-color:#665625;color:#efd98b}
+@media(max-width:620px){.prize-grid,.quiz-rule-grid{grid-template-columns:1fr}.live-stats{grid-template-columns:1fr 1fr}.live-stats .live-stat:last-child{grid-column:1/-1}.slot-top{align-items:start;flex-direction:column}}
+
 /* Vihaa motion system */
 @keyframes floatMascot{0%,100%{transform:translateY(0) rotate(4deg)}50%{transform:translateY(-12px) rotate(-2deg)}}
 @keyframes heroGlow{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.45}50%{transform:translate3d(-22px,18px,0) scale(1.12);opacity:.8}}
@@ -96,6 +99,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
     <button class="nav-btn active" data-view="home"><span class="ic">🗺️</span>Adventure</button>
     <button class="nav-btn" data-view="practice"><span class="ic">🎯</span>Practice</button>
     <button class="nav-btn" data-view="mistakes"><span class="ic">📕</span>Mistakes</button>
+    <button class="nav-btn" data-view="sunday"><span class="ic">🏆</span>Sunday Quiz</button>
     <button class="nav-btn" data-view="parent"><span class="ic">📊</span>Parent</button>
     <button class="nav-btn" data-view="settings"><span class="ic">⚙️</span>Settings</button>
   </nav>
@@ -151,6 +155,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
     <div class="quick"><div style="font-size:28px">☀️</div><b>Daily Challenge</b><p>10 mixed grammar questions. Build your daily streak.</p><button class="btn soft" id="dailyBtn">Play Today</button></div>
     <div class="quick"><div style="font-size:28px">📕</div><b>Fix My Mistakes</b><p>Replay questions you answered incorrectly.</p><button class="btn soft" id="mistakeQuickBtn">Practice Mistakes</button></div>
     <div class="quick"><div style="font-size:28px">📊</div><b>Parent Report</b><p>Accuracy, sessions, strong areas and topics needing practice.</p><button class="btn soft" data-go="parent">View Progress</button></div>
+    <div class="quick"><div style="font-size:28px">🏆</div><b>Sunday Quiz</b><p>500 paid slots · live elimination · weekly prizes.</p><button class="btn soft" data-go="sunday">View Competition</button></div>
   </div>
 </section>
 
@@ -184,6 +189,49 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
   <div class="section-head" style="margin-top:2px"><div><h3>📊 Parent Dashboard</h3><p id="parentSubtitle">Learning overview for Vihan</p></div></div>
   <div class="stats-grid"><div class="stat"><div class="num" id="pLevels">0</div><div class="lab">Levels Completed</div></div><div class="stat"><div class="num" id="pAccuracy">0%</div><div class="lab">Overall Accuracy</div></div><div class="stat"><div class="num" id="pSessions">0</div><div class="lab">Practice Sessions</div></div><div class="stat"><div class="num" id="pMinutes">0m</div><div class="lab">Learning Time</div></div></div>
   <div class="panel"><h3>Topic Performance</h3><div class="chart-list" id="topicChart"></div></div>
+</section>
+
+<section class="view" id="view-sunday">
+  <div class="sunday-hero">
+    <div class="eyebrow">Weekly live skill competition</div>
+    <h2>🏆 Vihaa Sunday Quiz</h2>
+    <p>Registration opens Sunday evening and closes Saturday. The live quiz runs only when all 500 paid slots are booked. Wrong or unanswered response means elimination.</p>
+    <div class="quiz-badges"><span class="quiz-badge">₹25 Entry</span><span class="quiz-badge">500 Slots</span><span class="quiz-badge">Live Countdown</span><span class="quiz-badge">Server-Timed Answers</span></div>
+  </div>
+
+  <div class="slot-card">
+    <div class="slot-top"><div><div class="slot-num"><span id="quizBooked">0</span> / 500</div><div class="slot-sub">verified paid slots booked</div></div><div><b id="quizRegStatus">Registration backend pending</b><div class="slot-sub" id="quizRegWindow">Sunday evening → Saturday</div></div></div>
+    <div class="slot-track"><i id="quizSlotBar"></i></div>
+  </div>
+
+  <div class="prize-grid">
+    <div class="prize-card"><div class="place">🥇 First Prize</div><div class="amount" id="quizPrize1">₹5,000</div><div class="slot-sub">Weekly prize can change</div></div>
+    <div class="prize-card"><div class="place">🥈 Second Prize</div><div class="amount" id="quizPrize2">₹2,500</div><div class="slot-sub" id="quizPrize2Extra">+ Pen Set</div></div>
+  </div>
+
+  <div class="quiz-pay-box">
+    <b>Secure Entry Payment</b>
+    <p>Guardian payment only for minors. Payment must be verified automatically before a slot is reserved. If 500 verified slots are not reached, the contest is cancelled and verified payments must be refunded automatically.</p>
+    <button class="btn dark" id="quizPayBtn" disabled>Payment Gateway Required</button>
+    <div class="contest-status" id="quizPayStatus">Raw bank-account transfer is not enabled in the public app. A secure payment gateway will be connected for automatic verification/refunds.</div>
+  </div>
+
+  <div class="quiz-rule-grid">
+    <div class="quiz-rule"><b>⏱️ Server Countdown</b><span>Every question has a server-controlled time limit. Late answers are rejected automatically.</span></div>
+    <div class="quiz-rule"><b>❌ One Wrong = Eliminated</b><span>Wrong answer or no answer before countdown ends removes the participant from the next round.</span></div>
+    <div class="quiz-rule"><b>⚡ Response Time</b><span>After each round, each participant sees their own response time plus active/correct/eliminated counts. Admin sees complete timing records.</span></div>
+    <div class="quiz-rule"><b>🛡️ Fair Play</b><span>One verified entry = one live session. Server timestamps, randomized option order, session heartbeat and tab-switch monitoring reduce cheating.</span></div>
+    <div class="quiz-rule"><b>🏁 Tie Break</b><span>If multiple players survive the final round, lowest cumulative correct-response time ranks first; an exact tie can go to sudden death.</span></div>
+    <div class="quiz-rule"><b>🔁 Weekly Prizes</b><span>Prize values and bonus gifts are admin-configurable every week before registration opens.</span></div>
+  </div>
+
+  <div class="quiz-live">
+    <div class="quiz-live-top"><div><div class="eyebrow" style="color:var(--brand)">Live Round Preview</div><h3 style="margin:5px 0">Question countdown & elimination board</h3><div class="slot-sub">Actual live questions unlock only for verified participants.</div></div><div class="countdown-ring" id="quizCountdownRing"><b id="quizCountdown">--</b></div></div>
+    <div class="live-stats"><div class="live-stat"><strong id="quizActive">500</strong><span>ACTIVE</span></div><div class="live-stat"><strong id="quizCorrect">—</strong><span>CORRECT THIS ROUND</span></div><div class="live-stat"><strong id="quizEliminated">—</strong><span>ELIMINATED</span></div></div>
+    <div class="leaderboard"><b>Fastest response preview</b><div class="leader-row"><span>1</span><span>Participant</span><span class="leader-time">— ms</span></div><div class="leader-row"><span>2</span><span>Participant</span><span class="leader-time">— ms</span></div><div class="leader-row"><span>3</span><span>Participant</span><span class="leader-time">— ms</span></div></div>
+  </div>
+
+  <div class="quiz-warning"><b>Important:</b> This is a paid skill competition. Before enabling real-money entry, eligibility, guardian consent, refund terms, taxes and state-specific legal requirements should be reviewed. For child participants, payments and prize claims should be handled by a parent/guardian.</div>
 </section>
 
 <section class="view" id="view-settings">
@@ -407,7 +455,7 @@ function showView(name){
   document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
   var target=el("view-"+name);if(target)target.classList.add("active");
   document.querySelectorAll(".nav-btn").forEach(function(b){b.classList.toggle("active",b.getAttribute("data-view")===name);});
-  if(name==="home")renderHome();if(name==="mistakes")renderMistakes();if(name==="parent")renderParent();if(name==="settings")renderSettings();
+  if(name==="home")renderHome();if(name==="mistakes")renderMistakes();if(name==="parent")renderParent();if(name==="sunday")renderSundayQuiz();if(name==="settings")renderSettings();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function renderProfilePhoto(){var img=el("profilePhoto"),emoji=el("avatarEmoji");if(!img||!emoji)return;if(state.photo){img.src=state.photo;img.hidden=false;emoji.style.display="none";}else{img.removeAttribute("src");img.hidden=true;emoji.style.display="grid";}}
@@ -678,6 +726,12 @@ function renderParent(){
   el("topicChart").innerHTML=worlds.map(function(w){var s=state.topicStats[w.id]||{a:0,c:0};var p=pct(s.c,s.a);return '<div class="chart-row"><span>'+w.icon+' '+w.title+'</span><div class="track"><i style="width:'+p+'%"></i></div><b>'+p+'%</b></div>';}).join("");
 }
 function processProfilePhoto(file){if(!file||!file.type||file.type.indexOf("image/")!==0){toast("Please choose an image file");return;}if(file.size>12*1024*1024){toast("Photo is too large");return;}var reader=new FileReader();reader.onload=function(ev){var im=new Image();im.onload=function(){var size=Math.min(im.width,im.height),sx=(im.width-size)/2,sy=(im.height-size)/2,c=document.createElement("canvas");c.width=320;c.height=320;var ctx=c.getContext("2d");ctx.drawImage(im,sx,sy,size,size,0,0,320,320);state.photo=c.toDataURL("image/jpeg",.84);save();renderProfilePhoto();toast("Profile photo updated");};im.onerror=function(){toast("Could not read this photo");};im.src=ev.target.result;};reader.readAsDataURL(file);}
+function renderSundayQuiz(){
+  var booked=0,capacity=500;
+  if(window.VIHAA_SUNDAY_QUIZ&&Number.isFinite(Number(window.VIHAA_SUNDAY_QUIZ.booked)))booked=Math.max(0,Math.min(capacity,Number(window.VIHAA_SUNDAY_QUIZ.booked)));
+  if(el("quizBooked"))el("quizBooked").textContent=booked;
+  if(el("quizSlotBar"))el("quizSlotBar").style.width=(booked/capacity*100)+"%";
+}
 function renderSettings(){
   el("nameInput").value=state.name;toggleButton(el("speechToggle"),state.speech);toggleButton(el("soundToggle"),state.sound);toggleButton(el("themeToggle"),state.dark);if(el("removePhotoBtn"))el("removePhotoBtn").style.display=state.photo?"inline-block":"none";
 }
@@ -730,7 +784,7 @@ if("serviceWorker" in navigator){window.addEventListener("load",function(){navig
 var contestFile=el("contestScreenshot");
 if(contestFile){contestFile.onchange=function(){var file=this.files&&this.files[0],preview=el("contestPreview");if(!file){preview.classList.remove("show");preview.removeAttribute("src");return;}if(file.size>6*1024*1024){toast("Screenshot must be under 6 MB");this.value="";preview.classList.remove("show");return;}var u=URL.createObjectURL(file);preview.src=u;preview.classList.add("show");};}
 if(el("contestForm")){el("contestForm").onsubmit=function(e){e.preventDefault();if(!contestBackendReady){toast("Secure contest backend is still connecting.");return false;}submitContestEntry();return false;};}
-renderHeader();renderPractice();renderHome();renderMistakes();renderParent();renderSettings();updateDailyLabel();renderGoldenLetters();scheduleGoldenBalloon();startAmbientBalloons();initContestBackend();
+renderHeader();renderPractice();renderHome();renderMistakes();renderParent();renderSundayQuiz();renderSettings();updateDailyLabel();renderGoldenLetters();scheduleGoldenBalloon();startAmbientBalloons();initContestBackend();
 })();
 </script>
 </body>
