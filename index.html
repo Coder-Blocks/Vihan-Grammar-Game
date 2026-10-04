@@ -45,6 +45,8 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
 .engage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px}.engage-card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 10px 28px rgba(50,47,100,.06);position:relative;overflow:hidden}.engage-card h4{margin:7px 0 5px}.engage-card p{font-size:12px;color:var(--muted);margin:0 0 13px}.engage-big{font-size:34px}.chest-btn{font-size:31px;line-height:1;border:0;background:transparent;filter:drop-shadow(0 8px 12px rgba(155,110,0,.18));animation:softBounce 2.2s ease-in-out infinite}.rival-meter{height:10px;background:#ececf5;border-radius:999px;overflow:hidden;margin:10px 0}.rival-meter i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--cyan));transition:.4s width}.boss-panel{display:none;margin:0 0 15px;background:linear-gradient(135deg,#251d54,#513b9a);color:#fff;border-radius:22px;padding:17px;box-shadow:0 14px 35px rgba(37,29,84,.22)}.boss-panel.show{display:block;animation:cardRise .4s ease}.boss-row{display:flex;align-items:center;gap:14px}.boss-face{font-size:52px}.boss-info{flex:1}.boss-hp{height:12px;background:rgba(255,255,255,.18);border-radius:999px;overflow:hidden;margin-top:8px}.boss-hp i{display:block;height:100%;background:linear-gradient(90deg,#ffbf3f,#ff5d6c);transition:.35s width}.voice-answer{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;padding:9px 12px;font-weight:900}.voice-answer.listening{background:#ffe8eb;color:#b52b3a;animation:levelPulse 1s ease-in-out infinite}
 @media(max-width:800px){.engage-grid{grid-template-columns:1fr}}
 
+.passport-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.passport-stamp{border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:16px;display:flex;align-items:center;gap:13px}.passport-stamp .seal{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:25px;background:#f2f1f9;filter:grayscale(1);opacity:.55}.passport-stamp.unlocked .seal{background:linear-gradient(145deg,#fff6b6,#ffd84d);filter:none;opacity:1;box-shadow:0 7px 17px rgba(195,142,0,.18)}.passport-stamp b{display:block}.passport-stamp small{color:var(--muted);font-weight:700}.vault-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}.certificate-card{border:1px solid var(--line);border-radius:20px;background:var(--panel);padding:16px;text-align:center;position:relative;overflow:hidden}.certificate-card.locked{opacity:.55;filter:grayscale(.6)}.certificate-card .cert-icon{font-size:36px}.certificate-card b{display:block;margin:7px 0 5px}.certificate-card small{color:var(--muted);font-weight:700}.mission-card{margin-top:16px;border:1px solid var(--line);background:var(--panel);border-radius:22px;padding:18px}.mission-setup{display:grid;grid-template-columns:1.2fr .7fr auto;gap:9px;align-items:end}.mission-setup select,.mission-setup input{width:100%;border:1px solid var(--line);border-radius:13px;padding:11px;background:var(--panel);color:var(--text)}.mission-progress{height:11px;border-radius:999px;background:#ececf5;overflow:hidden;margin-top:12px}.mission-progress i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--cyan));border-radius:inherit;transition:.4s width}.secret-event{position:fixed;z-index:58;right:5vw;bottom:12vh;width:86px;height:86px;border-radius:24px;display:none;place-items:center;font-size:48px;background:radial-gradient(circle at 30% 25%,#fff,#dff9ff 42%,#9d8cff 100%);box-shadow:0 18px 44px rgba(77,54,165,.3);border:2px solid rgba(255,255,255,.7);cursor:pointer;animation:floatMascot 2.3s ease-in-out infinite,profileGlow 2s ease-in-out infinite}.secret-event.show{display:grid}.secret-label{position:absolute;bottom:-28px;background:#251d54;color:#fff;border-radius:999px;font-size:10px;font-weight:900;padding:6px 8px;white-space:nowrap}.secret-event.burst{animation:balloonPop .3s ease forwards}
+@media(max-width:800px){.passport-grid,.vault-grid{grid-template-columns:1fr}.mission-setup{grid-template-columns:1fr}}
 .sunday-hero{background:linear-gradient(135deg,#171838,#38286f 58%,#6c4cff);color:#fff;border-radius:28px;padding:28px;box-shadow:0 24px 55px rgba(37,29,84,.22);position:relative;overflow:hidden}.sunday-hero:after{content:"🏆";position:absolute;right:25px;top:12px;font-size:110px;opacity:.09;transform:rotate(9deg)}.sunday-hero h2{font-size:clamp(28px,4vw,46px);margin:7px 0 10px}.sunday-hero p{color:#e8e3ff;max-width:720px;margin:0}.quiz-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.quiz-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:8px 11px;font-size:12px;font-weight:900}.slot-card{margin-top:15px;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 10px 28px rgba(50,47,100,.06)}.slot-top{display:flex;justify-content:space-between;align-items:end;gap:15px}.slot-num{font-size:30px;font-weight:950}.slot-sub{font-size:12px;color:var(--muted);font-weight:800}.slot-track{height:14px;background:#ececf5;border-radius:999px;overflow:hidden;margin-top:12px}.slot-track i{display:block;height:100%;width:0;background:linear-gradient(90deg,#24b47e,#28c8d8,#6c4cff);border-radius:inherit;transition:.4s width}.prize-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}.prize-card{border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:18px}.prize-card .place{font-size:12px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.1em}.prize-card .amount{font-size:28px;font-weight:950;margin-top:5px}.quiz-rule-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}.quiz-rule{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:15px}.quiz-rule b{display:block;margin-bottom:5px}.quiz-rule span{font-size:12px;color:var(--muted);line-height:1.45}.quiz-live{margin-top:16px;border:1px solid var(--line);background:var(--panel);border-radius:24px;padding:20px}.quiz-live-top{display:flex;justify-content:space-between;align-items:center;gap:14px}.countdown-ring{width:66px;height:66px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--brand) 0deg,#ececf5 0);position:relative}.countdown-ring:after{content:"";position:absolute;width:50px;height:50px;border-radius:50%;background:var(--panel)}.countdown-ring b{position:relative;z-index:1;font-size:20px}.live-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:15px}.live-stat{border:1px solid var(--line);border-radius:15px;padding:12px;text-align:center}.live-stat strong{font-size:21px;display:block}.live-stat span{font-size:11px;color:var(--muted);font-weight:800}.leaderboard{margin-top:14px;border-top:1px solid var(--line);padding-top:14px}.leader-row{display:grid;grid-template-columns:34px 1fr 90px;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}.leader-row:last-child{border-bottom:0}.leader-time{text-align:right;font-weight:900}.quiz-pay-box{margin-top:15px;border:1px solid #d9d0ff;background:#f5f2ff;border-radius:20px;padding:16px}.dark .quiz-pay-box{background:#292646;border-color:#4b4677}.quiz-pay-box p{font-size:12px;color:var(--muted);margin:6px 0 12px}.quiz-warning{margin-top:14px;background:#fff7df;border:1px solid #f0d48a;border-radius:17px;padding:13px;font-size:12px;color:#6f5820;font-weight:750;line-height:1.5}.dark .quiz-warning{background:#3a311b;border-color:#665625;color:#efd98b}
 @media(max-width:620px){.prize-grid,.quiz-rule-grid{grid-template-columns:1fr}.live-stats{grid-template-columns:1fr 1fr}.live-stats .live-stat:last-child{grid-column:1/-1}.slot-top{align-items:start;flex-direction:column}}
 
@@ -101,6 +103,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
     <button class="nav-btn active" data-view="home"><span class="ic">🗺️</span>Adventure</button>
     <button class="nav-btn" data-view="practice"><span class="ic">🎯</span>Practice</button>
     <button class="nav-btn" data-view="mistakes"><span class="ic">📕</span>Mistakes</button>
+    <button class="nav-btn" data-view="rewards"><span class="ic">🎖️</span>Rewards</button>
     <button class="nav-btn" data-view="sunday"><span class="ic">🏆</span>Sunday Quiz</button>
     <button class="nav-btn" data-view="parent"><span class="ic">📊</span>Parent</button>
     <button class="nav-btn" data-view="settings"><span class="ic">⚙️</span>Settings</button>
@@ -193,10 +196,32 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
   <div class="panel"><div class="section-head" style="margin-top:0"><div><h3>📕 Mistake Book</h3><p>Wrong answers are saved here for focused practice.</p></div><button class="btn green" id="practiceMistakesBtn">Practice All</button></div><div class="mistakes" id="mistakeList"></div></div>
 </section>
 
+<section class="view" id="view-rewards">
+  <div class="section-head" style="margin-top:2px"><div><h3>🎖️ VIHAA Skill Passport</h3><p>Every grammar world earns a mastery stamp and certificate.</p></div><div class="chip" id="passportCount">0 / 10 stamps</div></div>
+  <div class="passport-grid" id="passportGrid"></div>
+
+  <div class="section-head"><div><h3>🏅 Animated Certificate Vault</h3><p>World certificates unlock as the child completes each world. Download them as PNG.</p></div></div>
+  <div class="vault-grid" id="certificateVault"></div>
+
+  <div class="panel" style="margin-top:16px"><h3>✨ Secret Event Collection</h3><p style="color:var(--muted)">Rare stars, meteors, treasure doors and mystery eggs can appear without warning.</p><div id="secretBadgeList" class="quiz-badges"></div></div>
+</section>
+
 <section class="view" id="view-parent">
   <div class="section-head" style="margin-top:2px"><div><h3>📊 Parent Dashboard</h3><p id="parentSubtitle">Learning overview for Vihan</p></div></div>
   <div class="stats-grid"><div class="stat"><div class="num" id="pLevels">0</div><div class="lab">Levels Completed</div></div><div class="stat"><div class="num" id="pAccuracy">0%</div><div class="lab">Overall Accuracy</div></div><div class="stat"><div class="num" id="pSessions">0</div><div class="lab">Practice Sessions</div></div><div class="stat"><div class="num" id="pMinutes">0m</div><div class="lab">Learning Time</div></div></div>
   <div class="panel"><h3>Topic Performance</h3><div class="chart-list" id="topicChart"></div></div>
+  <div class="mission-card">
+    <h3 style="margin-top:0">🎯 Parent Weekly Mission</h3>
+    <p style="color:var(--muted);font-size:13px">Set a learning goal. Progress updates automatically from this device.</p>
+    <div class="mission-setup">
+      <label><span class="slot-sub">Mission</span><select id="missionType"><option value="questions">Answer questions</option><option value="levels">Complete levels</option><option value="accuracy">Reach accuracy %</option><option value="minutes">Learning minutes</option></select></label>
+      <label><span class="slot-sub">Target</span><input id="missionTarget" type="number" min="1" max="500" value="20"></label>
+      <button class="btn dark" id="setMissionBtn">Set Mission</button>
+    </div>
+    <div id="missionCurrent" style="margin-top:13px;font-weight:900">No mission set</div>
+    <div class="mission-progress"><i id="missionBar"></i></div>
+    <div class="slot-sub" id="missionMeta" style="margin-top:7px">Parent can set a goal anytime.</div>
+  </div>
 </section>
 
 <section class="view" id="view-sunday">
@@ -258,6 +283,8 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
 </div>
 <footer>Built by TIC · Think Innovative Creations · Child-friendly · No ads · Progress stays on this device</footer>
 </div>
+
+<div class="secret-event" id="secretEvent" role="button" tabindex="0" aria-label="Secret event"><span id="secretEventIcon">🌈</span><span class="secret-label" id="secretEventLabel">Secret Event!</span></div>
 
 <div class="modal" id="resultModal"><div class="modal-card"><div class="trophy" id="resultEmoji">🏆</div><h2 id="resultTitle">Level Complete!</h2><div class="stars-big" id="resultStars">⭐⭐⭐</div><p id="resultText"></p><div class="actions" style="justify-content:center"><button class="btn dark" id="resultContinue">Continue</button><button class="btn soft" id="resultHome">Map</button></div></div></div>
 <div class="toast" id="toast"></div>
@@ -493,7 +520,7 @@ function showView(name){
   document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
   var target=el("view-"+name);if(target)target.classList.add("active");
   document.querySelectorAll(".nav-btn").forEach(function(b){b.classList.toggle("active",b.getAttribute("data-view")===name);});
-  if(name==="home")renderHome();if(name==="mistakes")renderMistakes();if(name==="parent")renderParent();if(name==="sunday")renderSundayQuiz();if(name==="settings")renderSettings();
+  if(name==="home")renderHome();if(name==="mistakes")renderMistakes();if(name==="rewards")renderRewards();if(name==="parent")renderParent();if(name==="sunday")renderSundayQuiz();if(name==="settings")renderSettings();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function renderProfilePhoto(){var img=el("profilePhoto"),emoji=el("avatarEmoji");if(!img||!emoji)return;if(state.photo){img.src=state.photo;img.hidden=false;emoji.style.display="none";}else{img.removeAttribute("src");img.hidden=true;emoji.style.display="grid";}}
@@ -745,7 +772,7 @@ function finishGame(){
   if(game.mode==="daily")state.lastDay=today();
   if(game.mode==="boss"&&passed){state.bossBadges[game.world]=true;state.xp+=100;state.stars+=5;}
   if(game.mode==="mistakes"&&passed){var solved=game.qs.map(function(x){return x.q[0];});state.mistakes=state.mistakes.filter(function(m){return solved.indexOf(m.q[0])<0;});}
-  save();renderResult(passed,earned);if(passed)confetti();
+  save();renderResult(passed,earned);renderEngagement();renderRewards();renderParent();if(passed)confetti();
 }
 function renderResult(passed,earned){
   el("resultEmoji").textContent=passed?"🏆":"💪";el("resultTitle").textContent=passed?"Challenge Complete!":"Try Once More";
@@ -759,10 +786,38 @@ function renderMistakes(){
   if(!state.mistakes.length){el("mistakeList").innerHTML='<div class="empty"><div class="big">🎉</div><h3>No saved mistakes</h3><p>Wrong answers will appear here for revision.</p></div>';return;}
   el("mistakeList").innerHTML=state.mistakes.slice().reverse().map(function(m){return '<div class="mistake"><strong>'+m.q[0]+'</strong><span>'+worlds[m.w-1].title+' · Correct answer: '+m.q[m.q[5]+1]+' · '+m.q[6]+'</span></div>';}).join("");
 }
+function worldDoneCount(worldId){var first=(worldId-1)*10+1,n=0;for(var i=first;i<first+10;i++)if(state.completed[i])n++;return n;}
+function renderRewards(){
+  var stamps=0,out="";worlds.forEach(function(w){var done=worldDoneCount(w.id),unlocked=done>=10;if(unlocked)stamps++;out+='<div class="passport-stamp '+(unlocked?"unlocked":"")+'"><div class="seal">'+w.icon+'</div><div><b>World '+w.id+' · '+w.title+'</b><small>'+(unlocked?"Mastery Stamp Earned ✓":done+'/10 levels complete')+'</small></div></div>';});el("passportGrid").innerHTML=out;el("passportCount").textContent=stamps+" / 10 stamps";
+  el("certificateVault").innerHTML=worlds.map(function(w){var unlocked=worldDoneCount(w.id)>=10;return '<div class="certificate-card '+(unlocked?"":"locked")+'"><div class="cert-icon">'+(unlocked?"🏅":"🔒")+'</div><b>'+w.title+'</b><small>'+(unlocked?"Certificate unlocked":"Complete all 10 levels")+'</small>'+(unlocked?'<div style="margin-top:10px"><button class="btn soft" data-cert="'+w.id+'">Download</button></div>':"")+'</div>';}).join("")+(stamps===10?'<div class="certificate-card"><div class="cert-icon">👑</div><b>VIHAA Grammar Champion</b><small>All worlds mastered</small><div style="margin-top:10px"><button class="btn dark" data-cert="champion">Download Gold</button></div></div>':"");
+  el("certificateVault").querySelectorAll("[data-cert]").forEach(function(b){b.onclick=function(){downloadCertificate(this.dataset.cert);};});
+  var badges=state.secretBadges||[];el("secretBadgeList").innerHTML=badges.length?badges.map(function(x){return '<span class="quiz-badge">'+x+'</span>';}).join(""):'<span class="slot-sub">No secret events collected yet.</span>';
+}
+function downloadCertificate(id){
+  var champ=id==="champion",w=champ?null:worlds[Number(id)-1],c=document.createElement("canvas");c.width=1600;c.height=1000;var ctx=c.getContext("2d"),g=ctx.createLinearGradient(0,0,1600,1000);g.addColorStop(0,champ?"#fff3a8":"#f4f0ff");g.addColorStop(1,champ?"#f2b900":"#dff8ff");ctx.fillStyle=g;ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle=champ?"#a87500":"#6c4cff";ctx.lineWidth=18;ctx.strokeRect(35,35,1530,930);ctx.fillStyle="#251d54";ctx.textAlign="center";ctx.font="900 72px Segoe UI";ctx.fillText(champ?"VIHAA GRAMMAR CHAMPION":"VIHAA MASTERY CERTIFICATE",800,190);ctx.font="700 38px Segoe UI";ctx.fillText("Presented to",800,290);ctx.font="900 64px Segoe UI";ctx.fillText(state.name||"Grammar Explorer",800,385);ctx.font="700 38px Segoe UI";ctx.fillText(champ?"for mastering all 10 Grammar Worlds":"for mastering World "+w.id+" · "+w.title,800,485);ctx.font="120px Segoe UI";ctx.fillText(champ?"👑":w.icon,800,650);ctx.font="700 28px Segoe UI";ctx.fillText("Vihaa Grammar Adventure · Think Innovative Creations",800,810);ctx.font="500 22px Segoe UI";ctx.fillText(new Date().toLocaleDateString(),800,860);var a=document.createElement("a");a.href=c.toDataURL("image/png");a.download=(champ?"VIHAA-Grammar-Champion":"VIHAA-World-"+w.id+"-"+w.title.replace(/\W+/g,"-"))+".png";document.body.appendChild(a);a.click();a.remove();toast("Certificate downloaded");
+}
+function missionValue(m){
+  if(!m)return 0;if(m.type==="questions")return Math.max(0,state.answers-m.baseAnswers);if(m.type==="levels")return Math.max(0,Object.keys(state.completed).filter(function(k){return state.completed[k];}).length-m.baseLevels);if(m.type==="minutes")return Math.max(0,Math.round(state.seconds/60)-m.baseMinutes);if(m.type==="accuracy")return pct(state.correct,state.answers);return 0;
+}
+function setParentMission(){
+  var type=el("missionType").value,target=Math.max(1,Number(el("missionTarget").value)||1);if(type==="accuracy")target=Math.min(100,target);state.parentMission={type:type,target:target,baseAnswers:state.answers,baseLevels:Object.keys(state.completed).filter(function(k){return state.completed[k];}).length,baseMinutes:Math.round(state.seconds/60),setDate:today(),claimed:false};save();renderParent();toast("Parent mission set");
+}
+function renderMission(){
+  var m=state.parentMission;if(!m){el("missionCurrent").textContent="No mission set";el("missionBar").style.width="0%";el("missionMeta").textContent="Parent can set a goal anytime.";return;}var v=missionValue(m),p=Math.min(100,Math.round(v/m.target*100)),labels={questions:"questions",levels:"levels",accuracy:"accuracy %",minutes:"learning minutes"};el("missionCurrent").textContent=v+" / "+m.target+" "+labels[m.type];el("missionBar").style.width=p+"%";el("missionMeta").textContent=p>=100?"Mission complete! 🎉":"Keep going — "+(100-p)+"% remaining.";if(p>=100&&!m.claimed){m.claimed=true;state.stars+=3;state.xp+=50;save();confetti();toast("Parent mission complete! +50 XP +3⭐");}}
+var secretEventTimer=null;
+function scheduleSecretEvent(){
+  clearTimeout(secretEventTimer);var d=today(),key="vihaaSecretSeen:"+d;if(localStorage.getItem(key))return;var seed=parseInt(hashText((balloonState.deviceId||balloonState.deviceToken)+d+"secret"),36)||1,delay=45000+(seed%90000);secretEventTimer=setTimeout(showSecretEvent,delay);
+}
+function showSecretEvent(){
+  if(document.hidden){secretEventTimer=setTimeout(showSecretEvent,15000);return;}var items=[{i:"🌈",n:"Rainbow Star"},{i:"☄️",n:"Grammar Meteor"},{i:"🚪",n:"Treasure Door"},{i:"🥚",n:"Mystery Egg"}],seed=parseInt(hashText(today()+(balloonState.deviceId||"")) ,36)||1,item=items[seed%items.length];el("secretEventIcon").textContent=item.i;el("secretEventLabel").textContent=item.n+"!";el("secretEvent").dataset.name=item.n;el("secretEvent").dataset.icon=item.i;el("secretEvent").classList.add("show");setTimeout(function(){el("secretEvent").classList.remove("show");},20000);
+}
+function collectSecretEvent(){
+  var box=el("secretEvent");if(!box.classList.contains("show"))return;var name=box.dataset.name||"Secret Event",icon=box.dataset.icon||"✨",tag=icon+" "+name;if(state.secretBadges.indexOf(tag)<0)state.secretBadges.push(tag);state.xp+=75;state.stars+=2;save();localStorage.setItem("vihaaSecretSeen:"+today(),"1");box.classList.add("burst");setTimeout(function(){box.classList.remove("show","burst");},330);confetti();toast(name+" collected! +75 XP +2⭐");renderRewards();
+}
 function renderParent(){
   var completed=Object.keys(state.completed).filter(function(k){return state.completed[k];}).length;
   el("pLevels").textContent=completed;el("pAccuracy").textContent=pct(state.correct,state.answers)+"%";el("pSessions").textContent=state.sessions;el("pMinutes").textContent=Math.max(0,Math.round(state.seconds/60))+"m";
-  el("topicChart").innerHTML=worlds.map(function(w){var s=state.topicStats[w.id]||{a:0,c:0};var p=pct(s.c,s.a);return '<div class="chart-row"><span>'+w.icon+' '+w.title+'</span><div class="track"><i style="width:'+p+'%"></i></div><b>'+p+'%</b></div>';}).join("");
+  el("topicChart").innerHTML=worlds.map(function(w){var s=state.topicStats[w.id]||{a:0,c:0};var p=pct(s.c,s.a);return '<div class="chart-row"><span>'+w.icon+' '+w.title+'</span><div class="track"><i style="width:'+p+'%"></i></div><b>'+p+'%</b></div>';}).join("");renderMission();
 }
 function processProfilePhoto(file){if(!file||!file.type||file.type.indexOf("image/")!==0){toast("Please choose an image file");return;}if(file.size>12*1024*1024){toast("Photo is too large");return;}var reader=new FileReader();reader.onload=function(ev){var im=new Image();im.onload=function(){var size=Math.min(im.width,im.height),sx=(im.width-size)/2,sy=(im.height-size)/2,c=document.createElement("canvas");c.width=320;c.height=320;var ctx=c.getContext("2d");ctx.drawImage(im,sx,sy,size,size,0,0,320,320);state.photo=c.toDataURL("image/jpeg",.84);save();renderProfilePhoto();toast("Profile photo updated");};im.onerror=function(){toast("Could not read this photo");};im.src=ev.target.result;};reader.readAsDataURL(file);}
 function renderSundayQuiz(){
@@ -793,6 +848,7 @@ var photoInput=el("profilePhotoInput");function choosePhoto(){photoInput.click()
 el("speechToggle").onclick=function(){state.speech=!state.speech;toggleButton(el("speechToggle"),state.speech);save();};
 el("soundToggle").onclick=function(){state.sound=!state.sound;toggleButton(el("soundToggle"),state.sound);save();};
 el("themeToggle").onclick=function(){state.dark=!state.dark;toggleButton(el("themeToggle"),state.dark);save();renderHeader();};
+el("setMissionBtn").onclick=setParentMission;el("secretEvent").onclick=collectSecretEvent;el("secretEvent").onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();collectSecretEvent();}};
 el("resetBtn").onclick=function(){if(confirm("Reset all Vihaa Grammar Adventure progress on this device?")){localStorage.removeItem(KEY);localStorage.removeItem(LEGACY_KEY);state=Object.assign({},fresh,{completed:{},topicStats:{},mistakes:[]});save();renderHome();renderParent();renderMistakes();toast("Progress reset · question history kept to prevent repeats");}};
 window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredPrompt=e;el("installBtn").disabled=false;});
 el("installBtn").onclick=function(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(function(){deferredPrompt=null;});}else toast("Use your browser menu → Install app / Add to Home Screen");};
@@ -824,7 +880,7 @@ if("serviceWorker" in navigator){window.addEventListener("load",function(){navig
 var contestFile=el("contestScreenshot");
 if(contestFile){contestFile.onchange=function(){var file=this.files&&this.files[0],preview=el("contestPreview");if(!file){preview.classList.remove("show");preview.removeAttribute("src");return;}if(file.size>6*1024*1024){toast("Screenshot must be under 6 MB");this.value="";preview.classList.remove("show");return;}var u=URL.createObjectURL(file);preview.src=u;preview.classList.add("show");};}
 if(el("contestForm")){el("contestForm").onsubmit=function(e){e.preventDefault();if(!contestBackendReady){toast("Secure contest backend is still connecting.");return false;}submitContestEntry();return false;};}
-renderHeader();renderPractice();renderHome();renderMistakes();renderParent();renderSundayQuiz();renderSettings();renderEngagement();updateDailyLabel();renderGoldenLetters();scheduleGoldenBalloon();startAmbientBalloons();initContestBackend();
+renderHeader();renderPractice();renderHome();renderMistakes();renderRewards();renderParent();renderSundayQuiz();renderSettings();renderEngagement();updateDailyLabel();renderGoldenLetters();scheduleGoldenBalloon();scheduleSecretEvent();startAmbientBalloons();initContestBackend();
 })();
 </script>
 </body>
