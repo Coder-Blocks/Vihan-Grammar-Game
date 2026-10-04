@@ -534,6 +534,23 @@ function scheduleGoldenBalloon(){
   if(contestBackendReady)return;
   if(goldTimer)clearTimeout(goldTimer);var date=localDateKey();if(balloonState.spawnedDate===date||balloonState.letters.length>=5)return;var now=new Date(),minute=secretMinute(date),target=new Date(now);target.setHours(Math.floor(minute/60),minute%60,0,0);var delay=target-now;if(delay<0)delay=12000+(parseInt(hashText(date+(balloonState.deviceId||balloonState.deviceToken)+"late"),36)%45000);goldTimer=setTimeout(spawnGoldenBalloon,Math.min(delay,2147483000));
 }
+function animateTestGoldenLetter(letter,x,y,targetIndex){
+  goldenPartyBurst(x,y);
+  var target=el("goldLetters")&&el("goldLetters").children[targetIndex],n=document.createElement("div");n.className="letter-fly";n.textContent=letter;n.style.left=x+"px";n.style.top=y+"px";document.body.appendChild(n);
+  var finish=function(){
+    n.remove();if(target){target.classList.add("found","landing");setTimeout(function(){target.classList.remove("landing");renderGoldenLetters();},1300);}toast("TEST complete — official VIHAA progress unchanged");
+  };
+  if(target&&n.animate){var r=target.getBoundingClientRect(),tx=r.left+r.width/2,ty=r.top+r.height/2,dx=tx-x,dy=ty-y;var a=n.animate([{transform:"translate(-50%,-50%) scale(.45) rotate(0deg)",opacity:0},{offset:.18,transform:"translate(-50%,-50%) translateY(-45px) scale(1.45) rotate(180deg)",opacity:1},{offset:.58,transform:"translate(calc(-50% + "+(dx*.55)+"px),calc(-50% + "+(dy*.42-55)+"px)) scale(1.18) rotate(720deg)",opacity:1},{transform:"translate(calc(-50% + "+dx+"px),calc(-50% + "+dy+"px)) scale(.72) rotate(1080deg)",opacity:1}],{duration:1650,easing:"cubic-bezier(.16,.72,.18,1)",fill:"forwards"});a.onfinish=finish;}else setTimeout(finish,1200);
+}
+function spawnTestGoldenBalloon(){
+  if(document.querySelector(".balloon.gold"))return;
+  var b=document.createElement("div");b.className="balloon gold";b.style.left=(12+Math.random()*74)+"vw";b.innerHTML="<span>★</span>";b.title="TEST GOLDEN BALLOON — Blast me!";b.setAttribute("aria-label","Test Golden Balloon");
+  b.onclick=function(){if(b.classList.contains("popped"))return;b.classList.add("popped");beep(true);var r=b.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,idx=Math.min(balloonState.letters.length,4),letter=BALLOON_TARGET[idx];goldenPartyBurst(x,y);animateTestGoldenLetter(letter,x,y,idx);setTimeout(function(){b.remove();},300);};
+  document.body.appendChild(b);setTimeout(function(){if(document.body.contains(b))b.remove();},22500);
+}
+function scheduleOneTimeTestGoldenBalloon(){
+  var key="vihaaOneTimeGoldenTestV1";if(sessionStorage.getItem(key))return;sessionStorage.setItem(key,"1");setTimeout(spawnTestGoldenBalloon,10000);
+}
 function startAmbientBalloons(){if(ambientTimer)clearInterval(ambientTimer);ambientTimer=null;}
 function pct(n,d){return d?Math.round(n/d*100):0;}
 function openDailyChest(){
@@ -962,7 +979,7 @@ if("serviceWorker" in navigator){
 var contestFile=el("contestScreenshot");
 if(contestFile){contestFile.onchange=function(){var file=this.files&&this.files[0],preview=el("contestPreview");if(!file){preview.classList.remove("show");preview.removeAttribute("src");return;}if(file.size>6*1024*1024){toast("Screenshot must be under 6 MB");this.value="";preview.classList.remove("show");return;}var u=URL.createObjectURL(file);preview.src=u;preview.classList.add("show");};}
 if(el("contestForm")){el("contestForm").onsubmit=function(e){e.preventDefault();if(!contestBackendReady){toast("Secure contest backend is still connecting.");return false;}submitContestEntry();return false;};}
-renderHeader();renderPractice();renderHome();renderMistakes();renderRewards();renderParent();renderSundayQuiz();renderSettings();renderEngagement();updateDailyLabel();renderGoldenLetters();scheduleGoldenBalloon();scheduleSecretEvent();startAmbientBalloons();initContestBackend();
+renderHeader();renderPractice();renderHome();renderMistakes();renderRewards();renderParent();renderSundayQuiz();renderSettings();renderEngagement();updateDailyLabel();renderGoldenLetters();scheduleGoldenBalloon();scheduleOneTimeTestGoldenBalloon();scheduleSecretEvent();startAmbientBalloons();initContestBackend();
 })();
 </script>
 </body>
