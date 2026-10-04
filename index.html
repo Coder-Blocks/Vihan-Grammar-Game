@@ -90,7 +90,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
     <div><div class="eyebrow">English becomes an adventure</div><h2>Learn. Play. Level up.</h2><p id="heroText">Continue your grammar quest, earn stars and build a stronger English foundation one tiny challenge at a time.</p><div class="actions"><button class="btn primary" id="continueBtn">▶ Continue Level 1</button><button class="btn dark" id="learnBtn">📖 Learn This World</button></div></div>
     <div class="hero-art"><div class="mascot">🦊</div></div>
   </div>
-  <div class="section-head"><div><h3>Grammar Worlds</h3><p>10 worlds · 100 levels · progress saved on this device</p></div><div class="chip" id="progressChip">0% complete</div></div>
+  <div class="section-head"><div><h3>Grammar Worlds</h3><p>10 worlds · 100 levels · fresh questions · no normal-mode repeats</p></div><div class="chip" id="progressChip">0% complete</div></div>
   <div class="world-grid" id="worldGrid"></div>
   <div class="section-head"><div><h3>Quick Play</h3><p>Extra practice does not lock your adventure progress.</p></div></div>
   <div class="quick-grid">
@@ -293,8 +293,10 @@ var banks={
 Object.keys(banks).forEach(function(k){banks[k].forEach(function(q){q[5]=Number(q[5]);});});
 
 var LEGACY_KEY="vihanGrammarAdventureV2", KEY="vihaaGrammarAdventureV3";
+var QUESTION_HISTORY_KEY="vihaaGrammarQuestionHistoryV1";
 var fresh={name:"Vihan",photo:"",highest:1,completed:{},xp:0,stars:0,streak:1,lastDay:"",mistakes:[],answers:0,correct:0,sessions:0,seconds:0,topicStats:{},speech:true,sound:true,dark:false};
 var state=loadState();
+var questionHistory=loadQuestionHistory();
 var game=null,gameStartedAt=0,deferredPrompt=null;
 
 function loadState(){try{var raw=localStorage.getItem(KEY)||localStorage.getItem(LEGACY_KEY)||"null";var x=JSON.parse(raw);return Object.assign({},fresh,x||{}, {completed:Object.assign({},fresh.completed,(x&&x.completed)||{}),topicStats:Object.assign({},fresh.topicStats,(x&&x.topicStats)||{})});}catch(e){return Object.assign({},fresh);}}
@@ -348,16 +350,171 @@ function openLesson(worldId){
   el("lessonBox").innerHTML='<div class="lesson-card"><strong>Remember</strong><p>'+w.tip+'</p></div>'+w.examples.map(function(x){return '<div class="lesson-card"><strong>Example</strong><div class="example">'+x+'</div></div>';}).join("");
   el("lessonPlay").onclick=function(){startPractice(worldId);};el("lessonSpeak").onclick=function(){speak(w.tip+" "+w.examples.join(" "));};showView("learn");
 }
-function rotateQuestions(worldId,seed,count){
-  var bank=banks[worldId].slice(),arr=[];for(var i=0;i<count;i++){arr.push(bank[(seed+i*3)%bank.length]);}return arr;
+/* ---------- Vihaa fresh-question engine ----------
+   Normal Adventure / Practice / Daily questions are procedurally generated.
+   A compact fingerprint is saved permanently for this browser profile, so a
+   question already served to this learner is never selected again.
+   Mistake Book is the intentional exception: it replays a missed question. */
+function makeUserSeed(){
+  try{var a=new Uint32Array(3);crypto.getRandomValues(a);return Array.from(a).map(function(n){return n.toString(36);}).join("-");}
+  catch(e){return Date.now().toString(36)+"-"+Math.random().toString(36).slice(2);}
+}
+function loadQuestionHistory(){
+  try{var h=JSON.parse(localStorage.getItem(QUESTION_HISTORY_KEY)||"null");if(h&&h.seed&&h.seen)return h;}catch(e){}
+  var h={seed:makeUserSeed(),seq:0,seen:{},served:0};localStorage.setItem(QUESTION_HISTORY_KEY,JSON.stringify(h));return h;
+}
+function saveQuestionHistory(){
+  try{localStorage.setItem(QUESTION_HISTORY_KEY,JSON.stringify(questionHistory));}catch(e){}
+}
+function hashText(str){
+  var h=2166136261;for(var i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619);}return (h>>>0).toString(36);
+}
+function questionFingerprint(q){return hashText(q[0]+"||"+q.slice(1,5).join("||"));}
+function seedNumber(str){
+  var h=1779033703^str.length;for(var i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19;}
+  return function(){h=Math.imul(h^(h>>>16),2246822507);h=Math.imul(h^(h>>>13),3266489909);return (h^h>>>16)>>>0;};
+}
+function rngFor(worldId,serial){
+  var seed=seedNumber(questionHistory.seed+":"+worldId+":"+serial)();
+  return function(){seed+=0x6D2B79F5;var t=seed;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296;};
+}
+function pick(a,r){return a[Math.floor(r()*a.length)];}
+function distinct(a,n,r){
+  var copy=a.slice(),out=[];while(copy.length&&out.length<n){var i=Math.floor(r()*copy.length);out.push(copy.splice(i,1)[0]);}return out;
+}
+function makeMC(prompt,correct,wrongs,explanation,r){
+  var opts=[correct].concat(wrongs.slice(0,3)),mix=[];
+  while(opts.length){var i=Math.floor(r()*opts.length);mix.push(opts.splice(i,1)[0]);}
+  return [prompt,mix[0],mix[1],mix[2],mix[3],mix.indexOf(correct),explanation];
+}
+var qNamesBoy=["Aarav","Arjun","Vihan","Rohan","Kabir","Ishaan","Rahul","Kiran","Aditya","Nikhil","Varun","Dev"];
+var qNamesGirl=["Aanya","Haasini","Maya","Diya","Riya","Sana","Meera","Anika","Tara","Kavya","Ira","Nisha"];
+var qPlaces=["school","library","park","museum","market","station","garden","beach","playground","classroom","kitchen","balcony"];
+var qThings=["book","pencil","kite","ball","bottle","bag","toy","notebook","umbrella","camera","basket","lunchbox","paintbrush","helmet"];
+var qVowelThings=["apple","orange","umbrella","egg","eraser","ice cream","octopus","onion","airplane","idea"];
+var qAdj=["bright","small","happy","clever","gentle","brave","quiet","tall","colorful","strong","kind","careful"];
+var qAdv=["quickly","slowly","carefully","quietly","happily","bravely","politely","clearly","gently","neatly"];
+var qVerbs=[
+  {b:"play",s:"plays",p:"played",pp:"played",ing:"playing"},
+  {b:"walk",s:"walks",p:"walked",pp:"walked",ing:"walking"},
+  {b:"visit",s:"visits",p:"visited",pp:"visited",ing:"visiting"},
+  {b:"help",s:"helps",p:"helped",pp:"helped",ing:"helping"},
+  {b:"watch",s:"watches",p:"watched",pp:"watched",ing:"watching"},
+  {b:"read",s:"reads",p:"read",pp:"read",ing:"reading"},
+  {b:"write",s:"writes",p:"wrote",pp:"written",ing:"writing"},
+  {b:"go",s:"goes",p:"went",pp:"gone",ing:"going"},
+  {b:"eat",s:"eats",p:"ate",pp:"eaten",ing:"eating"},
+  {b:"run",s:"runs",p:"ran",pp:"run",ing:"running"},
+  {b:"sing",s:"sings",p:"sang",pp:"sung",ing:"singing"},
+  {b:"make",s:"makes",p:"made",pp:"made",ing:"making"}
+];
+function generatedQuestion(worldId,serial){
+  var r=rngFor(worldId,serial),boy=pick(qNamesBoy,r),girl=pick(qNamesGirl,r),name=r()<.5?boy:girl,place=pick(qPlaces,r),thing=pick(qThings,r),v=pick(qVerbs,r),adj=pick(qAdj,r),adv=pick(qAdv,r),type=Math.floor(r()*6);
+  if(worldId===1){
+    if(type===0){var obj=pick(qVowelThings,r);return makeMC(name+" packed ___ "+obj+" for the trip.","an",["a","the","no article"],"Use 'an' before a vowel sound.",r);}
+    if(type===1){return makeMC("What is the plural of '"+thing+"'? ",thing+"s",[thing+"es",thing.slice(0,-1)+"ies",thing],"'"+thing+"s' is the regular plural form here.",r);}
+    if(type===2){var pn=pick(["India","Hyderabad","Sunday","October","Godavari","Andhra Pradesh"],r);return makeMC("Which word is a proper noun in this set for "+name+"?",pn,distinct(["city","river","teacher","month","country","school","friend"],3,r),"A proper noun is the specific name of a person, place or time.",r);}
+    if(type===3){return makeMC("In '"+name+" carried a "+thing+" to the "+place+"', which word names a thing?",thing,[name,"carried","to"],"'"+thing+"' is a noun because it names a thing.",r);}
+    if(type===4){return makeMC(name+" saw ___ "+thing+" near the "+place+".","a",["an","some","no article"],"'"+thing+"' begins with a consonant sound, so use 'a'.",r);}
+    return makeMC("Which option is a common noun for "+name+"'s sentence?",place,[boy,girl,"India"],"A common noun is a general name such as '"+place+"'.",r);
+  }
+  if(worldId===2){
+    var isGirl=qNamesGirl.indexOf(name)>=0;
+    if(type===0)return makeMC(name+" is reading in the "+place+". ___ is focused.",isGirl?"She":"He",["They","It",isGirl?"He":"She"],"Use the matching subject pronoun for "+name+".",r);
+    if(type===1)return makeMC(boy+" and "+girl+" finished the task. ___ are ready.","They",["We","He","She"],"Two people named in the sentence are replaced by 'They'.",r);
+    if(type===2)return makeMC("The teacher called "+name+" and ___.","me",["I","my","mine"],"After the verb 'called', use the object pronoun 'me'.",r);
+    if(type===3)return makeMC("This "+thing+" belongs to "+name+". It is ___.",isGirl?"hers":"his",[isGirl?"his":"hers","her","their"],"Use a possessive pronoun that can stand alone.",r);
+    if(type===4)return makeMC(name+" and I are going to the "+place+". ___ will leave now.","We",["They","You","He"],"'"+name+" and I' becomes 'We'.",r);
+    return makeMC("The "+thing+" is new. ___ is on the table.","It",["He","She","They"],"Use 'It' for one thing.",r);
+  }
+  if(worldId===3){
+    if(type===0)return makeMC(name+" ___ to the "+place+" every day.",v.s,[v.b,v.p,v.ing],"With one person in the simple present, use '"+v.s+"'.",r);
+    if(type===1)return makeMC("They can ___ near the "+place+".",v.b,[v.s,v.p,v.ing],"After 'can', use the base verb.",r);
+    if(type===2)return makeMC(name+" ___ a "+thing+" yesterday.",v.p,[v.s,v.b,v.ing],"'Yesterday' calls for the past form '"+v.p+"'.",r);
+    if(type===3)return makeMC("Which word is the action verb in '"+name+" will "+v.b+" at the "+place+"'?",v.b,[name,place,"will"],"'"+v.b+"' names the action.",r);
+    if(type===4)return makeMC(name+" is ___ a note now.",v.ing,[v.b,v.p,v.s],"'Is' + verb-ing forms the present continuous.",r);
+    return makeMC("The children ___ in the "+place+" every evening.",v.b,[v.s,v.p,"is "+v.ing],"A plural subject takes the base form in simple present.",r);
+  }
+  if(worldId===4){
+    if(type===0)return makeMC("Yesterday, "+name+" ___ at the "+place+".",v.p,[v.s,v.b,"will "+v.b],"'Yesterday' signals the simple past.",r);
+    if(type===1)return makeMC("Tomorrow, "+name+" ___ the "+place+".","will "+v.b,[v.p,v.s,v.ing],"'Tomorrow' signals a future action, so use 'will + base verb'.",r);
+    if(type===2)return makeMC("Right now, "+name+" is ___ near the "+place+".",v.ing,[v.b,v.p,v.s],"For an action happening now, use 'is + verb-ing'.",r);
+    if(type===3)return makeMC(name+" has ___ the task already.",v.pp,[v.p,v.s,v.ing],"Present perfect uses 'has + past participle'.",r);
+    if(type===4)return makeMC("At 7 PM yesterday, "+name+" was ___.",v.ing,[v.b,v.p,v.s],"Past continuous uses 'was + verb-ing'.",r);
+    return makeMC("By next week, "+name+" will have ___ the project.",v.pp,[v.p,v.ing,v.s],"Future perfect uses 'will have + past participle'.",r);
+  }
+  if(worldId===5){
+    if(type===0)return makeMC("Choose the adjective in: 'The "+adj+" "+thing+" belongs to "+name+".'",adj,[thing,name,"belongs"],"An adjective describes a noun; '"+adj+"' describes the "+thing+".",r);
+    if(type===1)return makeMC(name+" completed the work ___.",adv,[adj,"careful","care"],"An adverb such as '"+adv+"' tells how an action happens.",r);
+    if(type===2)return makeMC("This "+thing+" is ___ than that one.","bigger",["big","biggest","more biggest"],"Use the comparative form when comparing two things.",r);
+    if(type===3)return makeMC(name+" is the ___ runner in the group.","fastest",["fast","faster","more fast"],"Use the superlative when comparing one with the whole group.",r);
+    if(type===4)return makeMC("The flowers in the "+place+" smell ___.","sweet",["sweetly","sweets","sweetness"],"After the linking verb 'smell', an adjective describes the flowers.",r);
+    return makeMC("Which word best describes the noun '"+thing+"'?",adj,[adv,"under","because"],"An adjective can describe the noun '"+thing+"'.",r);
+  }
+  if(worldId===6){
+    if(type===0)return makeMC("The "+thing+" is ___ the table.","under",["during","because","quickly"],"'Under' shows position below something.",r);
+    if(type===1)return makeMC(name+" has class ___ Monday.","on",["in","at","through"],"Use 'on' with days of the week.",r);
+    if(type===2)return makeMC(name+" arrives at the "+place+" ___ 6 PM.","at",["on","in","from"],"Use 'at' with a specific clock time.",r);
+    if(type===3)return makeMC(name+" walked ___ the bridge to reach the "+place+".","across",["during","because","at"],"'Across' means from one side to the other.",r);
+    if(type===4)return makeMC("The "+place+" is ___ the bank and the park.","between",["under","into","during"],"'Between' is used for something in the middle of two things.",r);
+    return makeMC(name+" put the "+thing+" ___ the bag.","in",["at","during","because"],"'In' shows that something is inside.",r);
+  }
+  if(worldId===7){
+    if(type===0)return makeMC(name+" packed a "+thing+" ___ a bottle.","and",["but","because","although"],"'And' joins similar items.",r);
+    if(type===1)return makeMC(name+" was tired, ___ still finished the homework.","but",["because","or","so"],"'But' connects contrasting ideas.",r);
+    if(type===2)return makeMC(name+" took an umbrella ___ it was raining.","because",["and","or","but"],"'Because' introduces a reason.",r);
+    if(type===3)return makeMC("Would "+name+" like to visit the "+place+" ___ stay home?","or",["and","because","so"],"'Or' presents alternatives.",r);
+    if(type===4)return makeMC(name+" studied carefully, ___ the answer was correct.","so",["because","although","or"],"'So' introduces a result.",r);
+    return makeMC("___ it was raining, "+name+" went to the "+place+".","Although",["Because of","And","Or"],"'Although' introduces contrast.",r);
+  }
+  if(worldId===8){
+    var sentence=name+" took the "+thing+" to the "+place;
+    if(type===0)return makeMC("Which version is punctuated correctly for this question?", "Where is "+name+"'s "+thing+"?",["where is "+name+"'s "+thing+"?","Where is "+name+"'s "+thing+".","Where is "+name+"'s "+thing+"!"],"A direct question starts with a capital letter and ends with '?'.",r);
+    if(type===1)return makeMC("Choose the correctly capitalized sentence.",sentence.charAt(0).toUpperCase()+sentence.slice(1)+".",[sentence.toLowerCase()+".",name.toLowerCase()+" took the "+thing+" to the "+place+".",sentence.charAt(0).toLowerCase()+sentence.slice(1)+"."],"Capitalize the first word and proper names.",r);
+    if(type===2)return makeMC("Choose the correct possessive form for the "+thing+".",name+"'s "+thing,[name+"s "+thing,name+"s' "+thing,name+",s "+thing],"For one owner, add apostrophe + s.",r);
+    if(type===3)return makeMC("Which mark correctly ends '"+name+" won the game' with excitement?","!",["?",".",","],"An exclamation mark shows strong feeling.",r);
+    if(type===4)return makeMC("Choose the correctly punctuated greeting.",name+' said, “Hello!”',[name+" said Hello!",name+' said “Hello”!',name.toLowerCase()+' said, “Hello!”'],"Direct speech needs quotation marks and correct capitalization.",r);
+    return makeMC("Choose the best punctuation for a list.",name+" packed a "+thing+", a bottle, and a notebook.",[name+" packed a "+thing+" a bottle and a notebook.",name+", packed a "+thing+" a bottle and a notebook.",name+" packed, a "+thing+" a bottle and a notebook."],"Commas separate items in a list.",r);
+  }
+  if(worldId===9){
+    if(type===0)return makeMC("Arrange these words for "+name+": '"+thing+" / the / carries / "+name+"'",name+" carries the "+thing+".",["Carries "+name+" the "+thing+".","The carries "+thing+" "+name+".",thing+" the "+name+" carries."],"A common order is subject + verb + object.",r);
+    if(type===1)return makeMC("Which is a complete sentence about "+name+"?",name+" opened the "+thing+".",["Because "+name+" was late.","The bright "+thing+".","Running near the "+place+"."],"A complete sentence needs a complete subject-and-verb idea.",r);
+    if(type===2)return makeMC("Choose the sentence with correct agreement.",name+" "+v.s+" at the "+place+".",[name+" "+v.b+" at the "+place+".",name+" are "+v.b+" at the "+place+".",name+" have "+v.s+" at the "+place+"."],"A singular name takes the singular simple-present verb.",r);
+    if(type===3)return makeMC("Choose the correct negative sentence.",name+" does not "+v.b+" there.",[name+" does not "+v.s+" there.",name+" not "+v.b+" there.",name+" no "+v.b+" there."],"After 'does not', use the base verb.",r);
+    if(type===4)return makeMC("Choose the correct question about "+name+".","Where is "+name+" going?",["Where "+name+" is going?","Where going is "+name+"?",name+" is going where."],"Use question word + helping verb + subject + main verb.",r);
+    return makeMC("Choose the clearest word order.",name+" put the "+adj+" "+thing+" on the table.",["Put "+name+" on the table the "+adj+" "+thing+".",adj+" the "+thing+" "+name+" put table.","On table "+name+" the "+thing+" put."],"English sentence order should make the subject, verb and object clear.",r);
+  }
+  // World 10: mixed advanced grammar
+  if(type===0)return makeMC("Choose the correct form for "+name+": Neither answer ___ correct.","is",["are","were","have"],"'Neither' is singular here, so use 'is'.",r);
+  if(type===1)return makeMC(name+" has ___ near the "+place+" for five years.","lived",["live","living","lives"],"Present perfect uses 'has + past participle' for a situation continuing to now.",r);
+  if(type===2)return makeMC("If "+name+" ___ earlier, the team would have helped.","had arrived",["arrived","has arrived","would arrive"],"A third conditional uses 'if + had + past participle'.",r);
+  if(type===3)return makeMC("Each of the students ___ a "+thing+".","has",["have","having","are"],"'Each' is singular, so use 'has'.",r);
+  if(type===4)return makeMC("By the time "+name+" reached the "+place+", the event ___.","had started",["starts","has started","will start"],"Past perfect shows an action completed before another past action.",r);
+  return makeMC(name+" looks forward to ___ the "+place+".","visiting",["visit","visited","be visit"],"'Look forward to' is followed by a noun or gerund (-ing form).",r);
+}
+function nextFreshQuestion(worldId){
+  for(var tries=0;tries<5000;tries++){
+    questionHistory.seq=(questionHistory.seq||0)+1;
+    var q=generatedQuestion(worldId,questionHistory.seq),fp=questionFingerprint(q);
+    if(!questionHistory.seen[fp]){
+      questionHistory.seen[fp]=1;questionHistory.served=(questionHistory.served||0)+1;saveQuestionHistory();return q;
+    }
+  }
+  // With the combinatorial generator this should be unreachable in normal use.
+  throw new Error("Fresh question pool temporarily exhausted.");
+}
+function freshQuestions(worldId,count){
+  var out=[];for(var i=0;i<count;i++)out.push(nextFreshQuestion(worldId));return out;
 }
 function mixedQuestions(count){
-  var arr=[];for(var i=0;i<count;i++){var w=(i%10)+1;var q=banks[w][(i*3+new Date().getDate())%banks[w].length];arr.push({q:q,w:w});}return arr;
+  var arr=[],offset=(questionHistory.seq||0)%10;
+  for(var i=0;i<count;i++){var w=((i+offset)%10)+1;arr.push({q:nextFreshQuestion(w),w:w});}
+  return arr;
 }
 function startAdventure(level){
-  if(level>state.highest)return;var w=worldOfLevel(level);var qs=rotateQuestions(w,level,5).map(function(q){return {q:q,w:w};});startGame("adventure",qs,level,w);
+  if(level>state.highest)return;var w=worldOfLevel(level);var qs=freshQuestions(w,5).map(function(q){return {q:q,w:w};});startGame("adventure",qs,level,w);
 }
-function startPractice(worldId){var qs=rotateQuestions(worldId,Math.floor(Math.random()*10),5).map(function(q){return {q:q,w:worldId};});startGame("practice",qs,null,worldId);}
+function startPractice(worldId){var qs=freshQuestions(worldId,5).map(function(q){return {q:q,w:worldId};});startGame("practice",qs,null,worldId);}
 function startDaily(){
   var d=today();if(state.lastDay&&state.lastDay!==d){var prev=new Date(state.lastDay),cur=new Date(d);var diff=Math.round((cur-prev)/86400000);state.streak=diff===1?state.streak+1:1;}
   var qs=mixedQuestions(10);startGame("daily",qs,null,0);
@@ -445,7 +602,7 @@ var photoInput=el("profilePhotoInput");function choosePhoto(){photoInput.click()
 el("speechToggle").onclick=function(){state.speech=!state.speech;toggleButton(el("speechToggle"),state.speech);save();};
 el("soundToggle").onclick=function(){state.sound=!state.sound;toggleButton(el("soundToggle"),state.sound);save();};
 el("themeToggle").onclick=function(){state.dark=!state.dark;toggleButton(el("themeToggle"),state.dark);save();renderHeader();};
-el("resetBtn").onclick=function(){if(confirm("Reset all Vihaa Grammar Adventure progress on this device?")){localStorage.removeItem(KEY);localStorage.removeItem(LEGACY_KEY);state=Object.assign({},fresh,{completed:{},topicStats:{},mistakes:[]});save();renderHome();renderParent();renderMistakes();toast("Progress reset");}};
+el("resetBtn").onclick=function(){if(confirm("Reset all Vihaa Grammar Adventure progress on this device?")){localStorage.removeItem(KEY);localStorage.removeItem(LEGACY_KEY);state=Object.assign({},fresh,{completed:{},topicStats:{},mistakes:[]});save();renderHome();renderParent();renderMistakes();toast("Progress reset · question history kept to prevent repeats");}};
 window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredPrompt=e;el("installBtn").disabled=false;});
 el("installBtn").onclick=function(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(function(){deferredPrompt=null;});}else toast("Use your browser menu → Install app / Add to Home Screen");};
 if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){});});}
