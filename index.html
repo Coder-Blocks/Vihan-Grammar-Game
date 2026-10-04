@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#6c4cff">
-<meta name="description" content="Vihaa Grammar Adventure - 100 level English grammar learning game for children.">
+<meta name="description" content="VIHAA English Quest - a game-style English learning adventure for learners ages 6 to 60.">
 <link rel="manifest" href="./manifest.webmanifest">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./supabase-config.js"></script>
-<title>Vihaa Grammar Adventure | 100 Levels</title>
+<title>VIHAA English Quest | Play Your Way to Better English</title>
 <style>
 :root{--bg:#f6f7ff;--panel:#fff;--text:#1f2440;--muted:#737896;--brand:#6c4cff;--brand2:#8f72ff;--cyan:#28c8d8;--green:#24b47e;--yellow:#ffbf3f;--red:#ff5d6c;--line:#e7e8f3;--shadow:0 18px 45px rgba(68,55,150,.12);--radius:24px}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-rounded,"Segoe UI",system-ui,-apple-system,sans-serif;background:radial-gradient(circle at 10% 0%,#ece8ff 0,transparent 32%),radial-gradient(circle at 100% 20%,#dcf9fb 0,transparent 28%),var(--bg);color:var(--text);min-height:100vh}
@@ -18,7 +18,12 @@ button,input{font:inherit}button{cursor:pointer}.app{max-width:1240px;margin:aut
 .layout{display:grid;grid-template-columns:220px 1fr;gap:20px;margin-top:20px}.sidebar{background:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.8);box-shadow:var(--shadow);border-radius:var(--radius);padding:14px;height:max-content;position:sticky;top:92px}.profile{padding:12px 10px 18px;border-bottom:1px solid var(--line);margin-bottom:10px;text-align:center}.avatar{width:78px;height:78px;border-radius:24px;margin:0 auto 10px;background:linear-gradient(145deg,#ffd36a,#ff9c6d);display:grid;place-items:center;font-size:38px;box-shadow:inset 0 -7px 0 rgba(0,0,0,.06),0 8px 20px rgba(52,41,120,.12);border:3px solid rgba(255,255,255,.9);overflow:hidden;position:relative;padding:0;cursor:pointer}.avatar img{width:100%;height:100%;object-fit:cover;display:block}.avatar .avatar-emoji{display:grid;place-items:center;width:100%;height:100%}.avatar:hover:after{content:"📷";position:absolute;inset:0;background:rgba(30,25,65,.42);display:grid;place-items:center;font-size:24px}.profile strong{display:block}.profile span{font-size:12px;color:var(--muted)}.photo-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.photo-note{font-size:12px;color:var(--muted);margin-top:5px}
 .nav{display:grid;gap:7px}.nav-btn{border:0;background:transparent;color:#545a79;text-align:left;padding:11px 12px;border-radius:14px;font-weight:800;display:flex;gap:10px;align-items:center}.nav-btn:hover,.nav-btn.active{background:#f0edff;color:var(--brand)}.nav-btn .ic{width:24px;text-align:center}.content{min-width:0}.view{display:none}.view.active{display:block;animation:fade .24s ease}@keyframes fade{from{opacity:.2;transform:translateY(8px)}to{opacity:1;transform:none}}
 .hero{background:linear-gradient(135deg,#6c4cff,#8f61ff 62%,#b56cff);color:white;border-radius:30px;padding:34px;display:grid;grid-template-columns:1.35fr .65fr;gap:18px;box-shadow:0 24px 60px rgba(108,76,255,.25);overflow:hidden;position:relative}.hero:after{content:"";position:absolute;width:230px;height:230px;border:36px solid rgba(255,255,255,.09);border-radius:50%;right:-80px;top:-100px}.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:11px;font-weight:900;opacity:.8}.hero h2{font-size:clamp(30px,5vw,54px);line-height:.98;margin:10px 0 14px;max-width:680px}.hero p{margin:0 0 22px;max-width:650px;color:#f1efff;font-weight:600}.hero-art{display:grid;place-items:center;position:relative;z-index:2}.mascot{width:170px;height:170px;border-radius:48px;background:linear-gradient(145deg,#fff2af,#ffb674);display:grid;place-items:center;font-size:92px;transform:rotate(4deg);box-shadow:0 24px 45px rgba(52,31,114,.25)}.actions{display:flex;flex-wrap:wrap;gap:10px}.btn{border:0;border-radius:15px;padding:12px 17px;font-weight:900;transition:.18s transform,.18s box-shadow}.btn:hover{transform:translateY(-2px)}.btn.primary{background:#fff;color:var(--brand);box-shadow:0 10px 25px rgba(37,20,100,.2)}.btn.dark{background:#251d54;color:white}.btn.soft{background:#f0edff;color:var(--brand)}.btn.green{background:#dcfaee;color:#117653}.btn.danger{background:#ffe8eb;color:#b52b3a}.btn.outline{background:transparent;border:1px solid var(--line);color:var(--text)}
-.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:28px 2px 13px}.section-head h3{font-size:22px;margin:0}.section-head p{margin:5px 0 0;color:var(--muted);font-size:13px}.world-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.world-card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 10px 28px rgba(50,47,100,.07);position:relative;overflow:hidden}.world-card.locked{opacity:.58;filter:grayscale(.15)}.world-card.current{outline:3px solid rgba(108,76,255,.16);border-color:#cfc5ff}.world-title{display:flex;gap:13px;align-items:center}.world-icon{width:48px;height:48px;border-radius:16px;background:#f1eeff;display:grid;place-items:center;font-size:25px}.world-title h4{margin:0;font-size:17px}.world-title small{color:var(--muted);font-weight:700}.world-progress{height:9px;border-radius:999px;background:#ececf5;overflow:hidden;margin:15px 0 8px}.world-progress i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--cyan));border-radius:inherit}.levels{display:flex;gap:6px;flex-wrap:wrap}.level-dot{width:29px;height:29px;border-radius:10px;border:0;background:#eff0f7;color:#69708f;font-size:11px;font-weight:900}.level-dot.done{background:#dff8ee;color:#137b57}.level-dot.next{background:var(--brand);color:white;box-shadow:0 6px 15px rgba(108,76,255,.28)}.level-dot:disabled{cursor:not-allowed}.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.quick{background:white;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 9px 25px rgba(50,47,100,.06)}.quick b{display:block;margin:8px 0 4px}.quick p{font-size:12px;color:var(--muted);margin:0 0 13px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:28px 2px 13px}.section-head h3{font-size:22px;margin:0}.section-head p{margin:5px 0 0;color:var(--muted);font-size:13px}.world-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.world-card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 10px 28px rgba(50,47,100,.07);position:relative;overflow:hidden}.world-card.locked{opacity:.58;filter:grayscale(.15)}.world-card.current{outline:3px solid rgba(108,76,255,.16);border-color:#cfc5ff}.world-title{display:flex;gap:13px;align-items:center}.world-icon{width:48px;height:48px;border-radius:16px;background:#f1eeff;display:grid;place-items:center;font-size:25px}.world-title h4{margin:0;font-size:17px}.world-title small{color:var(--muted);font-weight:700}.world-progress{height:9px;border-radius:999px;background:#ececf5;overflow:hidden;margin:15px 0 8px}.world-progress i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--cyan));border-radius:inherit}.levels{display:flex;gap:6px;flex-wrap:wrap}.level-dot{width:29px;height:29px;border-radius:10px;border:0;background:#eff0f7;color:#69708f;font-size:11px;font-weight:900}.level-dot.done{background:#dff8ee;color:#137b57}.level-dot.next{background:var(--brand);color:white;box-shadow:0 6px 15px rgba(108,76,255,.28)}.level-dot:disabled{cursor:not-allowed}
+.quest-ranks{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}.quest-ranks span{padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);font-size:11px;font-weight:900}
+.world-grid{grid-template-columns:1fr}.world-card{padding:0;border-radius:28px;overflow:hidden}.world-card.current{outline:4px solid rgba(108,76,255,.18)}.world-title{padding:18px 20px 8px}.world-progress{margin:10px 20px 0}.levels{display:grid;grid-template-columns:repeat(5,minmax(48px,1fr));grid-template-rows:repeat(2,72px);gap:10px 6px;padding:18px 22px 22px;position:relative;background:linear-gradient(180deg,rgba(108,76,255,.03),rgba(40,200,216,.05))}
+.level-dot{width:54px;height:54px;border-radius:50%;justify-self:center;align-self:center;background:linear-gradient(145deg,#f5f6fb,#dfe2ee);box-shadow:inset 0 -6px 0 rgba(70,78,120,.08),0 8px 14px rgba(55,48,110,.12);font-size:13px;border:3px solid #fff;position:relative;z-index:2;transition:.18s transform,.18s box-shadow}.level-dot:hover:not(:disabled){transform:translateY(-4px) scale(1.05)}.level-dot.done{background:linear-gradient(145deg,#5dd8a5,#21b77d);color:#fff;box-shadow:inset 0 -7px 0 rgba(0,95,63,.18),0 9px 18px rgba(34,179,124,.2)}.level-dot.next{background:linear-gradient(145deg,#9a7bff,#6247e8);color:#fff;box-shadow:inset 0 -7px 0 rgba(55,30,145,.22),0 0 0 7px rgba(108,76,255,.12),0 12px 20px rgba(108,76,255,.28);animation:levelPulse 1.7s ease-in-out infinite}.level-dot.boss{background:linear-gradient(145deg,#ffd96b,#f3a619);color:#6b4300}.level-dot.boss.next{background:linear-gradient(145deg,#ffcf52,#ff9f19);color:#fff}.level-dot:disabled{opacity:.55;filter:grayscale(.45)}
+.world-card:nth-child(odd) .levels:before,.world-card:nth-child(even) .levels:before{content:"";position:absolute;left:10%;right:10%;top:45%;height:4px;border-radius:99px;background:repeating-linear-gradient(90deg,rgba(108,76,255,.16) 0 14px,transparent 14px 24px);z-index:0}
+.name-row select{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--panel);color:var(--text);min-width:200px}.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.quick{background:white;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 9px 25px rgba(50,47,100,.06)}.quick b{display:block;margin:8px 0 4px}.quick p{font-size:12px;color:var(--muted);margin:0 0 13px}
 .panel{background:white;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow)}.panel h2,.panel h3{margin-top:0}.topic-select{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.topic-btn{border:1px solid var(--line);background:white;border-radius:18px;padding:15px;text-align:left;font-weight:900}.topic-btn:hover{border-color:#c9bdff;background:#faf9ff}.topic-btn small{display:block;font-weight:700;color:var(--muted);margin-top:5px}
 .learn-box{display:grid;gap:14px}.lesson-card{border:1px solid var(--line);border-radius:18px;padding:18px;background:#fbfbff}.lesson-card .example{margin-top:10px;padding:12px 14px;background:#f0edff;border-radius:14px;color:#4c39b6;font-weight:800}
 .game-wrap{max-width:780px;margin:0 auto}.game-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.game-top .mini{font-size:12px;color:var(--muted);font-weight:800}.bar{height:10px;background:#e9e9f2;border-radius:999px;overflow:hidden;margin-bottom:18px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--brand));transition:.3s;width:0}.question-card{background:white;border:1px solid var(--line);border-radius:28px;padding:26px;box-shadow:var(--shadow)}.question-card h2{font-size:25px;line-height:1.25;margin:9px 0 18px}.q-actions{display:flex;justify-content:space-between;align-items:center}.speak{border:0;background:#eef9fb;color:#117b87;padding:9px 12px;border-radius:12px;font-weight:900}.options{display:grid;gap:10px}.option{border:2px solid #ececf4;background:white;border-radius:17px;padding:14px 15px;text-align:left;font-weight:800;color:#313751;transition:.15s}.option:hover{border-color:#cfc6ff;background:#fbfaff}.option.correct{border-color:#40c991;background:#e8fbf3;color:#137451}.option.wrong{border-color:#ff7d89;background:#fff0f1;color:#b32d3a}.option:disabled{cursor:default}.feedback{display:none;margin-top:14px;border-radius:17px;padding:14px 16px;font-weight:800}.feedback.show{display:block}.feedback.ok{background:#e9fbf4;color:#117653}.feedback.no{background:#fff0f2;color:#ac3040}.game-footer{display:flex;justify-content:flex-end;margin-top:16px}
@@ -95,26 +100,26 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
 <body>
 <div class="app">
 <header class="topbar">
-  <div class="brand"><div class="brand-mark">📘</div><div><h1>Vihaa Grammar Adventure</h1><small>100-Level English Quest</small></div></div>
+  <div class="brand"><div class="brand-mark">📘</div><div><h1>VIHAA English Quest</h1><small>100-Level English Quest</small></div></div>
   <div class="header-stats"><div class="chip xp">⚡ <span id="xpTop">0 XP</span></div><div class="chip star">⭐ <span id="starsTop">0</span></div><div class="chip streak">🔥 <span id="streakTop">1</span></div></div>
 </header>
 <div class="layout">
 <aside class="sidebar">
-  <div class="profile"><button class="avatar" id="profilePhotoBtn" type="button" title="Change child profile photo" aria-label="Change child profile photo"><span class="avatar-emoji" id="avatarEmoji">🧒</span><img id="profilePhoto" alt="Child profile photo" hidden></button><strong id="profileName">Vihan</strong><span>Grammar Explorer · tap photo to change</span></div>
+  <div class="profile"><button class="avatar" id="profilePhotoBtn" type="button" title="Change learner profile photo" aria-label="Change learner profile photo"><span class="avatar-emoji" id="avatarEmoji">🧒</span><img id="profilePhoto" alt="Learner profile photo" hidden></button><strong id="profileName">Vihan</strong><span id="profileRole">English Explorer · Ages 6–60</span></div>
   <nav class="nav">
-    <button class="nav-btn active" data-view="home"><span class="ic">🗺️</span>Adventure</button>
+    <button class="nav-btn active" data-view="home"><span class="ic">🗺️</span>Quest Map</button>
     <button class="nav-btn" data-view="practice"><span class="ic">🎯</span>Practice</button>
     <button class="nav-btn" data-view="mistakes"><span class="ic">📕</span>Mistakes</button>
     <button class="nav-btn" data-view="rewards"><span class="ic">🎖️</span>Rewards</button>
     <button class="nav-btn" data-view="sunday"><span class="ic">🏆</span>Sunday Quiz</button>
-    <button class="nav-btn" data-view="parent"><span class="ic">📊</span>Parent</button>
+    <button class="nav-btn" data-view="parent"><span class="ic">📊</span>Progress</button>
     <button class="nav-btn" data-view="settings"><span class="ic">⚙️</span>Settings</button>
   </nav>
 </aside>
 <main class="content">
 <section class="view active" id="view-home">
   <div class="hero">
-    <div><div class="eyebrow">English becomes an adventure</div><h2>Learn. Play. Level up.</h2><p id="heroText">Continue your grammar quest, earn stars and build a stronger English foundation one tiny challenge at a time.</p><div class="actions"><button class="btn primary" id="continueBtn">▶ Continue Level 1</button><button class="btn dark" id="learnBtn">📖 Learn This World</button></div></div>
+    <div><div class="eyebrow">Ages 6–60 · English becomes a game</div><h2>Play your way to better English.</h2><p id="heroText">Follow the quest map, clear levels, beat bosses and grow from beginner to advanced English.</p><div class="actions"><button class="btn primary" id="continueBtn">▶ Continue Level 1</button><button class="btn dark" id="learnBtn">📖 Learn This World</button></div><div class="quest-ranks"><span>🌱 A1</span><span>🌿 A2</span><span>⚡ B1</span><span>🔥 B2</span><span>👑 C1</span></div></div>
     <div class="hero-art"><div class="mascot">🦊</div></div>
   </div>
   <div class="golden-hunt">
@@ -129,25 +134,25 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
         <input type="file" id="contestScreenshot" accept="image/png,image/jpeg,image/webp" required>
         <img id="contestPreview" class="contest-preview" alt="Screenshot preview">
       </label>
-      <label>Kid first name / nickname
+      <label>Learner first name / nickname
         <input id="contestKidName" maxlength="30" autocomplete="off" required>
       </label>
       <label>Age
-        <input id="contestAge" type="number" min="4" max="18" inputmode="numeric" required>
+        <input id="contestAge" type="number" min="6" max="60" inputmode="numeric" required>
       </label>
-      <label>Class / Grade
-        <input id="contestClass" maxlength="20" placeholder="e.g. Class 4" required>
+      <label>Class / Role
+        <input id="contestClass" maxlength="20" placeholder="e.g. Class 4 / Student / Professional" required>
       </label>
-      <label>School name <span style="font-weight:700;color:var(--muted)">(optional)</span>
+      <label>School / College / Workplace <span style="font-weight:700;color:var(--muted)">(optional)</span>
         <input id="contestSchool" maxlength="80" autocomplete="off">
       </label>
       <label>City / District
         <input id="contestCity" maxlength="60" placeholder="No home address" required>
       </label>
-      <label>Parent / Guardian contact
+      <label>Contact / Parent-Guardian contact
         <input id="contestGuardian" maxlength="80" placeholder="Phone or email" required>
       </label>
-      <label class="full consent-row"><input type="checkbox" id="contestConsent" required><span>I am the parent/guardian or have parent/guardian permission to submit this entry. I understand the exact delivery address will only be requested privately if this entry wins.</span></label>
+      <label class="full consent-row"><input type="checkbox" id="contestConsent" required><span>If the learner is under 18, I am the parent/guardian or have permission to submit. I understand any private contact or delivery details will never be shown publicly.</span></label>
       <div class="full">
         <button class="btn dark contest-submit" id="contestSubmit" type="submit" disabled>Secure Upload Activating…</button>
         <div class="contest-status" id="contestStatus">Supabase secure submission backend is being connected. Your data is not sent anywhere until this button becomes active.</div>
@@ -160,13 +165,13 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
     <div class="engage-card"><div class="engage-big">🤖</div><h4>Smart Rival · Nova</h4><p id="rivalText">Nova is warming up…</p><div class="rival-meter"><i id="rivalBar"></i></div><div class="slot-sub" id="rivalScore">You 0 · Nova 0</div></div>
     <div class="engage-card"><div class="engage-big">👾</div><h4>World Boss Battles</h4><p id="bossHomeText">Finish level 10 of a world to unlock its boss.</p><button class="btn dark" id="bossHomeBtn" disabled>No Boss Ready</button></div>
   </div>
-  <div class="section-head"><div><h3>Grammar Worlds</h3><p>10 worlds · 100 levels · fresh questions · no normal-mode repeats</p></div><div class="chip" id="progressChip">0% complete</div></div>
+  <div class="section-head"><div><h3>English Quest Map</h3><p>10 worlds · 100 game levels · boss battles · beginner to advanced</p></div><div class="chip" id="progressChip">0% complete</div></div>
   <div class="world-grid" id="worldGrid"></div>
   <div class="section-head"><div><h3>Quick Play</h3><p>Extra practice does not lock your adventure progress.</p></div></div>
   <div class="quick-grid">
     <div class="quick"><div style="font-size:28px">☀️</div><b>Daily Challenge</b><p>10 mixed grammar questions. Build your daily streak.</p><button class="btn soft" id="dailyBtn">Play Today</button></div>
     <div class="quick"><div style="font-size:28px">📕</div><b>Fix My Mistakes</b><p>Replay questions you answered incorrectly.</p><button class="btn soft" id="mistakeQuickBtn">Practice Mistakes</button></div>
-    <div class="quick"><div style="font-size:28px">📊</div><b>Parent Report</b><p>Accuracy, sessions, strong areas and topics needing practice.</p><button class="btn soft" data-go="parent">View Progress</button></div>
+    <div class="quick"><div style="font-size:28px">📊</div><b>Progress Center</b><p>Accuracy, sessions, strong areas and topics needing practice.</p><button class="btn soft" data-go="parent">View Progress</button></div>
     <div class="quick"><div style="font-size:28px">🏆</div><b>Sunday Quiz</b><p>500 paid slots · live elimination · weekly prizes.</p><button class="btn soft" data-go="sunday">View Competition</button></div>
   </div>
 </section>
@@ -199,21 +204,21 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
 </section>
 
 <section class="view" id="view-rewards">
-  <div class="section-head" style="margin-top:2px"><div><h3>🎖️ VIHAA Skill Passport</h3><p>Every grammar world earns a mastery stamp and certificate.</p></div><div class="chip" id="passportCount">0 / 10 stamps</div></div>
+  <div class="section-head" style="margin-top:2px"><div><h3>🎖️ VIHAA Skill Passport</h3><p>Every quest world earns a mastery stamp and certificate.</p></div><div class="chip" id="passportCount">0 / 10 stamps</div></div>
   <div class="passport-grid" id="passportGrid"></div>
 
-  <div class="section-head"><div><h3>🏅 Animated Certificate Vault</h3><p>World certificates unlock as the child completes each world. Download them as PNG.</p></div></div>
+  <div class="section-head"><div><h3>🏅 Animated Certificate Vault</h3><p>World certificates unlock as the learner completes each world. Download them as PNG.</p></div></div>
   <div class="vault-grid" id="certificateVault"></div>
 
   <div class="panel" style="margin-top:16px"><h3>✨ Secret Event Collection</h3><p style="color:var(--muted)">Rare stars, meteors, treasure doors and mystery eggs can appear without warning.</p><div id="secretBadgeList" class="quiz-badges"></div></div>
 </section>
 
 <section class="view" id="view-parent">
-  <div class="section-head" style="margin-top:2px"><div><h3>📊 Parent Dashboard</h3><p id="parentSubtitle">Learning overview for Vihan</p></div></div>
+  <div class="section-head" style="margin-top:2px"><div><h3>📊 Learning Progress</h3><p id="parentSubtitle">Learning overview for Vihan</p></div></div>
   <div class="stats-grid"><div class="stat"><div class="num" id="pLevels">0</div><div class="lab">Levels Completed</div></div><div class="stat"><div class="num" id="pAccuracy">0%</div><div class="lab">Overall Accuracy</div></div><div class="stat"><div class="num" id="pSessions">0</div><div class="lab">Practice Sessions</div></div><div class="stat"><div class="num" id="pMinutes">0m</div><div class="lab">Learning Time</div></div></div>
   <div class="panel"><h3>Topic Performance</h3><div class="chart-list" id="topicChart"></div></div>
   <div class="mission-card">
-    <h3 style="margin-top:0">🎯 Parent Weekly Mission</h3>
+    <h3 style="margin-top:0">🎯 Weekly Learning Mission</h3>
     <p style="color:var(--muted);font-size:13px">Set a learning goal. Progress updates automatically from this device.</p>
     <div class="mission-setup">
       <label><span class="slot-sub">Mission</span><select id="missionType"><option value="questions">Answer questions</option><option value="levels">Complete levels</option><option value="accuracy">Reach accuracy %</option><option value="minutes">Learning minutes</option></select></label>
@@ -222,7 +227,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
     </div>
     <div id="missionCurrent" style="margin-top:13px;font-weight:900">No mission set</div>
     <div class="mission-progress"><i id="missionBar"></i></div>
-    <div class="slot-sub" id="missionMeta" style="margin-top:7px">Parent can set a goal anytime.</div>
+    <div class="slot-sub" id="missionMeta" style="margin-top:7px">Set a learning goal anytime.</div>
   </div>
 </section>
 
@@ -296,18 +301,19 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
 
 <section class="view" id="view-settings">
   <div class="panel"><h2>⚙️ Settings</h2><div class="settings-grid">
-    <div class="setting"><div><strong>Child profile photo</strong><div class="photo-note">Choose a photo from this device. It is stored only in this browser.</div></div><div class="photo-actions"><button class="btn soft" id="changePhotoBtn">📷 Choose Photo</button><button class="btn outline" id="removePhotoBtn">Remove</button><input type="file" id="profilePhotoInput" accept="image/*" hidden></div></div>
+    <div class="setting"><div><strong>Learner profile photo</strong><div class="photo-note">Choose a photo from this device. It is stored only in this browser.</div></div><div class="photo-actions"><button class="btn soft" id="changePhotoBtn">📷 Choose Photo</button><button class="btn outline" id="removePhotoBtn">Remove</button><input type="file" id="profilePhotoInput" accept="image/*" hidden></div></div>
     <div class="setting"><div><strong>Learner name</strong><div style="font-size:12px;color:var(--muted)">Shown across the game.</div></div><div class="name-row"><input id="nameInput" maxlength="20" value="Vihan"><button class="btn soft" id="saveName">Save</button></div></div>
+    <div class="setting"><div><strong>Learner mode</strong><div style="font-size:12px;color:var(--muted)">Tune the experience for age and goal.</div></div><div class="name-row"><select id="learnerMode"><option value="auto">Auto · All ages</option><option value="kids">Kids · 6–12</option><option value="teen">Teen · 13–17</option><option value="adult">Adult · 18–35</option><option value="career">Career · 36–60</option></select></div></div>
     <div class="setting"><div><strong>Voice reading</strong><div style="font-size:12px;color:var(--muted)">Read questions and lessons aloud.</div></div><button class="toggle on" id="speechToggle" aria-label="Toggle speech"><i></i></button></div>
     <div class="setting"><div><strong>Game sounds</strong><div style="font-size:12px;color:var(--muted)">Correct / incorrect feedback tones.</div></div><button class="toggle on" id="soundToggle" aria-label="Toggle sound"><i></i></button></div>
     <div class="setting"><div><strong>Dark mode</strong><div style="font-size:12px;color:var(--muted)">Use a darker color theme.</div></div><button class="toggle" id="themeToggle" aria-label="Toggle dark mode"><i></i></button></div>
-    <div class="setting"><div><strong>Install app</strong><div style="font-size:12px;color:var(--muted)">Install Vihaa Grammar Adventure on supported devices.</div></div><button class="btn green" id="installBtn">Install</button></div>
+    <div class="setting"><div><strong>Install app</strong><div style="font-size:12px;color:var(--muted)">Install VIHAA English Quest on supported devices.</div></div><button class="btn green" id="installBtn">Install</button></div>
     <div class="setting"><div><strong>Reset progress</strong><div style="font-size:12px;color:var(--muted)">Deletes levels, XP, mistakes and reports on this device.</div></div><button class="btn danger" id="resetBtn">Reset</button></div>
   </div></div>
 </section>
 </main>
 </div>
-<footer>Built by TIC · Think Innovative Creations · Child-friendly · No ads · Progress stays on this device</footer>
+<footer>Built by TIC · Think Innovative Creations · Ages 6–60 · No ads · Progress stays on this device</footer>
 </div>
 
 <div class="secret-event" id="secretEvent" role="button" tabindex="0" aria-label="Secret event"><span id="secretEventIcon">🌈</span><span class="secret-label" id="secretEventLabel">Secret Event!</span></div>
@@ -458,7 +464,7 @@ Object.keys(banks).forEach(function(k){banks[k].forEach(function(q){q[5]=Number(
 
 var LEGACY_KEY="vihanGrammarAdventureV2", KEY="vihaaGrammarAdventureV3";
 var QUESTION_HISTORY_KEY="vihaaGrammarQuestionHistoryV1";
-var fresh={name:"Vihan",photo:"",highest:1,completed:{},xp:0,stars:0,streak:1,lastDay:"",mistakes:[],answers:0,correct:0,sessions:0,seconds:0,topicStats:{},speech:true,sound:true,dark:false,chestDate:"",chestReward:"",bossBadges:{},secretBadges:[],parentMission:null,leagueSchool:"",leagueClass:""};
+var fresh={name:"Vihan",photo:"",highest:1,completed:{},xp:0,stars:0,streak:1,lastDay:"",mistakes:[],answers:0,correct:0,sessions:0,seconds:0,topicStats:{},speech:true,sound:true,dark:false,chestDate:"",chestReward:"",bossBadges:{},secretBadges:[],parentMission:null,leagueSchool:"",leagueClass:"",learnerMode:"auto"};
 var state=loadState();
 var questionHistory=loadQuestionHistory();
 var game=null,gameStartedAt=0,deferredPrompt=null;
@@ -596,20 +602,21 @@ function showView(name){
 function renderProfilePhoto(){var img=el("profilePhoto"),emoji=el("avatarEmoji");if(!img||!emoji)return;if(state.photo){img.src=state.photo;img.hidden=false;emoji.style.display="none";}else{img.removeAttribute("src");img.hidden=true;emoji.style.display="grid";}}
 function renderHeader(){
   el("xpTop").textContent=state.xp+" XP";el("starsTop").textContent=state.stars;el("streakTop").textContent=state.streak;
-  el("profileName").textContent=state.name;el("parentSubtitle").textContent="Learning overview for "+state.name;renderProfilePhoto();
+  el("profileName").textContent=state.name;el("parentSubtitle").textContent="Learning overview for "+state.name;var roleMap={auto:"English Explorer · Ages 6–60",kids:"Young Explorer · Age 6–12",teen:"Teen Learner · Age 13–17",adult:"Adult Learner · Age 18–35",career:"Career Learner · Age 36–60"};if(el("profileRole"))el("profileRole").textContent=roleMap[state.learnerMode]||roleMap.auto;renderProfilePhoto();
   document.documentElement.classList.toggle("dark",!!state.dark);
 }
 function renderHome(){
   var completedCount=Object.keys(state.completed).filter(function(k){return state.completed[k];}).length;
   el("progressChip").textContent=completedCount+"% complete";
   el("continueBtn").textContent="▶ Continue Level "+Math.min(state.highest,100);
-  var w=currentWorld();el("heroText").textContent="World "+w+": "+worlds[w-1].title+" · Level "+localLevel(state.highest)+" is ready. Keep the streak alive!";
+  var w=currentWorld(),rank=state.highest<=20?"A1":state.highest<=40?"A2":state.highest<=60?"B1":state.highest<=80?"B2":"C1";el("heroText").textContent="World "+w+": "+worlds[w-1].title+" · Global Level "+state.highest+" · "+rank+" path. Clear the next challenge and keep moving!";
   var out="";
   worlds.forEach(function(wd){
     var first=(wd.id-1)*10+1, last=wd.id*10, unlocked=state.highest>=first;
     var done=0;for(var l=first;l<=last;l++){if(state.completed[l])done++;}
-    out+='<article class="world-card '+(!unlocked?'locked ':'')+(state.highest>=first&&state.highest<=last?'current':'')+'"><div class="world-title"><div class="world-icon">'+wd.icon+'</div><div><h4>World '+wd.id+' · '+wd.title+'</h4><small>'+wd.desc+'</small></div></div><div class="world-progress"><i style="width:'+(done*10)+'%"></i></div><div class="levels">';
-    for(var i=1;i<=10;i++){var lvl=first+i-1;var cls=state.completed[lvl]?"done":(lvl===state.highest?"next":"");out+='<button class="level-dot '+cls+'" data-level="'+lvl+'" '+(lvl>state.highest?'disabled':'')+'>'+(state.completed[lvl]?'✓':i)+'</button>';}
+    var band=wd.id<=2?"A1":wd.id<=4?"A2":wd.id<=6?"B1":wd.id<=8?"B2":"C1";
+    out+='<article class="world-card '+(!unlocked?'locked ':'')+(state.highest>=first&&state.highest<=last?'current':'')+'"><div class="world-title"><div class="world-icon">'+wd.icon+'</div><div><h4>World '+wd.id+' · '+wd.title+' <span style="font-size:11px;color:var(--brand);background:#f0edff;padding:4px 7px;border-radius:999px">'+band+'</span></h4><small>'+wd.desc+' · '+done+'/10 cleared</small></div></div><div class="world-progress"><i style="width:'+(done*10)+'%"></i></div><div class="levels">';
+    for(var i=1;i<=10;i++){var lvl=first+i-1,cls=state.completed[lvl]?"done":(lvl===state.highest?"next":"");if(i===10)cls+=" boss";var col=i<=5?i:(11-i),row=i<=5?1:2;out+='<button class="level-dot '+cls+'" style="grid-column:'+col+';grid-row:'+row+'" data-level="'+lvl+'" '+(lvl>state.highest?'disabled':'')+' title="Level '+lvl+'">'+(state.completed[lvl]?'✓':(i===10?'👑':lvl))+'</button>';}
     out+='</div></article>';
   });
   el("worldGrid").innerHTML=out;
@@ -644,7 +651,7 @@ function saveQuestionHistory(){
 function hashText(str){
   var h=2166136261;for(var i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619);}return (h>>>0).toString(36);
 }
-function questionFingerprint(q){return hashText(q[0]+"||"+q.slice(1,5).join("||"));}
+function questionFingerprint(q){return hashText(String(q[0]).trim().toLowerCase().replace(/\s+/g," "));}
 function seedNumber(str){
   var h=1779033703^str.length;for(var i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19;}
   return function(){h=Math.imul(h^(h>>>16),2246822507);h=Math.imul(h^(h>>>13),3266489909);return (h^h>>>16)>>>0;};
@@ -864,7 +871,7 @@ function renderRewards(){
   var badges=state.secretBadges||[];el("secretBadgeList").innerHTML=badges.length?badges.map(function(x){return '<span class="quiz-badge">'+x+'</span>';}).join(""):'<span class="slot-sub">No secret events collected yet.</span>';
 }
 function downloadCertificate(id){
-  var champ=id==="champion",w=champ?null:worlds[Number(id)-1],c=document.createElement("canvas");c.width=1600;c.height=1000;var ctx=c.getContext("2d"),g=ctx.createLinearGradient(0,0,1600,1000);g.addColorStop(0,champ?"#fff3a8":"#f4f0ff");g.addColorStop(1,champ?"#f2b900":"#dff8ff");ctx.fillStyle=g;ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle=champ?"#a87500":"#6c4cff";ctx.lineWidth=18;ctx.strokeRect(35,35,1530,930);ctx.fillStyle="#251d54";ctx.textAlign="center";ctx.font="900 72px Segoe UI";ctx.fillText(champ?"VIHAA GRAMMAR CHAMPION":"VIHAA MASTERY CERTIFICATE",800,190);ctx.font="700 38px Segoe UI";ctx.fillText("Presented to",800,290);ctx.font="900 64px Segoe UI";ctx.fillText(state.name||"Grammar Explorer",800,385);ctx.font="700 38px Segoe UI";ctx.fillText(champ?"for mastering all 10 Grammar Worlds":"for mastering World "+w.id+" · "+w.title,800,485);ctx.font="120px Segoe UI";ctx.fillText(champ?"👑":w.icon,800,650);ctx.font="700 28px Segoe UI";ctx.fillText("Vihaa Grammar Adventure · Think Innovative Creations",800,810);ctx.font="500 22px Segoe UI";ctx.fillText(new Date().toLocaleDateString(),800,860);var a=document.createElement("a");a.href=c.toDataURL("image/png");a.download=(champ?"VIHAA-Grammar-Champion":"VIHAA-World-"+w.id+"-"+w.title.replace(/\W+/g,"-"))+".png";document.body.appendChild(a);a.click();a.remove();toast("Certificate downloaded");
+  var champ=id==="champion",w=champ?null:worlds[Number(id)-1],c=document.createElement("canvas");c.width=1600;c.height=1000;var ctx=c.getContext("2d"),g=ctx.createLinearGradient(0,0,1600,1000);g.addColorStop(0,champ?"#fff3a8":"#f4f0ff");g.addColorStop(1,champ?"#f2b900":"#dff8ff");ctx.fillStyle=g;ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle=champ?"#a87500":"#6c4cff";ctx.lineWidth=18;ctx.strokeRect(35,35,1530,930);ctx.fillStyle="#251d54";ctx.textAlign="center";ctx.font="900 72px Segoe UI";ctx.fillText(champ?"VIHAA GRAMMAR CHAMPION":"VIHAA MASTERY CERTIFICATE",800,190);ctx.font="700 38px Segoe UI";ctx.fillText("Presented to",800,290);ctx.font="900 64px Segoe UI";ctx.fillText(state.name||"Grammar Explorer",800,385);ctx.font="700 38px Segoe UI";ctx.fillText(champ?"for mastering all 10 Grammar Worlds":"for mastering World "+w.id+" · "+w.title,800,485);ctx.font="120px Segoe UI";ctx.fillText(champ?"👑":w.icon,800,650);ctx.font="700 28px Segoe UI";ctx.fillText("VIHAA English Quest · Think Innovative Creations",800,810);ctx.font="500 22px Segoe UI";ctx.fillText(new Date().toLocaleDateString(),800,860);var a=document.createElement("a");a.href=c.toDataURL("image/png");a.download=(champ?"VIHAA-Grammar-Champion":"VIHAA-World-"+w.id+"-"+w.title.replace(/\W+/g,"-"))+".png";document.body.appendChild(a);a.click();a.remove();toast("Certificate downloaded");
 }
 function missionValue(m){
   if(!m)return 0;if(m.type==="questions")return Math.max(0,state.answers-m.baseAnswers);if(m.type==="levels")return Math.max(0,Object.keys(state.completed).filter(function(k){return state.completed[k];}).length-m.baseLevels);if(m.type==="minutes")return Math.max(0,Math.round(state.seconds/60)-m.baseMinutes);if(m.type==="accuracy")return pct(state.correct,state.answers);return 0;
@@ -873,7 +880,7 @@ function setParentMission(){
   var type=el("missionType").value,target=Math.max(1,Number(el("missionTarget").value)||1);if(type==="accuracy")target=Math.min(100,target);state.parentMission={type:type,target:target,baseAnswers:state.answers,baseLevels:Object.keys(state.completed).filter(function(k){return state.completed[k];}).length,baseMinutes:Math.round(state.seconds/60),setDate:today(),claimed:false};save();renderParent();toast("Parent mission set");
 }
 function renderMission(){
-  var m=state.parentMission;if(!m){el("missionCurrent").textContent="No mission set";el("missionBar").style.width="0%";el("missionMeta").textContent="Parent can set a goal anytime.";return;}var v=missionValue(m),p=Math.min(100,Math.round(v/m.target*100)),labels={questions:"questions",levels:"levels",accuracy:"accuracy %",minutes:"learning minutes"};el("missionCurrent").textContent=v+" / "+m.target+" "+labels[m.type];el("missionBar").style.width=p+"%";el("missionMeta").textContent=p>=100?"Mission complete! 🎉":"Keep going — "+(100-p)+"% remaining.";if(p>=100&&!m.claimed){m.claimed=true;state.stars+=3;state.xp+=50;save();confetti();toast("Parent mission complete! +50 XP +3⭐");}}
+  var m=state.parentMission;if(!m){el("missionCurrent").textContent="No mission set";el("missionBar").style.width="0%";el("missionMeta").textContent="Parent can set a goal anytime.";return;}var v=missionValue(m),p=Math.min(100,Math.round(v/m.target*100)),labels={questions:"questions",levels:"levels",accuracy:"accuracy %",minutes:"learning minutes"};el("missionCurrent").textContent=v+" / "+m.target+" "+labels[m.type];el("missionBar").style.width=p+"%";el("missionMeta").textContent=p>=100?"Mission complete! 🎉":"Keep going — "+(100-p)+"% remaining.";if(p>=100&&!m.claimed){m.claimed=true;state.stars+=3;state.xp+=50;save();confetti();toast("Weekly mission complete! +50 XP +3⭐");}}
 var secretEventTimer=null;
 function scheduleSecretEvent(){
   clearTimeout(secretEventTimer);var d=today(),key="vihaaSecretSeen:"+d;if(localStorage.getItem(key))return;var seed=parseInt(hashText((balloonState.deviceId||balloonState.deviceToken)+d+"secret"),36)||1,delay=45000+(seed%90000);secretEventTimer=setTimeout(showSecretEvent,delay);
@@ -920,7 +927,7 @@ async function loadSpectatorState(){
   if(!contestClient)return;try{var r=await contestClient.rpc("vihaa_spectator_state");if(r.error)throw r.error;var x=r.data&&r.data[0];if(!x)return;el("spectatorLiveDot").textContent=x.live?"LIVE":"WAITING";el("spectatorRound").textContent=x.round_no||"—";el("spectatorRemaining").textContent=x.remaining_players==null?"—":x.remaining_players;el("spectatorFastest").textContent=x.fastest_ms?x.fastest_ms+" ms":"—";el("spectatorStatus").textContent=x.status_text||"Waiting for live quiz.";}catch(e){}
 }
 function renderSettings(){
-  el("nameInput").value=state.name;toggleButton(el("speechToggle"),state.speech);toggleButton(el("soundToggle"),state.sound);toggleButton(el("themeToggle"),state.dark);if(el("removePhotoBtn"))el("removePhotoBtn").style.display=state.photo?"inline-block":"none";
+  el("nameInput").value=state.name;if(el("learnerMode"))el("learnerMode").value=state.learnerMode||"auto";toggleButton(el("speechToggle"),state.speech);toggleButton(el("soundToggle"),state.sound);toggleButton(el("themeToggle"),state.dark);if(el("removePhotoBtn"))el("removePhotoBtn").style.display=state.photo?"inline-block":"none";
 }
 function toggleButton(b,on){b.classList.toggle("on",!!on);}
 function speak(text){if(!state.speech||!("speechSynthesis" in window))return;window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);u.lang="en-IN";u.rate=.92;u.pitch=1.04;window.speechSynthesis.speak(u);}
@@ -940,9 +947,9 @@ el("saveName").onclick=function(){var n=el("nameInput").value.trim();if(!n)retur
 var photoInput=el("profilePhotoInput");function choosePhoto(){photoInput.click();}el("profilePhotoBtn").onclick=choosePhoto;el("changePhotoBtn").onclick=choosePhoto;photoInput.onchange=function(){if(this.files&&this.files[0])processProfilePhoto(this.files[0]);this.value="";};el("removePhotoBtn").onclick=function(){state.photo="";save();renderProfilePhoto();renderSettings();toast("Profile photo removed");};
 el("speechToggle").onclick=function(){state.speech=!state.speech;toggleButton(el("speechToggle"),state.speech);save();};
 el("soundToggle").onclick=function(){state.sound=!state.sound;toggleButton(el("soundToggle"),state.sound);save();};
-el("themeToggle").onclick=function(){state.dark=!state.dark;toggleButton(el("themeToggle"),state.dark);save();renderHeader();};
+el("themeToggle").onclick=function(){state.dark=!state.dark;toggleButton(el("themeToggle"),state.dark);save();renderHeader();};if(el("learnerMode"))el("learnerMode").onchange=function(){state.learnerMode=this.value;save();renderHeader();toast("Learner mode updated");};
 el("setMissionBtn").onclick=setParentMission;el("saveLeagueBtn").onclick=saveLeagueProfile;el("secretEvent").onclick=collectSecretEvent;el("secretEvent").onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();collectSecretEvent();}};
-el("resetBtn").onclick=function(){if(confirm("Reset all Vihaa Grammar Adventure progress on this device?")){localStorage.removeItem(KEY);localStorage.removeItem(LEGACY_KEY);state=Object.assign({},fresh,{completed:{},topicStats:{},mistakes:[]});save();renderHome();renderParent();renderMistakes();toast("Progress reset · question history kept to prevent repeats");}};
+el("resetBtn").onclick=function(){if(confirm("Reset all VIHAA English Quest progress on this device?")){localStorage.removeItem(KEY);localStorage.removeItem(LEGACY_KEY);state=Object.assign({},fresh,{completed:{},topicStats:{},mistakes:[]});save();renderHome();renderParent();renderMistakes();toast("Progress reset · question history kept to prevent repeats");}};
 window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredPrompt=e;el("installBtn").disabled=false;});
 el("installBtn").onclick=function(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(function(){deferredPrompt=null;});}else toast("Use your browser menu → Install app / Add to Home Screen");};
 async function syncServerProgress(){
