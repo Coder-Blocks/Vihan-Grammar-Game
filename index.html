@@ -382,6 +382,11 @@ function pick(a,r){return a[Math.floor(r()*a.length)];}
 function distinct(a,n,r){
   var copy=a.slice(),out=[];while(copy.length&&out.length<n){var i=Math.floor(r()*copy.length);out.push(copy.splice(i,1)[0]);}return out;
 }
+function pluralOf(word){
+  if(/(?:s|x|z|ch|sh)$/.test(word))return word+"es";
+  if(/[^aeiou]y$/.test(word))return word.slice(0,-1)+"ies";
+  return word+"s";
+}
 function makeMC(prompt,correct,wrongs,explanation,r){
   var opts=[correct].concat(wrongs.slice(0,3)),mix=[];
   while(opts.length){var i=Math.floor(r()*opts.length);mix.push(opts.splice(i,1)[0]);}
@@ -412,7 +417,7 @@ function generatedQuestion(worldId,serial){
   var r=rngFor(worldId,serial),boy=pick(qNamesBoy,r),girl=pick(qNamesGirl,r),name=r()<.5?boy:girl,place=pick(qPlaces,r),thing=pick(qThings,r),v=pick(qVerbs,r),adj=pick(qAdj,r),adv=pick(qAdv,r),type=Math.floor(r()*6);
   if(worldId===1){
     if(type===0){var obj=pick(qVowelThings,r);return makeMC(name+" packed ___ "+obj+" for the trip.","an",["a","the","no article"],"Use 'an' before a vowel sound.",r);}
-    if(type===1){return makeMC("What is the plural of '"+thing+"'? ",thing+"s",[thing+"es",thing.slice(0,-1)+"ies",thing],"'"+thing+"s' is the regular plural form here.",r);}
+    if(type===1){var pl=pluralOf(thing);return makeMC("What is the plural of '"+thing+"'? ",pl,[thing,thing+"en",thing+"ies"],"'"+pl+"' is the correct plural form.",r);}
     if(type===2){var pn=pick(["India","Hyderabad","Sunday","October","Godavari","Andhra Pradesh"],r);return makeMC("Which word is a proper noun in this set for "+name+"?",pn,distinct(["city","river","teacher","month","country","school","friend"],3,r),"A proper noun is the specific name of a person, place or time.",r);}
     if(type===3){return makeMC("In '"+name+" carried a "+thing+" to the "+place+"', which word names a thing?",thing,[name,"carried","to"],"'"+thing+"' is a noun because it names a thing.",r);}
     if(type===4){return makeMC(name+" saw ___ "+thing+" near the "+place+".","a",["an","some","no article"],"'"+thing+"' begins with a consonant sound, so use 'a'.",r);}
@@ -431,17 +436,17 @@ function generatedQuestion(worldId,serial){
     if(type===0)return makeMC(name+" ___ to the "+place+" every day.",v.s,[v.b,v.p,v.ing],"With one person in the simple present, use '"+v.s+"'.",r);
     if(type===1)return makeMC("They can ___ near the "+place+".",v.b,[v.s,v.p,v.ing],"After 'can', use the base verb.",r);
     if(type===2)return makeMC(name+" ___ a "+thing+" yesterday.",v.p,[v.s,v.b,v.ing],"'Yesterday' calls for the past form '"+v.p+"'.",r);
-    if(type===3)return makeMC("Which word is the action verb in '"+name+" will "+v.b+" at the "+place+"'?",v.b,[name,place,"will"],"'"+v.b+"' names the action.",r);
+    if(type===3)return makeMC("Which word is the action verb in '"+name+" will "+v.b+" after school'?",v.b,[name,"school","will"],"'"+v.b+"' names the action.",r);
     if(type===4)return makeMC(name+" is ___ a note now.",v.ing,[v.b,v.p,v.s],"'Is' + verb-ing forms the present continuous.",r);
     return makeMC("The children ___ in the "+place+" every evening.",v.b,[v.s,v.p,"is "+v.ing],"A plural subject takes the base form in simple present.",r);
   }
   if(worldId===4){
     if(type===0)return makeMC("Yesterday, "+name+" ___ at the "+place+".",v.p,[v.s,v.b,"will "+v.b],"'Yesterday' signals the simple past.",r);
-    if(type===1)return makeMC("Tomorrow, "+name+" ___ the "+place+".","will "+v.b,[v.p,v.s,v.ing],"'Tomorrow' signals a future action, so use 'will + base verb'.",r);
+    if(type===1)return makeMC("Tomorrow, "+name+" ___ after school.","will "+v.b,[v.p,v.s,v.ing],"'Tomorrow' signals a future action, so use 'will + base verb'.",r);
     if(type===2)return makeMC("Right now, "+name+" is ___ near the "+place+".",v.ing,[v.b,v.p,v.s],"For an action happening now, use 'is + verb-ing'.",r);
-    if(type===3)return makeMC(name+" has ___ the task already.",v.pp,[v.p,v.s,v.ing],"Present perfect uses 'has + past participle'.",r);
+    if(type===3)return makeMC(name+" has ___ already.",v.pp,[v.p,v.s,v.ing],"Present perfect uses 'has + past participle'.",r);
     if(type===4)return makeMC("At 7 PM yesterday, "+name+" was ___.",v.ing,[v.b,v.p,v.s],"Past continuous uses 'was + verb-ing'.",r);
-    return makeMC("By next week, "+name+" will have ___ the project.",v.pp,[v.p,v.ing,v.s],"Future perfect uses 'will have + past participle'.",r);
+    return makeMC("By next week, "+name+" will have ___ the project.","finished",["finish","finishing","finishes"],"Future perfect uses 'will have + past participle'.",r);
   }
   if(worldId===5){
     if(type===0)return makeMC("Choose the adjective in: 'The "+adj+" "+thing+" belongs to "+name+".'",adj,[thing,name,"belongs"],"An adjective describes a noun; '"+adj+"' describes the "+thing+".",r);
