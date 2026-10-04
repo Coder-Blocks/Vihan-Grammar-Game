@@ -24,7 +24,8 @@ button,input{font:inherit}button{cursor:pointer}.app{max-width:1240px;margin:aut
 .level-dot{width:54px;height:54px;border-radius:50%;justify-self:center;align-self:center;background:linear-gradient(145deg,#f5f6fb,#dfe2ee);box-shadow:inset 0 -6px 0 rgba(70,78,120,.08),0 8px 14px rgba(55,48,110,.12);font-size:13px;border:3px solid #fff;position:relative;z-index:2;transition:.18s transform,.18s box-shadow}.level-dot:hover:not(:disabled){transform:translateY(-4px) scale(1.05)}.level-dot.done{background:linear-gradient(145deg,#5dd8a5,#21b77d);color:#fff;box-shadow:inset 0 -7px 0 rgba(0,95,63,.18),0 9px 18px rgba(34,179,124,.2)}.level-dot.next{background:linear-gradient(145deg,#9a7bff,#6247e8);color:#fff;box-shadow:inset 0 -7px 0 rgba(55,30,145,.22),0 0 0 7px rgba(108,76,255,.12),0 12px 20px rgba(108,76,255,.28);animation:levelPulse 1.7s ease-in-out infinite}.level-dot.boss{background:linear-gradient(145deg,#ffd96b,#f3a619);color:#6b4300}.level-dot.boss.next{background:linear-gradient(145deg,#ffcf52,#ff9f19);color:#fff}.level-dot:disabled{opacity:.55;filter:grayscale(.45)}
 .world-card:nth-child(odd) .levels:before,.world-card:nth-child(even) .levels:before{content:"";position:absolute;left:10%;right:10%;top:45%;height:4px;border-radius:99px;background:repeating-linear-gradient(90deg,rgba(108,76,255,.16) 0 14px,transparent 14px 24px);z-index:0}
 .name-row select{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--panel);color:var(--text);min-width:200px}.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.quick{background:white;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 9px 25px rgba(50,47,100,.06)}.quick b{display:block;margin:8px 0 4px}.quick p{font-size:12px;color:var(--muted);margin:0 0 13px}
-.panel{background:white;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow)}.panel h2,.panel h3{margin-top:0}.topic-select{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.topic-btn{border:1px solid var(--line);background:white;border-radius:18px;padding:15px;text-align:left;font-weight:900}.topic-btn:hover{border-color:#c9bdff;background:#faf9ff}.topic-btn small{display:block;font-weight:700;color:var(--muted);margin-top:5px}
+.panel{background:white;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow)}.panel h2,.panel h3{margin-top:0}.topic-select{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.arcade-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.arcade-card{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 10px 28px rgba(50,47,100,.07);position:relative;overflow:hidden}.arcade-card h3{margin:8px 0 5px}.arcade-card p{margin:0 0 13px;color:var(--muted);font-size:12px}.arcade-icon{font-size:36px}.arcade-score{display:inline-flex;align-items:center;gap:5px;background:#f0edff;color:var(--brand);font-weight:900;font-size:11px;border-radius:999px;padding:6px 9px}.mini-stage{margin-top:16px;background:var(--panel);border:1px solid var(--line);border-radius:26px;padding:22px;box-shadow:var(--shadow)}.mini-stage[hidden]{display:none}.mini-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.mini-head h2{margin:0}.mini-sub{color:var(--muted);font-size:13px;margin-top:4px}.puzzle-bank,.puzzle-answer,.letter-options{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.puzzle-answer{min-height:64px;padding:12px;border:2px dashed #d9d5ef;border-radius:18px;background:#fbfbff}.word-tile,.letter-choice{border:0;border-radius:14px;padding:11px 14px;font-weight:950;background:#f0edff;color:#4f3ac2;box-shadow:inset 0 -4px 0 rgba(75,55,175,.08);transition:.15s}.word-tile.selected{background:#dcfaee;color:#147454}.scramble-word{font-size:clamp(32px,7vw,58px);font-weight:1000;letter-spacing:.15em;text-align:center;color:var(--brand);margin:22px 0}.scramble-input{width:100%;max-width:420px;display:block;margin:0 auto;border:2px solid var(--line);border-radius:16px;padding:13px 15px;font-size:18px;text-align:center;background:var(--panel);color:var(--text)}.missing-word{font-size:clamp(34px,8vw,62px);font-weight:1000;letter-spacing:.08em;text-align:center;margin:25px 0;color:var(--text)}.mini-feedback{margin-top:13px;border-radius:15px;padding:12px 14px;font-weight:900;display:none}.mini-feedback.show{display:block}.mini-feedback.ok{background:#e6fbf2;color:#117653}.mini-feedback.no{background:#fff0f2;color:#ad3040}.mini-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
+@media(max-width:900px){.arcade-grid{grid-template-columns:1fr}}.topic-btn{border:1px solid var(--line);background:white;border-radius:18px;padding:15px;text-align:left;font-weight:900}.topic-btn:hover{border-color:#c9bdff;background:#faf9ff}.topic-btn small{display:block;font-weight:700;color:var(--muted);margin-top:5px}
 .learn-box{display:grid;gap:14px}.lesson-card{border:1px solid var(--line);border-radius:18px;padding:18px;background:#fbfbff}.lesson-card .example{margin-top:10px;padding:12px 14px;background:#f0edff;border-radius:14px;color:#4c39b6;font-weight:800}
 .game-wrap{max-width:780px;margin:0 auto}.boosters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.booster{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;padding:9px 12px;font-size:12px;font-weight:900;box-shadow:0 5px 14px rgba(50,47,100,.06)}.booster:hover:not(:disabled){transform:translateY(-2px)}.booster:disabled{opacity:.42;cursor:not-allowed}.game-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.game-top .mini{font-size:12px;color:var(--muted);font-weight:800}.bar{height:10px;background:#e9e9f2;border-radius:999px;overflow:hidden;margin-bottom:18px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--brand));transition:.3s;width:0}.question-card{background:white;border:1px solid var(--line);border-radius:28px;padding:26px;box-shadow:var(--shadow)}.question-card h2{font-size:25px;line-height:1.25;margin:9px 0 18px}.q-actions{display:flex;justify-content:space-between;align-items:center}.speak{border:0;background:#eef9fb;color:#117b87;padding:9px 12px;border-radius:12px;font-weight:900}.options{display:grid;gap:10px}.option{border:2px solid #ececf4;background:white;border-radius:17px;padding:14px 15px;text-align:left;font-weight:800;color:#313751;transition:.15s}.option:hover{border-color:#cfc6ff;background:#fbfaff}.option.correct{border-color:#40c991;background:#e8fbf3;color:#137451}.option.wrong{border-color:#ff7d89;background:#fff0f1;color:#b32d3a}.option:disabled{cursor:default}.feedback{display:none;margin-top:14px;border-radius:17px;padding:14px 16px;font-weight:800}.feedback.show{display:block}.feedback.ok{background:#e9fbf4;color:#117653}.feedback.no{background:#fff0f2;color:#ac3040}.game-footer{display:flex;justify-content:flex-end;margin-top:16px}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.stat{background:white;border:1px solid var(--line);border-radius:18px;padding:17px}.stat .num{font-size:27px;font-weight:950}.stat .lab{font-size:12px;color:var(--muted);font-weight:800}.chart-list{display:grid;gap:11px}.chart-row{display:grid;grid-template-columns:145px 1fr 45px;gap:10px;align-items:center;font-size:13px;font-weight:800}.chart-row .track{height:10px;background:#ededf5;border-radius:999px;overflow:hidden}.chart-row .track i{display:block;height:100%;background:linear-gradient(90deg,var(--brand2),var(--cyan))}
@@ -109,6 +110,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
   <nav class="nav">
     <button class="nav-btn active" data-view="home"><span class="ic">🗺️</span>Quest Map</button>
     <button class="nav-btn" data-view="practice"><span class="ic">🎯</span>Practice</button>
+    <button class="nav-btn" data-view="minigames"><span class="ic">🧩</span>Puzzle Arcade</button>
     <button class="nav-btn" data-view="mistakes"><span class="ic">📕</span>Mistakes</button>
     <button class="nav-btn" data-view="rewards"><span class="ic">🎖️</span>Rewards</button>
     <button class="nav-btn" data-view="sunday"><span class="ic">🏆</span>Sunday Quiz</button>
@@ -169,6 +171,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
   <div class="world-grid" id="worldGrid"></div>
   <div class="section-head"><div><h3>Quick Play</h3><p>Extra practice does not lock your adventure progress.</p></div></div>
   <div class="quick-grid">
+    <div class="quick"><div style="font-size:28px">🧩</div><b>Puzzle Arcade</b><p>Sentence puzzles, word scrambles and Guess the Letter.</p><button class="btn soft" data-go="minigames">Play Mini Games</button></div>
     <div class="quick"><div style="font-size:28px">☀️</div><b>Daily Challenge</b><p>10 mixed grammar questions. Build your daily streak.</p><button class="btn soft" id="dailyBtn">Play Today</button></div>
     <div class="quick"><div style="font-size:28px">📕</div><b>Fix My Mistakes</b><p>Replay questions you answered incorrectly.</p><button class="btn soft" id="mistakeQuickBtn">Practice Mistakes</button></div>
     <div class="quick"><div style="font-size:28px">📊</div><b>Progress Center</b><p>Accuracy, sessions, strong areas and topics needing practice.</p><button class="btn soft" data-go="parent">View Progress</button></div>
@@ -178,6 +181,39 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
 
 <section class="view" id="view-practice">
   <div class="panel"><h2>🎯 Practice Zone</h2><p style="color:var(--muted)">Choose any topic. Practice is always unlocked.</p><div class="topic-select" id="topicSelect"></div></div>
+</section>
+
+<section class="view" id="view-minigames">
+  <div class="section-head" style="margin-top:2px"><div><h3>🧩 Puzzle Arcade</h3><p>Quick English games for ages 6–60. Win XP while learning.</p></div><div class="chip">🎮 Mini Games</div></div>
+  <div class="arcade-grid">
+    <div class="arcade-card"><div class="arcade-icon">🧠</div><h3>Sentence Puzzle</h3><p>Tap shuffled words in the correct order to build a sentence.</p><span class="arcade-score">🏆 <span id="sentenceWins">0</span> wins</span><div style="margin-top:12px"><button class="btn dark" id="playSentencePuzzle">Play</button></div></div>
+    <div class="arcade-card"><div class="arcade-icon">🔀</div><h3>Word Scramble</h3><p>Unscramble the letters and type the correct English word.</p><span class="arcade-score">🏆 <span id="scrambleWins">0</span> wins</span><div style="margin-top:12px"><button class="btn dark" id="playWordScramble">Play</button></div></div>
+    <div class="arcade-card"><div class="arcade-icon">🔤</div><h3>Guess the Letter</h3><p>Find the missing letter and complete the word.</p><span class="arcade-score">🏆 <span id="letterWins">0</span> wins</span><div style="margin-top:12px"><button class="btn dark" id="playGuessLetter">Play</button></div></div>
+  </div>
+
+  <div class="mini-stage" id="sentenceStage" hidden>
+    <div class="mini-head"><div><h2>🧠 Sentence Puzzle</h2><div class="mini-sub">Tap words to build the sentence in the correct order.</div></div><button class="btn outline" data-close-mini>Close</button></div>
+    <div class="puzzle-answer" id="sentenceAnswer"></div>
+    <div class="puzzle-bank" id="sentenceBank"></div>
+    <div class="mini-feedback" id="sentenceFeedback"></div>
+    <div class="mini-actions"><button class="btn dark" id="checkSentencePuzzle">Check Answer</button><button class="btn soft" id="resetSentencePuzzle">Reset</button><button class="btn green" id="nextSentencePuzzle">Next Puzzle</button></div>
+  </div>
+
+  <div class="mini-stage" id="scrambleStage" hidden>
+    <div class="mini-head"><div><h2>🔀 Word Scramble</h2><div class="mini-sub" id="scrambleHint">Unscramble this word.</div></div><button class="btn outline" data-close-mini>Close</button></div>
+    <div class="scramble-word" id="scrambleLetters">ELPPA</div>
+    <input class="scramble-input" id="scrambleInput" maxlength="24" autocomplete="off" placeholder="Type the word">
+    <div class="mini-feedback" id="scrambleFeedback"></div>
+    <div class="mini-actions"><button class="btn dark" id="checkScramble">Check Answer</button><button class="btn green" id="nextScramble">Next Word</button></div>
+  </div>
+
+  <div class="mini-stage" id="letterStage" hidden>
+    <div class="mini-head"><div><h2>🔤 Guess the Letter</h2><div class="mini-sub" id="letterHint">Choose the missing letter.</div></div><button class="btn outline" data-close-mini>Close</button></div>
+    <div class="missing-word" id="missingWord">A _ P L E</div>
+    <div class="letter-options" id="letterOptions"></div>
+    <div class="mini-feedback" id="letterFeedback"></div>
+    <div class="mini-actions"><button class="btn green" id="nextLetterWord">Next Word</button></div>
+  </div>
 </section>
 
 <section class="view" id="view-learn">
@@ -469,7 +505,7 @@ Object.keys(banks).forEach(function(k){banks[k].forEach(function(q){q[5]=Number(
 
 var LEGACY_KEY="vihanGrammarAdventureV2", KEY="vihaaGrammarAdventureV3";
 var QUESTION_HISTORY_KEY="vihaaGrammarQuestionHistoryV1";
-var fresh={name:"Vihan",photo:"",highest:1,completed:{},xp:0,stars:0,streak:1,lastDay:"",mistakes:[],answers:0,correct:0,sessions:0,seconds:0,topicStats:{},speech:true,sound:true,dark:false,chestDate:"",chestReward:"",bossBadges:{},secretBadges:[],parentMission:null,leagueSchool:"",leagueClass:"",learnerMode:"auto"};
+var fresh={name:"Vihan",photo:"",highest:1,completed:{},xp:0,stars:0,streak:1,lastDay:"",mistakes:[],answers:0,correct:0,sessions:0,seconds:0,topicStats:{},speech:true,sound:true,dark:false,chestDate:"",chestReward:"",bossBadges:{},secretBadges:[],parentMission:null,leagueSchool:"",leagueClass:"",learnerMode:"auto",miniGames:{sentence:0,scramble:0,letter:0}};
 var state=loadState();
 var questionHistory=loadQuestionHistory();
 var game=null,gameStartedAt=0,deferredPrompt=null;
@@ -477,7 +513,7 @@ var BALLOON_KEY="vihaaGoldenBalloonV1", BALLOON_TARGET=["V","I","H","A","A"];
 var balloonState=loadBalloonState(),goldTimer=null,ambientTimer=null,contestPollTimer=null,contestClient=null,contestBackendReady=false;
 if(!balloonState.deviceToken){balloonState.deviceToken=(crypto.randomUUID?crypto.randomUUID():("xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){var r=Math.random()*16|0,v=c==="x"?r:(r&3|8);return v.toString(16);})));localStorage.setItem(BALLOON_KEY,JSON.stringify(balloonState));}
 
-function loadState(){try{var raw=localStorage.getItem(KEY)||localStorage.getItem(LEGACY_KEY)||"null";var x=JSON.parse(raw);return Object.assign({},fresh,x||{}, {completed:Object.assign({},fresh.completed,(x&&x.completed)||{}),topicStats:Object.assign({},fresh.topicStats,(x&&x.topicStats)||{}),bossBadges:Object.assign({},fresh.bossBadges,(x&&x.bossBadges)||{}),secretBadges:Array.isArray(x&&x.secretBadges)?x.secretBadges:[]});}catch(e){return Object.assign({},fresh);}}
+function loadState(){try{var raw=localStorage.getItem(KEY)||localStorage.getItem(LEGACY_KEY)||"null";var x=JSON.parse(raw);return Object.assign({},fresh,x||{}, {completed:Object.assign({},fresh.completed,(x&&x.completed)||{}),topicStats:Object.assign({},fresh.topicStats,(x&&x.topicStats)||{}),bossBadges:Object.assign({},fresh.bossBadges,(x&&x.bossBadges)||{}),secretBadges:Array.isArray(x&&x.secretBadges)?x.secretBadges:[],miniGames:Object.assign({},fresh.miniGames,(x&&x.miniGames)||{})});}catch(e){return Object.assign({},fresh);}}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));renderHeader();}
 function el(id){return document.getElementById(id);}
 function toast(msg){var t=el("toast");t.textContent=msg;t.classList.add("show");setTimeout(function(){t.classList.remove("show");},1900);}
@@ -601,7 +637,7 @@ function showView(name){
   document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
   var target=el("view-"+name);if(target)target.classList.add("active");
   document.querySelectorAll(".nav-btn").forEach(function(b){b.classList.toggle("active",b.getAttribute("data-view")===name);});
-  if(name==="home")renderHome();if(name==="mistakes")renderMistakes();if(name==="rewards")renderRewards();if(name==="parent")renderParent();if(name==="sunday")renderSundayQuiz();if(name==="settings")renderSettings();
+  if(name==="home")renderHome();if(name==="minigames")renderMiniGameScores();if(name==="mistakes")renderMistakes();if(name==="rewards")renderRewards();if(name==="parent")renderParent();if(name==="sunday")renderSundayQuiz();if(name==="settings")renderSettings();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function renderProfilePhoto(){var img=el("profilePhoto"),emoji=el("avatarEmoji");if(!img||!emoji)return;if(state.photo){img.src=state.photo;img.hidden=false;emoji.style.display="none";}else{img.removeAttribute("src");img.hidden=true;emoji.style.display="grid";}}
@@ -627,6 +663,42 @@ function renderHome(){
   el("worldGrid").innerHTML=out;
   el("worldGrid").querySelectorAll(".world-card").forEach(function(c,idx){c.style.animationDelay=(Math.min(idx,7)*.05)+"s";});
   el("worldGrid").querySelectorAll("[data-level]").forEach(function(b){b.addEventListener("click",function(){startAdventure(Number(b.getAttribute("data-level")));});});renderEngagement();
+}
+var miniData={
+  sentences:[
+    "I enjoy learning English","She reads a book every evening","We are going to the market","The children play in the garden","Please close the door quietly","He finished his work on time","They will travel by train tomorrow","Practice makes English easier"
+  ],
+  scrambles:[
+    {w:"apple",h:"A common fruit"},{w:"school",h:"A place for learning"},{w:"friend",h:"A person you like and trust"},{w:"travel",h:"To go from one place to another"},{w:"office",h:"A place where many people work"},{w:"language",h:"A system used to communicate"},{w:"sentence",h:"A complete group of words"},{w:"career",h:"Your long-term work journey"},{w:"journey",h:"A trip from one place to another"},{w:"practice",h:"Repeated work to improve a skill"}
+  ],
+  letters:[
+    {w:"APPLE",i:1,h:"Fruit"},{w:"BOOK",i:1,h:"You read it"},{w:"CHAIR",i:2,h:"You sit on it"},{w:"TRAIN",i:3,h:"Rail transport"},{w:"SMILE",i:2,h:"Happy expression"},{w:"PHONE",i:1,h:"Communication device"},{w:"BREAD",i:2,h:"Food made from flour"},{w:"WATER",i:3,h:"We drink it"},{w:"PLANT",i:2,h:"A living green thing"},{w:"MUSIC",i:1,h:"Songs and sound"}
+  ]
+};
+var miniSession={sentence:null,sentenceSelected:[],scramble:null,letter:null,locked:false};
+function renderMiniGameScores(){if(el("sentenceWins"))el("sentenceWins").textContent=state.miniGames.sentence||0;if(el("scrambleWins"))el("scrambleWins").textContent=state.miniGames.scramble||0;if(el("letterWins"))el("letterWins").textContent=state.miniGames.letter||0;}
+function hideMiniStages(){["sentenceStage","scrambleStage","letterStage"].forEach(function(id){if(el(id))el(id).hidden=true;});}
+function shuffleCopy(a){var x=a.slice();for(var i=x.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=x[i];x[i]=x[j];x[j]=t;}return x;}
+function miniReward(type,xp){
+  state.xp+=xp;state.miniGames[type]=(state.miniGames[type]||0)+1;if(state.miniGames[type]%5===0)state.stars+=1;save();renderMiniGameScores();renderHeader();confetti();toast("Correct! +"+xp+" XP"+(state.miniGames[type]%5===0?" +1⭐":""));
+}
+function newSentencePuzzle(){
+  hideMiniStages();el("sentenceStage").hidden=false;miniSession.locked=false;var sentence=miniData.sentences[Math.floor(Math.random()*miniData.sentences.length)],words=sentence.split(" ");miniSession.sentence=sentence;miniSession.sentenceSelected=[];
+  var shuffled=shuffleCopy(words);if(shuffled.join(" ")===sentence&&shuffled.length>1)shuffled.reverse();
+  el("sentenceBank").innerHTML=shuffled.map(function(w,i){return '<button class="word-tile" data-word="'+w.replace(/"/g,"&quot;")+'" data-pos="'+i+'">'+w+'</button>';}).join("");
+  el("sentenceAnswer").innerHTML='<span class="slot-sub">Your sentence will appear here…</span>';var f=el("sentenceFeedback");f.className="mini-feedback";f.textContent="";
+  el("sentenceBank").querySelectorAll(".word-tile").forEach(function(b){b.onclick=function(){if(miniSession.locked)return;this.disabled=true;this.classList.add("selected");miniSession.sentenceSelected.push(this.getAttribute("data-word"));renderSentenceAnswer();};});
+}
+function renderSentenceAnswer(){el("sentenceAnswer").innerHTML=miniSession.sentenceSelected.map(function(w,i){return '<button class="word-tile selected" data-remove="'+i+'">'+w+'</button>';}).join("")||'<span class="slot-sub">Your sentence will appear here…</span>';el("sentenceAnswer").querySelectorAll("[data-remove]").forEach(function(b){b.onclick=function(){if(miniSession.locked)return;var idx=Number(this.getAttribute("data-remove"));miniSession.sentenceSelected.splice(idx,1);var bank=el("sentenceBank").querySelectorAll(".word-tile"),counts={};miniSession.sentenceSelected.forEach(function(w){counts[w]=(counts[w]||0)+1;});var used={};bank.forEach(function(x){var w=x.getAttribute("data-word");used[w]=(used[w]||0);if(used[w]<(counts[w]||0)){x.disabled=true;x.classList.add("selected");used[w]++;}else{x.disabled=false;x.classList.remove("selected");}});renderSentenceAnswer();};});}
+function checkSentencePuzzle(){if(miniSession.locked)return;var answer=miniSession.sentenceSelected.join(" "),ok=answer===miniSession.sentence,f=el("sentenceFeedback");f.className="mini-feedback show "+(ok?"ok":"no");f.textContent=ok?"✅ Perfect sentence!":"💡 Not yet. Check the word order and try again.";if(ok){miniSession.locked=true;miniReward("sentence",20);}}
+function resetSentencePuzzle(){if(miniSession.locked)return;miniSession.sentenceSelected=[];el("sentenceBank").querySelectorAll(".word-tile").forEach(function(b){b.disabled=false;b.classList.remove("selected");});renderSentenceAnswer();var f=el("sentenceFeedback");f.className="mini-feedback";f.textContent="";}
+function newScramble(){
+  hideMiniStages();el("scrambleStage").hidden=false;miniSession.locked=false;var item=miniData.scrambles[Math.floor(Math.random()*miniData.scrambles.length)],letters=item.w.toUpperCase().split(""),mix=shuffleCopy(letters);if(mix.join("")===item.w.toUpperCase())mix.reverse();miniSession.scramble=item;el("scrambleLetters").textContent=mix.join(" ");el("scrambleHint").textContent="Hint: "+item.h;el("scrambleInput").value="";var f=el("scrambleFeedback");f.className="mini-feedback";f.textContent="";setTimeout(function(){el("scrambleInput").focus();},50);
+}
+function checkScramble(){if(miniSession.locked)return;var val=el("scrambleInput").value.trim().toLowerCase(),ok=miniSession.scramble&&val===miniSession.scramble.w.toLowerCase(),f=el("scrambleFeedback");f.className="mini-feedback show "+(ok?"ok":"no");f.textContent=ok?"✅ Correct word!":"💡 Try again. Hint: "+miniSession.scramble.h;if(ok){miniSession.locked=true;miniReward("scramble",15);}}
+function newLetterGame(){
+  hideMiniStages();el("letterStage").hidden=false;miniSession.locked=false;var item=miniData.letters[Math.floor(Math.random()*miniData.letters.length)];miniSession.letter=item;var chars=item.w.split(""),answer=chars[item.i];chars[item.i]="_";el("missingWord").textContent=chars.join(" ");el("letterHint").textContent="Hint: "+item.h;var alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),wrong=alphabet.filter(function(x){return x!==answer;});wrong=shuffleCopy(wrong).slice(0,3);var opts=shuffleCopy([answer].concat(wrong));el("letterOptions").innerHTML=opts.map(function(x){return '<button class="letter-choice" data-letter="'+x+'">'+x+'</button>';}).join("");var f=el("letterFeedback");f.className="mini-feedback";f.textContent="";
+  el("letterOptions").querySelectorAll(".letter-choice").forEach(function(b){b.onclick=function(){if(miniSession.locked)return;var ok=this.getAttribute("data-letter")===answer,f=el("letterFeedback");if(ok){this.style.background="#dcfaee";this.style.color="#117653";f.className="mini-feedback show ok";f.textContent="✅ Correct! "+item.w;miniSession.locked=true;miniReward("letter",10);el("letterOptions").querySelectorAll(".letter-choice").forEach(function(x){x.disabled=true;});}else{this.disabled=true;this.style.opacity=".35";f.className="mini-feedback show no";f.textContent="Try another letter.";} };});
 }
 function renderPractice(){
   el("topicSelect").innerHTML=worlds.map(function(w){return '<button class="topic-btn" data-topic="'+w.id+'"><span style="font-size:24px">'+w.icon+'</span> '+w.title+'<small>'+w.desc+'</small></button>';}).join("");
@@ -956,7 +1028,11 @@ function updateDailyLabel(){el("dailyBtn").textContent=state.lastDay===today()?"
 
 document.querySelectorAll(".nav-btn").forEach(function(b){b.onclick=function(){showView(b.getAttribute("data-view"));};});
 document.querySelectorAll("[data-go]").forEach(function(b){b.onclick=function(){showView(b.getAttribute("data-go"));};});
-el("continueBtn").onclick=function(){startAdventure(Math.min(state.highest,100));};if(el("hintBooster"))el("hintBooster").onclick=function(){useBooster("hint");};if(el("fiftyBooster"))el("fiftyBooster").onclick=function(){useBooster("fifty");};if(el("heartBooster"))el("heartBooster").onclick=function(){useBooster("heart");};
+el("continueBtn").onclick=function(){startAdventure(Math.min(state.highest,100));};
+if(el("playSentencePuzzle"))el("playSentencePuzzle").onclick=newSentencePuzzle;if(el("playWordScramble"))el("playWordScramble").onclick=newScramble;if(el("playGuessLetter"))el("playGuessLetter").onclick=newLetterGame;
+if(el("checkSentencePuzzle"))el("checkSentencePuzzle").onclick=checkSentencePuzzle;if(el("resetSentencePuzzle"))el("resetSentencePuzzle").onclick=resetSentencePuzzle;if(el("nextSentencePuzzle"))el("nextSentencePuzzle").onclick=newSentencePuzzle;
+if(el("checkScramble"))el("checkScramble").onclick=checkScramble;if(el("nextScramble"))el("nextScramble").onclick=newScramble;if(el("scrambleInput"))el("scrambleInput").onkeydown=function(e){if(e.key==="Enter")checkScramble();};
+if(el("nextLetterWord"))el("nextLetterWord").onclick=newLetterGame;document.querySelectorAll("[data-close-mini]").forEach(function(b){b.onclick=function(){hideMiniStages();};});if(el("hintBooster"))el("hintBooster").onclick=function(){useBooster("hint");};if(el("fiftyBooster"))el("fiftyBooster").onclick=function(){useBooster("fifty");};if(el("heartBooster"))el("heartBooster").onclick=function(){useBooster("heart");};
 el("chestBtn").onclick=openDailyChest;el("bossHomeBtn").onclick=function(){startBossBattle(Number(this.dataset.world||0));};el("voiceAnswerBtn").onclick=voiceAnswer;
 el("learnBtn").onclick=function(){openLesson(currentWorld());};
 el("dailyBtn").onclick=startDaily;el("mistakeQuickBtn").onclick=startMistakePractice;el("practiceMistakesBtn").onclick=startMistakePractice;
@@ -1005,7 +1081,7 @@ if("serviceWorker" in navigator){
 var contestFile=el("contestScreenshot");
 if(contestFile){contestFile.onchange=function(){var file=this.files&&this.files[0],preview=el("contestPreview");if(!file){preview.classList.remove("show");preview.removeAttribute("src");return;}if(file.size>6*1024*1024){toast("Screenshot must be under 6 MB");this.value="";preview.classList.remove("show");return;}var u=URL.createObjectURL(file);preview.src=u;preview.classList.add("show");};}
 if(el("contestForm")){el("contestForm").onsubmit=function(e){e.preventDefault();if(!contestBackendReady){toast("Secure contest backend is still connecting.");return false;}submitContestEntry();return false;};}
-renderHeader();renderPractice();renderHome();renderMistakes();renderRewards();renderParent();renderSundayQuiz();renderSettings();renderEngagement();updateDailyLabel();renderGoldenLetters();scheduleGoldenBalloon();scheduleOneTimeTestGoldenBalloon();scheduleSecretEvent();startAmbientBalloons();initContestBackend();
+renderHeader();renderPractice();renderMiniGameScores();renderHome();renderMistakes();renderRewards();renderParent();renderSundayQuiz();renderSettings();renderEngagement();updateDailyLabel();renderGoldenLetters();scheduleGoldenBalloon();scheduleOneTimeTestGoldenBalloon();scheduleSecretEvent();startAmbientBalloons();initContestBackend();
 })();
 </script>
 </body>
