@@ -42,6 +42,8 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
 
 .contest-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px;text-align:left}.contest-form label{font-size:12px;font-weight:900;color:var(--text)}.contest-form input,.contest-form select{width:100%;margin-top:6px;border:1px solid var(--line);border-radius:13px;padding:11px 12px;background:var(--panel);color:var(--text)}.contest-form .full{grid-column:1/-1}.contest-shot{border:1.5px dashed #d4b646;border-radius:16px;padding:14px;background:rgba(255,248,205,.55)}.contest-shot input{border:0;padding:8px 0;background:transparent}.consent-row{display:flex;align-items:flex-start;gap:9px;font-size:12px;color:var(--muted);font-weight:700}.consent-row input{width:auto;margin:2px 0 0}.contest-status{font-size:12px;font-weight:800;color:var(--muted);margin-top:8px}.contest-submit[disabled]{opacity:.55;cursor:not-allowed}.contest-preview{display:none;margin-top:10px;max-height:180px;border-radius:14px;border:1px solid var(--line);max-width:100%}.contest-preview.show{display:block}.dark .contest-form input,.dark .contest-form select{background:#17192c}
 @media(max-width:620px){.contest-form{grid-template-columns:1fr}.contest-form .full{grid-column:auto}}
+.engage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px}.engage-card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 10px 28px rgba(50,47,100,.06);position:relative;overflow:hidden}.engage-card h4{margin:7px 0 5px}.engage-card p{font-size:12px;color:var(--muted);margin:0 0 13px}.engage-big{font-size:34px}.chest-btn{font-size:31px;line-height:1;border:0;background:transparent;filter:drop-shadow(0 8px 12px rgba(155,110,0,.18));animation:softBounce 2.2s ease-in-out infinite}.rival-meter{height:10px;background:#ececf5;border-radius:999px;overflow:hidden;margin:10px 0}.rival-meter i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--cyan));transition:.4s width}.boss-panel{display:none;margin:0 0 15px;background:linear-gradient(135deg,#251d54,#513b9a);color:#fff;border-radius:22px;padding:17px;box-shadow:0 14px 35px rgba(37,29,84,.22)}.boss-panel.show{display:block;animation:cardRise .4s ease}.boss-row{display:flex;align-items:center;gap:14px}.boss-face{font-size:52px}.boss-info{flex:1}.boss-hp{height:12px;background:rgba(255,255,255,.18);border-radius:999px;overflow:hidden;margin-top:8px}.boss-hp i{display:block;height:100%;background:linear-gradient(90deg,#ffbf3f,#ff5d6c);transition:.35s width}.voice-answer{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;padding:9px 12px;font-weight:900}.voice-answer.listening{background:#ffe8eb;color:#b52b3a;animation:levelPulse 1s ease-in-out infinite}
+@media(max-width:800px){.engage-grid{grid-template-columns:1fr}}
 
 .sunday-hero{background:linear-gradient(135deg,#171838,#38286f 58%,#6c4cff);color:#fff;border-radius:28px;padding:28px;box-shadow:0 24px 55px rgba(37,29,84,.22);position:relative;overflow:hidden}.sunday-hero:after{content:"🏆";position:absolute;right:25px;top:12px;font-size:110px;opacity:.09;transform:rotate(9deg)}.sunday-hero h2{font-size:clamp(28px,4vw,46px);margin:7px 0 10px}.sunday-hero p{color:#e8e3ff;max-width:720px;margin:0}.quiz-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.quiz-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:8px 11px;font-size:12px;font-weight:900}.slot-card{margin-top:15px;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 10px 28px rgba(50,47,100,.06)}.slot-top{display:flex;justify-content:space-between;align-items:end;gap:15px}.slot-num{font-size:30px;font-weight:950}.slot-sub{font-size:12px;color:var(--muted);font-weight:800}.slot-track{height:14px;background:#ececf5;border-radius:999px;overflow:hidden;margin-top:12px}.slot-track i{display:block;height:100%;width:0;background:linear-gradient(90deg,#24b47e,#28c8d8,#6c4cff);border-radius:inherit;transition:.4s width}.prize-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}.prize-card{border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:18px}.prize-card .place{font-size:12px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.1em}.prize-card .amount{font-size:28px;font-weight:950;margin-top:5px}.quiz-rule-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}.quiz-rule{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:15px}.quiz-rule b{display:block;margin-bottom:5px}.quiz-rule span{font-size:12px;color:var(--muted);line-height:1.45}.quiz-live{margin-top:16px;border:1px solid var(--line);background:var(--panel);border-radius:24px;padding:20px}.quiz-live-top{display:flex;justify-content:space-between;align-items:center;gap:14px}.countdown-ring{width:66px;height:66px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--brand) 0deg,#ececf5 0);position:relative}.countdown-ring:after{content:"";position:absolute;width:50px;height:50px;border-radius:50%;background:var(--panel)}.countdown-ring b{position:relative;z-index:1;font-size:20px}.live-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:15px}.live-stat{border:1px solid var(--line);border-radius:15px;padding:12px;text-align:center}.live-stat strong{font-size:21px;display:block}.live-stat span{font-size:11px;color:var(--muted);font-weight:800}.leaderboard{margin-top:14px;border-top:1px solid var(--line);padding-top:14px}.leader-row{display:grid;grid-template-columns:34px 1fr 90px;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}.leader-row:last-child{border-bottom:0}.leader-time{text-align:right;font-weight:900}.quiz-pay-box{margin-top:15px;border:1px solid #d9d0ff;background:#f5f2ff;border-radius:20px;padding:16px}.dark .quiz-pay-box{background:#292646;border-color:#4b4677}.quiz-pay-box p{font-size:12px;color:var(--muted);margin:6px 0 12px}.quiz-warning{margin-top:14px;background:#fff7df;border:1px solid #f0d48a;border-radius:17px;padding:13px;font-size:12px;color:#6f5820;font-weight:750;line-height:1.5}.dark .quiz-warning{background:#3a311b;border-color:#665625;color:#efd98b}
 @media(max-width:620px){.prize-grid,.quiz-rule-grid{grid-template-columns:1fr}.live-stats{grid-template-columns:1fr 1fr}.live-stats .live-stat:last-child{grid-column:1/-1}.slot-top{align-items:start;flex-direction:column}}
@@ -148,6 +150,11 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
     </form>
   </div>
   <div class="winner-board" id="winnerBoard"><div style="display:flex;align-items:center;gap:12px"><div class="winner-crown">👑</div><div><b>Sunday Surprise Winner</b><div class="winner-meta" id="winnerMeta">Winner announcement will appear here for every user.</div></div></div><div class="winner-badge">Every Sunday</div></div>
+  <div class="engage-grid">
+    <div class="engage-card"><div class="engage-big">🎁</div><h4>Daily Treasure Chest</h4><p id="chestText">One surprise reward every day.</p><button class="btn soft" id="chestBtn">Open Today's Chest</button></div>
+    <div class="engage-card"><div class="engage-big">🤖</div><h4>Smart Rival · Nova</h4><p id="rivalText">Nova is warming up…</p><div class="rival-meter"><i id="rivalBar"></i></div><div class="slot-sub" id="rivalScore">You 0 · Nova 0</div></div>
+    <div class="engage-card"><div class="engage-big">👾</div><h4>World Boss Battles</h4><p id="bossHomeText">Finish level 10 of a world to unlock its boss.</p><button class="btn dark" id="bossHomeBtn" disabled>No Boss Ready</button></div>
+  </div>
   <div class="section-head"><div><h3>Grammar Worlds</h3><p>10 worlds · 100 levels · fresh questions · no normal-mode repeats</p></div><div class="chip" id="progressChip">0% complete</div></div>
   <div class="world-grid" id="worldGrid"></div>
   <div class="section-head"><div><h3>Quick Play</h3><p>Extra practice does not lock your adventure progress.</p></div></div>
@@ -171,8 +178,9 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
   <div class="game-wrap">
     <div class="game-top"><div><strong id="gameMode">Adventure</strong><div class="mini" id="gameTopic"></div></div><div class="chip">❤️ <span id="livesText">3</span></div></div>
     <div class="bar"><i id="gameProgress"></i></div>
+    <div class="boss-panel" id="bossPanel"><div class="boss-row"><div class="boss-face" id="bossFace">👾</div><div class="boss-info"><b id="bossTitle">Grammar Boss</b><div class="mini" id="bossHint">Correct answers damage the boss.</div><div class="boss-hp"><i id="bossHp"></i></div></div></div></div>
     <div class="question-card">
-      <div class="q-actions"><div class="eyebrow" style="color:var(--brand)" id="questionCount">Question 1 of 5</div><button class="speak" id="speakBtn">🔊 Read aloud</button></div>
+      <div class="q-actions"><div class="eyebrow" style="color:var(--brand)" id="questionCount">Question 1 of 5</div><div style="display:flex;gap:7px;flex-wrap:wrap"><button class="voice-answer" id="voiceAnswerBtn">🎙️ Speak answer</button><button class="speak" id="speakBtn">🔊 Read aloud</button></div></div>
       <h2 id="questionText"></h2>
       <div class="options" id="options"></div>
       <div class="feedback" id="feedback"></div>
@@ -397,7 +405,7 @@ Object.keys(banks).forEach(function(k){banks[k].forEach(function(q){q[5]=Number(
 
 var LEGACY_KEY="vihanGrammarAdventureV2", KEY="vihaaGrammarAdventureV3";
 var QUESTION_HISTORY_KEY="vihaaGrammarQuestionHistoryV1";
-var fresh={name:"Vihan",photo:"",highest:1,completed:{},xp:0,stars:0,streak:1,lastDay:"",mistakes:[],answers:0,correct:0,sessions:0,seconds:0,topicStats:{},speech:true,sound:true,dark:false};
+var fresh={name:"Vihan",photo:"",highest:1,completed:{},xp:0,stars:0,streak:1,lastDay:"",mistakes:[],answers:0,correct:0,sessions:0,seconds:0,topicStats:{},speech:true,sound:true,dark:false,chestDate:"",chestReward:"",bossBadges:{},secretBadges:[],parentMission:null};
 var state=loadState();
 var questionHistory=loadQuestionHistory();
 var game=null,gameStartedAt=0,deferredPrompt=null;
@@ -405,7 +413,7 @@ var BALLOON_KEY="vihaaGoldenBalloonV1", BALLOON_TARGET=["V","I","H","A","A"];
 var balloonState=loadBalloonState(),goldTimer=null,ambientTimer=null,contestPollTimer=null,contestClient=null,contestBackendReady=false;
 if(!balloonState.deviceToken){balloonState.deviceToken=(crypto.randomUUID?crypto.randomUUID():("xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){var r=Math.random()*16|0,v=c==="x"?r:(r&3|8);return v.toString(16);})));localStorage.setItem(BALLOON_KEY,JSON.stringify(balloonState));}
 
-function loadState(){try{var raw=localStorage.getItem(KEY)||localStorage.getItem(LEGACY_KEY)||"null";var x=JSON.parse(raw);return Object.assign({},fresh,x||{}, {completed:Object.assign({},fresh.completed,(x&&x.completed)||{}),topicStats:Object.assign({},fresh.topicStats,(x&&x.topicStats)||{})});}catch(e){return Object.assign({},fresh);}}
+function loadState(){try{var raw=localStorage.getItem(KEY)||localStorage.getItem(LEGACY_KEY)||"null";var x=JSON.parse(raw);return Object.assign({},fresh,x||{}, {completed:Object.assign({},fresh.completed,(x&&x.completed)||{}),topicStats:Object.assign({},fresh.topicStats,(x&&x.topicStats)||{}),bossBadges:Object.assign({},fresh.bossBadges,(x&&x.bossBadges)||{}),secretBadges:Array.isArray(x&&x.secretBadges)?x.secretBadges:[]});}catch(e){return Object.assign({},fresh);}}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));renderHeader();}
 function el(id){return document.getElementById(id);}
 function toast(msg){var t=el("toast");t.textContent=msg;t.classList.add("show");setTimeout(function(){t.classList.remove("show");},1900);}
@@ -448,6 +456,35 @@ function scheduleGoldenBalloon(){
 }
 function startAmbientBalloons(){ambientTimer=setInterval(function(){ambientBalloon();},22000+Math.floor(Math.random()*9000));setTimeout(ambientBalloon,7000);}
 function pct(n,d){return d?Math.round(n/d*100):0;}
+function openDailyChest(){
+  var d=today();if(state.chestDate===d){toast("Today's treasure chest is already opened");return;}
+  var seed=parseInt(hashText((balloonState.deviceId||balloonState.deviceToken)+d+"chest"),36)||1;
+  var rewards=[{t:"⭐ 2 Stars",xp:0,stars:2},{t:"⚡ 40 XP",xp:40,stars:0},{t:"🌟 1 Star + 25 XP",xp:25,stars:1},{t:"💎 60 XP",xp:60,stars:0},{t:"👑 3 Stars",xp:0,stars:3}];
+  var r=rewards[seed%rewards.length];state.xp+=r.xp;state.stars+=r.stars;state.chestDate=d;state.chestReward=r.t;save();renderEngagement();confetti();toast("Treasure opened: "+r.t);
+}
+function rivalPoints(){return Object.keys(state.completed).filter(function(k){return state.completed[k];}).length*110+state.stars*20+state.xp;}
+function rivalNovaPoints(){var base=rivalPoints(),seed=parseInt(hashText(today()+(balloonState.deviceId||"nova")),36)||1;return Math.max(0,base-180+(seed%361));}
+function highestBossReady(){
+  for(var w=10;w>=1;w--){var lvl=w*10;if(state.completed[lvl]&&!state.bossBadges[w])return w;}return 0;
+}
+function renderEngagement(){
+  if(el("chestText"))el("chestText").textContent=state.chestDate===today()?"Opened today · "+state.chestReward:"One surprise reward every day.";
+  if(el("chestBtn")){el("chestBtn").disabled=state.chestDate===today();el("chestBtn").textContent=state.chestDate===today()?"Opened ✓":"Open Today's Chest";}
+  var you=rivalPoints(),nova=rivalNovaPoints(),max=Math.max(you,nova,1);if(el("rivalScore"))el("rivalScore").textContent="You "+you+" · Nova "+nova;if(el("rivalBar"))el("rivalBar").style.width=Math.round(you/max*100)+"%";if(el("rivalText"))el("rivalText").textContent=you>=nova?"You are ahead of Nova today!":"Nova is "+(nova-you)+" points ahead — catch up!";
+  var ready=highestBossReady();if(el("bossHomeBtn")){el("bossHomeBtn").disabled=!ready;el("bossHomeBtn").textContent=ready?"Battle World "+ready+" Boss":"No Boss Ready";el("bossHomeBtn").dataset.world=ready||"";}if(el("bossHomeText"))el("bossHomeText").textContent=ready?"World "+ready+" boss is waiting for you!":"Finish level 10 of a world to unlock its boss.";
+}
+function startBossBattle(worldId){
+  if(!worldId)return;var qs=freshQuestions(worldId,5).map(function(q){return {q:q,w:worldId};});startGame("boss",qs,null,worldId);game.bossHp=100;game.bossStartHp=100;renderBoss();
+}
+function renderBoss(){
+  var panel=el("bossPanel");if(!panel)return;var on=game&&game.mode==="boss";panel.classList.toggle("show",!!on);if(!on)return;var bosses=["","🧌","🐉","🤖","👻","🦹","👹","🦂","🧙","👽","👑"];el("bossFace").textContent=bosses[game.world]||"👾";el("bossTitle").textContent="World "+game.world+" · "+worlds[game.world-1].title+" Boss";el("bossHp").style.width=Math.max(0,game.bossHp)+"%";el("bossHint").textContent=game.bossHp<=0?"Boss defeated!":"Correct answers damage the boss.";
+}
+function voiceAnswer(){
+  if(!game||game.answered)return;var SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){toast("Voice answer is not supported in this browser");return;}
+  var btn=el("voiceAnswerBtn"),rec=new SR();rec.lang="en-IN";rec.interimResults=false;rec.maxAlternatives=3;btn.classList.add("listening");btn.textContent="🎙️ Listening…";
+  rec.onresult=function(ev){var heard=Array.from(ev.results[0]).map(function(x){return x.transcript.toLowerCase().trim();});var q=game.qs[game.index].q,found=-1;for(var i=0;i<4;i++){var opt=String(q[i+1]).toLowerCase().trim();if(heard.some(function(h){return h===opt||h.indexOf(opt)>=0||opt.indexOf(h)>=0;})){found=i;break;}}if(found>=0){toast("Heard: "+heard[0]);answer(found);}else toast("I heard '"+heard[0]+"'. Try speaking one answer option.");};
+  rec.onerror=function(){toast("Could not hear clearly. Try again.");};rec.onend=function(){btn.classList.remove("listening");btn.textContent="🎙️ Speak answer";};rec.start();
+}
 function today(){return new Date().toISOString().slice(0,10);}
 function currentWorld(){return Math.min(10,Math.ceil(state.highest/10));}
 function worldOfLevel(l){return Math.min(10,Math.ceil(l/10));}
@@ -480,7 +517,7 @@ function renderHome(){
   });
   el("worldGrid").innerHTML=out;
   el("worldGrid").querySelectorAll(".world-card").forEach(function(c,idx){c.style.animationDelay=(Math.min(idx,7)*.05)+"s";});
-  el("worldGrid").querySelectorAll("[data-level]").forEach(function(b){b.addEventListener("click",function(){startAdventure(Number(b.getAttribute("data-level")));});});
+  el("worldGrid").querySelectorAll("[data-level]").forEach(function(b){b.addEventListener("click",function(){startAdventure(Number(b.getAttribute("data-level")));});});renderEngagement();
 }
 function renderPractice(){
   el("topicSelect").innerHTML=worlds.map(function(w){return '<button class="topic-btn" data-topic="'+w.id+'"><span style="font-size:24px">'+w.icon+'</span> '+w.title+'<small>'+w.desc+'</small></button>';}).join("");
@@ -671,9 +708,9 @@ function startMistakePractice(){
 }
 function startGame(mode,qs,level,worldId){
   game={mode:mode,qs:qs,index:0,score:0,lives:3,level:level,world:worldId,answered:false};gameStartedAt=Date.now();
-  el("gameMode").textContent=mode==="adventure"?"Adventure Level "+level:mode==="practice"?"Practice":mode==="daily"?"Daily Challenge":"Mistake Practice";
+  el("gameMode").textContent=mode==="adventure"?"Adventure Level "+level:mode==="practice"?"Practice":mode==="daily"?"Daily Challenge":mode==="boss"?"Boss Battle":"Mistake Practice";
   el("gameTopic").textContent=worldId?worlds[worldId-1].title:"Mixed Grammar";
-  showView("game");renderQuestion();
+  showView("game");renderBoss();renderQuestion();
 }
 function renderQuestion(){
   var item=game.qs[game.index],q=item.q;game.answered=false;
@@ -683,11 +720,11 @@ function renderQuestion(){
   el("feedback").className="feedback";el("feedback").textContent="";el("nextBtn").style.display="none";
   el("options").innerHTML=q.slice(1,5).map(function(o,i){return '<button class="option" data-i="'+i+'"><b style="margin-right:8px">'+String.fromCharCode(65+i)+'.</b>'+o+'</button>';}).join("");
   el("options").querySelectorAll(".option").forEach(function(b){b.onclick=function(){answer(Number(b.getAttribute("data-i")));};});
-  if(state.speech)speak(q[0]);
+  renderBoss();if(state.speech)speak(q[0]);
 }
 function answer(i){
   if(game.answered)return;game.answered=true;var item=game.qs[game.index],q=item.q,correct=q[5],ok=i===correct;
-  state.answers++;if(ok){state.correct++;game.score++;state.xp+=10;beep(true);}else{game.lives=Math.max(0,game.lives-1);beep(false);addMistake(q,item.w,i);}
+  state.answers++;if(ok){state.correct++;game.score++;state.xp+=10;if(game.mode==="boss")game.bossHp=Math.max(0,(game.bossHp||100)-20);beep(true);}else{game.lives=Math.max(0,game.lives-1);beep(false);addMistake(q,item.w,i);}if(game.mode==="boss")renderBoss();
   if(!state.topicStats[item.w])state.topicStats[item.w]={a:0,c:0};state.topicStats[item.w].a++;if(ok)state.topicStats[item.w].c++;
   var opts=el("options").querySelectorAll(".option");opts.forEach(function(b,idx){b.disabled=true;if(idx===correct)b.classList.add("correct");if(idx===i&&!ok)b.classList.add("wrong");});animateReward(ok,opts[i]);
   var f=el("feedback");f.className="feedback show "+(ok?"ok":"no");f.innerHTML=(ok?"✅ Correct! ":"💡 Not quite. ") + q[6];
@@ -706,15 +743,16 @@ function finishGame(){
   state.stars+=earned;state.xp+=earned*10;
   if(game.mode==="adventure"&&passed){state.completed[game.level]=true;if(game.level===state.highest&&state.highest<100)state.highest++;if(game.level===100)state.highest=100;}
   if(game.mode==="daily")state.lastDay=today();
+  if(game.mode==="boss"&&passed){state.bossBadges[game.world]=true;state.xp+=100;state.stars+=5;}
   if(game.mode==="mistakes"&&passed){var solved=game.qs.map(function(x){return x.q[0];});state.mistakes=state.mistakes.filter(function(m){return solved.indexOf(m.q[0])<0;});}
   save();renderResult(passed,earned);if(passed)confetti();
 }
 function renderResult(passed,earned){
   el("resultEmoji").textContent=passed?"🏆":"💪";el("resultTitle").textContent=passed?"Challenge Complete!":"Try Once More";
   el("resultStars").textContent=earned?"⭐".repeat(earned):"☆☆☆";
-  el("resultText").textContent="Score: "+game.score+"/"+game.qs.length+" · Accuracy: "+pct(game.score,game.qs.length)+"% · +"+(game.score*10+earned*10)+" XP";
+  el("resultText").textContent="Score: "+game.score+"/"+game.qs.length+" · Accuracy: "+pct(game.score,game.qs.length)+"% · +"+(game.score*10+earned*10+(game.mode==="boss"&&passed?100:0))+" XP"+(game.mode==="boss"&&passed?" · Boss Badge +5⭐":"");
   el("resultContinue").textContent=(game.mode==="adventure"&&passed&&game.level<100)?"Next Level":"Play Again";
-  el("resultContinue").onclick=function(){el("resultModal").classList.remove("show");if(game.mode==="adventure"&&passed&&game.level<100)startAdventure(game.level+1);else if(game.mode==="adventure")startAdventure(game.level);else if(game.mode==="practice")startPractice(game.world);else if(game.mode==="daily")startDaily();else startMistakePractice();};
+  el("resultContinue").onclick=function(){el("resultModal").classList.remove("show");if(game.mode==="adventure"&&passed&&game.level<100)startAdventure(game.level+1);else if(game.mode==="adventure")startAdventure(game.level);else if(game.mode==="practice")startPractice(game.world);else if(game.mode==="daily")startDaily();else if(game.mode==="boss")startBossBattle(game.world);else startMistakePractice();};
   el("resultModal").classList.add("show");replayClass(el("resultEmoji"),"animate");
 }
 function renderMistakes(){
@@ -745,6 +783,7 @@ function updateDailyLabel(){el("dailyBtn").textContent=state.lastDay===today()?"
 document.querySelectorAll(".nav-btn").forEach(function(b){b.onclick=function(){showView(b.getAttribute("data-view"));};});
 document.querySelectorAll("[data-go]").forEach(function(b){b.onclick=function(){showView(b.getAttribute("data-go"));};});
 el("continueBtn").onclick=function(){startAdventure(Math.min(state.highest,100));};
+el("chestBtn").onclick=openDailyChest;el("bossHomeBtn").onclick=function(){startBossBattle(Number(this.dataset.world||0));};el("voiceAnswerBtn").onclick=voiceAnswer;
 el("learnBtn").onclick=function(){openLesson(currentWorld());};
 el("dailyBtn").onclick=startDaily;el("mistakeQuickBtn").onclick=startMistakePractice;el("practiceMistakesBtn").onclick=startMistakePractice;
 el("speakBtn").onclick=function(){if(game)speak(game.qs[game.index].q[0]);};el("nextBtn").onclick=nextQuestion;
@@ -785,7 +824,7 @@ if("serviceWorker" in navigator){window.addEventListener("load",function(){navig
 var contestFile=el("contestScreenshot");
 if(contestFile){contestFile.onchange=function(){var file=this.files&&this.files[0],preview=el("contestPreview");if(!file){preview.classList.remove("show");preview.removeAttribute("src");return;}if(file.size>6*1024*1024){toast("Screenshot must be under 6 MB");this.value="";preview.classList.remove("show");return;}var u=URL.createObjectURL(file);preview.src=u;preview.classList.add("show");};}
 if(el("contestForm")){el("contestForm").onsubmit=function(e){e.preventDefault();if(!contestBackendReady){toast("Secure contest backend is still connecting.");return false;}submitContestEntry();return false;};}
-renderHeader();renderPractice();renderHome();renderMistakes();renderParent();renderSundayQuiz();renderSettings();updateDailyLabel();renderGoldenLetters();scheduleGoldenBalloon();startAmbientBalloons();initContestBackend();
+renderHeader();renderPractice();renderHome();renderMistakes();renderParent();renderSundayQuiz();renderSettings();renderEngagement();updateDailyLabel();renderGoldenLetters();scheduleGoldenBalloon();startAmbientBalloons();initContestBackend();
 })();
 </script>
 </body>
