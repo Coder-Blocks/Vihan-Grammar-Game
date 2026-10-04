@@ -3,7 +3,7 @@
 -- Sensitive entry data is never directly selectable by anon users.
 
 create extension if not exists pgcrypto;
-create extension if not exists pg_cron with schema extensions;
+create extension if not exists pg_cron with schema pg_catalog;
 
 create table if not exists public.vihaa_balloon_progress (
   device_token uuid primary key,
@@ -190,6 +190,11 @@ begin
 
   if p_screenshot_mime not in ('image/png','image/jpeg','image/webp') then
     return query select false,null::uuid,'Unsupported screenshot format';
+    return;
+  end if;
+
+  if char_length(p_screenshot_base64) > 2200000 then
+    return query select false,null::uuid,'Screenshot payload is too large';
     return;
   end if;
 
