@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#241b52">
+<title>VIHAA Admin Console</title>
+<style>
+:root{--bg:#f5f6ff;--panel:#fff;--text:#212641;--muted:#737895;--brand:#6c4cff;--dark:#241b52;--line:#e7e8f3;--green:#24b47e;--red:#ff5d6c}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,"Segoe UI",system-ui,sans-serif;background:radial-gradient(circle at 10% 0,#ebe6ff,transparent 30%),radial-gradient(circle at 100% 15%,#dcf8fb,transparent 28%),var(--bg);color:var(--text)}
+button,input{font:inherit}.wrap{max-width:1380px;margin:auto;padding:18px}.top{background:linear-gradient(135deg,#171838,#38286f 55%,#6c4cff);color:#fff;padding:22px;border-radius:26px;display:flex;justify-content:space-between;gap:15px;align-items:center;box-shadow:0 20px 50px rgba(35,26,85,.2)}.brand{display:flex;gap:12px;align-items:center}.logo{width:52px;height:52px;border-radius:16px;background:linear-gradient(145deg,#8c72ff,#36cbd8);display:grid;place-items:center;font-size:27px}.brand h1{margin:0;font-size:22px}.brand small{color:#ddd7ff}.pill{padding:8px 11px;border-radius:999px;background:rgba(255,255,255,.12);font-size:12px;font-weight:900;color:#fff;text-decoration:none}.layout{display:grid;grid-template-columns:230px 1fr;gap:16px;margin-top:16px}.side,.panel,.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;box-shadow:0 10px 28px rgba(50,47,100,.07)}.side{padding:12px;height:max-content;position:sticky;top:16px}.nav{display:grid;gap:7px}.nav button{border:0;background:transparent;text-align:left;padding:12px;border-radius:13px;color:var(--text);font-weight:850;cursor:pointer}.nav button.active{background:#eeeaff;color:var(--brand)}.view{display:none}.view.active{display:block}.panel{padding:20px}.panel h2,.panel h3{margin-top:0}.sub{color:var(--muted);font-size:13px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}.card{padding:17px}.num{font-size:28px;font-weight:950}.lab{font-size:11px;color:var(--muted);font-weight:800;margin-top:4px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.field label{display:block;font-size:11px;font-weight:900;color:var(--muted);margin-bottom:6px}.field input{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px;background:#fff;color:var(--text)}.btn{border:0;border-radius:13px;padding:10px 14px;font-weight:900;cursor:pointer}.btn.dark{background:var(--dark);color:#fff}.btn.soft{background:#eeeaff;color:var(--brand)}.btn[disabled]{opacity:.5;cursor:not-allowed}.notice{margin-top:14px;border:1px solid #efd38c;background:#fff8e3;color:#6e571e;border-radius:16px;padding:13px;font-size:12px;font-weight:800}.gold-stage{height:300px;border-radius:22px;background:linear-gradient(#e8f7ff,#fbfbff);border:1px solid var(--line);position:relative;overflow:hidden}.gold{position:absolute;left:50%;bottom:-100px;transform:translateX(-50%);width:72px;height:88px;border-radius:50% 50% 46% 46%;background:radial-gradient(circle at 32% 25%,#fff9af 0,#ffd93d 28%,#e3a600 72%,#b57700 100%);border:3px solid #fff1a0;box-shadow:0 0 0 8px rgba(255,215,55,.12),0 18px 38px rgba(145,99,0,.32);display:grid;place-items:center;font-size:27px;color:#8b6200}.gold.fly{animation:fly 7s linear forwards}@keyframes fly{from{bottom:-100px}to{bottom:360px}}.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;border-bottom:1px solid var(--line);padding:10px;font-size:12px}.table th{color:var(--muted)}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}@media(max-width:900px){.layout{grid-template-columns:1fr}.side{position:static}.nav{grid-template-columns:repeat(3,1fr)}.cards,.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.wrap{padding:10px}.top{flex-direction:column;align-items:flex-start}.nav{grid-template-columns:repeat(2,1fr)}.cards,.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><div class="logo">🛡️</div><div><h1>VIHAA Admin Console</h1><small>Grammar Adventure · TIC</small></div></div>
+    <div><span class="pill">Admin Preview</span> <a class="pill" href="./" target="_blank">Open Live App ↗</a></div>
+  </header>
+  <div class="layout">
+    <aside class="side"><div class="nav">
+      <button class="active" data-v="overview">📊 Overview</button>
+      <button data-v="quiz">🏆 Sunday Quiz</button>
+      <button data-v="balloon">🎈 Golden Balloon</button>
+      <button data-v="entries">🎁 Entries</button>
+      <button data-v="league">🏫 League</button>
+      <button data-v="winner">👑 Winners</button>
+    </div></aside>
+    <main>
+      <section class="view active" id="v-overview">
+        <div class="panel"><h2>Admin Overview</h2><p class="sub">Central dashboard for VIHAA Grammar Adventure operations.</p>
+          <div class="cards">
+            <div class="card"><div class="num">500</div><div class="lab">MAX SUNDAY SLOTS</div></div>
+            <div class="card"><div class="num">₹25</div><div class="lab">ENTRY FEE</div></div>
+            <div class="card"><div class="num">2</div><div class="lab">WEEKLY PRIZES</div></div>
+            <div class="card"><div class="num">5</div><div class="lab">GOLDEN LETTERS</div></div>
+          </div>
+          <div class="notice">Secure shared backend is not connected yet, so global write controls are intentionally locked. No admin password or secret key is exposed in this public page.</div>
+        </div>
+      </section>
+      <section class="view" id="v-quiz">
+        <div class="panel"><h2>🏆 Sunday Quiz Control</h2><p class="sub">Weekly prize and live-quiz settings preview.</p>
+          <div class="grid">
+            <div class="field"><label>First Prize</label><input value="₹5,000" readonly></div>
+            <div class="field"><label>Second Prize</label><input value="₹2,500 + Pen Set" readonly></div>
+            <div class="field"><label>Slots</label><input value="500" readonly></div>
+          </div>
+          <div class="actions"><button class="btn dark" disabled>Start Live Quiz</button><button class="btn soft" disabled>Save Weekly Settings</button></div>
+        </div>
+      </section>
+      <section class="view" id="v-balloon">
+        <div class="panel"><h2>🎈 Golden Balloon Test</h2><p class="sub">This local preview does not change any child's official VIHAA progress.</p>
+          <div class="gold-stage"><div class="gold" id="gold">★</div></div>
+          <div class="actions"><button class="btn dark" id="testGold">Run Golden Balloon Test</button></div>
+        </div>
+      </section>
+      <section class="view" id="v-entries">
+        <div class="panel"><h2>🎁 Contest Entries</h2><table class="table"><thead><tr><th>Entry</th><th>Name/Nickname</th><th>Class</th><th>City/District</th><th>Status</th></tr></thead><tbody><tr><td colspan="5">Shared backend not connected.</td></tr></tbody></table></div>
+      </section>
+      <section class="view" id="v-league">
+        <div class="panel"><h2>🏫 School & Class League</h2><table class="table"><thead><tr><th>Rank</th><th>School</th><th>Class</th><th>Points</th></tr></thead><tbody><tr><td colspan="4">Global league data will appear here after backend activation.</td></tr></tbody></table></div>
+      </section>
+      <section class="view" id="v-winner">
+        <div class="panel"><h2>👑 Winner Management</h2><p class="sub">Public winner card preview.</p><div class="grid"><div class="field"><label>Name/Nickname</label><input placeholder="Winner"></div><div class="field"><label>Class</label><input placeholder="Class"></div><div class="field"><label>City/District</label><input placeholder="City"></div></div><div class="actions"><button class="btn dark" disabled>Announce Winner</button></div></div>
+      </section>
+    </main>
+  </div>
+</div>
+<script>
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));document.getElementById("v-"+b.dataset.v).classList.add("active");});
+document.getElementById("testGold").onclick=()=>{const b=document.getElementById("gold");b.classList.remove("fly");void b.offsetWidth;b.classList.add("fly");};
+</script>
+</body></html>
