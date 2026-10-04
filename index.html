@@ -38,6 +38,9 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
 @keyframes letterFly{0%{transform:translate(0,0) scale(.6) rotate(-10deg);opacity:0}25%{opacity:1;transform:translate(0,-28px) scale(1.25) rotate(6deg)}100%{transform:translate(calc(50vw - 50%),-55vh) scale(.75);opacity:0}}
 
 
+.contest-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px;text-align:left}.contest-form label{font-size:12px;font-weight:900;color:var(--text)}.contest-form input,.contest-form select{width:100%;margin-top:6px;border:1px solid var(--line);border-radius:13px;padding:11px 12px;background:var(--panel);color:var(--text)}.contest-form .full{grid-column:1/-1}.contest-shot{border:1.5px dashed #d4b646;border-radius:16px;padding:14px;background:rgba(255,248,205,.55)}.contest-shot input{border:0;padding:8px 0;background:transparent}.consent-row{display:flex;align-items:flex-start;gap:9px;font-size:12px;color:var(--muted);font-weight:700}.consent-row input{width:auto;margin:2px 0 0}.contest-status{font-size:12px;font-weight:800;color:var(--muted);margin-top:8px}.contest-submit[disabled]{opacity:.55;cursor:not-allowed}.contest-preview{display:none;margin-top:10px;max-height:180px;border-radius:14px;border:1px solid var(--line);max-width:100%}.contest-preview.show{display:block}.dark .contest-form input,.dark .contest-form select{background:#17192c}
+@media(max-width:620px){.contest-form{grid-template-columns:1fr}.contest-form .full{grid-column:auto}}
+
 /* Vihaa motion system */
 @keyframes floatMascot{0%,100%{transform:translateY(0) rotate(4deg)}50%{transform:translateY(-12px) rotate(-2deg)}}
 @keyframes heroGlow{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.45}50%{transform:translate3d(-22px,18px,0) scale(1.12);opacity:.8}}
@@ -105,7 +108,39 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
     <div class="hunt-copy"><b>🎈 Golden Balloon Hunt</b><span>One golden balloon can appear at a secret time each day. Blast it and collect VIHAA.</span></div>
     <div class="gold-letters" id="goldLetters"><span class="gold-letter">V</span><span class="gold-letter">I</span><span class="gold-letter">H</span><span class="gold-letter">A</span><span class="gold-letter">A</span></div>
   </div>
-  <div class="gift-unlocked" id="giftUnlocked"><b>🎁 VIHAA Complete — Gift Entry Unlocked!</b><p>Take a screenshot of this completed page. Secure contest upload will be activated after the shared contest backend is connected.</p></div>
+  <div class="gift-unlocked" id="giftUnlocked">
+    <b>🎁 VIHAA Complete — Gift Entry Unlocked!</b>
+    <p>Take a screenshot showing all 5 golden letters, then submit it here. Child details stay private; only a winner-safe name/location summary can be shown publicly.</p>
+    <form class="contest-form" id="contestForm">
+      <label class="full contest-shot">Challenge screenshot
+        <input type="file" id="contestScreenshot" accept="image/png,image/jpeg,image/webp" required>
+        <img id="contestPreview" class="contest-preview" alt="Screenshot preview">
+      </label>
+      <label>Kid first name / nickname
+        <input id="contestKidName" maxlength="30" autocomplete="off" required>
+      </label>
+      <label>Age
+        <input id="contestAge" type="number" min="4" max="18" inputmode="numeric" required>
+      </label>
+      <label>Class / Grade
+        <input id="contestClass" maxlength="20" placeholder="e.g. Class 4" required>
+      </label>
+      <label>School name <span style="font-weight:700;color:var(--muted)">(optional)</span>
+        <input id="contestSchool" maxlength="80" autocomplete="off">
+      </label>
+      <label>City / District
+        <input id="contestCity" maxlength="60" placeholder="No home address" required>
+      </label>
+      <label>Parent / Guardian contact
+        <input id="contestGuardian" maxlength="80" placeholder="Phone or email" required>
+      </label>
+      <label class="full consent-row"><input type="checkbox" id="contestConsent" required><span>I am the parent/guardian or have parent/guardian permission to submit this entry. I understand the exact delivery address will only be requested privately if this entry wins.</span></label>
+      <div class="full">
+        <button class="btn dark contest-submit" id="contestSubmit" type="submit" disabled>Secure Upload Activating…</button>
+        <div class="contest-status" id="contestStatus">Supabase secure submission backend is being connected. Your data is not sent anywhere until this button becomes active.</div>
+      </div>
+    </form>
+  </div>
   <div class="winner-board" id="winnerBoard"><div style="display:flex;align-items:center;gap:12px"><div class="winner-crown">👑</div><div><b>Sunday Surprise Winner</b><div class="winner-meta" id="winnerMeta">Winner announcement will appear here for every user.</div></div></div><div class="winner-badge">Every Sunday</div></div>
   <div class="section-head"><div><h3>Grammar Worlds</h3><p>10 worlds · 100 levels · fresh questions · no normal-mode repeats</p></div><div class="chip" id="progressChip">0% complete</div></div>
   <div class="world-grid" id="worldGrid"></div>
@@ -652,6 +687,9 @@ el("resetBtn").onclick=function(){if(confirm("Reset all Vihaa Grammar Adventure 
 window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredPrompt=e;el("installBtn").disabled=false;});
 el("installBtn").onclick=function(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(function(){deferredPrompt=null;});}else toast("Use your browser menu → Install app / Add to Home Screen");};
 if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){});});}
+var contestFile=el("contestScreenshot");
+if(contestFile){contestFile.onchange=function(){var file=this.files&&this.files[0],preview=el("contestPreview");if(!file){preview.classList.remove("show");preview.removeAttribute("src");return;}if(file.size>6*1024*1024){toast("Screenshot must be under 6 MB");this.value="";preview.classList.remove("show");return;}var u=URL.createObjectURL(file);preview.src=u;preview.classList.add("show");};}
+if(el("contestForm")){el("contestForm").onsubmit=function(e){e.preventDefault();if(el("contestSubmit").disabled){toast("Secure contest backend is still connecting.");return false;}};}
 renderHeader();renderPractice();renderHome();renderMistakes();renderParent();renderSettings();updateDailyLabel();renderGoldenLetters();scheduleGoldenBalloon();startAmbientBalloons();
 })();
 </script>
