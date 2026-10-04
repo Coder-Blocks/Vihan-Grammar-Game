@@ -545,7 +545,7 @@ function animateTestGoldenLetter(letter,x,y,targetIndex){
 function spawnTestGoldenBalloon(){
   if(document.querySelector(".balloon.gold"))return;
   var b=document.createElement("div");b.className="balloon gold";b.style.left=(12+Math.random()*74)+"vw";b.innerHTML="<span>★</span>";b.title="TEST GOLDEN BALLOON — Blast me!";b.setAttribute("aria-label","Test Golden Balloon");
-  b.onclick=function(){if(b.classList.contains("popped"))return;b.classList.add("popped");beep(true);var r=b.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,idx=Math.min(balloonState.letters.length,4),letter=BALLOON_TARGET[idx];goldenPartyBurst(x,y);animateTestGoldenLetter(letter,x,y,idx);setTimeout(function(){b.remove();},300);};
+  b.onclick=function(){if(b.classList.contains("popped"))return;b.classList.add("popped");beep(true);var r=b.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,idx=Math.min(balloonState.letters.length,4),letter=BALLOON_TARGET[idx];animateTestGoldenLetter(letter,x,y,idx);setTimeout(function(){b.remove();},300);};
   document.body.appendChild(b);setTimeout(function(){if(document.body.contains(b))b.remove();},22500);
 }
 function scheduleOneTimeTestGoldenBalloon(){
