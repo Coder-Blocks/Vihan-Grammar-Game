@@ -47,6 +47,8 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
 
 .passport-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.passport-stamp{border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:16px;display:flex;align-items:center;gap:13px}.passport-stamp .seal{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:25px;background:#f2f1f9;filter:grayscale(1);opacity:.55}.passport-stamp.unlocked .seal{background:linear-gradient(145deg,#fff6b6,#ffd84d);filter:none;opacity:1;box-shadow:0 7px 17px rgba(195,142,0,.18)}.passport-stamp b{display:block}.passport-stamp small{color:var(--muted);font-weight:700}.vault-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}.certificate-card{border:1px solid var(--line);border-radius:20px;background:var(--panel);padding:16px;text-align:center;position:relative;overflow:hidden}.certificate-card.locked{opacity:.55;filter:grayscale(.6)}.certificate-card .cert-icon{font-size:36px}.certificate-card b{display:block;margin:7px 0 5px}.certificate-card small{color:var(--muted);font-weight:700}.mission-card{margin-top:16px;border:1px solid var(--line);background:var(--panel);border-radius:22px;padding:18px}.mission-setup{display:grid;grid-template-columns:1.2fr .7fr auto;gap:9px;align-items:end}.mission-setup select,.mission-setup input{width:100%;border:1px solid var(--line);border-radius:13px;padding:11px;background:var(--panel);color:var(--text)}.mission-progress{height:11px;border-radius:999px;background:#ececf5;overflow:hidden;margin-top:12px}.mission-progress i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--cyan));border-radius:inherit;transition:.4s width}.secret-event{position:fixed;z-index:58;right:5vw;bottom:12vh;width:86px;height:86px;border-radius:24px;display:none;place-items:center;font-size:48px;background:radial-gradient(circle at 30% 25%,#fff,#dff9ff 42%,#9d8cff 100%);box-shadow:0 18px 44px rgba(77,54,165,.3);border:2px solid rgba(255,255,255,.7);cursor:pointer;animation:floatMascot 2.3s ease-in-out infinite,profileGlow 2s ease-in-out infinite}.secret-event.show{display:grid}.secret-label{position:absolute;bottom:-28px;background:#251d54;color:#fff;border-radius:999px;font-size:10px;font-weight:900;padding:6px 8px;white-space:nowrap}.secret-event.burst{animation:balloonPop .3s ease forwards}
 @media(max-width:800px){.passport-grid,.vault-grid{grid-template-columns:1fr}.mission-setup{grid-template-columns:1fr}}
+.spectator-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-top:16px}.spectator-card,.league-card{border:1px solid var(--line);background:var(--panel);border-radius:22px;padding:18px;box-shadow:0 10px 28px rgba(50,47,100,.06)}.spectator-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.live-dot{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:950;color:#b52b3a}.live-dot:before{content:"";width:9px;height:9px;border-radius:50%;background:#ff5d6c;box-shadow:0 0 0 6px rgba(255,93,108,.12);animation:levelPulse 1.2s ease-in-out infinite}.spectator-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.spectator-stat{border:1px solid var(--line);border-radius:15px;padding:11px;text-align:center}.spectator-stat strong{display:block;font-size:22px}.spectator-stat span{font-size:10px;font-weight:900;color:var(--muted)}.league-table{margin-top:12px}.league-row{display:grid;grid-template-columns:42px 1fr 88px;gap:9px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}.league-row:last-child{border-bottom:0}.league-score{text-align:right;font-weight:950}.league-form{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-top:12px}.league-form input{width:100%;border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--panel);color:var(--text)}
+@media(max-width:800px){.spectator-grid{grid-template-columns:1fr}.spectator-stats{grid-template-columns:1fr 1fr 1fr}.league-form{grid-template-columns:1fr}}
 .sunday-hero{background:linear-gradient(135deg,#171838,#38286f 58%,#6c4cff);color:#fff;border-radius:28px;padding:28px;box-shadow:0 24px 55px rgba(37,29,84,.22);position:relative;overflow:hidden}.sunday-hero:after{content:"🏆";position:absolute;right:25px;top:12px;font-size:110px;opacity:.09;transform:rotate(9deg)}.sunday-hero h2{font-size:clamp(28px,4vw,46px);margin:7px 0 10px}.sunday-hero p{color:#e8e3ff;max-width:720px;margin:0}.quiz-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.quiz-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:8px 11px;font-size:12px;font-weight:900}.slot-card{margin-top:15px;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 10px 28px rgba(50,47,100,.06)}.slot-top{display:flex;justify-content:space-between;align-items:end;gap:15px}.slot-num{font-size:30px;font-weight:950}.slot-sub{font-size:12px;color:var(--muted);font-weight:800}.slot-track{height:14px;background:#ececf5;border-radius:999px;overflow:hidden;margin-top:12px}.slot-track i{display:block;height:100%;width:0;background:linear-gradient(90deg,#24b47e,#28c8d8,#6c4cff);border-radius:inherit;transition:.4s width}.prize-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}.prize-card{border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:18px}.prize-card .place{font-size:12px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.1em}.prize-card .amount{font-size:28px;font-weight:950;margin-top:5px}.quiz-rule-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}.quiz-rule{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:15px}.quiz-rule b{display:block;margin-bottom:5px}.quiz-rule span{font-size:12px;color:var(--muted);line-height:1.45}.quiz-live{margin-top:16px;border:1px solid var(--line);background:var(--panel);border-radius:24px;padding:20px}.quiz-live-top{display:flex;justify-content:space-between;align-items:center;gap:14px}.countdown-ring{width:66px;height:66px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--brand) 0deg,#ececf5 0);position:relative}.countdown-ring:after{content:"";position:absolute;width:50px;height:50px;border-radius:50%;background:var(--panel)}.countdown-ring b{position:relative;z-index:1;font-size:20px}.live-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:15px}.live-stat{border:1px solid var(--line);border-radius:15px;padding:12px;text-align:center}.live-stat strong{font-size:21px;display:block}.live-stat span{font-size:11px;color:var(--muted);font-weight:800}.leaderboard{margin-top:14px;border-top:1px solid var(--line);padding-top:14px}.leader-row{display:grid;grid-template-columns:34px 1fr 90px;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}.leader-row:last-child{border-bottom:0}.leader-time{text-align:right;font-weight:900}.quiz-pay-box{margin-top:15px;border:1px solid #d9d0ff;background:#f5f2ff;border-radius:20px;padding:16px}.dark .quiz-pay-box{background:#292646;border-color:#4b4677}.quiz-pay-box p{font-size:12px;color:var(--muted);margin:6px 0 12px}.quiz-warning{margin-top:14px;background:#fff7df;border:1px solid #f0d48a;border-radius:17px;padding:13px;font-size:12px;color:#6f5820;font-weight:750;line-height:1.5}.dark .quiz-warning{background:#3a311b;border-color:#665625;color:#efd98b}
 @media(max-width:620px){.prize-grid,.quiz-rule-grid{grid-template-columns:1fr}.live-stats{grid-template-columns:1fr 1fr}.live-stats .live-stat:last-child{grid-column:1/-1}.slot-top{align-items:start;flex-direction:column}}
 
@@ -265,6 +267,30 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
     <div class="leaderboard"><b>Fastest response preview</b><div class="leader-row"><span>1</span><span>Participant</span><span class="leader-time">— ms</span></div><div class="leader-row"><span>2</span><span>Participant</span><span class="leader-time">— ms</span></div><div class="leader-row"><span>3</span><span>Participant</span><span class="leader-time">— ms</span></div></div>
   </div>
 
+  <div class="spectator-grid">
+    <div class="spectator-card">
+      <div class="spectator-head"><div><h3 style="margin:0">📡 Sunday Spectator Center</h3><div class="slot-sub">Anyone can watch the competition status. Child identities stay protected.</div></div><span class="live-dot" id="spectatorLiveDot">WAITING</span></div>
+      <div class="spectator-stats">
+        <div class="spectator-stat"><strong id="spectatorRound">—</strong><span>ROUND</span></div>
+        <div class="spectator-stat"><strong id="spectatorRemaining">—</strong><span>PLAYERS LEFT</span></div>
+        <div class="spectator-stat"><strong id="spectatorFastest">—</strong><span>FASTEST</span></div>
+      </div>
+      <div class="contest-status" id="spectatorStatus" style="margin-top:12px">Waiting for the next live quiz.</div>
+    </div>
+
+    <div class="league-card">
+      <h3 style="margin:0">🏫 School & Class League</h3>
+      <div class="slot-sub">Weekly skill ranking by school/class. Only public-safe school/class names and scores are shown.</div>
+      <div class="league-form">
+        <input id="leagueSchool" maxlength="80" placeholder="School name">
+        <input id="leagueClass" maxlength="20" placeholder="Class / Grade">
+        <button class="btn soft" id="saveLeagueBtn">Join League</button>
+      </div>
+      <div class="contest-status" id="leagueStatus">Save school/class to include this learner when the global league backend is active.</div>
+      <div class="league-table" id="leagueTable"><div class="league-row"><span>—</span><span>No global rankings yet</span><span class="league-score">—</span></div></div>
+    </div>
+  </div>
+
   <div class="quiz-warning"><b>Important:</b> This is a paid skill competition. Before enabling real-money entry, eligibility, guardian consent, entry-fee terms, taxes and state-specific legal requirements should be reviewed. For child participants, payments and prize claims should be handled by a parent/guardian.</div>
 </section>
 
@@ -432,7 +458,7 @@ Object.keys(banks).forEach(function(k){banks[k].forEach(function(q){q[5]=Number(
 
 var LEGACY_KEY="vihanGrammarAdventureV2", KEY="vihaaGrammarAdventureV3";
 var QUESTION_HISTORY_KEY="vihaaGrammarQuestionHistoryV1";
-var fresh={name:"Vihan",photo:"",highest:1,completed:{},xp:0,stars:0,streak:1,lastDay:"",mistakes:[],answers:0,correct:0,sessions:0,seconds:0,topicStats:{},speech:true,sound:true,dark:false,chestDate:"",chestReward:"",bossBadges:{},secretBadges:[],parentMission:null};
+var fresh={name:"Vihan",photo:"",highest:1,completed:{},xp:0,stars:0,streak:1,lastDay:"",mistakes:[],answers:0,correct:0,sessions:0,seconds:0,topicStats:{},speech:true,sound:true,dark:false,chestDate:"",chestReward:"",bossBadges:{},secretBadges:[],parentMission:null,leagueSchool:"",leagueClass:""};
 var state=loadState();
 var questionHistory=loadQuestionHistory();
 var game=null,gameStartedAt=0,deferredPrompt=null;
@@ -821,10 +847,33 @@ function renderParent(){
 }
 function processProfilePhoto(file){if(!file||!file.type||file.type.indexOf("image/")!==0){toast("Please choose an image file");return;}if(file.size>12*1024*1024){toast("Photo is too large");return;}var reader=new FileReader();reader.onload=function(ev){var im=new Image();im.onload=function(){var size=Math.min(im.width,im.height),sx=(im.width-size)/2,sy=(im.height-size)/2,c=document.createElement("canvas");c.width=320;c.height=320;var ctx=c.getContext("2d");ctx.drawImage(im,sx,sy,size,size,0,0,320,320);state.photo=c.toDataURL("image/jpeg",.84);save();renderProfilePhoto();toast("Profile photo updated");};im.onerror=function(){toast("Could not read this photo");};im.src=ev.target.result;};reader.readAsDataURL(file);}
 function renderSundayQuiz(){
-  var booked=0,capacity=500;
-  if(window.VIHAA_SUNDAY_QUIZ&&Number.isFinite(Number(window.VIHAA_SUNDAY_QUIZ.booked)))booked=Math.max(0,Math.min(capacity,Number(window.VIHAA_SUNDAY_QUIZ.booked)));
+  var booked=0,capacity=500,cfg=window.VIHAA_SUNDAY_QUIZ||{};
+  if(Number.isFinite(Number(cfg.booked)))booked=Math.max(0,Math.min(capacity,Number(cfg.booked)));
   if(el("quizBooked"))el("quizBooked").textContent=booked;
   if(el("quizSlotBar"))el("quizSlotBar").style.width=(booked/capacity*100)+"%";
+  if(el("quizPrize1")&&cfg.prize1)el("quizPrize1").textContent=cfg.prize1;
+  if(el("quizPrize2")&&cfg.prize2)el("quizPrize2").textContent=cfg.prize2;
+  if(el("quizPrize2Extra")&&cfg.prize2Extra)el("quizPrize2Extra").textContent=cfg.prize2Extra;
+  if(el("quizRegStatus"))el("quizRegStatus").textContent=booked>=500?"500 slots full · competition confirmed":"Registration open · "+(500-booked)+" slots remaining";
+  if(el("leagueSchool"))el("leagueSchool").value=state.leagueSchool||"";
+  if(el("leagueClass"))el("leagueClass").value=state.leagueClass||"";
+  renderSpectatorFallback();
+  renderLeagueFallback();
+}
+function renderSpectatorFallback(){
+  var cfg=window.VIHAA_SUNDAY_QUIZ||{},live=!!cfg.live;if(el("spectatorLiveDot"))el("spectatorLiveDot").textContent=live?"LIVE":"WAITING";if(el("spectatorRound"))el("spectatorRound").textContent=cfg.round||"—";if(el("spectatorRemaining"))el("spectatorRemaining").textContent=cfg.remaining||"—";if(el("spectatorFastest"))el("spectatorFastest").textContent=cfg.fastestMs?cfg.fastestMs+" ms":"—";if(el("spectatorStatus"))el("spectatorStatus").textContent=live?"Live status is updating for all spectators.":"Waiting for the next live quiz.";
+}
+function renderLeagueFallback(){
+  if(!el("leagueTable"))return;var score=rivalPoints();if(state.leagueSchool||state.leagueClass){el("leagueTable").innerHTML='<div class="league-row"><span>—</span><span>'+(state.leagueSchool||"My School")+' · '+(state.leagueClass||"Class")+'</span><span class="league-score">'+score+' pts</span></div>';el("leagueStatus").textContent=contestBackendReady?"Syncing global league…":"Saved on this device. Global rank activates when shared backend is connected.";}else{el("leagueTable").innerHTML='<div class="league-row"><span>—</span><span>No school/class joined yet</span><span class="league-score">—</span></div>';}}
+function saveLeagueProfile(){state.leagueSchool=el("leagueSchool").value.trim().slice(0,80);state.leagueClass=el("leagueClass").value.trim().slice(0,20);save();renderLeagueFallback();if(contestBackendReady)syncLeagueProfile();toast("School/Class league profile saved");}
+async function syncLeagueProfile(){
+  if(!contestClient||!state.leagueSchool||!state.leagueClass)return;try{var r=await contestClient.rpc("vihaa_upsert_league_profile",{p_device:balloonState.deviceToken,p_school:state.leagueSchool,p_class_name:state.leagueClass,p_points:rivalPoints()});if(r.error)throw r.error;await loadGlobalLeague();}catch(e){if(el("leagueStatus"))el("leagueStatus").textContent="League saved locally; global sync is temporarily unavailable.";}
+}
+async function loadGlobalLeague(){
+  if(!contestClient)return;try{var r=await contestClient.rpc("vihaa_school_league");if(r.error)throw r.error;var rows=r.data||[];if(rows.length){el("leagueTable").innerHTML=rows.slice(0,10).map(function(x,i){return '<div class="league-row"><span>#'+(i+1)+'</span><span>'+x.school+' · '+x.class_name+'</span><span class="league-score">'+x.points+' pts</span></div>';}).join("");el("leagueStatus").textContent="Global weekly league · public-safe rankings";}}catch(e){}
+}
+async function loadSpectatorState(){
+  if(!contestClient)return;try{var r=await contestClient.rpc("vihaa_spectator_state");if(r.error)throw r.error;var x=r.data&&r.data[0];if(!x)return;el("spectatorLiveDot").textContent=x.live?"LIVE":"WAITING";el("spectatorRound").textContent=x.round_no||"—";el("spectatorRemaining").textContent=x.remaining_players==null?"—":x.remaining_players;el("spectatorFastest").textContent=x.fastest_ms?x.fastest_ms+" ms":"—";el("spectatorStatus").textContent=x.status_text||"Waiting for live quiz.";}catch(e){}
 }
 function renderSettings(){
   el("nameInput").value=state.name;toggleButton(el("speechToggle"),state.speech);toggleButton(el("soundToggle"),state.sound);toggleButton(el("themeToggle"),state.dark);if(el("removePhotoBtn"))el("removePhotoBtn").style.display=state.photo?"inline-block":"none";
@@ -848,7 +897,7 @@ var photoInput=el("profilePhotoInput");function choosePhoto(){photoInput.click()
 el("speechToggle").onclick=function(){state.speech=!state.speech;toggleButton(el("speechToggle"),state.speech);save();};
 el("soundToggle").onclick=function(){state.sound=!state.sound;toggleButton(el("soundToggle"),state.sound);save();};
 el("themeToggle").onclick=function(){state.dark=!state.dark;toggleButton(el("themeToggle"),state.dark);save();renderHeader();};
-el("setMissionBtn").onclick=setParentMission;el("secretEvent").onclick=collectSecretEvent;el("secretEvent").onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();collectSecretEvent();}};
+el("setMissionBtn").onclick=setParentMission;el("saveLeagueBtn").onclick=saveLeagueProfile;el("secretEvent").onclick=collectSecretEvent;el("secretEvent").onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();collectSecretEvent();}};
 el("resetBtn").onclick=function(){if(confirm("Reset all Vihaa Grammar Adventure progress on this device?")){localStorage.removeItem(KEY);localStorage.removeItem(LEGACY_KEY);state=Object.assign({},fresh,{completed:{},topicStats:{},mistakes:[]});save();renderHome();renderParent();renderMistakes();toast("Progress reset · question history kept to prevent repeats");}};
 window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredPrompt=e;el("installBtn").disabled=false;});
 el("installBtn").onclick=function(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(function(){deferredPrompt=null;});}else toast("Use your browser menu → Install app / Add to Home Screen");};
@@ -874,7 +923,7 @@ async function submitContestEntry(){
 }
 async function initContestBackend(){
   if(!hasContestConfig())return;
-  try{contestClient=window.supabase.createClient(window.VIHAA_SUPABASE.url,window.VIHAA_SUPABASE.anonKey,{auth:{persistSession:false,autoRefreshToken:false}});contestBackendReady=true;if(goldTimer)clearTimeout(goldTimer);var btn=el("contestSubmit");if(btn){btn.disabled=false;btn.textContent="Submit Gift Entry";el("contestStatus").textContent="Secure contest backend connected. Screenshot/contact details are private and used only for contest administration.";}await syncServerProgress();await loadPublicWinner();contestPollTimer=setInterval(syncServerProgress,60000);setInterval(loadPublicWinner,15*60*1000);}catch(e){contestBackendReady=false;}
+  try{contestClient=window.supabase.createClient(window.VIHAA_SUPABASE.url,window.VIHAA_SUPABASE.anonKey,{auth:{persistSession:false,autoRefreshToken:false}});contestBackendReady=true;if(goldTimer)clearTimeout(goldTimer);var btn=el("contestSubmit");if(btn){btn.disabled=false;btn.textContent="Submit Gift Entry";el("contestStatus").textContent="Secure contest backend connected. Screenshot/contact details are private and used only for contest administration.";}await syncServerProgress();await loadPublicWinner();await loadSpectatorState();await loadGlobalLeague();await syncLeagueProfile();contestPollTimer=setInterval(function(){syncServerProgress();loadSpectatorState();},60000);setInterval(function(){loadPublicWinner();loadGlobalLeague();},15*60*1000);}catch(e){contestBackendReady=false;}
 }
 if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){});});}
 var contestFile=el("contestScreenshot");
