@@ -25,7 +25,44 @@ button,input{font:inherit}button{cursor:pointer}.app{max-width:1240px;margin:aut
 .settings-grid{display:grid;gap:12px}.setting{border:1px solid var(--line);padding:15px;border-radius:17px;display:flex;justify-content:space-between;align-items:center;gap:20px}.toggle{width:52px;height:30px;border-radius:999px;border:0;background:#dcddea;padding:3px}.toggle i{display:block;width:24px;height:24px;background:white;border-radius:50%;transition:.2s;box-shadow:0 2px 6px rgba(0,0,0,.15)}.toggle.on{background:var(--brand)}.toggle.on i{transform:translateX(22px)}.name-row{display:flex;gap:8px}.name-row input{border:1px solid var(--line);border-radius:13px;padding:10px 12px;min-width:0}
 .modal{position:fixed;inset:0;background:rgba(27,22,63,.5);backdrop-filter:blur(5px);z-index:50;display:none;place-items:center;padding:18px}.modal.show{display:grid}.modal-card{background:white;border-radius:28px;padding:28px;max-width:520px;width:100%;box-shadow:0 30px 80px rgba(28,21,72,.28);text-align:center}.modal-card .trophy{font-size:72px}.modal-card h2{margin:6px 0}.stars-big{font-size:34px;letter-spacing:5px}.modal-card p{color:var(--muted)}
 .toast{position:fixed;right:20px;bottom:20px;background:#221c48;color:white;border-radius:14px;padding:12px 15px;z-index:100;opacity:0;transform:translateY(12px);pointer-events:none;transition:.25s;font-weight:800}.toast.show{opacity:1;transform:none}.confetti{position:fixed;top:-20px;width:10px;height:16px;border-radius:3px;z-index:99;animation:fall 1.7s linear forwards}@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.5}}
-footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12px;font-weight:700}.dark{--bg:#15162a;--panel:#20223b;--text:#f3f3ff;--muted:#aeb1ca;--line:#34364f}.dark body{background:#15162a}.dark .topbar,.dark .sidebar,.dark .world-card,.dark .quick,.dark .panel,.dark .question-card,.dark .stat,.dark .topic-btn,.dark .option,.dark .modal-card{background:#20223b}.dark .lesson-card{background:#1a1c33}.dark .chip{background:#252743}.dark .nav-btn{color:#c7cae3}.dark .nav-btn.active{background:#302b59}.dark .option:hover{background:#292b48}.dark .world-progress,.dark .bar,.dark .chart-row .track{background:#34364f}.dark .name-row input{background:#17192c;color:white}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12px;font-weight:700}
+
+/* Vihaa motion system */
+@keyframes floatMascot{0%,100%{transform:translateY(0) rotate(4deg)}50%{transform:translateY(-12px) rotate(-2deg)}}
+@keyframes heroGlow{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.45}50%{transform:translate3d(-22px,18px,0) scale(1.12);opacity:.8}}
+@keyframes cardRise{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes levelPulse{0%,100%{transform:scale(1);box-shadow:0 6px 15px rgba(108,76,255,.28)}50%{transform:scale(1.12);box-shadow:0 8px 24px rgba(108,76,255,.48)}}
+@keyframes profileGlow{0%,100%{box-shadow:0 0 0 0 rgba(108,76,255,.12),0 8px 20px rgba(52,41,120,.12)}50%{box-shadow:0 0 0 8px rgba(108,76,255,0),0 12px 28px rgba(52,41,120,.2)}}
+@keyframes popCorrect{0%{transform:scale(1)}45%{transform:scale(1.035)}100%{transform:scale(1)}}
+@keyframes shakeWrong{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes xpPop{0%{transform:scale(1)}40%{transform:scale(1.18) rotate(-2deg)}100%{transform:scale(1)}}
+@keyframes starTwinkle{0%,100%{transform:rotate(0) scale(1)}50%{transform:rotate(10deg) scale(1.18)}}@keyframes trophyPop{0%{transform:scale(.65) rotate(-10deg);opacity:.2}55%{transform:scale(1.18) rotate(5deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+@keyframes slideView{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes softBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes sparkle{0%{opacity:0;transform:translateY(8px) scale(.5)}50%{opacity:1}100%{opacity:0;transform:translateY(-24px) scale(1.15)}}
+
+.view.active{animation:slideView .38s cubic-bezier(.2,.8,.2,1)}
+.hero{isolation:isolate}
+.hero:before{content:"";position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.24),rgba(255,255,255,0) 68%);left:44%;top:-120px;z-index:-1;animation:heroGlow 6s ease-in-out infinite}
+.mascot{animation:floatMascot 3.4s ease-in-out infinite}
+.avatar{animation:profileGlow 3s ease-in-out infinite}
+.world-card,.quick,.stat,.lesson-card,.topic-btn{animation:cardRise .45s ease both}
+.world-card:nth-child(2n),.quick:nth-child(2),.stat:nth-child(2){animation-delay:.06s}
+.world-card:nth-child(3n),.quick:nth-child(3),.stat:nth-child(3){animation-delay:.12s}
+.world-card:nth-child(4n),.stat:nth-child(4){animation-delay:.18s}
+.level-dot.next{animation:levelPulse 1.8s ease-in-out infinite}
+.btn,.nav-btn,.option,.topic-btn,.level-dot,.chip{will-change:transform}
+.btn:active,.nav-btn:active,.option:active,.topic-btn:active,.level-dot:active{transform:scale(.97)}
+.chip.xp.animate{animation:xpPop .45s ease}
+.chip.star.animate{animation:starTwinkle .55s ease}.trophy.animate{animation:trophyPop .62s cubic-bezier(.2,.9,.25,1.2)}
+.question-card.correct-pop{animation:popCorrect .38s ease}
+.question-card.wrong-shake{animation:shakeWrong .42s ease}
+.result-burst{position:fixed;pointer-events:none;z-index:98;font-size:20px;animation:sparkle .9s ease forwards}
+.brand-mark{animation:softBounce 2.8s ease-in-out infinite}
+.world-icon{transition:transform .22s ease}.world-card:hover .world-icon{transform:rotate(-6deg) scale(1.12)}
+@media (hover:hover){.world-card:hover,.quick:hover,.stat:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(50,47,100,.11)}}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}}
+.dark{--bg:#15162a;--panel:#20223b;--text:#f3f3ff;--muted:#aeb1ca;--line:#34364f}.dark body{background:#15162a}.dark .topbar,.dark .sidebar,.dark .world-card,.dark .quick,.dark .panel,.dark .question-card,.dark .stat,.dark .topic-btn,.dark .option,.dark .modal-card{background:#20223b}.dark .lesson-card{background:#1a1c33}.dark .chip{background:#252743}.dark .nav-btn{color:#c7cae3}.dark .nav-btn.active{background:#302b59}.dark .option:hover{background:#292b48}.dark .world-progress,.dark .bar,.dark .chart-row .track{background:#34364f}.dark .name-row input{background:#17192c;color:white}
 @media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static;display:flex;align-items:center;gap:10px;overflow:auto;padding:9px}.profile{display:none}.nav{display:flex;min-width:max-content}.nav-btn{white-space:nowrap}.hero{grid-template-columns:1fr}.hero-art{display:none}.world-grid{grid-template-columns:1fr}.quick-grid{grid-template-columns:1fr 1fr}.stats-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.app{padding:10px}.topbar{top:5px}.brand small{display:none}.header-stats .chip:nth-child(2){display:none}.hero{padding:24px;border-radius:24px}.hero h2{font-size:36px}.quick-grid,.topic-select{grid-template-columns:1fr}.question-card{padding:20px}.question-card h2{font-size:21px}.chart-row{grid-template-columns:105px 1fr 38px}.header-stats{gap:4px}.chip{padding:7px 8px;font-size:12px}}
 </style>
@@ -264,6 +301,9 @@ function loadState(){try{var raw=localStorage.getItem(KEY)||localStorage.getItem
 function save(){localStorage.setItem(KEY,JSON.stringify(state));renderHeader();}
 function el(id){return document.getElementById(id);}
 function toast(msg){var t=el("toast");t.textContent=msg;t.classList.add("show");setTimeout(function(){t.classList.remove("show");},1900);}
+function replayClass(node,cls){if(!node)return;node.classList.remove(cls);void node.offsetWidth;node.classList.add(cls);setTimeout(function(){node.classList.remove(cls);},650);}
+function burstAt(x,y,emoji){for(var i=0;i<5;i++){var n=document.createElement("span");n.className="result-burst";n.textContent=emoji;n.style.left=(x+(Math.random()*44-22))+"px";n.style.top=(y+(Math.random()*18-9))+"px";n.style.animationDelay=(i*.045)+"s";document.body.appendChild(n);setTimeout(function(k){k.remove();}.bind(null,n),1100);}}
+function animateReward(ok,button){var card=document.querySelector(".question-card");replayClass(card,ok?"correct-pop":"wrong-shake");if(ok){var xp=document.querySelector(".chip.xp"),star=document.querySelector(".chip.star");replayClass(xp,"animate");replayClass(star,"animate");if(button){var r=button.getBoundingClientRect();burstAt(r.left+r.width*.5+window.scrollX,r.top+r.height*.4+window.scrollY,"✨");}}}
 function pct(n,d){return d?Math.round(n/d*100):0;}
 function today(){return new Date().toISOString().slice(0,10);}
 function currentWorld(){return Math.min(10,Math.ceil(state.highest/10));}
@@ -296,6 +336,7 @@ function renderHome(){
     out+='</div></article>';
   });
   el("worldGrid").innerHTML=out;
+  el("worldGrid").querySelectorAll(".world-card").forEach(function(c,idx){c.style.animationDelay=(Math.min(idx,7)*.05)+"s";});
   el("worldGrid").querySelectorAll("[data-level]").forEach(function(b){b.addEventListener("click",function(){startAdventure(Number(b.getAttribute("data-level")));});});
 }
 function renderPractice(){
@@ -345,7 +386,7 @@ function answer(i){
   if(game.answered)return;game.answered=true;var item=game.qs[game.index],q=item.q,correct=q[5],ok=i===correct;
   state.answers++;if(ok){state.correct++;game.score++;state.xp+=10;beep(true);}else{game.lives=Math.max(0,game.lives-1);beep(false);addMistake(q,item.w,i);}
   if(!state.topicStats[item.w])state.topicStats[item.w]={a:0,c:0};state.topicStats[item.w].a++;if(ok)state.topicStats[item.w].c++;
-  var opts=el("options").querySelectorAll(".option");opts.forEach(function(b,idx){b.disabled=true;if(idx===correct)b.classList.add("correct");if(idx===i&&!ok)b.classList.add("wrong");});
+  var opts=el("options").querySelectorAll(".option");opts.forEach(function(b,idx){b.disabled=true;if(idx===correct)b.classList.add("correct");if(idx===i&&!ok)b.classList.add("wrong");});animateReward(ok,opts[i]);
   var f=el("feedback");f.className="feedback show "+(ok?"ok":"no");f.innerHTML=(ok?"✅ Correct! ":"💡 Not quite. ") + q[6];
   el("livesText").textContent=game.lives;el("nextBtn").style.display="inline-block";save();
 }
@@ -371,7 +412,7 @@ function renderResult(passed,earned){
   el("resultText").textContent="Score: "+game.score+"/"+game.qs.length+" · Accuracy: "+pct(game.score,game.qs.length)+"% · +"+(game.score*10+earned*10)+" XP";
   el("resultContinue").textContent=(game.mode==="adventure"&&passed&&game.level<100)?"Next Level":"Play Again";
   el("resultContinue").onclick=function(){el("resultModal").classList.remove("show");if(game.mode==="adventure"&&passed&&game.level<100)startAdventure(game.level+1);else if(game.mode==="adventure")startAdventure(game.level);else if(game.mode==="practice")startPractice(game.world);else if(game.mode==="daily")startDaily();else startMistakePractice();};
-  el("resultModal").classList.add("show");
+  el("resultModal").classList.add("show");replayClass(el("resultEmoji"),"animate");
 }
 function renderMistakes(){
   if(!state.mistakes.length){el("mistakeList").innerHTML='<div class="empty"><div class="big">🎉</div><h3>No saved mistakes</h3><p>Wrong answers will appear here for revision.</p></div>';return;}
