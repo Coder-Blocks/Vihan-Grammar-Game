@@ -6,6 +6,8 @@
 <meta name="theme-color" content="#6c4cff">
 <meta name="description" content="Vihaa Grammar Adventure - 100 level English grammar learning game for children.">
 <link rel="manifest" href="./manifest.webmanifest">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./supabase-config.js"></script>
 <title>Vihaa Grammar Adventure | 100 Levels</title>
 <style>
 :root{--bg:#f6f7ff;--panel:#fff;--text:#1f2440;--muted:#737896;--brand:#6c4cff;--brand2:#8f72ff;--cyan:#28c8d8;--green:#24b47e;--yellow:#ffbf3f;--red:#ff5d6c;--line:#e7e8f3;--shadow:0 18px 45px rgba(68,55,150,.12);--radius:24px}
@@ -351,7 +353,8 @@ var state=loadState();
 var questionHistory=loadQuestionHistory();
 var game=null,gameStartedAt=0,deferredPrompt=null;
 var BALLOON_KEY="vihaaGoldenBalloonV1", BALLOON_TARGET=["V","I","H","A","A"];
-var balloonState=loadBalloonState(),goldTimer=null,ambientTimer=null;
+var balloonState=loadBalloonState(),goldTimer=null,ambientTimer=null,contestPollTimer=null,contestClient=null,contestBackendReady=false;
+if(!balloonState.deviceToken){balloonState.deviceToken=(crypto.randomUUID?crypto.randomUUID():("xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){var r=Math.random()*16|0,v=c==="x"?r:(r&3|8);return v.toString(16);})));localStorage.setItem(BALLOON_KEY,JSON.stringify(balloonState));}
 
 function loadState(){try{var raw=localStorage.getItem(KEY)||localStorage.getItem(LEGACY_KEY)||"null";var x=JSON.parse(raw);return Object.assign({},fresh,x||{}, {completed:Object.assign({},fresh.completed,(x&&x.completed)||{}),topicStats:Object.assign({},fresh.topicStats,(x&&x.topicStats)||{})});}catch(e){return Object.assign({},fresh);}}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));renderHeader();}
@@ -360,11 +363,12 @@ function toast(msg){var t=el("toast");t.textContent=msg;t.classList.add("show");
 function replayClass(node,cls){if(!node)return;node.classList.remove(cls);void node.offsetWidth;node.classList.add(cls);setTimeout(function(){node.classList.remove(cls);},650);}
 function burstAt(x,y,emoji){for(var i=0;i<5;i++){var n=document.createElement("span");n.className="result-burst";n.textContent=emoji;n.style.left=(x+(Math.random()*44-22))+"px";n.style.top=(y+(Math.random()*18-9))+"px";n.style.animationDelay=(i*.045)+"s";document.body.appendChild(n);setTimeout(function(k){k.remove();}.bind(null,n),1100);}}
 function animateReward(ok,button){var card=document.querySelector(".question-card");replayClass(card,ok?"correct-pop":"wrong-shake");if(ok){var xp=document.querySelector(".chip.xp"),star=document.querySelector(".chip.star");replayClass(xp,"animate");replayClass(star,"animate");if(button){var r=button.getBoundingClientRect();burstAt(r.left+r.width*.5+window.scrollX,r.top+r.height*.4+window.scrollY,"✨");}}}
-function loadBalloonState(){try{var x=JSON.parse(localStorage.getItem(BALLOON_KEY)||"null");if(x&&x.deviceId)return x;}catch(e){}var x={deviceId:makeUserSeed(),letters:[],spawnedDate:"",collectedDates:[],complete:false};localStorage.setItem(BALLOON_KEY,JSON.stringify(x));return x;}
+function loadBalloonState(){try{var x=JSON.parse(localStorage.getItem(BALLOON_KEY)||"null");if(x&&(x.deviceId||x.deviceToken))return x;}catch(e){}var x={deviceId:makeUserSeed(),deviceToken:(crypto.randomUUID?crypto.randomUUID():("xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){var r=Math.random()*16|0,v=c==="x"?r:(r&3|8);return v.toString(16);}))),letters:[],spawnedDate:"",collectedDates:[],complete:false};localStorage.setItem(BALLOON_KEY,JSON.stringify(x));return x;}
 function saveBalloonState(){localStorage.setItem(BALLOON_KEY,JSON.stringify(balloonState));renderGoldenLetters();}
 function renderGoldenLetters(){var nodes=el("goldLetters")?el("goldLetters").children:[];for(var i=0;i<nodes.length;i++)nodes[i].classList.toggle("found",i<balloonState.letters.length);if(el("giftUnlocked"))el("giftUnlocked").classList.toggle("show",balloonState.letters.length>=5);}
 function localDateKey(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
-function secretMinute(dateKey){var h=parseInt(hashText(balloonState.deviceId+"|"+dateKey),36)||1;return 8*60+(h%(13*60));}
+function hasContestConfig(){return !!(window.VIHAA_SUPABASE&&window.VIHAA_SUPABASE.url&&window.VIHAA_SUPABASE.anonKey&&window.supabase&&window.supabase.createClient);}
+function secretMinute(dateKey){var h=parseInt(hashText((balloonState.deviceId||balloonState.deviceToken)+"|"+dateKey),36)||1;return 8*60+(h%(13*60));}
 function ambientBalloon(){
   if(document.hidden)return;var colors=["#ff6b8a","#6c7cff","#39c6d3","#ffad4b","#7bd36a","#c377ff"];var b=document.createElement("div");b.className="balloon";b.style.left=(5+Math.random()*88)+"vw";b.style.background=colors[Math.floor(Math.random()*colors.length)];b.style.color=b.style.background;b.title="Pop!";b.onclick=function(){popBalloon(b,false);};document.body.appendChild(b);setTimeout(function(){b.remove();},12500);
 }
@@ -372,14 +376,26 @@ function popBalloon(b,gold){
   if(!b||b.classList.contains("popped"))return;b.classList.add("popped");beep(true);var r=b.getBoundingClientRect();burstAt(r.left+r.width/2,r.top+r.height/2,"✨");
   if(gold){collectGoldenLetter(r.left+r.width/2,r.top+r.height/2);}setTimeout(function(){b.remove();},300);
 }
-function collectGoldenLetter(x,y){
+async function collectGoldenLetter(x,y){
+  if(contestBackendReady&&contestClient){
+    try{
+      var res=await contestClient.rpc("vihaa_claim_golden_letter",{p_device:balloonState.deviceToken});
+      if(res.error)throw res.error;var row=res.data&&res.data[0];
+      if(!row||!row.success){toast((row&&row.message)||"Golden balloon window closed");return;}
+      balloonState.letters=(row.letters||"").split("");balloonState.complete=balloonState.letters.length>=5;saveBalloonState();
+      var n=document.createElement("div");n.className="letter-fly";n.textContent=row.letter;n.style.left=x+"px";n.style.top=y+"px";document.body.appendChild(n);setTimeout(function(){n.remove();},1200);
+      if(balloonState.complete){confetti();toast("🎁 VIHAA complete! Gift entry unlocked.");}else toast("Golden letter "+row.letter+" collected!");
+      return;
+    }catch(e){toast("Could not claim golden letter. Try again.");return;}
+  }
   var date=localDateKey();if(balloonState.collectedDates.indexOf(date)>=0||balloonState.letters.length>=5)return;var letter=BALLOON_TARGET[balloonState.letters.length];balloonState.letters.push(letter);balloonState.collectedDates.push(date);var n=document.createElement("div");n.className="letter-fly";n.textContent=letter;n.style.left=x+"px";n.style.top=y+"px";document.body.appendChild(n);setTimeout(function(){n.remove();},1200);saveBalloonState();if(balloonState.letters.length>=5){confetti();toast("🎁 VIHAA complete! Gift entry unlocked.");}else toast("Golden letter "+letter+" collected!");
 }
 function spawnGoldenBalloon(){
   var date=localDateKey();if(balloonState.spawnedDate===date||balloonState.letters.length>=5)return;balloonState.spawnedDate=date;saveBalloonState();var b=document.createElement("div");b.className="balloon gold";b.style.left=(8+Math.random()*82)+"vw";b.innerHTML="<span>★</span>";b.title="Golden Balloon — Blast me!";b.onclick=function(){popBalloon(b,true);};document.body.appendChild(b);setTimeout(function(){if(document.body.contains(b))b.remove();},18500);
 }
 function scheduleGoldenBalloon(){
-  if(goldTimer)clearTimeout(goldTimer);var date=localDateKey();if(balloonState.spawnedDate===date||balloonState.letters.length>=5)return;var now=new Date(),minute=secretMinute(date),target=new Date(now);target.setHours(Math.floor(minute/60),minute%60,0,0);var delay=target-now;if(delay<0)delay=12000+(parseInt(hashText(date+balloonState.deviceId+"late"),36)%45000);goldTimer=setTimeout(spawnGoldenBalloon,Math.min(delay,2147483000));
+  if(contestBackendReady)return;
+  if(goldTimer)clearTimeout(goldTimer);var date=localDateKey();if(balloonState.spawnedDate===date||balloonState.letters.length>=5)return;var now=new Date(),minute=secretMinute(date),target=new Date(now);target.setHours(Math.floor(minute/60),minute%60,0,0);var delay=target-now;if(delay<0)delay=12000+(parseInt(hashText(date+(balloonState.deviceId||balloonState.deviceToken)+"late"),36)%45000);goldTimer=setTimeout(spawnGoldenBalloon,Math.min(delay,2147483000));
 }
 function startAmbientBalloons(){ambientTimer=setInterval(function(){ambientBalloon();},22000+Math.floor(Math.random()*9000));setTimeout(ambientBalloon,7000);}
 function pct(n,d){return d?Math.round(n/d*100):0;}
@@ -686,11 +702,35 @@ el("themeToggle").onclick=function(){state.dark=!state.dark;toggleButton(el("the
 el("resetBtn").onclick=function(){if(confirm("Reset all Vihaa Grammar Adventure progress on this device?")){localStorage.removeItem(KEY);localStorage.removeItem(LEGACY_KEY);state=Object.assign({},fresh,{completed:{},topicStats:{},mistakes:[]});save();renderHome();renderParent();renderMistakes();toast("Progress reset · question history kept to prevent repeats");}};
 window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredPrompt=e;el("installBtn").disabled=false;});
 el("installBtn").onclick=function(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(function(){deferredPrompt=null;});}else toast("Use your browser menu → Install app / Add to Home Screen");};
+async function syncServerProgress(){
+  if(!contestClient)return;
+  try{var r=await contestClient.rpc("vihaa_balloon_status",{p_device:balloonState.deviceToken});if(r.error)throw r.error;var row=r.data&&r.data[0];if(row){balloonState.letters=(row.letters||"").split("");balloonState.complete=balloonState.letters.length>=5;saveBalloonState();if(row.active&&!document.querySelector(".balloon.gold")&&!balloonState.complete){var b=document.createElement("div");b.className="balloon gold";b.style.left=(8+Math.random()*82)+"vw";b.innerHTML="<span>★</span>";b.title="Golden Balloon — Blast me!";b.onclick=function(){popBalloon(b,true);};document.body.appendChild(b);setTimeout(function(){if(document.body.contains(b))b.remove();},18500);}}}catch(e){}
+}
+async function loadPublicWinner(){
+  if(!contestClient)return;try{var r=await contestClient.rpc("vihaa_current_winner");if(r.error)throw r.error;var w=r.data&&r.data[0];if(w){el("winnerMeta").textContent=w.public_name+" · "+w.public_class+" · "+w.public_city+" · announced "+new Date(w.announced_at).toLocaleDateString();}else el("winnerMeta").textContent="No winner announced yet. New winner every Sunday.";}catch(e){el("winnerMeta").textContent="Winner feed will refresh automatically.";}
+}
+function compressContestScreenshot(file){
+  return new Promise(function(resolve,reject){var rd=new FileReader();rd.onerror=reject;rd.onload=function(ev){var im=new Image();im.onerror=reject;im.onload=function(){var max=1200,scale=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.max(1,Math.round(im.width*scale));c.height=Math.max(1,Math.round(im.height*scale));c.getContext("2d").drawImage(im,0,0,c.width,c.height);resolve({mime:"image/jpeg",data:c.toDataURL("image/jpeg",.76)});};im.src=ev.target.result;};rd.readAsDataURL(file);});
+}
+async function submitContestEntry(){
+  var file=el("contestScreenshot").files&&el("contestScreenshot").files[0];if(!file){toast("Please add the challenge screenshot");return;}
+  var btn=el("contestSubmit"),status=el("contestStatus");btn.disabled=true;btn.textContent="Uploading securely…";status.textContent="Compressing screenshot and sending private contest entry…";
+  try{
+    var shot=await compressContestScreenshot(file);
+    var args={p_device:balloonState.deviceToken,p_child_name:el("contestKidName").value.trim(),p_age:Number(el("contestAge").value),p_class_name:el("contestClass").value.trim(),p_school_name:el("contestSchool").value.trim(),p_city_district:el("contestCity").value.trim(),p_guardian_contact:el("contestGuardian").value.trim(),p_screenshot_mime:shot.mime,p_screenshot_base64:shot.data,p_consent:el("contestConsent").checked};
+    var r=await contestClient.rpc("vihaa_submit_entry",args);if(r.error)throw r.error;var row=r.data&&r.data[0];if(!row||!row.success)throw new Error((row&&row.message)||"Submission failed");
+    status.textContent="✅ Entry received securely. Entry ID: "+row.entry_id;btn.textContent="Submitted";toast("🎁 Contest entry submitted!");
+  }catch(e){status.textContent="Could not submit: "+(e.message||"Please try again.");btn.disabled=false;btn.textContent="Submit Gift Entry";}
+}
+async function initContestBackend(){
+  if(!hasContestConfig())return;
+  try{contestClient=window.supabase.createClient(window.VIHAA_SUPABASE.url,window.VIHAA_SUPABASE.anonKey,{auth:{persistSession:false,autoRefreshToken:false}});contestBackendReady=true;if(goldTimer)clearTimeout(goldTimer);var btn=el("contestSubmit");if(btn){btn.disabled=false;btn.textContent="Submit Gift Entry";el("contestStatus").textContent="Secure contest backend connected. Screenshot/contact details are private and used only for contest administration.";}await syncServerProgress();await loadPublicWinner();contestPollTimer=setInterval(syncServerProgress,60000);setInterval(loadPublicWinner,15*60*1000);}catch(e){contestBackendReady=false;}
+}
 if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){});});}
 var contestFile=el("contestScreenshot");
 if(contestFile){contestFile.onchange=function(){var file=this.files&&this.files[0],preview=el("contestPreview");if(!file){preview.classList.remove("show");preview.removeAttribute("src");return;}if(file.size>6*1024*1024){toast("Screenshot must be under 6 MB");this.value="";preview.classList.remove("show");return;}var u=URL.createObjectURL(file);preview.src=u;preview.classList.add("show");};}
-if(el("contestForm")){el("contestForm").onsubmit=function(e){e.preventDefault();if(el("contestSubmit").disabled){toast("Secure contest backend is still connecting.");return false;}};}
-renderHeader();renderPractice();renderHome();renderMistakes();renderParent();renderSettings();updateDailyLabel();renderGoldenLetters();scheduleGoldenBalloon();startAmbientBalloons();
+if(el("contestForm")){el("contestForm").onsubmit=function(e){e.preventDefault();if(!contestBackendReady){toast("Secure contest backend is still connecting.");return false;}submitContestEntry();return false;};}
+renderHeader();renderPractice();renderHome();renderMistakes();renderParent();renderSettings();updateDailyLabel();renderGoldenLetters();scheduleGoldenBalloon();startAmbientBalloons();initContestBackend();
 })();
 </script>
 </body>
