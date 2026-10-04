@@ -26,6 +26,17 @@ button,input{font:inherit}button{cursor:pointer}.app{max-width:1240px;margin:aut
 .modal{position:fixed;inset:0;background:rgba(27,22,63,.5);backdrop-filter:blur(5px);z-index:50;display:none;place-items:center;padding:18px}.modal.show{display:grid}.modal-card{background:white;border-radius:28px;padding:28px;max-width:520px;width:100%;box-shadow:0 30px 80px rgba(28,21,72,.28);text-align:center}.modal-card .trophy{font-size:72px}.modal-card h2{margin:6px 0}.stars-big{font-size:34px;letter-spacing:5px}.modal-card p{color:var(--muted)}
 .toast{position:fixed;right:20px;bottom:20px;background:#221c48;color:white;border-radius:14px;padding:12px 15px;z-index:100;opacity:0;transform:translateY(12px);pointer-events:none;transition:.25s;font-weight:800}.toast.show{opacity:1;transform:none}.confetti{position:fixed;top:-20px;width:10px;height:16px;border-radius:3px;z-index:99;animation:fall 1.7s linear forwards}@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.5}}
 footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12px;font-weight:700}
+.golden-hunt{margin-top:14px;background:linear-gradient(135deg,#fff8d8,#fff1a8);border:1px solid #f1d66a;border-radius:20px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:14px;box-shadow:0 10px 28px rgba(143,107,0,.1)}
+.dark .golden-hunt{background:linear-gradient(135deg,#3d3517,#2b2617);border-color:#6f5d1c}.hunt-copy b{display:block}.hunt-copy span{font-size:12px;color:var(--muted)}.gold-letters{display:flex;gap:7px;flex-wrap:wrap}.gold-letter{width:34px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:950;border:1px dashed #d6b64c;background:rgba(255,255,255,.55);color:#b29a45}.gold-letter.found{border-style:solid;background:linear-gradient(145deg,#ffde61,#f1b900);color:#5c4300;box-shadow:0 5px 16px rgba(209,157,0,.24);animation:trophyPop .5s ease}
+.winner-board{margin-top:16px;background:white;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 10px 28px rgba(50,47,100,.06);display:flex;justify-content:space-between;align-items:center;gap:15px}.dark .winner-board{background:#20223b}.winner-crown{font-size:36px}.winner-meta{font-size:12px;color:var(--muted);margin-top:4px}.winner-badge{padding:8px 11px;border-radius:999px;background:#fff4c5;color:#8d6700;font-weight:900;font-size:12px;white-space:nowrap}
+.balloon{position:fixed;z-index:44;width:56px;height:70px;border-radius:50% 50% 46% 46%;box-shadow:inset -8px -9px 0 rgba(0,0,0,.08),0 10px 22px rgba(35,28,80,.18);cursor:pointer;animation:balloonFly 12s linear forwards;display:grid;place-items:center;font-size:20px;user-select:none;-webkit-user-select:none}.balloon:after{content:"";position:absolute;bottom:-27px;width:1px;height:30px;background:rgba(80,70,100,.4)}.balloon:before{content:"";position:absolute;bottom:-6px;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid currentColor}
+.balloon.gold{width:68px;height:84px;background:radial-gradient(circle at 32% 25%,#fff9af 0,#ffd93d 28%,#e3a600 72%,#b57700 100%);border:3px solid #fff1a0;color:#d19900;z-index:60;box-shadow:0 0 0 8px rgba(255,215,55,.12),0 18px 38px rgba(145,99,0,.32);animation-duration:18s}.balloon.gold span{font-size:24px;filter:drop-shadow(0 2px 0 rgba(255,255,255,.5))}
+.balloon.popped{animation:balloonPop .28s ease forwards}.letter-fly{position:fixed;z-index:90;font-size:38px;font-weight:950;color:#d39800;text-shadow:0 2px #fff,0 7px 22px rgba(167,115,0,.35);animation:letterFly 1.05s cubic-bezier(.15,.8,.2,1) forwards}
+.gift-unlocked{margin-top:14px;border:2px solid #efc229;background:linear-gradient(135deg,#fff8cf,#fff);border-radius:20px;padding:16px;display:none}.gift-unlocked.show{display:block;animation:cardRise .45s ease}.gift-unlocked b{display:block;font-size:18px}.gift-unlocked p{margin:5px 0 0;color:var(--muted);font-size:13px}
+@keyframes balloonFly{0%{transform:translate3d(0,110vh,0) rotate(-4deg)}25%{transform:translate3d(28px,78vh,0) rotate(5deg)}50%{transform:translate3d(-20px,48vh,0) rotate(-5deg)}75%{transform:translate3d(22px,18vh,0) rotate(4deg)}100%{transform:translate3d(-8px,-140px,0) rotate(0)}}
+@keyframes balloonPop{0%{transform:scale(1)}50%{transform:scale(1.28)}100%{transform:scale(.05);opacity:0}}
+@keyframes letterFly{0%{transform:translate(0,0) scale(.6) rotate(-10deg);opacity:0}25%{opacity:1;transform:translate(0,-28px) scale(1.25) rotate(6deg)}100%{transform:translate(calc(50vw - 50%),-55vh) scale(.75);opacity:0}}
+
 
 /* Vihaa motion system */
 @keyframes floatMascot{0%,100%{transform:translateY(0) rotate(4deg)}50%{transform:translateY(-12px) rotate(-2deg)}}
@@ -90,6 +101,12 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
     <div><div class="eyebrow">English becomes an adventure</div><h2>Learn. Play. Level up.</h2><p id="heroText">Continue your grammar quest, earn stars and build a stronger English foundation one tiny challenge at a time.</p><div class="actions"><button class="btn primary" id="continueBtn">▶ Continue Level 1</button><button class="btn dark" id="learnBtn">📖 Learn This World</button></div></div>
     <div class="hero-art"><div class="mascot">🦊</div></div>
   </div>
+  <div class="golden-hunt">
+    <div class="hunt-copy"><b>🎈 Golden Balloon Hunt</b><span>One golden balloon can appear at a secret time each day. Blast it and collect VIHAA.</span></div>
+    <div class="gold-letters" id="goldLetters"><span class="gold-letter">V</span><span class="gold-letter">I</span><span class="gold-letter">H</span><span class="gold-letter">A</span><span class="gold-letter">A</span></div>
+  </div>
+  <div class="gift-unlocked" id="giftUnlocked"><b>🎁 VIHAA Complete — Gift Entry Unlocked!</b><p>Take a screenshot of this completed page. Secure contest upload will be activated after the shared contest backend is connected.</p></div>
+  <div class="winner-board" id="winnerBoard"><div style="display:flex;align-items:center;gap:12px"><div class="winner-crown">👑</div><div><b>Sunday Surprise Winner</b><div class="winner-meta" id="winnerMeta">Winner announcement will appear here for every user.</div></div></div><div class="winner-badge">Every Sunday</div></div>
   <div class="section-head"><div><h3>Grammar Worlds</h3><p>10 worlds · 100 levels · fresh questions · no normal-mode repeats</p></div><div class="chip" id="progressChip">0% complete</div></div>
   <div class="world-grid" id="worldGrid"></div>
   <div class="section-head"><div><h3>Quick Play</h3><p>Extra practice does not lock your adventure progress.</p></div></div>
@@ -298,6 +315,8 @@ var fresh={name:"Vihan",photo:"",highest:1,completed:{},xp:0,stars:0,streak:1,la
 var state=loadState();
 var questionHistory=loadQuestionHistory();
 var game=null,gameStartedAt=0,deferredPrompt=null;
+var BALLOON_KEY="vihaaGoldenBalloonV1", BALLOON_TARGET=["V","I","H","A","A"];
+var balloonState=loadBalloonState(),goldTimer=null,ambientTimer=null;
 
 function loadState(){try{var raw=localStorage.getItem(KEY)||localStorage.getItem(LEGACY_KEY)||"null";var x=JSON.parse(raw);return Object.assign({},fresh,x||{}, {completed:Object.assign({},fresh.completed,(x&&x.completed)||{}),topicStats:Object.assign({},fresh.topicStats,(x&&x.topicStats)||{})});}catch(e){return Object.assign({},fresh);}}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));renderHeader();}
@@ -306,6 +325,28 @@ function toast(msg){var t=el("toast");t.textContent=msg;t.classList.add("show");
 function replayClass(node,cls){if(!node)return;node.classList.remove(cls);void node.offsetWidth;node.classList.add(cls);setTimeout(function(){node.classList.remove(cls);},650);}
 function burstAt(x,y,emoji){for(var i=0;i<5;i++){var n=document.createElement("span");n.className="result-burst";n.textContent=emoji;n.style.left=(x+(Math.random()*44-22))+"px";n.style.top=(y+(Math.random()*18-9))+"px";n.style.animationDelay=(i*.045)+"s";document.body.appendChild(n);setTimeout(function(k){k.remove();}.bind(null,n),1100);}}
 function animateReward(ok,button){var card=document.querySelector(".question-card");replayClass(card,ok?"correct-pop":"wrong-shake");if(ok){var xp=document.querySelector(".chip.xp"),star=document.querySelector(".chip.star");replayClass(xp,"animate");replayClass(star,"animate");if(button){var r=button.getBoundingClientRect();burstAt(r.left+r.width*.5+window.scrollX,r.top+r.height*.4+window.scrollY,"✨");}}}
+function loadBalloonState(){try{var x=JSON.parse(localStorage.getItem(BALLOON_KEY)||"null");if(x&&x.deviceId)return x;}catch(e){}var x={deviceId:makeUserSeed(),letters:[],spawnedDate:"",collectedDates:[],complete:false};localStorage.setItem(BALLOON_KEY,JSON.stringify(x));return x;}
+function saveBalloonState(){localStorage.setItem(BALLOON_KEY,JSON.stringify(balloonState));renderGoldenLetters();}
+function renderGoldenLetters(){var nodes=el("goldLetters")?el("goldLetters").children:[];for(var i=0;i<nodes.length;i++)nodes[i].classList.toggle("found",i<balloonState.letters.length);if(el("giftUnlocked"))el("giftUnlocked").classList.toggle("show",balloonState.letters.length>=5);}
+function localDateKey(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function secretMinute(dateKey){var h=parseInt(hashText(balloonState.deviceId+"|"+dateKey),36)||1;return 8*60+(h%(13*60));}
+function ambientBalloon(){
+  if(document.hidden)return;var colors=["#ff6b8a","#6c7cff","#39c6d3","#ffad4b","#7bd36a","#c377ff"];var b=document.createElement("div");b.className="balloon";b.style.left=(5+Math.random()*88)+"vw";b.style.background=colors[Math.floor(Math.random()*colors.length)];b.style.color=b.style.background;b.title="Pop!";b.onclick=function(){popBalloon(b,false);};document.body.appendChild(b);setTimeout(function(){b.remove();},12500);
+}
+function popBalloon(b,gold){
+  if(!b||b.classList.contains("popped"))return;b.classList.add("popped");beep(true);var r=b.getBoundingClientRect();burstAt(r.left+r.width/2,r.top+r.height/2,"✨");
+  if(gold){collectGoldenLetter(r.left+r.width/2,r.top+r.height/2);}setTimeout(function(){b.remove();},300);
+}
+function collectGoldenLetter(x,y){
+  var date=localDateKey();if(balloonState.collectedDates.indexOf(date)>=0||balloonState.letters.length>=5)return;var letter=BALLOON_TARGET[balloonState.letters.length];balloonState.letters.push(letter);balloonState.collectedDates.push(date);var n=document.createElement("div");n.className="letter-fly";n.textContent=letter;n.style.left=x+"px";n.style.top=y+"px";document.body.appendChild(n);setTimeout(function(){n.remove();},1200);saveBalloonState();if(balloonState.letters.length>=5){confetti();toast("🎁 VIHAA complete! Gift entry unlocked.");}else toast("Golden letter "+letter+" collected!");
+}
+function spawnGoldenBalloon(){
+  var date=localDateKey();if(balloonState.spawnedDate===date||balloonState.letters.length>=5)return;balloonState.spawnedDate=date;saveBalloonState();var b=document.createElement("div");b.className="balloon gold";b.style.left=(8+Math.random()*82)+"vw";b.innerHTML="<span>★</span>";b.title="Golden Balloon — Blast me!";b.onclick=function(){popBalloon(b,true);};document.body.appendChild(b);setTimeout(function(){if(document.body.contains(b))b.remove();},18500);
+}
+function scheduleGoldenBalloon(){
+  if(goldTimer)clearTimeout(goldTimer);var date=localDateKey();if(balloonState.spawnedDate===date||balloonState.letters.length>=5)return;var now=new Date(),minute=secretMinute(date),target=new Date(now);target.setHours(Math.floor(minute/60),minute%60,0,0);var delay=target-now;if(delay<0)delay=12000+(parseInt(hashText(date+balloonState.deviceId+"late"),36)%45000);goldTimer=setTimeout(spawnGoldenBalloon,Math.min(delay,2147483000));
+}
+function startAmbientBalloons(){ambientTimer=setInterval(function(){ambientBalloon();},22000+Math.floor(Math.random()*9000));setTimeout(ambientBalloon,7000);}
 function pct(n,d){return d?Math.round(n/d*100):0;}
 function today(){return new Date().toISOString().slice(0,10);}
 function currentWorld(){return Math.min(10,Math.ceil(state.highest/10));}
@@ -611,7 +652,7 @@ el("resetBtn").onclick=function(){if(confirm("Reset all Vihaa Grammar Adventure 
 window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredPrompt=e;el("installBtn").disabled=false;});
 el("installBtn").onclick=function(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(function(){deferredPrompt=null;});}else toast("Use your browser menu → Install app / Add to Home Screen");};
 if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){});});}
-renderHeader();renderPractice();renderHome();renderMistakes();renderParent();renderSettings();updateDailyLabel();
+renderHeader();renderPractice();renderHome();renderMistakes();renderParent();renderSettings();updateDailyLabel();renderGoldenLetters();scheduleGoldenBalloon();startAmbientBalloons();
 })();
 </script>
 </body>
