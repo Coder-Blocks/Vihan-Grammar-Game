@@ -1,0 +1,13 @@
+{
+  "name":"Vihan Grammar Adventure",
+  "short_name":"Vihan Grammar",
+  "description":"100-level child-friendly English grammar learning adventure.",
+  "start_url":"./",
+  "scope":"./",
+  "display":"standalone",
+  "background_color":"#f6f7ff",
+  "theme_color":"#6c4cff",
+  "icons":[
+    {"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
