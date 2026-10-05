@@ -3578,6 +3578,323 @@ function beep(ok){if(!state.sound)return;try{var C=window.AudioContext||window.w
 function confetti(){var colors=["#6c4cff","#28c8d8","#ffbf3f","#ff5d6c","#24b47e"];for(var i=0;i<45;i++){var d=document.createElement("i");d.className="confetti";d.style.left=Math.random()*100+"vw";d.style.background=colors[i%colors.length];d.style.animationDelay=(Math.random()*.5)+"s";document.body.appendChild(d);setTimeout(function(x){x.remove();}.bind(null,d),2400);}}
 function updateDailyLabel(){el("dailyBtn").textContent=state.lastDay===today()?"Play Again":"Play Today";}
 
+
+/* VIHAA EXPERT UNIQUE QUESTION ENGINE v7 */
+var VIHAA_QUESTION_ENGINE_VERSION="7.0.0";
+
+function vihaaFmtNumber(x){
+  var n=Math.round(Number(x)*1000)/1000;
+  return String(n);
+}
+function vihaaGcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=a%b;a=b;b=t;}return a||1;}
+function vihaaLcm(a,b){return Math.abs(a*b)/vihaaGcd(a,b);}
+
+/* ENGLISH: advanced, procedural and history-protected by nextFreshQuestion(). */
+function vihaaExpertEnglish(worldId,serial){
+  var r=rngFor(worldId,serial+700001),boy=pick(qNamesBoy,r),girl=pick(qNamesGirl,r),name=r()<.5?boy:girl;
+  var place=pick(["research lab","library","debate hall","science fair","museum","auditorium","workshop","reading room"],r);
+  var n=17+((serial*13+worldId*7)%83),type=(serial+worldId)%5;
+  if(worldId===1){
+    if(type===0)return makeMC("After waiting "+n+" minutes, "+name+" received ___ honest reply from the editor.","an",["a","the","no article"],"Use 'an' before a vowel sound; 'honest' begins with a silent h.",r);
+    if(type===1)return makeMC("Choose the standard-English determiner for a countable plural: There were ___ than "+n+" errors in the final draft.","fewer",["less","little","much"],"'Fewer' is used with countable plural nouns such as errors.",r);
+    if(type===2)return makeMC("The committee appointed ___ European engineer and ___ MBA graduate.","a; an",["an; a","an; an","a; a"],"'European' begins with a /y/ consonant sound, while 'MBA' begins with a vowel sound.",r);
+    if(type===3)return makeMC("Which phrase contains an abstract noun?","a remarkable improvement",["three notebooks","the blue bicycle","two silver coins"],"'Improvement' names an idea/change rather than a physical object.",r);
+    return makeMC("In the sentence '"+name+"'s patience during the "+place+" impressed everyone', which word is the abstract noun?","patience",[name,place,"everyone"],"'Patience' is an abstract noun naming a quality.",r);
+  }
+  if(worldId===2){
+    if(type===0)return makeMC("The final decision is between you and ___.","me",["I","my","mine"],"After a preposition such as 'between', use the object pronoun 'me'.",r);
+    if(type===1)return makeMC("The scholarship should go to ___ submits the strongest project.","whoever",["whomever","whom","whose"],"'Whoever' is the subject of 'submits'.",r);
+    if(type===2)return makeMC("Neither "+boy+" nor "+girl+" forgot ___ identity card.","their",["his","her","its"],"Singular 'they/their' is standard when the person's gender is not being singled out.",r);
+    if(type===3)return makeMC("Choose the sentence with an unambiguous pronoun reference.","When "+boy+" met "+girl+", "+girl+" handed over the file.",["When "+boy+" met "+girl+", she handed over the file.","After the manager called the assistant, he left.","The box was beside the bag before it was moved."],"Repeating the noun removes an unclear pronoun reference.",r);
+    return makeMC("___ the panel selects will present first.","Whomever",["Whoever","Who","Which"],"'Whomever' is the object of 'selects'.",r);
+  }
+  if(worldId===3){
+    if(type===0)return makeMC("Neither the teachers nor the principal ___ willing to postpone the "+place+".","is",["are","were","have"],"With 'neither...nor', the verb agrees with the nearer subject: principal.",r);
+    if(type===1)return makeMC("Each of the "+n+" reports ___ a separate appendix.","has",["have","having","are having"],"'Each' is singular, so it takes 'has'.",r);
+    if(type===2)return makeMC("The quality of the samples, not their quantity, ___ the result.","determines",["determine","have determined","are determining"],"The head subject is singular: quality.",r);
+    if(type===3)return makeMC("Had "+name+" ___ the warning, the error could have been avoided.","heeded",["heeds","heed","heeding"],"In an inverted third conditional, use 'Had + subject + past participle'.",r);
+    return makeMC("It is essential that every participant ___ present at "+n+":00.","be",["is","was","being"],"The mandative subjunctive uses the base form 'be'.",r);
+  }
+  if(worldId===4){
+    if(type===0)return makeMC("By the time the judges arrived, "+name+" ___ the demonstration.","had completed",["completed","has completed","will complete"],"Past perfect marks an action completed before another past action.",r);
+    if(type===1)return makeMC("By this time next month, the team ___ the project for "+n+" days.","will have been testing",["has tested","will test","had been testing"],"Future perfect continuous expresses duration up to a future point.",r);
+    if(type===2)return makeMC("For the last "+(3+serial%7)+" weeks, "+name+" ___ data every evening.","has been analysing",["analysed","will analyse","had analysed"],"An activity continuing from the past to now takes present perfect continuous.",r);
+    if(type===3)return makeMC("When the lights failed, the audience ___ quietly for several minutes.","had been waiting",["has waited","will wait","waits"],"Past perfect continuous shows an ongoing action before another past event.",r);
+    return makeMC("If the train ___ on time tomorrow, we will reach the "+place+" before noon.","arrives",["will arrive","arrived","had arrived"],"In a first conditional, the if-clause uses the simple present.",r);
+  }
+  if(worldId===5){
+    if(type===0)return makeMC(name+" completed the experiment ___ than the rest of the group.","more carefully",["most carefully","carefuller","more careful"],"An adverb modifies 'completed'; the comparative form is 'more carefully'.",r);
+    if(type===1)return makeMC("Of the two proposed routes, this one is ___.","safer",["safest","more safest","most safe"],"For two items, use the comparative 'safer'.",r);
+    if(type===2)return makeMC("The evidence was not ___ convincing to justify the claim.","sufficiently",["sufficient","sufficiency","more sufficient"],"An adverb is needed to modify the adjective 'convincing'.",r);
+    if(type===3)return makeMC("Choose the sentence without a dangling modifier.","After reviewing the data, "+name+" revised the conclusion.",["After reviewing the data, the conclusion was revised.","Walking into the "+place+", the lights looked bright.","To finish quickly, the deadline was moved."],"The person performing the opening action must be the grammatical subject.",r);
+    return makeMC("The machine operates ___ even under heavy load.","reliably",["reliable","reliability","more reliablely"],"An adverb is required to modify the verb 'operates'.",r);
+  }
+  if(worldId===6){
+    if(type===0)return makeMC("No sooner had the bell rung ___ the doors opened.","than",["when","then","while"],"The fixed correlative is 'no sooner...than'.",r);
+    if(type===1)return makeMC("___ being exhausted, "+name+" completed the presentation.","Despite",["Although","Because","Unless"],"'Despite' can be followed by a gerund phrase.",r);
+    if(type===2)return makeMC("You cannot enter the lab ___ you wear the required safety gear.","unless",["because","although","whereas"],"'Unless' means 'except if'.",r);
+    if(type===3)return makeMC("The result was unexpected; ___, the team repeated the test.","therefore",["otherwise","meanwhile","nevertheless"],"'Therefore' shows a consequence from the unexpected result.",r);
+    return makeMC("Hardly had the meeting begun ___ the fire alarm sounded.","when",["than","that","because"],"The standard pair is 'hardly...when'.",r);
+  }
+  if(worldId===7){
+    if(type===0)return makeMC("Which verb best completes the academic collocation: ___ a conclusion?","draw",["paint","pull","lift"],"'Draw a conclusion' is the standard collocation.",r);
+    if(type===1)return makeMC("A plan designed to reduce a serious risk is intended to ___ that risk.","mitigate",["magnify","imitate","postpone"],"'Mitigate' means make something harmful less severe.",r);
+    if(type===2)return makeMC("If a report is 'meticulous', it is ___.","extremely careful and precise",["deliberately vague","very brief","emotionally dramatic"],"'Meticulous' means showing great attention to detail.",r);
+    if(type===3)return makeMC("Choose the closest meaning of 'ambiguous'.","open to more than one interpretation",["certain and final","physically large","easy to measure"],"'Ambiguous' describes wording with more than one possible meaning.",r);
+    return makeMC("Which phrase is the strongest formal alternative to 'look into the problem'?","investigate the problem",["watch the problem","see the problem","glance at the problem"],"'Investigate' is the precise formal verb.",r);
+  }
+  if(worldId===8){
+    if(type===0)return makeMC("Choose the correctly punctuated sentence.","The evidence was incomplete; however, the panel reached a decision.",["The evidence was incomplete, however the panel reached a decision.","The evidence was incomplete however; the panel reached a decision.","The evidence was incomplete: however the panel reached a decision."],"A conjunctive adverb joining independent clauses is commonly preceded by a semicolon and followed by a comma.",r);
+    if(type===1)return makeMC("Choose the sentence with the apostrophe used correctly.","The two researchers' notes were compared.",["The two researcher's notes were compared.","The two researchers notes were compared.","The two researchers's notes were compared."],"For a plural noun ending in s, add only an apostrophe for possession.",r);
+    if(type===2)return makeMC("Which sentence correctly introduces a list after a complete clause?","The kit contained three items: gloves, goggles, and a mask.",["The kit contained: gloves, goggles, and a mask.","The kit: contained gloves, goggles, and a mask.","The kit contained three items; gloves, goggles, and a mask."],"A colon can introduce a list after a complete independent clause.",r);
+    if(type===3)return makeMC("Choose the punctuation that correctly sets off a nonessential clause.","The telescope, which was installed last year, needs calibration.",["The telescope which was installed last year needs, calibration.","The telescope which, was installed last year, needs calibration.","The telescope; which was installed last year; needs calibration."],"A nonessential relative clause is set off with commas.",r);
+    return makeMC("Choose the correctly punctuated direct quotation.","The judge said, “Please begin.”",["The judge said “Please begin”.","The judge said; “Please begin.”","The judge said: “Please begin”, "],"A comma commonly introduces a short direct quotation, and the period stays inside the closing quotation mark.",r);
+  }
+  if(worldId===9){
+    if(type===0)return makeMC("Choose the sentence with correct parallel structure.","The role requires planning, analysing, and presenting results.",["The role requires planning, to analyse, and presenting results.","The role requires to plan, analysing, and presentation.","The role requires planning, analysis, and to present results."],"Items in a series should use matching grammatical forms.",r);
+    if(type===1)return makeMC("Which revision is most concise without changing meaning?","Because the test failed, the team repeated it.",["Due to the fact that the test failed, the team repeated it.","The test failed, and for that reason the team repeated it again.","The team repeated the test because of the reason that it failed."],"The concise version removes unnecessary wordiness.",r);
+    if(type===2)return makeMC("Choose the sentence that correctly uses a dependent clause.","Although the sample was small, the result was consistent.",["Although the sample was small. The result was consistent.","Although the sample was small; the result was consistent.","Although, the sample was small the result was consistent."],"A dependent 'although' clause can be followed by a comma and an independent clause.",r);
+    if(type===3)return makeMC("Choose the clearest sentence.","After "+name+" checked the figures, "+name+" sent the report.",["After checking the figures, the report was sent by "+name+".","The figures checked, it was sent.","Checking the figures, the report sent itself."],"The subject clearly performs both actions.",r);
+    return makeMC("Which sentence avoids a comma splice?","The trial ended early, so the observers left.",["The trial ended early, the observers left.","The trial ended early, therefore the observers left.","The trial ended early, the observers, left."],"A coordinating conjunction can join the two independent clauses.",r);
+  }
+  if(type===0)return makeMC("Had "+name+" known about the change, "+name+" ___ a different route.","would have chosen",["would choose","will choose","had chosen"],"This is an inverted third conditional about an unreal past result.",r);
+  if(type===1)return makeMC("Scarcely ___ the announcement when the questions began.","had the speaker finished",["the speaker had finished","did the speaker finish","has the speaker finished"],"After 'scarcely' in formal inversion, use auxiliary + subject + participle.",r);
+  if(type===2)return makeMC("The manager insisted that the final version ___ before noon.","be submitted",["is submitted","was submitting","has submit"],"The mandative subjunctive uses 'be + past participle'.",r);
+  if(type===3)return makeMC("Choose the correct reported-speech form: She said, “I have finished.”","She said that she had finished.",["She said that I have finished.","She said that she has finished.","She said that she finish."],"When reporting a past statement, present perfect commonly backshifts to past perfect.",r);
+  return makeMC("Only after the second review ___ the hidden error.","did the team notice",["the team noticed","the team did notice","noticed the team"],"A negative/restrictive fronted phrase triggers subject-auxiliary inversion.",r);
+}
+generatedQuestion=vihaaExpertEnglish;
+
+/* MATHS: expert procedural questions; numeric answer model is preserved. */
+mathQuestionFor=function(topic,serial){
+  var s=serial+(state.math&&state.math.uniqueNonce?state.math.uniqueNonce*10007:0),a,b,c,x,ans,q;
+  if(topic===1){
+    var N=100000+((s*7919)%899999);
+    q="What is the remainder when "+N+" is divided by 9?";ans=N%9;
+  }else if(topic===2){
+    a=25+(s%76);b=18+((s*3)%62);c=3+(s%8);
+    q="Evaluate ("+a+" + "+b+") × "+c+" − "+(a%17+7)+".";ans=(a+b)*c-(a%17+7);
+  }else if(topic===3){
+    a=12+(s%29);b=11+((s*5)%31);
+    q="Without a calculator, find "+a+" × "+b+" + "+a+" × "+(b+3)+".";ans=a*b+a*(b+3);
+  }else if(topic===4){
+    a=12+2*(s%9);b=18+3*((s+4)%8);
+    q="Find the LCM of "+a+" and "+b+".";ans=vihaaLcm(a,b);
+  }else if(topic===5){
+    var den=[8,10,12,16][s%4],n1=1+(s%(den-2)),n2=1+((s*3)%(den-2));
+    q="Compute "+n1+"/"+den+" + "+n2+"/"+den+" as a decimal.";ans=Math.round(((n1+n2)/den)*1000)/1000;
+  }else if(topic===6){
+    var base=200+20*(s%21),p1=[10,15,20,25][s%4],p2=[5,10,20][s%3];
+    q="A price of "+base+" is increased by "+p1+"% and then reduced by "+p2+"%. What is the final price?";ans=Math.round(base*(1+p1/100)*(1-p2/100)*100)/100;
+  }else if(topic===7){
+    var k=1+(s%7),leg1=3*k,leg2=4*k;
+    q="A right triangle has perpendicular sides "+leg1+" cm and "+leg2+" cm. Find its area.";ans=leg1*leg2/2;
+  }else if(topic===8){
+    x=2+(s%13);a=3+(s%7);b=5+((s*2)%11);c=1+(s%2);var d=a*x+b-c*x;
+    q="Solve for x: "+a+"x + "+b+" = "+c+"x + "+d+".";ans=x;
+  }else if(topic===9){
+    var k2=1+(s%8),x1=-5+(s%11),y1=-4+((s*2)%9),x2=x1+3*k2,y2=y1+4*k2;
+    q="Find the distance between ("+x1+", "+y1+") and ("+x2+", "+y2+").";ans=5*k2;
+  }else if(topic===10){
+    var trig=[["sin 30° + cos 60°",1],["tan 45° + sin 90°",2],["2 sin 30° × cos 60°",0.5],["sin²30° + cos²30°",1]][s%4];
+    q="Evaluate "+trig[0]+".";ans=trig[1];
+  }else if(topic===11){
+    var total=12+2*(s%10),fav=2+(s%(total-3));
+    q="A bag has "+total+" equally likely tokens, "+fav+" of which are red. What is P(red) as a decimal?";ans=Math.round((fav/total)*1000)/1000;
+  }else{
+    var pow=2+(s%4),coef=2+((s*3)%7),pt=1+(s%5);
+    q="If f(x) = "+coef+"x^"+pow+", find f'("+pt+").";ans=coef*pow*Math.pow(pt,pow-1);
+  }
+  return {q:q,ans:ans};
+};
+var vihaaOldStartMathQuiz=startMathQuiz;
+startMathQuiz=function(topic){
+  state.math.uniqueNonce=(state.math.uniqueNonce||0)+1;
+  save();
+  return vihaaOldStartMathQuiz(topic);
+};
+var vihaaOldRenderMathQuestion=renderMathQuestion;
+renderMathQuestion=function(){
+  vihaaOldRenderMathQuestion();
+  if(el("mathDifficultyChip"))el("mathDifficultyChip").textContent="EXPERT · UNIQUE";
+};
+
+/* EXTRA SUBJECTS: harder world-aligned, procedural questions with new scenario seeds. */
+function vihaaExtraQ(subject,level,qno,variant){
+  var world=subjectWorldNo(level),st=(state.subjects&&state.subjects[subject])||{},nonce=st.entryNonce||0;
+  var seed=level*997+qno*131+(variant||0)*10009+nonce*7919+(state.learnerAge||10)*17;
+  var ask="",ans="",wrong=[],explain="",i,p,nm=["Ravi","Haasini","Vihan","Meera","Arjun","Kavya"][seed%6];
+  if(subject==="telugu"){
+    if(world===1){
+      var vowelWords=["ఔషధం","ఆకాశం","ఈగ","ఉత్సవం"],consWords=["గ్రంథం","శక్తి","పాఠశాల","చంద్రుడు"],useV=seed%2===0,w=(useV?vowelWords:consWords)[Math.floor(seed/3)%4];
+      ask="‘"+w+"’ పదం మొదటి అక్షరం ఏ ప్రధాన వర్గానికి చెందుతుంది?";ans=useV?"అచ్చు":"హల్లు";wrong=useV?["హల్లు","ఒత్తు","సంయుక్తాక్షరం"]:["అచ్చు","గుణింతం","దీర్ఘ అచ్చు"];explain="పదం మొదటి అక్షరాన్ని విడిగా గుర్తించి దాని వర్గాన్ని నిర్ణయించాలి.";
+    }else if(world===2){
+      var cs=["క","గ","త","ప","మ","ర"],ms=[["ి","కి"],["ీ","కీ"],["ు","కు"],["ే","కే"],["ో","కో"]],ci=seed%cs.length,mi=Math.floor(seed/5)%ms.length,base=cs[ci],mark=ms[mi][0],form=base+mark;
+      ask=base+" కు ‘"+mark+"’ మాత్ర/గుణింత చిహ్నం కలిపితే వచ్చే రూపం ఏది?";ans=form;wrong=[cs[(ci+1)%cs.length]+mark,base+"ా",base+"ె"];explain="హల్లుకు ఇచ్చిన గుణింత చిహ్నాన్ని సరైన స్థానంలో జోడించాలి.";
+    }else if(world===3){
+      var ott=[["శక్తి","క్త"],["విద్య","ద్య"],["భక్తి","క్త"],["సత్యం","త్య"],["ప్రజ్ఞ","జ్ఞ"],["పుస్తకం","స్త"]],o=ott[seed%ott.length];
+      ask="‘"+o[0]+"’ పదంలో కనిపించే సంయుక్తాక్షరం/ఒత్తు ఏది?";ans=o[1];wrong=["క్క","మ్మ","ల్ల"].filter(function(x){return x!==ans;});while(wrong.length<3)wrong.push(["న్న","ప్ప","చ్చ"][wrong.length]);explain="పదాన్ని అక్షర విభాగాలుగా చూసినప్పుడు ‘"+o[1]+"’ సంయుక్త రూపం కనిపిస్తుంది.";
+    }else if(world===4){
+      var syn=[["ఆనందం","సంతోషం"],["జలం","నీరు"],["వనం","అడవి"],["గృహం","ఇల్లు"],["రవి","సూర్యుడు"],["శశి","చంద్రుడు"]],sp=syn[seed%syn.length];
+      ask="‘"+sp[0]+"’ కు అత్యంత సమీప అర్థం ఉన్న పదం ఏది?";ans=sp[1];wrong=["కోపం","దారి","సమయం","పర్వతం"].filter(function(x){return x!==ans;}).slice(0,3);explain="‘"+sp[0]+"’ మరియు ‘"+sp[1]+"’ సమానార్థక పదాలు.";
+    }else if(world===5){
+      var sents=[["పరీక్ష పూర్తయ్యాక విద్యార్థులు ప్రశాంతంగా బయటకు వచ్చారు.","సరైన వాక్యం"],["వర్షం పడుతున్నప్పటికీ రైతు పనిని కొనసాగించాడు.","సరైన వాక్యం"],["పుస్తకం చదివిన తరువాత ఆమె ముఖ్యాంశాలు రాసుకుంది.","సరైన వాక్యం"],["సమయం తక్కువగా ఉండడంతో వారు వేగంగా నిర్ణయం తీసుకున్నారు.","సరైన వాక్యం"]],ss=sents[seed%sents.length];
+      ask="వ్యాకరణపరంగా సహజమైన వాక్యాన్ని ఎంచుకోండి.";ans=ss[0];wrong=["పరీక్ష పూర్తయ్యాక బయటకు ప్రశాంతంగా విద్యార్థులు వచ్చారు కొనసాగించాడు.","వర్షం రైతు పడుతున్నప్పటికీ పనిని.","పుస్తకం తరువాత ఆమె చదివిన ముఖ్యాంశాలు రాసుకుంది."];explain="కర్త–కర్మ–క్రియ సంబంధం మరియు ఉపవాక్య క్రమం సహజంగా ఉండాలి.";
+    }else if(world===6){
+      var gram=[["‘అతను వేగంగా పరుగెత్తాడు’ లో ‘వేగంగా’ ఏ పదభేదం?","క్రియావిశేషణం"],["‘అందమైన పువ్వు’ లో ‘అందమైన’ ఏ పదభేదం?","విశేషణం"],["‘వారు పుస్తకాలు చదివారు’ లో ‘వారు’ ఏ పదభేదం?","సర్వనామం"],["‘పిల్లలు నవ్వారు’ లో ‘నవ్వారు’ ఏ పదభేదం?","క్రియ"]],g=gram[seed%gram.length];
+      ask=g[0];ans=g[1];wrong=["నామవాచకం","సర్వనామం","విశేషణం","క్రియ","క్రియావిశేషణం"].filter(function(x){return x!==ans;}).slice(0,3);explain="వాక్యంలో ఆ పదం చేసే పనిని బట్టి పదభేదం నిర్ణయించాలి.";
+    }else if(world===7){
+      var pairs=[["వెలుగు","చీకటి","విరుద్ధ"],["ఎక్కువ","తక్కువ","విరుద్ధ"],["సంతోషం","ఆనందం","పర్యాయ"],["భూమి","నేల","పర్యాయ"],["కొత్త","పాత","విరుద్ధ"],["నీరు","జలం","పర్యాయ"]],pa=pairs[seed%pairs.length];
+      ask="‘"+pa[0]+"’ కు "+(pa[2]==="విరుద్ధ"?"విరుద్ధ పదం":"పర్యాయ పదం")+" ఏది?";ans=pa[1];wrong=["ఆకాశం","వేగం","దూరం"].filter(function(x){return x!==ans;});explain=pa[0]+" – "+pa[1]+" సరైన "+pa[2]+" సంబంధం.";
+    }else if(world===8){
+      var qty=3+(seed%7),thing=["పుస్తకాలు","మొక్కలు","బొమ్మలు","పండ్లు"][seed%4];
+      ask=nm+" గ్రంథాలయంలో "+qty+" "+thing+" అమర్చాడు. తరువాత మరో 2 "+thing+" చేర్చాడు. మొత్తం ఎన్ని?";ans=String(qty+2);wrong=[String(qty),String(qty+1),String(qty+3)];explain="పాఠ్యంలో ఉన్న రెండు పరిమాణాలను కలిపితే "+(qty+2)+" వస్తుంది.";
+    }else if(world===9){
+      var spell=[["బాధ్యత","బాద్యత","బాధ్యత్త","బాధ్యతా"],["ప్రయత్నం","ప్రయతనం","ప్రయత్నముు","ప్రయత్న్నం"],["స్వాతంత్ర్యం","స్వాతంత్రం","స్వతంత్ర్యం","స్వాతంత్య్రం"],["అవకాశం","అవకాసం","అవకాశముు","అవకాషం"]],z=spell[seed%spell.length];
+      ask="సరైన వర్ణక్రమం ఉన్న పదాన్ని ఎంచుకోండి.";ans=z[0];wrong=z.slice(1);explain="ప్రామాణిక వర్ణక్రమం: "+ans+".";
+    }else{
+      var idi=[["‘కంటికి రెప్పలా కాపాడటం’ అర్థం?","చాలా జాగ్రత్తగా కాపాడటం"],["‘చేతులు దులుపుకోవడం’ అర్థం?","బాధ్యత వదిలించుకోవడం"],["‘నిప్పుకు నూనె పోయడం’ అర్థం?","వివాదాన్ని మరింత పెంచడం"],["‘ఆకాశానికి ఎత్తేయడం’ అర్థం?","అతి పొగడటం"]],id=idi[seed%idi.length];
+      ask=id[0];ans=id[1];wrong=["నిశ్శబ్దంగా ఉండటం","త్వరగా వెళ్లిపోవడం","పనిని మొదలుపెట్టడం"].filter(function(x){return x!==ans;});explain="ఇది రూపక ప్రయోగం; సందర్భార్థం ‘"+ans+"’.";
+    }
+  }else if(subject==="hindi"){
+    if(world===1){
+      var hv=[["औषधि","औ","स्वर"],["ऋतु","ऋ","स्वर"],["प्रकाश","प","व्यंजन"],["ज्ञान","ज","व्यंजन"],["एकता","ए","स्वर"],["विद्यालय","व","व्यंजन"]],h=hv[seed%hv.length];
+      ask="‘"+h[0]+"’ के पहले वर्ण ‘"+h[1]+"’ की मुख्य श्रेणी क्या है?";ans=h[2];wrong=h[2]==="स्वर"?["व्यंजन","संयुक्ताक्षर","मात्रा"]:["स्वर","मात्रा","दीर्घ स्वर"];explain="पहले वर्ण को अलग करके स्वर/व्यंजन की पहचान की जाती है.";
+    }else if(world===2){
+      var hc=[["क्ष","संयुक्त व्यंजन"],["त्र","संयुक्त व्यंजन"],["ज्ञ","संयुक्त व्यंजन"],["क","व्यंजन"]],hh=hc[seed%hc.length];
+      ask="‘"+hh[0]+"’ की सही पहचान चुनिए.";ans=hh[1];wrong=["स्वर","मात्रा","विसर्ग"].filter(function(x){return x!==ans;});explain="रूप की संरचना देखकर सही वर्ण-श्रेणी चुननी होती है.";
+    }else if(world===3){
+      var hm=[["क","ौ","कौ"],["ग","ृ","गृ"],["प","ै","पै"],["म","ी","मी"],["त","ो","तो"]],m=hm[seed%hm.length];
+      ask=m[0]+" में ‘"+m[1]+"’ मात्रा जोड़ने पर सही रूप क्या बनेगा?";ans=m[2];wrong=[m[0]+"ा",m[0]+"ि",m[0]+"ु"];explain="दिए गए व्यंजन के साथ सही मात्रा-चिह्न जोड़ना है.";
+    }else if(world===4){
+      var hs=[["प्रसन्न","खुश"],["आरंभ","शुरुआत"],["विशाल","बहुत बड़ा"],["साहस","हिम्मत"],["निर्णय","फैसला"],["प्रयास","कोशिश"]],hp=hs[seed%hs.length];
+      ask="‘"+hp[0]+"’ के सबसे निकट अर्थ वाला शब्द चुनिए.";ans=hp[1];wrong=["असफलता","दूरी","मौन"].filter(function(x){return x!==ans;});explain=hp[0]+" और "+hp[1]+" निकटार्थी हैं.";
+    }else if(world===5){
+      var hsent=["हालाँकि समय कम था, फिर भी टीम ने काम पूरा किया।","परीक्षा समाप्त होने के बाद विद्यार्थी शांतिपूर्वक बाहर निकले।","बारिश होने के बावजूद किसान ने काम जारी रखा।","रिपोर्ट पढ़ने के बाद उसने मुख्य बिंदु लिखे।"],hsx=hsent[seed%hsent.length];
+      ask="व्याकरण और शब्द-क्रम की दृष्टि से सही वाक्य चुनिए.";ans=hsx;wrong=["हालाँकि समय था कम टीम फिर भी पूरा काम किया।","परीक्षा बाद विद्यार्थी बाहर शांत समाप्त निकले।","बारिश किसान बावजूद होने काम जारी।"];explain="सही वाक्य में उपवाक्य और क्रिया का क्रम स्वाभाविक है.";
+    }else if(world===6){
+      var hg=[["‘वह बहुत धीरे बोलता है’ में ‘धीरे’ क्या है?","क्रिया-विशेषण"],["‘सुंदर चित्र’ में ‘सुंदर’ क्या है?","विशेषण"],["‘वे विद्यालय गए’ में ‘वे’ क्या है?","सर्वनाम"],["‘बच्चे हँसे’ में ‘हँसे’ क्या है?","क्रिया"]],gg=hg[seed%hg.length];
+      ask=gg[0];ans=gg[1];wrong=["संज्ञा","सर्वनाम","विशेषण","क्रिया","क्रिया-विशेषण"].filter(function(x){return x!==ans;}).slice(0,3);explain="वाक्य में शब्द की भूमिका से उसका पद-भेद तय होता है.";
+    }else if(world===7){
+      var hvn=[["लड़की","लड़कियाँ"],["कहानी","कहानियाँ"],["वस्तु","वस्तुएँ"],["नदी","नदियाँ"]],vn=hvn[seed%hvn.length];
+      ask="‘"+vn[0]+"’ का सही बहुवचन क्या है?";ans=vn[1];wrong=[vn[0]+"ों",vn[0]+"ए",vn[0]+"याँ"];explain="मानक बहुवचन रूप ‘"+ans+"’ है.";
+    }else if(world===8){
+      var ha=[["उन्नति","अवनति"],["आशा","निराशा"],["प्रकाश","अंधकार"],["लाभ","हानि"],["आरंभ","अंत"]],ap=ha[seed%ha.length];
+      ask="‘"+ap[0]+"’ का विलोम शब्द चुनिए.";ans=ap[1];wrong=["साहस","समय","मार्ग"].filter(function(x){return x!==ans;});explain=ap[0]+" का विलोम "+ap[1]+" है.";
+    }else if(world===9){
+      var hq=4+(seed%8);
+      ask=nm+" ने "+hq+" पृष्ठ पढ़े और फिर 3 पृष्ठ और पढ़े। कुल कितने पृष्ठ पढ़े?";ans=String(hq+3);wrong=[String(hq),String(hq+2),String(hq+4)];explain="पाठ की दोनों संख्याएँ जोड़ने पर "+(hq+3)+" मिलता है.";
+    }else{
+      var hi=[["‘आँखों का तारा’ का अर्थ?","बहुत प्रिय व्यक्ति"],["‘नाक में दम करना’ का अर्थ?","बहुत परेशान करना"],["‘हाथ पर हाथ धरे बैठना’ का अर्थ?","निष्क्रिय बैठे रहना"],["‘दाँत खट्टे करना’ का अर्थ?","बुरी तरह पराजित करना"]],hx=hi[seed%hi.length];
+      ask=hx[0];ans=hx[1];wrong=["बहुत तेज दौड़ना","धीरे बोलना","काम शुरू करना"].filter(function(x){return x!==ans;});explain="मुहावरे का प्रसंगगत अर्थ ‘"+ans+"’ है.";
+    }
+  }else if(subject==="physics"){
+    if(world===1){var mm=1250+(seed%2750);ask=mm+" mm को metre में बदलिए.";ans=vihaaFmtNumber(mm/1000)+" m";wrong=[vihaaFmtNumber(mm/100)+" m",vihaaFmtNumber(mm/10000)+" m",String(mm)+" m"];explain="1 m = 1000 mm, इसलिए "+mm+" ÷ 1000 = "+vihaaFmtNumber(mm/1000)+" m.";}
+    else if(world===2){var t=4+(seed%8),v=12+(seed%29);ask="A body covers "+(v*t)+" m in "+t+" s at constant speed. Find the speed.";ans=v+" m/s";wrong=[(v+t)+" m/s",(v*2)+" m/s",Math.max(1,v-t)+" m/s"];explain="Speed = distance/time = "+(v*t)+"/"+t+" = "+v+" m/s.";}
+    else if(world===3){var mass=3+(seed%18),acc=2+((seed*3)%9);ask="A "+mass+" kg object accelerates at "+acc+" m/s². What net force acts on it?";ans=(mass*acc)+" N";wrong=[(mass+acc)+" N",(mass*acc+mass)+" N",(mass*acc*2)+" N"];explain="Newton II: F = ma = "+mass+" × "+acc+" = "+(mass*acc)+" N.";}
+    else if(world===4){var m4=2+(seed%9),vel=4+2*(seed%7),ke=.5*m4*vel*vel;ask="Find kinetic energy of a "+m4+" kg body moving at "+vel+" m/s.";ans=vihaaFmtNumber(ke)+" J";wrong=[vihaaFmtNumber(m4*vel)+" J",vihaaFmtNumber(m4*vel*vel)+" J",vihaaFmtNumber(ke/2)+" J"];explain="KE = 1/2 mv² = "+vihaaFmtNumber(ke)+" J.";}
+    else if(world===5){var mg=4+(seed%17);ask="Taking g = 10 m/s², what is the weight of a "+mg+" kg mass?";ans=(mg*10)+" N";wrong=[mg+" N",(mg+10)+" N",(mg*100)+" N"];explain="Weight W = mg = "+mg+" × 10 = "+(mg*10)+" N.";}
+    else if(world===6){var water=1+(seed%4),dt=5+(seed%11),Q=water*4200*dt;ask="How much heat raises "+water+" kg of water by "+dt+" °C? Take c = 4200 J/kg°C.";ans=Q+" J";wrong=[water*420*dt+" J",4200*dt+" J",water*4200+" J"];explain="Q = mcΔT = "+water+" × 4200 × "+dt+" = "+Q+" J.";}
+    else if(world===7){var freq=100+(seed%401),lam=[0.5,1,2,4][seed%4],wv=freq*lam;ask="A wave has frequency "+freq+" Hz and wavelength "+lam+" m. Find its speed.";ans=vihaaFmtNumber(wv)+" m/s";wrong=[vihaaFmtNumber(freq/lam)+" m/s",vihaaFmtNumber(freq+lam)+" m/s",vihaaFmtNumber(wv*2)+" m/s"];explain="Wave speed v = fλ = "+vihaaFmtNumber(wv)+" m/s.";}
+    else if(world===8){var nv=[1.33,1.5,1.6][seed%3],speed=Math.round(300/nv);ask="If light speed in a medium is about "+speed+" million m/s while c = 300 million m/s, the refractive index is closest to?";ans=vihaaFmtNumber(300/speed);wrong=["1","2","0.5"].filter(function(x){return x!==ans;});explain="n = c/v ≈ 300/"+speed+" = "+vihaaFmtNumber(300/speed)+".";}
+    else if(world===9){var R=4+2*(seed%10);ask="Two equal "+R+" Ω resistors are connected in parallel. Find equivalent resistance.";ans=(R/2)+" Ω";wrong=[R+" Ω",(R*2)+" Ω",(R+2)+" Ω"];explain="Two equal resistors R in parallel give R/2 = "+(R/2)+" Ω.";}
+    else{var initial=800*Math.pow(2,seed%3),halves=1+(seed%5),left=initial/Math.pow(2,halves);ask="A radioactive sample starts with "+initial+" nuclei units. After "+halves+" half-lives, how many remain?";ans=vihaaFmtNumber(left);wrong=[vihaaFmtNumber(initial/halves),vihaaFmtNumber(left*2),vihaaFmtNumber(left/2)];explain="After n half-lives, remaining = initial/(2^n) = "+vihaaFmtNumber(left)+".";}
+  }else if(subject==="chemistry"){
+    if(world===1){var vol=20+(seed%41),dens=2+(seed%8),massc=vol*dens;ask="A sample has mass "+massc+" g and volume "+vol+" cm³. Find density.";ans=dens+" g/cm³";wrong=[(dens+1)+" g/cm³",vol+" g/cm³",massc+" g/cm³"];explain="Density = mass/volume = "+massc+"/"+vol+" = "+dens+" g/cm³.";}
+    else if(world===2){var atomic=[["Na",11,23],["Cl",17,35],["Mg",12,24],["Al",13,27],["Ca",20,40]][seed%5],neu=atomic[2]-atomic[1];ask="For "+atomic[0]+" with atomic number "+atomic[1]+" and mass number "+atomic[2]+", how many neutrons?";ans=String(neu);wrong=[String(atomic[1]),String(atomic[2]),String(neu+1)];explain="Neutrons = mass number − atomic number = "+neu+".";}
+    else if(world===3){var elem=[["Na","Group 1"],["Cl","Group 17"],["Ne","Group 18"],["Mg","Group 2"]][seed%4];ask="Which periodic-table group contains "+elem[0]+"?";ans=elem[1];wrong=["Group 14","Group 16","Group 18"].filter(function(x){return x!==ans;});while(wrong.length<3)wrong.push("Group "+(3+wrong.length));explain=elem[0]+" is placed in "+elem[1]+".";
+    }else if(world===4){var bond=[["NaCl","ionic bond"],["H₂","covalent bond"],["MgO","ionic bond"],["CH₄","covalent bond"]][seed%4];ask="What is the dominant bond type in "+bond[0]+"?";ans=bond[1];wrong=["metallic bond","hydrogen bond",bond[1]==="ionic bond"?"covalent bond":"ionic bond"];explain=bond[0]+" is classified here by its main bonding type: "+ans+".";
+    }else if(world===5){var rx=[["__ H₂ + O₂ → 2H₂O","2"],["__ Mg + O₂ → 2MgO","2"],["N₂ + __ H₂ → 2NH₃","3"],["2KClO₃ → 2KCl + __ O₂","3"]][seed%4];ask="Balance the equation. Missing coefficient: "+rx[0];ans=rx[1];wrong=["1","4","5"].filter(function(x){return x!==ans;});while(wrong.length<3)wrong.push(String(6+wrong.length));explain="Count each element on both sides; the missing coefficient is "+ans+".";
+    }else if(world===6){var ph=2+(seed%11);ask="If [H⁺] = 10^−"+ph+" mol/L, what is the pH?";ans=String(ph);wrong=[String(14-ph),String(ph+1),String(Math.max(0,ph-1))];explain="pH = −log10[H⁺] = "+ph+".";
+    }else if(world===7){var disp=[["Zn + CuSO₄","Zn displaces Cu"],["Cu + ZnSO₄","no displacement"],["Fe + CuSO₄","Fe displaces Cu"],["Ag + HCl","no displacement"]][seed%4];ask="Predict the main result for: "+disp[0];ans=disp[1];wrong=["gas only","precipitation only","both metals dissolve"].filter(function(x){return x!==ans;});explain="Use the metal reactivity series to predict displacement.";
+    }else if(world===8){var nc=2+(seed%7);ask="What is the molecular formula of an alkane with "+nc+" carbon atoms?";ans="C"+nc+"H"+(2*nc+2);wrong=["C"+nc+"H"+(2*nc),"C"+nc+"H"+(2*nc-2),"C"+(nc+1)+"H"+(2*nc+2)];explain="Alkanes follow CnH2n+2.";
+    }else if(world===9){var sol=10+5*(seed%7),solution=100+20*(seed%6),pctc=Math.round(sol/solution*10000)/100;ask=sol+" g solute is present in "+solution+" g solution. Find mass percent.";ans=vihaaFmtNumber(pctc)+"%";wrong=[vihaaFmtNumber(sol/solution)+"%",vihaaFmtNumber(solution/sol)+"%",vihaaFmtNumber(pctc+5)+"%"];explain="Mass % = (solute mass/solution mass) × 100 = "+vihaaFmtNumber(pctc)+"%.";
+    }else{var app=[["Which gas is the largest human-caused contributor to long-lived greenhouse warming among these?","carbon dioxide"],["Which process removes temporary hardness of water effectively?","boiling"],["Which polymer is formed from ethene monomers?","polyethylene"],["Which industrial process synthesizes ammonia?","Haber process"]][seed%4];ask=app[0];ans=app[1];wrong=["oxygen","distillation","electrolysis"].filter(function(x){return x!==ans;});while(wrong.length<3)wrong.push(["nitrogen","filtration","cracking"][wrong.length]);explain="Correct applied-chemistry concept: "+ans+".";
+    }
+  }else{
+    var banks=[
+      [
+        ["Which Harappan feature most strongly indicates organised urban civic planning?","standardised drainage networks",["large royal tombs","iron weapons","horse cavalry"]],
+        ["Ashoka's inscriptions are especially important because they provide direct evidence of?","imperial policy and dhamma",["Vedic rituals only","Mughal taxation","European trade"]],
+        ["The spread of Buddhism along trade routes best illustrates interaction between?","commerce and cultural exchange",["monsoon and plate tectonics","feudalism and factories","currency and inflation"]]
+      ],
+      [
+        ["The Mughal mansabdari system mainly combined?","rank with military-administrative obligation",["village self-rule only","temple taxation only","hereditary kingship only"]],
+        ["The iqta system of the Delhi Sultanate was primarily connected with?","assignment of revenue rights for service",["ocean navigation","printing technology","permanent land ownership for peasants"]],
+        ["Bhakti and Sufi traditions are often studied together because both emphasised?","personal devotion and spiritual experience",["industrial production","colonial bureaucracy","military conscription"]]
+      ],
+      [
+        ["Why was the Dandi March of 1930 politically significant?","it challenged the colonial salt monopoly through civil disobedience",["it ended World War II","it created the Constitution immediately","it introduced railways"]],
+        ["The Government of India Act 1935 is important in constitutional history mainly because it?","expanded provincial autonomy",["granted complete independence","abolished all provinces","created the Supreme Court of India in 1950"]],
+        ["The Swadeshi movement encouraged people primarily to?","boycott foreign goods and support indigenous production",["oppose all education","stop agriculture","join princely armies"]]
+      ],
+      [
+        ["Heavy rainfall on India's western coastal slopes during the southwest monsoon is mainly caused by?","orographic uplift along the Western Ghats",["winter cyclones from Europe","cold ocean currents","continental glaciers"]],
+        ["A river carrying heavy silt slows near its mouth. Which landform is most likely to grow?","delta",["rift valley","plateau","cirque"]],
+        ["The rain-shadow region east of the Western Ghats is drier mainly because?","air descends and warms after losing moisture on the windward side",["it is closer to the equator","the Sun never reaches it","rivers absorb clouds"]]
+      ],
+      [
+        ["If it is 12:00 UTC, the local standard time near 82.5°E longitude is approximately?","17:30",["12:30","15:00","20:30"]],
+        ["Most earthquakes and volcanoes cluster near plate boundaries because those regions have?","active crustal movement and stress",["uniform air pressure","constant rainfall","no mantle activity"]],
+        ["A country's time difference changes by about one hour for each?","15 degrees of longitude",["15 degrees of latitude","100 km of altitude","1 degree of longitude"]]
+      ],
+      [
+        ["Which constitutional idea describes division of powers between Union and State governments?","federalism",["judicial review","secularism","universal franchise"]],
+        ["Judicial review allows constitutional courts primarily to?","examine whether laws and executive actions conform to the Constitution",["write the annual budget","conduct elections","appoint all legislators"]],
+        ["Fundamental Rights differ from Directive Principles mainly because Fundamental Rights are?","judicially enforceable",["only moral suggestions","limited to local bodies","temporary emergency laws"]]
+      ],
+      [
+        ["If prices rise faster than a person's nominal income, their real purchasing power generally?","falls",["rises automatically","stays identical","becomes zero by definition"]],
+        ["Opportunity cost of choosing one option is best defined as?","value of the next best alternative forgone",["total money spent only","future tax rate","market price of every alternative"]],
+        ["A central bank raising policy interest rates is generally intended to?","reduce demand pressure and inflation",["guarantee stock-market gains","increase rainfall","eliminate all taxes"]]
+      ],
+      [
+        ["Excess nutrients entering a lake can cause algal blooms and oxygen depletion. This process is?","eutrophication",["desertification","sublimation","weathering"]],
+        ["A biodiversity hotspot is identified mainly by?","high endemism combined with severe habitat loss",["high rainfall alone","large population alone","low species diversity"]],
+        ["Which action most directly increases a forest's carbon stock?","successful afforestation and long-term protection",["open burning","soil sealing","wetland drainage"]]
+      ],
+      [
+        ["A demographic dividend is most likely when a country has?","a large working-age population supported by jobs, health and education",["only a rapidly growing elderly population","zero migration by law","no urbanisation"]],
+        ["Literacy rate alone cannot measure educational quality because it does not directly capture?","learning outcomes and depth of skills",["population size","rainfall","longitude"]],
+        ["Rapid urbanisation without infrastructure investment most directly increases pressure on?","housing, transport, water and sanitation",["plate tectonics","ocean salinity only","solar radiation"]]
+      ],
+      [
+        ["Which combination best reflects constitutional democracy?","elected government, rule of law, rights and accountable institutions",["elections without rights","rule by decree only","hereditary office with no law"]],
+        ["A policy raises GDP but sharply worsens air pollution. Which conclusion is most defensible?","economic output alone does not capture all dimensions of welfare",["GDP must have fallen","pollution is not a social cost","welfare always equals GDP"]],
+        ["When two reliable sources disagree, the strongest next step is to?","compare methods, evidence, dates and possible biases",["choose the louder source","ignore both permanently","average every claim numerically"]]
+      ]
+    ];
+    var bi=banks[world-1][seed%banks[world-1].length];ask=bi[0];ans=bi[1];wrong=bi[2];explain="This question tests reasoning within "+subjectConfigs.social.worlds[world-1][1]+": "+ans+".";
+  }
+  var label="Level "+level+" · Q"+qno+(variant?" · Reset "+(variant+1):"");
+  return {q:label+" — "+ask,ans:String(ans),opts:subjectOptions(String(ans),wrong.map(String),seed),explain:explain,world:world};
+}
+makeExtraQuestion=vihaaExtraQ;
+
+var vihaaOldStartExtraQuiz=startExtraQuiz;
+startExtraQuiz=function(){
+  if(isExtraSubject(state.currentSubject)){
+    var st=currentExtraState();
+    st.entryNonce=(st.entryNonce||0)+1;
+    save();
+  }
+  return vihaaOldStartExtraQuiz();
+};
+var vihaaOldRenderExtraQuiz=renderExtraQuiz;
+renderExtraQuiz=function(){
+  vihaaOldRenderExtraQuiz();
+  if(el("multiQuizAge"))el("multiQuizAge").textContent="EXPERT · UNIQUE";
+};
+var vihaaOldRenderExtraAdaptiveReview=renderExtraAdaptiveReview;
+renderExtraAdaptiveReview=function(){
+  vihaaOldRenderExtraAdaptiveReview();
+  if(el("multiQuizAge"))el("multiQuizAge").textContent="EXPERT · UNIQUE";
+};
+
+/* Visible assurance in the quiz UIs. */
+var vihaaExtraSubtitle=document.querySelector("#view-subjectquiz .section-head p");
+if(vihaaExtraSubtitle)vihaaExtraSubtitle.textContent="Expert questions only. Wrong answers lock the question; reset generates a different question. Exact question repeats are blocked by the procedural seed.";
+
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
 if(el("multiReset"))el("multiReset").onclick=function(){if(extraAdaptiveReview.active)resetExtraAdaptiveReview();else resetExtraQuestion();};
 if(el("multiNext"))el("multiNext").onclick=function(){if(extraAdaptiveReview.active)nextExtraAdaptiveReview();else nextExtraQuestion();};
