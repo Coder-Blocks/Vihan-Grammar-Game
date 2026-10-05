@@ -183,6 +183,23 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
 .kids-school-modules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:13px}.kids-school-module{border:1px solid var(--line);background:#fff;border-radius:17px;padding:12px;text-align:left;min-height:105px;color:var(--text);cursor:pointer;box-shadow:0 7px 18px rgba(50,47,100,.05)}.kids-school-module:hover{border-color:#b6a9ff;transform:translateY(-2px)}.kids-school-module.done{background:#edfbf5;border-color:#8ed7b7}.kids-school-module .mi{font-size:25px;display:block;margin-bottom:5px}.kids-school-module b{display:block;font-size:13px}.kids-school-module small{display:block;color:var(--muted);font-size:10px;line-height:1.35;margin-top:4px}
 .kids-school-game{margin-top:15px;border:1px solid var(--line);background:var(--panel);border-radius:22px;padding:16px}.kids-school-game[hidden]{display:none}.kids-school-game h3{margin:0 0 5px}.kids-lesson-box{background:#f8f7ff;border:1px solid #e8e3ff;border-radius:16px;padding:13px;margin:10px 0}.kids-lesson-box p{margin:0;color:var(--text);line-height:1.55;font-weight:700}.kids-example-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.kids-example-chip{padding:6px 9px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:11px;font-weight:900}.kids-school-q{font-size:clamp(21px,3vw,29px);font-weight:950;text-align:center;margin:18px auto 12px;max-width:900px}.kids-school-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:850px;margin:0 auto}.kids-school-opt{border:2px solid var(--line);background:#fff;border-radius:16px;padding:12px;font-weight:900;color:var(--text);cursor:pointer}.kids-school-opt.correct{background:#e7fbf2;border-color:#43c78d;color:#106d4d}.kids-school-opt.wrong{background:#fff0f2;border-color:#ff7a87;color:#a82f3e}.kids-school-feedback{text-align:center;min-height:26px;margin-top:10px;font-weight:900}.kids-school-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:10px}
 @media(max-width:900px){.kids-school-modules{grid-template-columns:repeat(3,1fr)}}@media(max-width:650px){.kids-grade-tabs{grid-template-columns:1fr}.kids-school-modules{grid-template-columns:repeat(2,1fr)}.kids-school-options{grid-template-columns:1fr}}@media(max-width:420px){.kids-school-modules{grid-template-columns:1fr}}
+
+.kids-school-status{display:block;margin-top:7px;font-size:10px;font-weight:950;color:#5b49c8}
+.school-match-wrap{margin-top:8px}
+.school-match-help{text-align:center;color:var(--muted);font-size:12px;font-weight:800;margin:7px 0 12px}
+.school-match-board{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:52px;max-width:900px;margin:0 auto;padding:5px}
+.school-match-col{display:flex;flex-direction:column;gap:12px;position:relative;z-index:2}
+.school-match-node{min-height:58px;border:2px solid var(--line);background:#fff;border-radius:16px;padding:10px 12px;font-weight:950;color:var(--text);display:flex;align-items:center;justify-content:center;text-align:center;cursor:crosshair;touch-action:none;user-select:none;transition:.15s}
+.school-match-node:hover{border-color:#9c8cff;transform:translateY(-1px)}
+.school-match-node.selected{border-color:#6c4cff;background:#f0edff;box-shadow:0 0 0 3px rgba(108,76,255,.08)}
+.school-match-node.matched{border-color:#45ca94;background:#e9fbf3;color:#117653;cursor:default}
+.school-match-node.bad{border-color:#ff7d89;background:#fff0f2;color:#ad3040}
+.school-match-lines{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
+.school-match-line{stroke:#45ca94;stroke-width:4;stroke-linecap:round;filter:drop-shadow(0 2px 2px rgba(26,130,86,.18))}
+.school-match-preview{stroke:#6c4cff;stroke-width:3;stroke-dasharray:7 5;stroke-linecap:round;opacity:.8}
+.school-match-feedback{text-align:center;min-height:28px;font-weight:950;margin:12px 0 2px}
+.school-match-score{text-align:center;font-size:12px;font-weight:900;color:#5a45c5;margin-bottom:8px}
+@media(max-width:620px){.school-match-board{gap:20px}.school-match-node{font-size:12px;min-height:62px;padding:8px}.school-match-line{stroke-width:3}}
 </style>
 </head>
 <body data-subject="english">
@@ -4560,6 +4577,229 @@ renderKidsZone=function(){
   vihaaOldRenderKidsZoneV8();
   renderVihaaSchoolPath((state.kidsSchool&&state.kidsSchool.grade)||"lkg");
 };
+
+
+/* VIHAA v8.1 SAFE MCQ + LINE MATCHING IN EVERY SCHOOL MODULE */
+var VIHAA_QUESTION_ENGINE_VERSION="8.1.0";
+
+function vihaaHtml(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function vihaaSafeMcq(q,ans,opts,explain){return{q:q,ans:String(ans),opts:shuffleCopy(opts.map(String)),explain:explain};}
+
+var vihaaOldSchoolQuestionV81=vihaaSchoolQuestion;
+vihaaSchoolQuestion=function(kind,serial){
+  var s=Number(serial||1),i=s%8,x;
+  if(kind==="vowels"){
+    var seq=[["Which vowel comes after A?","E"],["Which vowel comes after E?","I"],["Which vowel comes after I?","O"],["Which vowel comes after O?","U"]];
+    x=seq[s%seq.length];return vihaaSafeMcq(x[0],x[1],["A","E","I","O","U"].filter(function(v){return v!==x[1];}).slice(0,3).concat([x[1]]),"The English vowels in order are A, E, I, O, U.");
+  }
+  if(kind==="colors"){
+    var cs=[["Which colour word matches grass?","green"],["Which colour word matches the sky on a clear day?","blue"],["Which colour word matches a ripe banana?","yellow"],["Which colour word matches coal?","black"],["Which colour word matches fresh milk?","white"],["Which colour word matches many strawberries?","red"]];
+    x=cs[s%cs.length];return vihaaSafeMcq(x[0],x[1],[x[1],"chair","jump","book"],x[1]+" is the colour word that fits the clue.");
+  }
+  if(kind==="shapes"){
+    var sh=[["Which shape has 3 sides?","triangle"],["Which shape is round with no corners?","circle"],["Which shape has 4 equal sides?","square"],["Which shape is like a stretched circle?","oval"]];
+    x=sh[s%sh.length];return vihaaSafeMcq(x[0],x[1],[x[1],"apple","run","teacher"],x[1]+" is the shape described.");
+  }
+  if(kind==="body"){
+    var bd=[["Which body part do you use to hear?","ear"],["Which body part do you use to smell?","nose"],["Which body part do you use to see?","eye"],["Which body part do you use to hold a pencil?","hand"],["Which body part is at the end of your leg?","foot"]];
+    x=bd[s%bd.length];return vihaaSafeMcq(x[0],x[1],[x[1],"chair","apple","bus"],x[1]+" is the body part that matches the clue.");
+  }
+  if(kind==="family"){
+    var fm=[["Your mother's mother is your ___.","grandmother"],["Your father's father is your ___.","grandfather"],["A boy who has the same parents as you can be your ___.","brother"],["A girl who has the same parents as you can be your ___.","sister"],["Your female parent is your ___.","mother"],["Your male parent is your ___.","father"]];
+    x=fm[s%fm.length];return vihaaSafeMcq(x[0],x[1],[x[1],"chair","school","green"],"Only "+x[1]+" fits this family relationship clue.");
+  }
+  if(kind==="food"){
+    var fd=[["Which food is a yellow fruit?","banana"],["Which food is an orange root vegetable?","carrot"],["Which drink comes from milk?","milk"],["Which food is a common grain eaten as cooked white grains?","rice"],["Which food is baked and sliced for sandwiches?","bread"]];
+    x=fd[s%fd.length];return vihaaSafeMcq(x[0],x[1],[x[1],"run","blue","school"],x[1]+" is the food that matches the clue.");
+  }
+  if(kind==="animals"){
+    var an=[["Which animal says 'meow'?","cat"],["Which animal says 'woof'?","dog"],["Which farm animal gives us milk?","cow"],["Which animal is known for a long mane and a roar?","lion"],["Which animal can hop and has long ears?","rabbit"],["Which bird can swim and says 'quack'?","duck"]];
+    x=an[s%an.length];return vihaaSafeMcq(x[0],x[1],[x[1],"book","yellow","jump"],x[1]+" matches the animal clue.");
+  }
+  if(kind==="actions"){
+    var ac=[["Which action means moving fast on your feet?","run"],["Which action means moving your body off the ground?","jump"],["Which action do you do with a book?","read"],["Which action do you do with a pencil?","write"],["Which action means taking water into your mouth?","drink"]];
+    x=ac[s%ac.length];return vihaaSafeMcq(x[0],x[1],[x[1],"red","chair","school"],x[1]+" is the action described.");
+  }
+  if(kind==="sight"||kind==="sight1"){
+    var sw=[["___ is my book.","This"],["I ___ see a bird.","can"],["The cat is ___ the box.","in"],["___ are my friend.","You"],["She ___ happy.","is"]];
+    x=sw[s%sw.length];return vihaaSafeMcq(x[0],x[1],[x[1],"zebra","rocket","banana"],x[1]+" correctly completes the sentence.");
+  }
+  if(kind==="nouns"||kind==="nouns1"){
+    var ns=[["Which word names a place?","school"],["Which word names a person?","teacher"],["Which word names an animal?","dog"],["Which word names a thing?","book"]];
+    x=ns[s%ns.length];return vihaaSafeMcq(x[0],x[1],[x[1],"quickly","happy","runs"],x[1]+" is a naming word of the requested type.");
+  }
+  if(kind==="verbs"||kind==="verbs1"){
+    var vb=[["Birds ___.","fly"],["Children ___ books.","read"],["We ___ water.","drink"],["A dog can ___.","run"],["Students ___ with pencils.","write"]];
+    x=vb[s%vb.length];return vihaaSafeMcq("Choose the action word: "+x[0],x[1],[x[1],"blue","school","happy"],x[1]+" is the action that completes the sentence.");
+  }
+  if(kind==="adjectives"||kind==="adjectives1"){
+    var aj=[["an ___ elephant","big"],["a ___ rose","red"],["a ___ pillow","soft"],["a ___ child","happy"],["a ___ tree","tall"]];
+    x=aj[s%aj.length];return vihaaSafeMcq("Choose the describing word for: "+x[0],x[1],[x[1],"runs","school","quickly"],x[1]+" is the describing word.");
+  }
+  if(kind==="proper"){
+    var pp=[["Which option is a person's special name?","Ravi"],["Which option is a country name?","India"],["Which option is a day name?","Monday"]];
+    x=pp[s%pp.length];return vihaaSafeMcq(x[0],x[1],[x[1],"boy","city","day"],x[1]+" is a proper noun.");
+  }
+  if(kind==="capital"){
+    var cp=[["Which sentence correctly writes the person's name Ravi?","Ravi is my friend."],["Which sentence correctly writes the country name India?","India is a country."],["Which correctly writes the day name Monday?","Monday"]];
+    x=cp[s%cp.length];var bad=x[1].charAt(0).toLowerCase()+x[1].slice(1);return vihaaSafeMcq(x[0],x[1],[x[1],bad,"school is open.","we play."],x[1]+" uses the required capital letter correctly.");
+  }
+  if(kind==="vocab1"){
+    var vc=[["Where do students learn in a school building?","classroom"],["Where do plants and flowers grow near a home?","garden"],["Where do people buy and sell things?","market"],["Which vehicle carries many passengers on roads?","bus"],["Who treats sick people?","doctor"],["Who grows crops?","farmer"]];
+    x=vc[s%vc.length];return vihaaSafeMcq(x[0],x[1],[x[1],"purple","jump","soft"],x[1]+" matches the vocabulary clue.");
+  }
+  if(kind==="picture"){
+    var pc=[["Which word names something you read?","book"],["Which word names something you kick in a game?","ball"],["Which word names something you drink from?","cup"],["Which word names something that can fly on a string?","kite"],["Which word names something you write with?","pen"],["Which word names something you carry to school?","bag"]];
+    x=pc[s%pc.length];return vihaaSafeMcq(x[0],x[1],[x[1],"green","jump","mother"],x[1]+" matches the object clue.");
+  }
+  return vihaaOldSchoolQuestionV81(kind,serial);
+};
+
+var vihaaOldEnsureSchoolV81=ensureVihaaSchoolState;
+ensureVihaaSchoolState=function(){
+  vihaaOldEnsureSchoolV81();
+  if(!state.kidsSchool.matchDone)state.kidsSchool.matchDone={lkg:{},ukg:{},class1:{}};
+  ["lkg","ukg","class1"].forEach(function(g){if(!state.kidsSchool.matchDone[g])state.kidsSchool.matchDone[g]={};});
+};
+
+function vihaaSchoolMatchPairs(kind,seed){
+  var p=[];
+  if(kind==="alphabet")p=[["A","Apple"],["B","Banana"],["C","Cat"],["D","Dog"],["E","Elephant"],["F","Fish"],["G","Grapes"],["H","Hat"],["I","Ice cream"],["J","Jug"]];
+  else if(kind==="case")p=[["A","a"],["B","b"],["C","c"],["D","d"],["E","e"],["F","f"],["G","g"],["H","h"]];
+  else if(kind==="sounds"||kind==="begin"||kind==="phonics1")p=[["B","Ball"],["M","Moon"],["S","Sun"],["F","Fish"],["C","Cat"],["D","Dog"],["R","Rain"],["V","Van"]];
+  else if(kind==="vowels")p=[["A","Apple"],["E","Egg"],["I","Ink"],["O","Orange"],["U","Umbrella"]];
+  else if(kind==="picture")p=[["📘","Book"],["⚽","Ball"],["🥤","Cup"],["🪁","Kite"],["✏️","Pencil"],["🎒","Bag"]];
+  else if(kind==="colors")p=[["🍎","Red"],["🌤️","Blue"],["🌿","Green"],["🍌","Yellow"],["🥕","Orange"],["☁️","White"]];
+  else if(kind==="shapes")p=[["3 sides","Triangle"],["4 equal sides","Square"],["No corners","Circle"],["Long round shape","Oval"],["⭐","Star"]];
+  else if(kind==="num10")p=[["1","One"],["2","Two"],["3","Three"],["4","Four"],["5","Five"],["6","Six"],["7","Seven"],["8","Eight"],["9","Nine"],["10","Ten"]];
+  else if(kind==="body")p=[["👂","Ear"],["👃","Nose"],["👁️","Eye"],["✋","Hand"],["🦶","Foot"],["👄","Mouth"]];
+  else if(kind==="family")p=[["Mother's mother","Grandmother"],["Father's father","Grandfather"],["Female parent","Mother"],["Male parent","Father"],["Boy sibling","Brother"],["Girl sibling","Sister"]];
+  else if(kind==="food")p=[["🍌","Banana"],["🥕","Carrot"],["🥛","Milk"],["🍚","Rice"],["🍞","Bread"],["🍎","Apple"]];
+  else if(kind==="animals")p=[["Meow","Cat"],["Woof","Dog"],["Quack","Duck"],["Roar","Lion"],["Long ears & hops","Rabbit"],["Gives milk","Cow"]];
+  else if(kind==="greetings")p=[["Morning","Good morning"],["Gift received","Thank you"],["Ask politely","Please"],["Made a mistake","Sorry"],["Before sleep","Good night"]];
+  else if(kind==="actions")p=[["🏃","Run"],["🤸","Jump"],["📖","Read"],["✍️","Write"],["🥤","Drink"],["😴","Sleep"]];
+  else if(kind==="rhymes"||kind==="rhymes2"||kind==="poetry")p=[["Cat","Hat"],["Sun","Fun"],["Dog","Log"],["Cake","Lake"],["Ring","Sing"],["Play","Day"]];
+  else if(kind==="shortvowels"||kind==="cvc")p=[["c_t","cat"],["h_n","hen"],["p_g","pig"],["d_g","dog"],["s_n","sun"]];
+  else if(kind==="families"||kind==="families1")p=[["cat","hat"],["pin","win"],["dog","log"],["cake","lake"],["rain","train"],["light","night"]];
+  else if(kind==="blends")p=[["Blue","bl"],["Star","st"],["Green","gr"],["Frog","fr"],["Spoon","sp"],["Clap","cl"]];
+  else if(kind==="digraphs"||kind==="digraphs1")p=[["Ship","sh"],["Chair","ch"],["Thin","th"],["Whale","wh"],["Phone","ph"]];
+  else if(kind==="sight"||kind==="sight1")p=[["___ is my book.","This"],["I ___ see.","can"],["The cat is ___ the box.","in"],["She ___ happy.","is"],["___ are my friend.","You"]];
+  else if(kind==="plural"||kind==="plural1")p=[["cat","cats"],["book","books"],["box","boxes"],["bus","buses"],["toy","toys"]];
+  else if(kind==="opposites")p=[["Big","Small"],["Hot","Cold"],["Up","Down"],["Open","Closed"],["Fast","Slow"],["Happy","Sad"]];
+  else if(kind==="nouns"||kind==="nouns1")p=[["Teacher","Person"],["School","Place"],["Dog","Animal"],["Book","Thing"],["Doctor","Person"],["Park","Place"]];
+  else if(kind==="verbs"||kind==="verbs1")p=[["Birds","fly"],["Children","read"],["We","drink"],["Dog","runs"],["Students","write"],["Baby","sleeps"]];
+  else if(kind==="adjectives"||kind==="adjectives1")p=[["Elephant","big"],["Rose","red"],["Pillow","soft"],["Child","happy"],["Tree","tall"],["Sun","bright"]];
+  else if(kind==="articles"||kind==="articles1")p=[["apple","an"],["cat","a"],["egg","an"],["book","a"],["orange","an"]];
+  else if(kind==="demonstratives"||kind==="demonstratives1")p=[["one thing here","This"],["one thing there","That"],["many things here","These"],["many things there","Those"]];
+  else if(kind==="pronouns"||kind==="pronouns1")p=[["Riya","She"],["Rahul","He"],["Dog","It"],["Ravi and I","We"],["Ravi and Riya","They"]];
+  else if(kind==="prepositions"||kind==="prepositions1")p=[["book ___ table","on"],["ball ___ box","in"],["cat ___ chair","under"],["school ___ park","near"],["girl ___ two chairs","between"]];
+  else if(kind==="beverbs"||kind==="beverbs1")p=[["I","am"],["She","is"],["They","are"],["The books","are"],["It","is"]];
+  else if(kind==="sentence"||kind==="jumbled")p=[["books / I / read","I read books."],["happy / She / is","She is happy."],["play / We / outside","We play outside."],["cat / The / sleeps","The cat sleeps."],["blue / sky / The / is","The sky is blue."]];
+  else if(kind==="punctuation"||kind==="punctuation1")p=[["Where are you","?"],["I like apples","."],["What a day","!"],["Can you swim","?"],["We are ready","."]];
+  else if(kind==="comprehension"||kind==="comprehension1")p=[["Maya flies a kite in the park.","Where? → in the park"],["Ravi's dog likes milk.","What? → milk"],["Asha reads every night.","When? → at night"],["Mina has a red bag.","What colour? → red"],["Sam goes to school by bus.","How? → by bus"]];
+  else if(kind==="vowels1")p=[["cap","cape"],["kit","kite"],["hop","hope"],["cub","cube"],["pet","Pete"]];
+  else if(kind==="vocab1")p=[["Students learn","classroom"],["Plants grow","garden"],["Buy and sell","market"],["Road passengers","bus"],["Treats sick people","doctor"],["Grows crops","farmer"]];
+  else if(kind==="proper")p=[["person name","Ravi"],["country name","India"],["day name","Monday"],["city name","Hyderabad"],["month name","January"]];
+  else if(kind==="hashave")p=[["She","has"],["They","have"],["I","have"],["The dog","has"],["We","have"]];
+  else if(kind==="questionwords")p=[["person","Who"],["place","Where"],["time","When"],["reason","Why"],["thing/information","What"],["manner","How"]];
+  else if(kind==="capital")p=[["ravi","Ravi"],["india","India"],["monday","Monday"],["hyderabad","Hyderabad"],["january","January"]];
+  else if(kind==="sequence")p=[["wake up","First"],["brush after waking","Next"],["plant seed","First"],["water planted seed","Next"],["open book before reading","First"]];
+  else if(kind==="speaking")p=[["Morning greeting","Good morning."],["Ask for water","May I have water, please?"],["Introduce yourself","My name is Ravi."],["After receiving help","Thank you."],["After a mistake","Sorry."]];
+  else if(kind==="picturedesc")p=[["🌳 + 🏃 boy","A boy is running near a tree."],["☀️ + blue sky","The sun is yellow and the sky is blue."],["👧👦 + 📚","Two children are reading books."],["🐶 + 🏠","A dog is near the house."],["🚗 + road","A car is on the road."]];
+  else if(kind==="writing")p=[["School","My school is big. I like my classroom."],["Pet","My dog is small. It likes to play."],["Family","I love my family. We eat dinner together."],["Garden","The garden is green. Flowers grow there."],["Friend","My friend is kind. We play together."]];
+  else p=[["English","Language"],["Read","Book"],["Write","Pencil"],["Listen","Sound"],["Speak","Voice"]];
+  var start=Math.abs(seed||0)%p.length,out=[];
+  for(var j=0;j<Math.min(5,p.length);j++)out.push(p[(start+j)%p.length]);
+  return out;
+}
+
+var vihaaOldRenderSchoolPathV81=renderVihaaSchoolPath;
+renderVihaaSchoolPath=function(grade){
+  ensureVihaaSchoolState();vihaaOldRenderSchoolPathV81(grade);
+  var g=grade||state.kidsSchool.grade||"lkg",done=state.kidsSchool.done[g]||{},md=state.kidsSchool.matchDone[g]||{};
+  if(el("kidsSchoolModules"))el("kidsSchoolModules").querySelectorAll("[data-school-module]").forEach(function(btn){
+    var i=Number(btn.getAttribute("data-school-module")),st=document.createElement("span");st.className="kids-school-status";
+    st.textContent="Quiz "+(done[i]?"✓":"○")+" · Matching "+(md[i]?"✓":"○");
+    btn.appendChild(st);
+  });
+};
+
+var vihaaOldRenderSchoolQuestionV81=renderVihaaSchoolQuestion;
+renderVihaaSchoolQuestion=function(){
+  vihaaOldRenderSchoolQuestionV81();
+  var game=el("kidsSchoolGame"),actions=game&&game.querySelector(".kids-school-actions");
+  if(actions&&!el("kidsSchoolMatchingBtn")){
+    var b=document.createElement("button");b.className="btn soft";b.id="kidsSchoolMatchingBtn";b.textContent="🧩 Line Matching";
+    b.onclick=function(){openVihaaSchoolMatching();};actions.appendChild(b);
+  }
+};
+
+var vihaaMatchSession={pairs:[],matched:{},selected:null,grade:null,module:null};
+
+function openVihaaSchoolMatching(){
+  ensureVihaaSchoolState();
+  var ses=vihaaSchoolSession,g=vihaaSchoolGrades[ses.grade],m=g.modules[ses.module],pairs=vihaaSchoolMatchPairs(m[3],ses.module*17+ses.q*7);
+  vihaaMatchSession={pairs:pairs,matched:{},selected:null,grade:ses.grade,module:ses.module};
+  var rights=shuffleCopy(pairs.map(function(p,i){return{t:p[1],i:i};}));
+  var game=el("kidsSchoolGame");
+  game.hidden=false;
+  game.innerHTML='<div class="kids-game-top"><div><h3>🧩 '+g.name+' · '+m[1]+' · Line Matching</h3><div class="slot-sub">Draw a line from the left item to its correct match on the right.</div></div><button class="btn outline" id="kidsMatchBack">Back to Lesson</button></div><div class="school-match-wrap"><div class="school-match-help">Mouse/Touch: drag from a LEFT card to the matching RIGHT card. You can also tap left, then tap right.</div><div class="school-match-score" id="schoolMatchScore">0 / '+pairs.length+' matched</div><div class="school-match-board" id="schoolMatchBoard"><svg class="school-match-lines" id="schoolMatchSvg"><line id="schoolPreviewLine" class="school-match-preview" x1="0" y1="0" x2="0" y2="0" style="display:none"></line></svg><div class="school-match-col">'+pairs.map(function(p,i){return '<button class="school-match-node school-left" data-match-left="'+i+'">'+vihaaHtml(p[0])+'</button>';}).join("")+'</div><div class="school-match-col">'+rights.map(function(r){return '<button class="school-match-node school-right" data-match-right="'+r.i+'">'+vihaaHtml(r.t)+'</button>';}).join("")+'</div></div><div class="school-match-feedback" id="schoolMatchFeedback"></div><div class="kids-school-actions"><button class="btn soft" id="schoolMatchReset">Reset Lines</button></div></div>';
+  el("kidsMatchBack").onclick=function(){renderVihaaSchoolQuestion();};
+  el("schoolMatchReset").onclick=function(){openVihaaSchoolMatching();};
+  bindVihaaSchoolMatching();
+}
+
+function vihaaCenterInBoard(node){
+  var b=el("schoolMatchBoard").getBoundingClientRect(),r=node.getBoundingClientRect();
+  return{x:r.left-b.left+r.width/2,y:r.top-b.top+r.height/2};
+}
+function vihaaDrawPermanentLine(li,ri){
+  var board=el("schoolMatchBoard"),svg=el("schoolMatchSvg"),l=board.querySelector('[data-match-left="'+li+'"]'),r=board.querySelector('[data-match-right="'+ri+'"]');
+  if(!l||!r)return;var a=vihaaCenterInBoard(l),b=vihaaCenterInBoard(r),line=document.createElementNS("http://www.w3.org/2000/svg","line");
+  line.setAttribute("x1",a.x);line.setAttribute("y1",a.y);line.setAttribute("x2",b.x);line.setAttribute("y2",b.y);line.setAttribute("class","school-match-line");line.setAttribute("data-permanent","1");svg.insertBefore(line,el("schoolPreviewLine"));
+}
+function vihaaRefreshMatchLines(){
+  var svg=el("schoolMatchSvg");if(!svg)return;svg.querySelectorAll('[data-permanent="1"]').forEach(function(x){x.remove();});
+  Object.keys(vihaaMatchSession.matched).forEach(function(k){if(vihaaMatchSession.matched[k])vihaaDrawPermanentLine(Number(k),Number(k));});
+}
+function vihaaCompleteMatch(leftIndex,rightIndex){
+  if(vihaaMatchSession.matched[leftIndex])return;
+  var board=el("schoolMatchBoard"),l=board.querySelector('[data-match-left="'+leftIndex+'"]'),r=board.querySelector('[data-match-right="'+rightIndex+'"]');
+  if(Number(leftIndex)!==Number(rightIndex)){
+    if(l)l.classList.add("bad");if(r)r.classList.add("bad");el("schoolMatchFeedback").textContent="❌ Not a match. Try another line.";
+    setTimeout(function(){if(l)l.classList.remove("bad");if(r)r.classList.remove("bad");},550);beep(false);return;
+  }
+  vihaaMatchSession.matched[leftIndex]=true;if(l){l.classList.remove("selected");l.classList.add("matched");l.disabled=true;}if(r){r.classList.add("matched");r.disabled=true;}
+  vihaaDrawPermanentLine(leftIndex,rightIndex);var n=Object.keys(vihaaMatchSession.matched).length;
+  el("schoolMatchScore").textContent=n+" / "+vihaaMatchSession.pairs.length+" matched";el("schoolMatchFeedback").textContent="✅ Correct match!";beep(true);
+  if(n>=vihaaMatchSession.pairs.length){
+    ensureVihaaSchoolState();var g=vihaaMatchSession.grade,m=vihaaMatchSession.module,was=!!state.kidsSchool.matchDone[g][m];state.kidsSchool.matchDone[g][m]=true;
+    if(!was){state.xp+=10;state.stars+=1;}save();renderHeader();el("schoolMatchFeedback").textContent="🏆 All pairs matched! Matching mastered"+(was?".":" · +10 XP +1⭐");confetti();
+  }
+}
+function bindVihaaSchoolMatching(){
+  var board=el("schoolMatchBoard");if(!board)return;var preview=el("schoolPreviewLine"),drag=null;
+  function start(left,e){
+    if(left.disabled)return;board.querySelectorAll(".school-left").forEach(function(x){x.classList.remove("selected");});left.classList.add("selected");vihaaMatchSession.selected=Number(left.getAttribute("data-match-left"));
+    var a=vihaaCenterInBoard(left);preview.style.display="block";preview.setAttribute("x1",a.x);preview.setAttribute("y1",a.y);preview.setAttribute("x2",a.x);preview.setAttribute("y2",a.y);drag={left:vihaaMatchSession.selected};
+    if(e)e.preventDefault();
+  }
+  board.querySelectorAll(".school-left").forEach(function(left){
+    left.addEventListener("pointerdown",function(e){start(left,e);});
+    left.addEventListener("click",function(){if(!left.disabled){board.querySelectorAll(".school-left").forEach(function(x){x.classList.remove("selected");});left.classList.add("selected");vihaaMatchSession.selected=Number(left.getAttribute("data-match-left"));}});
+  });
+  board.querySelectorAll(".school-right").forEach(function(right){
+    right.addEventListener("click",function(){if(right.disabled||vihaaMatchSession.selected===null)return;vihaaCompleteMatch(vihaaMatchSession.selected,Number(right.getAttribute("data-match-right")));vihaaMatchSession.selected=null;preview.style.display="none";});
+  });
+  function move(e){if(!drag)return;var br=board.getBoundingClientRect();preview.setAttribute("x2",e.clientX-br.left);preview.setAttribute("y2",e.clientY-br.top);}
+  function up(e){
+    if(!drag)return;var target=document.elementFromPoint(e.clientX,e.clientY),right=target&&target.closest?target.closest("[data-match-right]"):null;
+    if(right&&!right.disabled)vihaaCompleteMatch(drag.left,Number(right.getAttribute("data-match-right")));
+    preview.style.display="none";board.querySelectorAll(".school-left").forEach(function(x){x.classList.remove("selected");});vihaaMatchSession.selected=null;drag=null;
+  }
+  document.addEventListener("pointermove",move,{passive:true});document.addEventListener("pointerup",up,{once:false});
+  window.addEventListener("resize",function(){vihaaRefreshMatchLines();},{once:true});
+}
 
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
 if(el("multiReset"))el("multiReset").onclick=function(){if(extraAdaptiveReview.active)resetExtraAdaptiveReview();else resetExtraQuestion();};
