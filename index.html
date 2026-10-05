@@ -5048,9 +5048,9 @@ function vihaaGrammarUniqueQuestion(worldId,serial){
   if(worldId===2){
     if(tier===1){
       var basic=[
-        [name+" is presenting at the "+place+". Choose the best replacement for "+name+".",sub.charAt(0).toUpperCase()+sub.slice(1)+" is presenting at the "+place+".",[obj.charAt(0).toUpperCase()+obj.slice(1)+" is presenting at the "+place+".","They is presenting at the "+place+".","It is presenting at the "+place+"."],sub],
-        [name+" and "+name2+" finished the "+thing+". Choose the replacement.","They finished the "+thing+".",["We finished the "+thing+".",sub.charAt(0).toUpperCase()+sub.slice(1)+" finished the "+thing+".","It finished the "+thing+"."],"they"],
-        ["The teacher thanked "+name+" after the event. Choose the object-pronoun version.","The teacher thanked "+obj+" after the event.",["The teacher thanked "+sub+" after the event.","The teacher thanked "+poss+" after the event.","The teacher thanked they after the event."],obj],
+        [name+" is presenting at the "+place+". Choose the best replacement for "+name+".",subj.charAt(0).toUpperCase()+subj.slice(1)+" is presenting at the "+place+".",[obj.charAt(0).toUpperCase()+obj.slice(1)+" is presenting at the "+place+".","They is presenting at the "+place+".","It is presenting at the "+place+"."],subj],
+        [name+" and "+name2+" finished the "+thing+". Choose the replacement.","They finished the "+thing+".",["We finished the "+thing+".",subj.charAt(0).toUpperCase()+subj.slice(1)+" finished the "+thing+".","It finished the "+thing+"."],"they"],
+        ["The teacher thanked "+name+" after the event. Choose the object-pronoun version.","The teacher thanked "+obj+" after the event.",["The teacher thanked "+subj+" after the event.","The teacher thanked "+poss+" after the event.","The teacher thanked they after the event."],obj],
         [name+" and I will visit the "+place+". Choose the correct pronoun sentence.","We will visit the "+place+".",["They will visit the "+place+".","Us will visit the "+place+".","He will visit the "+place+"."],"we"],
         ["The "+thing+" is beside the "+thing2+". Replace ‘the "+thing+"’ with a pronoun.","It is beside the "+thing2+".",["He is beside the "+thing2+".","They is beside the "+thing2+".","Her is beside the "+thing2+"."],"it"],
         ["The coach spoke to "+name+" and me. Which pronoun can replace ‘"+name+" and me’ as an object?","The coach spoke to us.",["The coach spoke to we.","The coach spoke to they.","The coach spoke to ours."],"us"]
@@ -5058,7 +5058,7 @@ function vihaaGrammarUniqueQuestion(worldId,serial){
     }
     if(tier===2){
       var p2=[
-        [name+" owns the "+thing+". Choose the sentence with a possessive pronoun.","The "+thing+" is "+poss+".",["The "+thing+" is "+(female?"her":"him")+".","The "+thing+" is "+sub+".","The "+thing+" is their."],poss],
+        [name+" owns the "+thing+". Choose the sentence with a possessive pronoun.","The "+thing+" is "+poss+".",["The "+thing+" is "+(female?"her":"him")+".","The "+thing+" is "+subj+".","The "+thing+" is their."],poss],
         [name+" and I completed the project. Choose the correct possessive determiner.","Our project was completed.",["Ours project was completed.","Us project was completed.","Their project was completed."],"our"],
         [name+" and "+name2+" brought lunch. Choose the correct possessive determiner.","Their lunch was ready.",["They lunch was ready.","Theirs lunch was ready.","Our lunch was ready."],"their"],
         ["I forgot my "+thing+". Which sentence uses a possessive pronoun correctly?","The "+thing+" on the desk is mine.",["The "+thing+" on the desk is my.","The "+thing+" on the desk is me.","The "+thing+" on the desk is I."],"mine"],
@@ -5067,7 +5067,7 @@ function vihaaGrammarUniqueQuestion(worldId,serial){
       ],b2=p2[type];return vihaaTaggedMC(b2[0],b2[1],b2[2],"Possessive determiners come before nouns; possessive pronouns can stand alone.",b2[3],tier,r);
     }
     if(tier===3){
-      var subjects=[["I","myself"],["you","yourself"],[sub,refl],["we","ourselves"],["they","themselves"],["the machine","itself"]],s3=subjects[type];
+      var subjects=[["I","myself"],["you","yourself"],[subj,refl],["we","ourselves"],["they","themselves"],["the machine","itself"]],s3=subjects[type];
       return vihaaTaggedMC("Complete the sentence: "+s3[0]+" checked the "+thing+" by ___.",s3[0]+" checked the "+thing+" by "+s3[1]+".",[s3[0]+" checked the "+thing+" by me.",s3[0]+" checked the "+thing+" by them.",s3[0]+" checked the "+thing+" by us."],"A reflexive pronoun refers back to the subject when the subject and object/reference are the same.",s3[1],tier,r);
     }
     if(tier===4){
@@ -5136,12 +5136,12 @@ function vihaaGrammarUniqueQuestion(worldId,serial){
     }
     if(tier===4){
       if(type%3===0)return vihaaTaggedMC("For "+(2+serial%6)+" weeks, "+name+" ___ the project every day.",name+" has been "+v.ing+" the project every day.",[name+" had "+v.pp+" the project every day.",name+" will "+v.b+" the project every day.",name+" "+v.p+" the project every day."],"Present perfect continuous expresses duration continuing to now.","ppc-"+v.ing+"-"+name,tier,r);
-      if(type%3===1)return vihaaTaggedMC("If "+name+" finishes early, "+sub+" ___ the "+place+".",sub.charAt(0).toUpperCase()+sub.slice(1)+" will visit the "+place+".",[sub.charAt(0).toUpperCase()+sub.slice(1)+" visited the "+place+".",sub.charAt(0).toUpperCase()+sub.slice(1)+" would have visited the "+place+".",sub.charAt(0).toUpperCase()+sub.slice(1)+" had visited the "+place+"."],"A real future condition uses present in the if-clause and will in the result.","first-cond-"+name+"-"+place,tier,r);
-      return vihaaTaggedMC("If "+name+" had checked the "+thing+", "+sub+" ___ the error.",sub.charAt(0).toUpperCase()+sub.slice(1)+" would have noticed the error.",[sub.charAt(0).toUpperCase()+sub.slice(1)+" will notice the error.",sub.charAt(0).toUpperCase()+sub.slice(1)+" notices the error.",sub.charAt(0).toUpperCase()+sub.slice(1)+" would notice the error tomorrow."],"Third conditional refers to an unreal past condition and result.","third-cond-"+name+"-"+thing,tier,r);
+      if(type%3===1)return vihaaTaggedMC("If "+name+" finishes early, "+subj+" ___ the "+place+".",subj.charAt(0).toUpperCase()+subj.slice(1)+" will visit the "+place+".",[subj.charAt(0).toUpperCase()+subj.slice(1)+" visited the "+place+".",subj.charAt(0).toUpperCase()+subj.slice(1)+" would have visited the "+place+".",subj.charAt(0).toUpperCase()+subj.slice(1)+" had visited the "+place+"."],"A real future condition uses present in the if-clause and will in the result.","first-cond-"+name+"-"+place,tier,r);
+      return vihaaTaggedMC("If "+name+" had checked the "+thing+", "+subj+" ___ the error.",subj.charAt(0).toUpperCase()+subj.slice(1)+" would have noticed the error.",[subj.charAt(0).toUpperCase()+subj.slice(1)+" will notice the error.",subj.charAt(0).toUpperCase()+subj.slice(1)+" notices the error.",subj.charAt(0).toUpperCase()+subj.slice(1)+" would notice the error tomorrow."],"Third conditional refers to an unreal past condition and result.","third-cond-"+name+"-"+thing,tier,r);
     }
     if(type%3===0)return vihaaTaggedMC("By the time the judges arrived, "+name+" ___ the demonstration for "+n+" minutes.",name+" had been "+v.ing+" for "+n+" minutes.",[name+" has been "+v.ing+" for "+n+" minutes.",name+" will be "+v.ing+" for "+n+" minutes.",name+" "+v.p+" for "+n+" minutes."],"Past perfect continuous gives duration before another past event.","past-perfect-cont-"+v.ing+"-"+n,tier,r);
     if(type%3===1)return vihaaTaggedMC("Choose the correct future-perfect-continuous sentence.","By next month, "+name+" will have been "+v.ing+" at the "+place+" for "+n+" days.",["By next month, "+name+" has been "+v.ing+" for "+n+" days.","By next month, "+name+" had been "+v.ing+" for "+n+" days.","By next month, "+name+" will "+v.b+" for "+n+" days."],"Future perfect continuous measures duration up to a future point.","future-perfect-cont-"+v.ing+"-"+n,tier,r);
-    return vihaaTaggedMC("In reported speech, choose the natural backshift: "+name+" said, “I have "+v.pp+" the "+thing+".”",name+" said that "+sub+" had "+v.pp+" the "+thing+".",[name+" said that "+sub+" has "+v.pp+" the "+thing+".",name+" said that I have "+v.pp+" the "+thing+".",name+" said that "+sub+" "+v.s+" the "+thing+"."],"Present perfect commonly backshifts to past perfect after a past reporting verb.","reported-"+v.pp+"-"+name,tier,r);
+    return vihaaTaggedMC("In reported speech, choose the natural backshift: "+name+" said, “I have "+v.pp+" the "+thing+".”",name+" said that "+subj+" had "+v.pp+" the "+thing+".",[name+" said that "+subj+" has "+v.pp+" the "+thing+".",name+" said that I have "+v.pp+" the "+thing+".",name+" said that "+subj+" "+v.s+" the "+thing+"."],"Present perfect commonly backshifts to past perfect after a past reporting verb.","reported-"+v.pp+"-"+name,tier,r);
   }
 
   if(worldId===5){
@@ -5223,23 +5223,23 @@ function vihaaGrammarUniqueQuestion(worldId,serial){
       return vihaaTaggedMC("Choose the natural question order.","Where is "+name+" "+v.ing+" the "+thing+"?",["Where "+name+" is "+v.ing+" the "+thing+"?","Where "+v.ing+" is "+name+" the "+thing+"?",name+" is "+v.ing+" the "+thing+" where?"],"Questions normally use question word + auxiliary + subject + main verb.","question-order-"+name+"-"+v.ing,tier,r);
     }
     if(tier===3){
-      if(type%2===0)return vihaaTaggedMC("Choose the sentence with a dependent clause correctly joined.","Although "+name+" was tired, "+sub+" completed the "+thing+".",["Although "+name+" was tired. "+sub+" completed the "+thing+".","Although "+name+" was tired; "+sub+" completed the "+thing+".","Although, "+name+" was tired "+sub+" completed the "+thing+"."],"A dependent clause can be followed by a comma and an independent clause.","dependent-"+name+"-"+thing,tier,r);
+      if(type%2===0)return vihaaTaggedMC("Choose the sentence with a dependent clause correctly joined.","Although "+name+" was tired, "+subj+" completed the "+thing+".",["Although "+name+" was tired. "+subj+" completed the "+thing+".","Although "+name+" was tired; "+subj+" completed the "+thing+".","Although, "+name+" was tired "+subj+" completed the "+thing+"."],"A dependent clause can be followed by a comma and an independent clause.","dependent-"+name+"-"+thing,tier,r);
       return vihaaTaggedMC("Choose correct subject–verb agreement.","The quality of the "+thing+"s determines the final result.",["The quality of the "+thing+"s determine the final result.","The quality of the "+thing+"s are determine the result.","The quality of the "+thing+"s have determine the result."],"The head subject 'quality' is singular.","agreement-quality-"+thing,tier,r);
     }
     if(tier===4){
       if(type%2===0)return vihaaTaggedMC("Choose the sentence with parallel structure.","The role requires planning, reviewing, and presenting the "+thing+".",["The role requires planning, to review, and presenting the "+thing+".","The role requires to plan, reviewing, and presentation.","The role requires planning, review, and to present the "+thing+"."],"Items in a series should use matching grammatical forms.","parallel-"+thing,tier,r);
       return vihaaTaggedMC("Choose the most concise revision.","Because the test failed, "+name+" repeated it.",["Due to the fact that the test failed, "+name+" repeated it.","The test failed, and for that reason "+name+" repeated it again.",""+name+" repeated the test because of the reason that it failed."],"Concise writing removes unnecessary wordiness.","concise-"+name,tier,r);
     }
-    if(type%2===0)return vihaaTaggedMC("Choose the sentence without an ambiguous modifier.","After "+name+" checked the "+thing+", "+sub+" sent the report.",["After checking the "+thing+", the report was sent.","Walking into the "+place+", the lights looked bright.","To finish quickly, the deadline was moved."],"The grammatical subject should clearly perform the modifying action.","clear-modifier-"+name+"-"+thing,tier,r);
+    if(type%2===0)return vihaaTaggedMC("Choose the sentence without an ambiguous modifier.","After "+name+" checked the "+thing+", "+subj+" sent the report.",["After checking the "+thing+", the report was sent.","Walking into the "+place+", the lights looked bright.","To finish quickly, the deadline was moved."],"The grammatical subject should clearly perform the modifying action.","clear-modifier-"+name+"-"+thing,tier,r);
     return vihaaTaggedMC("Choose the sentence that avoids a comma splice.","The trial ended early, so "+name+" left the "+place+".",["The trial ended early, "+name+" left the "+place+".","The trial ended early, therefore "+name+" left the "+place+".","The trial ended early "+name+", left the "+place+"."],"A coordinating conjunction can correctly join two independent clauses.","comma-splice-"+name+"-"+place,tier,r);
   }
 
   var masterTier=Math.max(3,tier);
   var master=[
-    ["Had "+name+" known about the change, "+sub+" ___ a different route.",name+" would have chosen a different route.",[name+" would choose a different route.",name+" will choose a different route.",name+" had chosen a different route."],"third-master-"+name],
+    ["Had "+name+" known about the change, "+subj+" ___ a different route.",name+" would have chosen a different route.",[name+" would choose a different route.",name+" will choose a different route.",name+" had chosen a different route."],"third-master-"+name],
     ["Scarcely ___ the announcement when the questions began.","Scarcely had "+name+" finished the announcement when the questions began.",["Scarcely "+name+" had finished the announcement when the questions began.","Scarcely did "+name+" finish the announcement when the questions began.","Scarcely has "+name+" finished the announcement when the questions began."],"inversion-"+name],
     ["The manager insisted that the final "+thing+" ___ before noon.","The manager insisted that the final "+thing+" be submitted before noon.",["The manager insisted that the final "+thing+" is submitted before noon.","The manager insisted that the final "+thing+" was submitting before noon.","The manager insisted that the final "+thing+" has submit before noon."],"subjunctive-"+thing],
-    [name+" said, “I have "+v.pp+" the "+thing+".” Choose reported speech.",name+" said that "+sub+" had "+v.pp+" the "+thing+".",[name+" said that "+sub+" has "+v.pp+" the "+thing+".",name+" said that I have "+v.pp+" the "+thing+".",name+" said that "+sub+" "+v.s+" the "+thing+"."],"reported-master-"+name+"-"+v.pp],
+    [name+" said, “I have "+v.pp+" the "+thing+".” Choose reported speech.",name+" said that "+subj+" had "+v.pp+" the "+thing+".",[name+" said that "+subj+" has "+v.pp+" the "+thing+".",name+" said that I have "+v.pp+" the "+thing+".",name+" said that "+subj+" "+v.s+" the "+thing+"."],"reported-master-"+name+"-"+v.pp],
     ["Only after the second review ___ the hidden error.","Only after the second review did "+name+" notice the hidden error.",["Only after the second review "+name+" noticed the hidden error.","Only after the second review "+name+" did notice the hidden error.","Only after the second review noticed "+name+" the hidden error."],"negative-inversion-"+name],
     ["Choose the most precise formal sentence.",""+name+" carefully evaluated both the evidence and its limitations.",[name+" carefully evaluated both the evidence and its limitation was.",""+name+" evaluated careful both evidence and limitations.","Both the evidence "+name+" evaluated and limitations carefully."],"formal-precision-"+name]
   ],mq=master[type];
@@ -5425,7 +5425,7 @@ if(questionHistory.engineVersion!=="9.1.0"){
 
 
 /* VIHAA v9.2 HERO CLICK HARD-FIX */
-VIHAA_QUESTION_ENGINE_VERSION="9.2.0";
+VIHAA_QUESTION_ENGINE_VERSION="9.2.1";
 
 function vihaaFastUniqueBatch(worldId,count,tier){
   questionHistory.seen=questionHistory.seen||{};
@@ -5540,18 +5540,24 @@ renderHome=function(){
   }
   /* Make the loaded release obvious and normalize old cache-buster URLs without reloading. */
   try{
-    var wanted="?v=9.2.0";
+    var wanted="?v=9.2.1";
     if(location.search!==wanted)history.replaceState(null,"",location.pathname+wanted+location.hash);
   }catch(e){}
 };
 
-if(questionHistory.engineVersion!=="9.2.0"){
-  questionHistory.engineVersion="9.2.0";
+if(questionHistory.engineVersion!=="9.2.1"){
+  questionHistory.engineVersion="9.2.1";
   questionHistory.answerRecent={};
   questionHistory.answerTextRecent={};
   saveQuestionHistory();
 }
 
+/* VIHAA v9.2.1 PRONOUN SUBJECT REFERENCE FIX */
+(function(){
+  /* World 2/advanced generators use the local variable 'subj'. A previous release
+     referenced an old name ('sub') in several branches, which caused Continue Level
+     to throw before the quiz could open. This release removes those stale references. */
+})();
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
 if(el("multiReset"))el("multiReset").onclick=function(){if(extraAdaptiveReview.active)resetExtraAdaptiveReview();else resetExtraQuestion();};
 if(el("multiNext"))el("multiNext").onclick=function(){if(extraAdaptiveReview.active)nextExtraAdaptiveReview();else nextExtraQuestion();};
