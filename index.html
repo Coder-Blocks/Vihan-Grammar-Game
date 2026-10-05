@@ -2285,7 +2285,7 @@ var kidsData={
     "icon": "🥕",
     "items": [
       [
-        "A 🌿",
+        "A 🌱🟣",
         "Artichoke"
       ],
       [
@@ -2297,7 +2297,7 @@ var kidsData={
         "Carrot"
       ],
       [
-        "D 🥕",
+        "D ⚪🌿",
         "Daikon"
       ],
       [
@@ -2305,7 +2305,7 @@ var kidsData={
         "Eggplant"
       ],
       [
-        "F 🌿",
+        "F 🌾🟢",
         "Fennel"
       ],
       [
@@ -2313,11 +2313,11 @@ var kidsData={
         "Garlic"
       ],
       [
-        "H 🌿",
+        "H 🤍🌱",
         "Horseradish"
       ],
       [
-        "I 🥬",
+        "I 🥬❄️",
         "Iceberg Lettuce"
       ],
       [
@@ -2325,11 +2325,11 @@ var kidsData={
         "Jalapeño"
       ],
       [
-        "K 🥬",
+        "K 🥬🟩",
         "Kale"
       ],
       [
-        "L 🧅",
+        "L 🧅🌿",
         "Leek"
       ],
       [
@@ -2337,11 +2337,11 @@ var kidsData={
         "Mushroom"
       ],
       [
-        "N 🥬",
+        "N 🥗🥬",
         "Napa Cabbage"
       ],
       [
-        "O 🌿",
+        "O 🫛",
         "Okra"
       ],
       [
@@ -2349,39 +2349,39 @@ var kidsData={
         "Potato"
       ],
       [
-        "Q 🥬",
+        "Q 🌾🍃",
         "Quinoa Leaves"
       ],
       [
-        "R 🥕",
+        "R 🔴🌿",
         "Radish"
       ],
       [
-        "S 🥬",
+        "S 🍃",
         "Spinach"
       ],
       [
-        "T 🫜",
+        "T 🫜🌱",
         "Turnip"
       ],
       [
-        "U 🍠",
+        "U 🍠🟣",
         "Ube"
       ],
       [
-        "V 🧅",
+        "V 🧅🟡",
         "Vidalia Onion"
       ],
       [
-        "W 🥬",
+        "W 💧🍃",
         "Watercress"
       ],
       [
-        "X 🌿",
+        "X 🍃🥔",
         "Xanthosoma"
       ],
       [
-        "Y 🍠",
+        "Y 🍠🟠",
         "Yam"
       ],
       [
@@ -4184,6 +4184,8 @@ answerExtraPuzzle=function(btn){
   el("extraPuzzleNext").style.display="inline-block";save();renderExtraPuzzleCards();beep(true);
 };
 
+/* VIHAA v7.3 DISTINCT VEGETABLE VISUALS */
+var VIHAA_QUESTION_ENGINE_VERSION="7.3.0";
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
 if(el("multiReset"))el("multiReset").onclick=function(){if(extraAdaptiveReview.active)resetExtraAdaptiveReview();else resetExtraQuestion();};
 if(el("multiNext"))el("multiNext").onclick=function(){if(extraAdaptiveReview.active)nextExtraAdaptiveReview();else nextExtraQuestion();};
