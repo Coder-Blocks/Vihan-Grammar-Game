@@ -175,6 +175,14 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
 #kidsPromptPic .veg-svg{width:94px;height:94px}
 #kidsPromptPic .veg-letter{font-size:54px}
 #kidsPromptPic.veg-prompt{display:flex;align-items:center;justify-content:center;gap:14px}
+
+.kids-school-path{margin:18px 0 20px;background:linear-gradient(135deg,#fffdf1,#f2fbff 52%,#f7f1ff);border:1px solid var(--line);border-radius:26px;padding:18px;box-shadow:0 12px 30px rgba(50,47,100,.06)}
+.kids-school-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}.kids-school-head h3{margin:0 0 5px;font-size:22px}.kids-school-head p{margin:0;color:var(--muted);font-weight:700;max-width:760px}
+.kids-grade-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}.kids-grade-tab{border:2px solid var(--line);background:var(--panel);border-radius:18px;padding:13px;text-align:left;color:var(--text);cursor:pointer;font-weight:950;transition:.15s}.kids-grade-tab:hover,.kids-grade-tab.active{border-color:#8f7cff;background:#f4f1ff;transform:translateY(-2px)}.kids-grade-tab small{display:block;color:var(--muted);font-size:10px;margin-top:4px;line-height:1.35}
+.kids-school-progress{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:14px 0 8px;font-size:12px;font-weight:900}.kids-school-track{height:8px;background:#eceaf5;border-radius:999px;overflow:hidden}.kids-school-track i{display:block;height:100%;background:linear-gradient(90deg,#ffb63c,#6c4cff);border-radius:inherit}
+.kids-school-modules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:13px}.kids-school-module{border:1px solid var(--line);background:#fff;border-radius:17px;padding:12px;text-align:left;min-height:105px;color:var(--text);cursor:pointer;box-shadow:0 7px 18px rgba(50,47,100,.05)}.kids-school-module:hover{border-color:#b6a9ff;transform:translateY(-2px)}.kids-school-module.done{background:#edfbf5;border-color:#8ed7b7}.kids-school-module .mi{font-size:25px;display:block;margin-bottom:5px}.kids-school-module b{display:block;font-size:13px}.kids-school-module small{display:block;color:var(--muted);font-size:10px;line-height:1.35;margin-top:4px}
+.kids-school-game{margin-top:15px;border:1px solid var(--line);background:var(--panel);border-radius:22px;padding:16px}.kids-school-game[hidden]{display:none}.kids-school-game h3{margin:0 0 5px}.kids-lesson-box{background:#f8f7ff;border:1px solid #e8e3ff;border-radius:16px;padding:13px;margin:10px 0}.kids-lesson-box p{margin:0;color:var(--text);line-height:1.55;font-weight:700}.kids-example-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.kids-example-chip{padding:6px 9px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:11px;font-weight:900}.kids-school-q{font-size:clamp(21px,3vw,29px);font-weight:950;text-align:center;margin:18px auto 12px;max-width:900px}.kids-school-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:850px;margin:0 auto}.kids-school-opt{border:2px solid var(--line);background:#fff;border-radius:16px;padding:12px;font-weight:900;color:var(--text);cursor:pointer}.kids-school-opt.correct{background:#e7fbf2;border-color:#43c78d;color:#106d4d}.kids-school-opt.wrong{background:#fff0f2;border-color:#ff7a87;color:#a82f3e}.kids-school-feedback{text-align:center;min-height:26px;margin-top:10px;font-weight:900}.kids-school-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:10px}
+@media(max-width:900px){.kids-school-modules{grid-template-columns:repeat(3,1fr)}}@media(max-width:650px){.kids-grade-tabs{grid-template-columns:1fr}.kids-school-modules{grid-template-columns:repeat(2,1fr)}.kids-school-options{grid-template-columns:1fr}}@media(max-width:420px){.kids-school-modules{grid-template-columns:1fr}}
 </style>
 </head>
 <body data-subject="english">
@@ -493,7 +501,7 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
     <div><div class="eyebrow" style="color:#8b6a00">Early Learning · Play & Match</div><h2>🧸 Kids Starter Zone</h2><p>Look, listen, match and learn everyday English words through simple picture games.</p><div style="margin-top:12px"><span class="kids-badge">⭐ Earn XP & badges</span></div></div>
     <div class="kids-art">🍎 🐶 🥕<br>🎨 🔤 🚗</div>
   </div>
-  <div class="section-head"><div><h3>Choose a Learning World</h3><p>Full A–Z libraries plus Numbers 1–100. Learn the words, then master them through matching rounds.</p></div><div class="chip" id="kidsBadgeCount">0 badges</div></div>
+  <div class="section-head"><div><h3>Choose a Learning World</h3><p>LKG + UKG + Class 1 English school path, plus full A–Z libraries and Numbers 1–100.</p></div><div class="chip" id="kidsBadgeCount">0 badges</div></div>
   <div class="kids-category-grid" id="kidsCategoryGrid"></div>
 
   <div class="kids-game" id="kidsGame" hidden>
@@ -4266,6 +4274,291 @@ renderKidsQuestion=function(){
   el("kidsMatchOptions").innerHTML=opts.map(function(w){return '<button class="kids-match-btn" data-kids-word="'+w.replace(/"/g,"&quot;")+'">'+w+'</button>';}).join("");
   el("kidsMatchOptions").querySelectorAll(".kids-match-btn").forEach(function(b){b.onclick=function(){answerKidsMatch(this,item);};});
   speak(item[1]);
+};
+
+
+/* VIHAA v8.0 LKG UKG CLASS1 ENGLISH SCHOOL PATH */
+var VIHAA_QUESTION_ENGINE_VERSION="8.0.0";
+
+var vihaaSchoolGrades={
+  lkg:{name:"LKG English",icon:"🧸",sub:"Letters, sounds, first words, speaking and picture vocabulary",modules:[
+    ["🔤","Alphabet A–Z","Recognise and say capital letters.","alphabet"],
+    ["🔡","Capital & Small","Match A–a, B–b and all letter pairs.","case"],
+    ["🔊","Letter Sounds","Hear and identify basic beginning sounds.","sounds"],
+    ["🅰️","Vowels","Recognise A, E, I, O, U.","vowels"],
+    ["🎯","Beginning Sounds","Find the first sound in simple words.","begin"],
+    ["🖼️","Picture Words","Connect everyday objects with English words.","picture"],
+    ["🎨","Colours","Learn common colour words.","colors"],
+    ["🔺","Shapes","Circle, square, triangle, rectangle and more.","shapes"],
+    ["🔢","Number Words 1–10","Read one to ten in English.","num10"],
+    ["👃","My Body","Basic body-part vocabulary.","body"],
+    ["👨‍👩‍👧","My Family","Family and home vocabulary.","family"],
+    ["🍎","Food Words","Fruits, vegetables and simple food words.","food"],
+    ["🐶","Animals & Birds","Common animal and bird names.","animals"],
+    ["👋","Greetings","Hello, good morning, please, sorry and thank you.","greetings"],
+    ["🏃","Action Words","Run, jump, sit, stand, eat, drink and more.","actions"],
+    ["🎵","Rhymes & Listening","Hear rhyming words and simple sound patterns.","rhymes"]
+  ]},
+  ukg:{name:"UKG English",icon:"🎒",sub:"Phonics, CVC words, sight words, grammar and simple reading",modules:[
+    ["🔊","Short Vowels","Short a, e, i, o, u sounds.","shortvowels"],
+    ["🧩","CVC Words","Read simple consonant-vowel-consonant words.","cvc"],
+    ["🏠","Word Families","-at, -an, -ap, -in, -it, -og, -op, -ug.","families"],
+    ["🔗","Blends","bl, cl, fl, gr, st, sp and similar blends.","blends"],
+    ["✨","Digraphs","sh, ch, th, wh and ph sounds.","digraphs"],
+    ["👀","Sight Words","Read high-frequency beginner words quickly.","sight"],
+    ["🎵","Rhyming Words","Recognise words that end with the same sound.","rhymes2"],
+    ["1️⃣","One & Many","Basic singular and plural forms.","plural"],
+    ["↔️","Opposites","Big/small, hot/cold, open/closed and more.","opposites"],
+    ["🏷️","Naming Words","Identify people, places, animals and things.","nouns"],
+    ["🏃","Action Words","Identify doing words in simple sentences.","verbs"],
+    ["🌟","Describing Words","Use simple adjectives such as big, red, happy.","adjectives"],
+    ["🅰️","A / An","Choose a or an before simple nouns.","articles"],
+    ["👉","This / That","This, that, these and those.","demonstratives"],
+    ["👦","He / She / It / They","Use simple pronouns correctly.","pronouns"],
+    ["📍","Position Words","In, on, under, near, behind and between.","prepositions"],
+    ["✅","Is / Am / Are","Build simple present sentences.","beverbs"],
+    ["🧱","Sentence Building","Put words in a natural English order.","sentence"],
+    ["❗","Capital & Punctuation","Capital letters, full stop and question mark.","punctuation"],
+    ["📖","Mini Reading","Read a short original passage and answer.","comprehension"]
+  ]},
+  class1:{name:"Class 1 English",icon:"📘",sub:"Foundational literacy + complete early grammar, reading, speaking and writing path",modules:[
+    ["🔤","Phonics Review","Review letter-sound links and decoding.","phonics1"],
+    ["🅰️","Short & Long Vowels","Tell common short and long vowel patterns apart.","vowels1"],
+    ["🏠","Word Families","Build and read related words.","families1"],
+    ["🔗","Blends & Digraphs","Read blends and common two-letter sounds.","digraphs1"],
+    ["👀","Sight Words","Practise high-frequency reading words.","sight1"],
+    ["🌍","Theme Vocabulary","School, home, nature, food, transport and community.","vocab1"],
+    ["🏷️","Nouns","Identify naming words.","nouns1"],
+    ["🏫","Common & Proper Nouns","Notice names versus general naming words.","proper"],
+    ["👦","Pronouns","I, you, he, she, it, we, they.","pronouns1"],
+    ["🏃","Verbs","Identify actions and simple doing words.","verbs1"],
+    ["🌟","Adjectives","Use describing words for size, colour and quality.","adjectives1"],
+    ["🅰️","Articles","Use a, an and the in simple contexts.","articles1"],
+    ["1️⃣","Singular & Plural","Make common one/many forms.","plural1"],
+    ["✅","Is / Am / Are","Choose the correct be-verb.","beverbs1"],
+    ["👜","Has / Have","Choose has or have with simple subjects.","hashave"],
+    ["👉","This / That / These / Those","Use demonstratives correctly.","demonstratives1"],
+    ["📍","Prepositions","In, on, under, near, behind, between.","prepositions1"],
+    ["❓","Question Words","Who, what, where, when, why and how.","questionwords"],
+    ["🔠","Capitalisation","Start names and sentences correctly.","capital"],
+    ["❗","Punctuation","Full stop, question mark and exclamation mark.","punctuation1"],
+    ["🧩","Jumbled Sentences","Arrange words into correct sentence order.","jumbled"],
+    ["📖","Reading Comprehension","Read short original passages for meaning.","comprehension1"],
+    ["1️⃣2️⃣3️⃣","Story Sequence","Put simple events in logical order.","sequence"],
+    ["🎵","Poetry & Rhyme Skills","Rhythm, rhyme and listening awareness.","poetry"],
+    ["🎙️","Speaking & Listening","Greetings, requests, descriptions and responses.","speaking"],
+    ["🖼️","Picture Description","Choose clear sentences to describe a scene.","picturedesc"],
+    ["✍️","Creative Writing","Build 2–3 simple original sentences from prompts.","writing"]
+  ]}
+};
+
+var vihaaSchoolBanks={
+  colors:["red","blue","green","yellow","orange","purple","pink","black","white","brown"],
+  shapes:["circle","square","triangle","rectangle","oval","star"],
+  body:["eye","ear","nose","mouth","hand","leg","foot","arm"],
+  family:["mother","father","sister","brother","grandmother","grandfather","baby"],
+  food:["apple","banana","carrot","potato","milk","rice","bread","mango"],
+  animals:["dog","cat","cow","lion","tiger","bird","duck","rabbit"],
+  actions:["run","jump","sit","stand","eat","drink","read","write","sleep"],
+  sight:["the","and","is","it","this","that","can","see","my","you","we","he","she","in","on"],
+  opposites:[["big","small"],["hot","cold"],["up","down"],["open","closed"],["day","night"],["fast","slow"],["happy","sad"]],
+  preps:["in","on","under","near","behind","between"],
+  nouns:["teacher","school","dog","book","Ravi","Hyderabad","girl","park"],
+  verbs:["runs","reads","eats","jumps","writes","sings","plays","drinks"],
+  adjectives:["big","small","red","happy","soft","tall","bright","kind"],
+  pronouns:["I","you","he","she","it","we","they"]
+};
+
+function vihaaPick(arr,seed){return arr[Math.abs(seed)%arr.length];}
+function vihaaSchoolOptions(ans,pool,seed){
+  var all=[String(ans)],src=pool.map(String).filter(function(x){return x!==String(ans);});
+  for(var i=0;all.length<4&&i<src.length*2;i++){var x=src[(seed+i*5)%src.length];if(all.indexOf(x)<0)all.push(x);}
+  return shuffleCopy(all);
+}
+function vihaaSchoolLesson(kind){
+  var map={
+    alphabet:["Each English letter has a name. Learn A to Z in order and recognise each shape.",["A B C D E","M N O P","W X Y Z"]],
+    case:["Capital and small letters are two forms of the same alphabet letter.",["A ↔ a","B ↔ b","G ↔ g"]],
+    sounds:["Letters can represent sounds. Listen to the beginning sound in a word.",["b → ball","m → moon","s → sun"]],
+    vowels:["A, E, I, O and U are vowels. Other alphabet letters are consonants.",["A E I O U","apple","orange"]],
+    begin:["Say the word slowly and listen for its first sound.",["cat → c","sun → s","fish → f"]],
+    picture:["Pictures help us connect objects with written and spoken English words.",["book","ball","cup"]],
+    colors:["Colour words tell us what colour something is.",["red apple","blue sky","green leaf"]],
+    shapes:["Shape words name forms we see around us.",["circle","square","triangle"]],
+    num10:["Number words 1–10 are one, two, three, four, five, six, seven, eight, nine, ten.",["1 one","5 five","10 ten"]],
+    body:["Use body-part words to name parts of the body.",["eyes","hands","legs"]],
+    family:["Family words help us talk about people at home.",["mother","father","sister"]],
+    food:["Food vocabulary includes fruits, vegetables and everyday foods.",["apple","carrot","milk"]],
+    animals:["Learn common animal and bird names from pictures and sounds.",["dog","lion","duck"]],
+    greetings:["Use polite words in everyday conversations.",["Hello!","Please","Thank you"]],
+    actions:["Action words tell what someone or something does.",["run","jump","read"]],
+    rhymes:["Rhyming words have similar ending sounds.",["cat–hat","sun–fun","log–dog"]],
+    shortvowels:["Short vowel sounds appear in many simple three-letter words.",["cat","hen","pig","dog","sun"]],
+    cvc:["CVC words follow consonant-vowel-consonant patterns.",["cat","pen","sit","dog","cup"]],
+    families:["Word families share a common ending pattern.",["cat–hat–mat","pin–tin–win","dog–log"]],
+    blends:["In a blend, two consonant sounds are heard together.",["bl → blue","st → star","gr → green"]],
+    digraphs:["A digraph uses two letters to make one main sound.",["sh → ship","ch → chair","th → thin"]],
+    sight:["Sight words are common words we learn to recognise quickly.",["the","this","can"]],
+    rhymes2:["Listen to word endings to find rhymes.",["cake–lake","ring–sing","boat–goat"]],
+    plural:["Singular means one; plural usually means more than one.",["cat → cats","book → books","bus → buses"]],
+    opposites:["Opposite words have contrasting meanings.",["big ↔ small","hot ↔ cold","up ↔ down"]],
+    nouns:["Naming words name people, places, animals or things.",["teacher","park","dog","book"]],
+    verbs:["Action words tell what a person, animal or thing does.",["runs","reads","jumps"]],
+    adjectives:["Describing words tell us more about a naming word.",["red ball","happy child","big tree"]],
+    articles:["Use ‘a’ before many consonant sounds and ‘an’ before many vowel sounds.",["a cat","an apple","an egg"]],
+    demonstratives:["Use this/these for nearer things and that/those for farther things.",["this book","that tree","these pens","those stars"]],
+    pronouns:["Pronouns can replace naming words.",["Riya → she","Rahul → he","the dog → it"]],
+    prepositions:["Position words tell where something is.",["in the box","on the table","under the chair"]],
+    beverbs:["Use am with I, is with one person/thing, and are with you/we/they or plural nouns.",["I am","She is","They are"]],
+    sentence:["A simple sentence usually needs a clear subject and action or description.",["I read books.","The dog runs.","She is happy."]],
+    punctuation:["Sentences begin with a capital letter and end with suitable punctuation.",["I am Ravi.","Where are you?","What a day!"]],
+    comprehension:["Read for meaning: who, what, where and what happened.",["Read slowly","Find clues","Answer from the passage"]],
+    phonics1:["Use letter-sound knowledge to decode unfamiliar simple words.",["map","ship","frog"]],
+    vowels1:["Vowel sounds can be short or long in common word patterns.",["cap/cape","kit/kite","hop/hope"]],
+    families1:["Related word endings help us read and spell new words.",["play–day","light–night","rain–train"]],
+    digraphs1:["Blends keep both sounds; digraphs often make one combined sound.",["st → stop","sh → shop","ch → chin"]],
+    sight1:["Fast recognition of common words supports fluent reading.",["come","here","said","have"]],
+    vocab1:["Build vocabulary across school, home, nature, food, transport and community.",["classroom","garden","market"]],
+    nouns1:["A noun names a person, place, animal or thing.",["doctor","city","cat","pencil"]],
+    proper:["Proper nouns are special names and begin with capital letters.",["Ravi","India","Monday"]],
+    pronouns1:["Pronouns replace nouns to avoid unnecessary repetition.",["I","he","she","we","they"]],
+    verbs1:["Verbs show actions or states.",["runs","reads","is"]],
+    adjectives1:["Adjectives describe nouns.",["small bird","blue bag","kind teacher"]],
+    articles1:["Use a/an for one non-specific noun and the for a specific one.",["a pen","an orange","the sun"]],
+    plural1:["Many plurals add -s or -es; some common forms change differently.",["toy → toys","box → boxes","child → children"]],
+    beverbs1:["Match is/am/are to the subject.",["I am","It is","We are"]],
+    hashave:["Use has with he/she/it and many singular nouns; use have with I/you/we/they.",["She has","They have","I have"]],
+    demonstratives1:["This/that are singular; these/those are plural.",["this apple","these apples","that kite","those kites"]],
+    prepositions1:["Prepositions show position and relationship.",["on","under","behind","between"]],
+    questionwords:["Question words ask for different kinds of information.",["Who → person","Where → place","When → time"]],
+    capital:["Use capital letters at the start of sentences and for special names.",["Ravi","India","Monday"]],
+    punctuation1:["Use . for statements, ? for questions and ! for strong feeling.",["I can swim.","Can you swim?","Wow!"]],
+    jumbled:["Arrange words into a meaningful sentence order.",["I like mangoes.","The cat is sleeping.","We play outside."]],
+    comprehension1:["Read a short passage and use details to answer questions.",["Who?","Where?","What happened?"]],
+    sequence:["Stories have an order: first, next and last.",["First","Next","Last"]],
+    poetry:["Listen for rhythm, rhyme and repeated sound patterns.",["moon–spoon","play–day","light–night"]],
+    speaking:["Speak in short clear sentences for greetings, requests and descriptions.",["Good morning.","May I have water?","This is my book."]],
+    picturedesc:["Describe what you can see using complete simple sentences.",["I see a tree.","A boy is running.","The sky is blue."]],
+    writing:["Plan a few simple sentences around one idea.",["My school is big.","I like my class.","My teacher is kind."]]
+  };
+  return map[kind]||["Learn the idea, see examples, then answer the practice question.",["Listen","Read","Try"]];
+}
+
+function vihaaSchoolQuestion(kind,serial){
+  var s=serial+17,letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),vowels=["A","E","I","O","U"],q="",ans="",pool=[],exp="";
+  if(kind==="alphabet"){ans=vihaaPick(letters,s);q="Which option is the letter "+ans+"?";pool=letters;exp="Recognise the alphabet letter by its shape and name.";}
+  else if(kind==="case"){var L=vihaaPick(letters,s);ans=L.toLowerCase();q="Which is the small letter for "+L+"?";pool=letters.map(function(x){return x.toLowerCase();});exp=L+" and "+ans+" are the same letter in capital and small forms.";}
+  else if(kind==="sounds"||kind==="begin"){var pairs=[["ball","B"],["moon","M"],["sun","S"],["fish","F"],["cat","C"],["dog","D"],["rain","R"],["van","V"]],p=vihaaPick(pairs,s);q="Which letter begins the word ‘"+p[0]+"’?";ans=p[1];pool=letters;exp="Say the word slowly: "+p[0]+" begins with "+ans+".";}
+  else if(kind==="vowels"){ans=vihaaPick(vowels,s);q="Which option is a vowel?";pool=letters;exp="A, E, I, O and U are vowels.";}
+  else if(kind==="picture"){var a=["book","ball","cup","kite","pen","bag"],w=vihaaPick(a,s);q="Choose the everyday English word: "+w.toUpperCase()+".";ans=w;pool=a;exp="This activity builds picture-to-word vocabulary.";}
+  else if(kind==="colors"){ans=vihaaPick(vihaaSchoolBanks.colors,s);q="Which of these is a colour word?";pool=vihaaSchoolBanks.colors.concat(["book","run","chair"]);exp=ans+" is a colour word.";}
+  else if(kind==="shapes"){ans=vihaaPick(vihaaSchoolBanks.shapes,s);q="Which option names a shape?";pool=vihaaSchoolBanks.shapes.concat(["apple","jump"]);exp=ans+" is a shape name.";}
+  else if(kind==="num10"){var nums=["one","two","three","four","five","six","seven","eight","nine","ten"],i=s%10;ans=nums[i];q="What is "+(i+1)+" in English?";pool=nums;exp=(i+1)+" is written as "+ans+".";}
+  else if(kind==="body"){ans=vihaaPick(vihaaSchoolBanks.body,s);q="Which word names a body part?";pool=vihaaSchoolBanks.body.concat(["apple","bus"]);exp=ans+" is a body-part word.";}
+  else if(kind==="family"){ans=vihaaPick(vihaaSchoolBanks.family,s);q="Which word is a family word?";pool=vihaaSchoolBanks.family.concat(["chair","green"]);exp=ans+" is a family word.";}
+  else if(kind==="food"){ans=vihaaPick(vihaaSchoolBanks.food,s);q="Which word names food?";pool=vihaaSchoolBanks.food.concat(["run","school"]);exp=ans+" is a food word.";}
+  else if(kind==="animals"){ans=vihaaPick(vihaaSchoolBanks.animals,s);q="Which option names an animal or bird?";pool=vihaaSchoolBanks.animals.concat(["blue","read"]);exp=ans+" is an animal/bird word.";}
+  else if(kind==="greetings"){var gs=[["Someone gives you a gift. What do you say?","Thank you"],["You meet your teacher in the morning. What can you say?","Good morning"],["You want something politely. Which word helps?","Please"],["You made a small mistake. What can you say?","Sorry"]],g=vihaaPick(gs,s);q=g[0];ans=g[1];pool=["Thank you","Good morning","Please","Sorry","Good night"];exp="Use polite English that fits the situation.";}
+  else if(kind==="actions"){ans=vihaaPick(vihaaSchoolBanks.actions,s);q="Which option is an action word?";pool=vihaaSchoolBanks.actions.concat(["red","book"]);exp=ans+" tells an action.";}
+  else if(kind==="rhymes"||kind==="rhymes2"||kind==="poetry"){var rs=[["cat","hat"],["sun","fun"],["dog","log"],["cake","lake"],["ring","sing"],["boat","goat"],["play","day"],["light","night"]],r=vihaaPick(rs,s);q="Which word rhymes with ‘"+r[0]+"’?";ans=r[1];pool=rs.map(function(x){return x[1];}).concat(["book","fish"]);exp=r[0]+" and "+r[1]+" share a similar ending sound.";}
+  else if(kind==="shortvowels"||kind==="cvc"){var cv=[["cat","a"],["hen","e"],["pig","i"],["dog","o"],["sun","u"],["map","a"],["sit","i"],["cup","u"]],x=vihaaPick(cv,s);q="Which vowel completes this CVC word: "+x[0][0]+"_"+x[0][2]+"?";ans=x[1];pool=["a","e","i","o","u"];exp=x[0]+" uses the vowel "+ans+".";}
+  else if(kind==="families"||kind==="families1"){var wf=[["cat","hat"],["pin","win"],["dog","log"],["cake","lake"],["rain","train"],["light","night"]],z=vihaaPick(wf,s);q="Which word belongs to the same word family as ‘"+z[0]+"’?";ans=z[1];pool=wf.map(function(x){return x[1];}).concat(["sun","book"]);exp=z[0]+" and "+z[1]+" share the same ending pattern.";}
+  else if(kind==="blends"){var bs=[["blue","bl"],["star","st"],["green","gr"],["frog","fr"],["stop","st"],["spoon","sp"]],b=vihaaPick(bs,s);q="Which blend begins ‘"+b[0]+"’?";ans=b[1];pool=["bl","cl","fl","gr","st","sp","fr"];exp=b[0]+" begins with the blend "+ans+".";}
+  else if(kind==="digraphs"||kind==="digraphs1"){var dg=[["ship","sh"],["chair","ch"],["thin","th"],["whale","wh"],["phone","ph"]],d=vihaaPick(dg,s);q="Which letter pair begins ‘"+d[0]+"’?";ans=d[1];pool=["sh","ch","th","wh","ph","st"];exp=d[0]+" begins with "+ans+".";}
+  else if(kind==="sight"||kind==="sight1"){ans=vihaaPick(vihaaSchoolBanks.sight,s);q="Which is a common sight word?";pool=vihaaSchoolBanks.sight.concat(["zebra","rocket"]);exp=ans+" is a high-frequency sight word.";}
+  else if(kind==="plural"||kind==="plural1"){var pl=[["cat","cats"],["book","books"],["box","boxes"],["bus","buses"],["toy","toys"]],pp=vihaaPick(pl,s);q="What is the plural of ‘"+pp[0]+"’?";ans=pp[1];pool=pl.map(function(x){return x[1];}).concat(["cat","box"]);exp="One "+pp[0]+"; more than one "+pp[1]+".";}
+  else if(kind==="opposites"){var op=vihaaPick(vihaaSchoolBanks.opposites,s);q="What is the opposite of ‘"+op[0]+"’?";ans=op[1];pool=vihaaSchoolBanks.opposites.map(function(x){return x[1];});exp=op[0]+" and "+op[1]+" have opposite meanings.";}
+  else if(kind==="nouns"||kind==="nouns1"){var ns=[["The boy reads a book.","book"],["The dog runs.","dog"],["Riya goes to school.","school"],["The teacher smiles.","teacher"]],nn=vihaaPick(ns,s);q="Which word is a naming word in: “"+nn[0]+"”";ans=nn[1];pool=vihaaSchoolBanks.nouns;exp=ans+" names a person, place, animal or thing.";}
+  else if(kind==="proper"){var pr=[["Which is a proper noun?","India"],["Which is a special name?","Ravi"],["Which word should begin with a capital because it is a day name?","Monday"]],rr=vihaaPick(pr,s);q=rr[0];ans=rr[1];pool=["India","Ravi","Monday","city","boy","day"];exp=ans+" is a proper noun/special name.";}
+  else if(kind==="verbs"||kind==="verbs1"){ans=vihaaPick(vihaaSchoolBanks.verbs,s);q="Which option is a doing/action word?";pool=vihaaSchoolBanks.verbs.concat(["blue","school"]);exp=ans+" is a verb/action word.";}
+  else if(kind==="adjectives"||kind==="adjectives1"){ans=vihaaPick(vihaaSchoolBanks.adjectives,s);q="Which option is a describing word?";pool=vihaaSchoolBanks.adjectives.concat(["runs","book"]);exp=ans+" can describe a naming word.";}
+  else if(kind==="articles"||kind==="articles1"){var ar=[["___ apple","an"],["___ cat","a"],["___ egg","an"],["___ book","a"],["___ orange","an"]],aa=vihaaPick(ar,s);q="Choose the correct article: "+aa[0];ans=aa[1];pool=["a","an","the","is"];exp="Choose the article based on the following sound and context.";}
+  else if(kind==="demonstratives"||kind==="demonstratives1"){var dm=[["___ book here is mine.","This"],["___ tree over there is tall.","That"],["___ pens here are blue.","These"],["___ stars over there are bright.","Those"]],mm=vihaaPick(dm,s);q=mm[0];ans=mm[1];pool=["This","That","These","Those"];exp="Near/far and singular/plural decide the demonstrative.";}
+  else if(kind==="pronouns"||kind==="pronouns1"){var pn=[["Riya is reading. ___ is happy.","She"],["Rahul is running. ___ is fast.","He"],["The dog is sleeping. ___ is tired.","It"],["Ravi and I play. ___ are friends.","We"]],qq=vihaaPick(pn,s);q=qq[0];ans=qq[1];pool=["I","He","She","It","We","They"];exp=ans+" correctly replaces the noun(s).";}
+  else if(kind==="prepositions"||kind==="prepositions1"){var ps=[["The book is ___ the table.","on"],["The ball is ___ the box.","in"],["The cat is ___ the chair.","under"],["The school is ___ the park.","near"]],px=vihaaPick(ps,s);q=px[0];ans=px[1];pool=vihaaSchoolBanks.preps;exp=ans+" is the correct position word.";}
+  else if(kind==="beverbs"||kind==="beverbs1"){var bv=[["I ___ ready.","am"],["She ___ happy.","is"],["They ___ playing.","are"],["The books ___ new.","are"]],bb=vihaaPick(bv,s);q=bb[0];ans=bb[1];pool=["am","is","are","has"];exp="Match the be-verb to the subject.";}
+  else if(kind==="hashave"){var hh=[["She ___ a red bag.","has"],["They ___ two books.","have"],["I ___ a pencil.","have"],["The dog ___ a tail.","has"]],h=vihaaPick(hh,s);q=h[0];ans=h[1];pool=["has","have","is","are"];exp="Use has with many singular subjects; have with I/you/we/they.";}
+  else if(kind==="sentence"||kind==="jumbled"){var js=[["books / I / read","I read books."],["is / happy / She","She is happy."],["play / We / outside","We play outside."],["sleeping / cat / The / is","The cat is sleeping."]],jj=vihaaPick(js,s);q="Arrange into a correct sentence: "+jj[0];ans=jj[1];pool=js.map(function(x){return x[1];});exp=ans+" has a natural subject–verb sentence order.";}
+  else if(kind==="punctuation"||kind==="punctuation1"){var pt=[["Where are you__","?"],["I like apples__","."],["What a beautiful day__","!"],["Can you swim__","?"]],tt=vihaaPick(pt,s);q="Choose the ending punctuation: "+tt[0];ans=tt[1];pool=[".","?","!",","];exp="Choose punctuation based on whether it is a statement, question or strong feeling.";}
+  else if(kind==="phonics1"){var ph=[["Which word begins with /m/?","map"],["Which word begins with /s/?","sun"],["Which word ends with /t/?","cat"],["Which word begins with /f/?","fish"]],p1=vihaaPick(ph,s);q=p1[0];ans=p1[1];pool=["map","sun","cat","fish","dog","pen"];exp="Use letter-sound knowledge to decode the word.";}
+  else if(kind==="vowels1"){var vl=[["Which pair shows short → long vowel change?","cap → cape"],["Which pair shows short → long vowel change?","kit → kite"],["Which pair shows short → long vowel change?","hop → hope"]],v1=vihaaPick(vl,s);q=v1[0];ans=v1[1];pool=["cap → cape","kit → kite","hop → hope","dog → dogs"];exp="The final e often changes the vowel sound in these simple patterns.";}
+  else if(kind==="vocab1"){var vc=["classroom","garden","market","bus","river","kitchen","doctor","farmer"],vv=vihaaPick(vc,s);q="Which option is an everyday theme vocabulary word?";ans=vv;pool=vc;exp=ans+" is useful everyday vocabulary.";}
+  else if(kind==="questionwords"){var qw=[["___ is your name?","What"],["___ do you live?","Where"],["___ is at the door?","Who"],["___ are you happy?","Why"],["___ do you go to school?","How"]],wq=vihaaPick(qw,s);q=wq[0];ans=wq[1];pool=["Who","What","Where","When","Why","How"];exp="The question word matches the information being asked for.";}
+  else if(kind==="capital"){var cp=[["Which sentence starts correctly?","Ravi is my friend."],["Which is written correctly?","India is a country."],["Which day name is correct?","Monday"]],cc=vihaaPick(cp,s);q=cc[0];ans=cc[1];pool=["Ravi is my friend.","ravi is my friend.","India is a country.","india is a country.","Monday","monday"];exp="Sentence starts and special names need capital letters.";}
+  else if(kind==="comprehension"||kind==="comprehension1"){var passages=[["Maya has a red kite. She flies it in the park.","Where does Maya fly the kite?","in the park",["at school","in the park","in the kitchen","on a bus"]],["Ravi has a small dog. The dog likes milk.","What does the dog like?","milk",["rice","milk","juice","bread"]],["Asha reads a book every night before sleep.","When does Asha read?","at night",["at night","at noon","at school","in the morning"]]],pa=vihaaPick(passages,s);q=pa[0]+" "+pa[1];ans=pa[2];pool=pa[3];exp="The answer is stated in the short passage.";}
+  else if(kind==="sequence"){var sq=[["First I wake up. Next I brush my teeth. What comes first?","wake up"],["First we plant a seed. Next we water it. What happens first?","plant a seed"],["First Mina opens the book. Next she reads. What happens next?","she reads"]],ss=vihaaPick(sq,s);q=ss[0];ans=ss[1];pool=["wake up","brush teeth","plant a seed","water it","she reads","opens the book"];exp="Sequence words tell the order of events.";}
+  else if(kind==="speaking"){var sp=[["You need water politely. What can you say?","May I have some water, please?"],["You meet someone in the morning. What can you say?","Good morning."],["You want to introduce yourself. What can you say?","My name is Ravi."]],sx=vihaaPick(sp,s);q=sx[0];ans=sx[1];pool=["May I have some water, please?","Good morning.","My name is Ravi.","Close the door."];exp="Choose a clear, polite spoken-English response.";}
+  else if(kind==="picturedesc"){var pd=[["Imagine a park with a boy running and a tree. Which is the clearest description?","A boy is running near a tree."],["Imagine a blue sky and a yellow sun. Which sentence fits?","The sun is yellow and the sky is blue."],["Imagine two children reading. Which sentence fits?","Two children are reading books."]],dd=vihaaPick(pd,s);q=pd[0];ans=pd[1];pool=pd.map(function(x){return x[1];});exp="A good picture sentence says clearly what can be seen.";}
+  else if(kind==="writing"){var wr=[["Which pair of sentences makes a clear mini-description of school?","My school is big. I like my classroom."],["Which pair makes a clear mini-description of a pet?","My dog is small. It likes to play."],["Which pair makes a clear mini-description of family?","I love my family. We eat dinner together."]],ww=vihaaPick(wr,s);q=ww[0];ans=ww[1];pool=wr.map(function(x){return x[1];});exp="Simple creative writing keeps one clear idea across connected sentences.";}
+  else {q="Choose the best English answer.";ans="English";pool=["English","Maths","Science","Music"];exp="This is an English-learning activity.";}
+  return {q:q,ans:String(ans),opts:vihaaSchoolOptions(String(ans),pool,s),explain:exp};
+}
+
+var vihaaSchoolSession={grade:"lkg",module:0,q:1,item:null,locked:false};
+
+function ensureVihaaSchoolState(){
+  if(!state.kidsSchool)state.kidsSchool={grade:"lkg",done:{lkg:{},ukg:{},class1:{}},attempt:{}};
+  if(!state.kidsSchool.done)state.kidsSchool.done={lkg:{},ukg:{},class1:{}};
+  ["lkg","ukg","class1"].forEach(function(g){if(!state.kidsSchool.done[g])state.kidsSchool.done[g]={};});
+  if(!state.kidsSchool.attempt)state.kidsSchool.attempt={};
+}
+
+function vihaaSchoolMount(){
+  ensureVihaaSchoolState();
+  if(el("kidsSchoolPath"))return;
+  var grid=el("kidsCategoryGrid");if(!grid)return;
+  var box=document.createElement("div");box.id="kidsSchoolPath";box.className="kids-school-path";
+  box.innerHTML='<div class="kids-school-head"><div><h3>📚 LKG → UKG → Class 1 English School Path</h3><p>Original curriculum-aligned lessons for foundational English: oral language, phonics, vocabulary, grammar, reading, listening, speaking and early writing.</p></div><span class="kids-badge">NCF-FS aligned · Class 1 pathway</span></div><div class="kids-grade-tabs" id="kidsGradeTabs"></div><div class="kids-school-progress"><span id="kidsSchoolProgressText">0 modules complete</span><span id="kidsSchoolGradeText">LKG English</span></div><div class="kids-school-track"><i id="kidsSchoolProgressBar"></i></div><div class="kids-school-modules" id="kidsSchoolModules"></div><div class="kids-school-game" id="kidsSchoolGame" hidden></div>';
+  grid.parentNode.insertBefore(box,grid);
+}
+
+function renderVihaaSchoolPath(grade){
+  vihaaSchoolMount();ensureVihaaSchoolState();
+  grade=grade||state.kidsSchool.grade||"lkg";state.kidsSchool.grade=grade;
+  var g=vihaaSchoolGrades[grade],done=state.kidsSchool.done[grade]||{},count=Object.keys(done).filter(function(k){return done[k];}).length;
+  el("kidsGradeTabs").innerHTML=Object.keys(vihaaSchoolGrades).map(function(k){var x=vihaaSchoolGrades[k];return '<button class="kids-grade-tab '+(k===grade?"active":"")+'" data-school-grade="'+k+'"><span style="font-size:24px">'+x.icon+'</span> '+x.name+'<small>'+x.sub+'</small></button>';}).join("");
+  el("kidsGradeTabs").querySelectorAll("[data-school-grade]").forEach(function(b){b.onclick=function(){renderVihaaSchoolPath(this.getAttribute("data-school-grade"));};});
+  el("kidsSchoolProgressText").textContent=count+" / "+g.modules.length+" modules complete";
+  el("kidsSchoolGradeText").textContent=g.name;
+  el("kidsSchoolProgressBar").style.width=(count/g.modules.length*100)+"%";
+  el("kidsSchoolModules").innerHTML=g.modules.map(function(m,i){return '<button class="kids-school-module '+(done[i]?"done":"")+'" data-school-module="'+i+'"><span class="mi">'+m[0]+'</span><b>'+m[1]+'</b><small>'+m[2]+'</small></button>';}).join("");
+  el("kidsSchoolModules").querySelectorAll("[data-school-module]").forEach(function(b){b.onclick=function(){openVihaaSchoolModule(grade,Number(this.getAttribute("data-school-module")));};});
+  save();
+}
+
+function openVihaaSchoolModule(grade,index){
+  ensureVihaaSchoolState();vihaaSchoolSession={grade:grade,module:index,q:1,item:null,locked:false};
+  renderVihaaSchoolQuestion();el("kidsSchoolGame").hidden=false;el("kidsSchoolGame").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function renderVihaaSchoolQuestion(){
+  var ses=vihaaSchoolSession,g=vihaaSchoolGrades[ses.grade],m=g.modules[ses.module],kind=m[3],lesson=vihaaSchoolLesson(kind);
+  var attemptKey=ses.grade+"|"+ses.module,base=Number(state.kidsSchool.attempt[attemptKey]||0),serial=ses.q+base*11+ses.module*23;
+  var item=vihaaSchoolQuestion(kind,serial);ses.item=item;ses.locked=false;
+  var game=el("kidsSchoolGame");
+  game.innerHTML='<div class="kids-game-top"><div><h3>'+m[0]+' '+g.name+' · '+m[1]+'</h3><div class="slot-sub">Lesson + 5-question practice · Question '+ses.q+' / 5</div></div><button class="btn outline" id="kidsSchoolClose">Close</button></div><div class="kids-lesson-box"><p>'+lesson[0]+'</p><div class="kids-example-row">'+lesson[1].map(function(x){return '<span class="kids-example-chip">'+x+'</span>';}).join("")+'</div></div><div class="kids-school-actions"><button class="btn soft" id="kidsSchoolHear">🔊 Hear Lesson</button></div><div class="kids-school-q">'+item.q+'</div><div class="kids-school-options">'+item.opts.map(function(o){return '<button class="kids-school-opt" data-school-answer="'+String(o).replace(/"/g,"&quot;")+'">'+o+'</button>';}).join("")+'</div><div class="kids-school-feedback" id="kidsSchoolFeedback"></div><div class="kids-school-actions"><button class="btn green" id="kidsSchoolNext" style="display:none">Next →</button></div>';
+  el("kidsSchoolClose").onclick=function(){game.hidden=true;};
+  el("kidsSchoolHear").onclick=function(){speak(lesson[0]+" Examples: "+lesson[1].join(", "));};
+  game.querySelectorAll("[data-school-answer]").forEach(function(b){b.onclick=function(){answerVihaaSchool(this);};});
+}
+function answerVihaaSchool(btn){
+  var ses=vihaaSchoolSession;if(ses.locked)return;var picked=btn.getAttribute("data-school-answer"),ok=picked===ses.item.ans,game=el("kidsSchoolGame");ses.locked=ok;
+  if(!ok){btn.classList.add("wrong");btn.disabled=true;el("kidsSchoolFeedback").textContent="❌ Try again. Listen to the lesson and choose another answer.";beep(false);return;}
+  btn.classList.add("correct");game.querySelectorAll("[data-school-answer]").forEach(function(x){x.disabled=true;});
+  el("kidsSchoolFeedback").textContent="✅ Correct! "+ses.item.explain;state.xp+=5;beep(true);
+  if(ses.q>=5){
+    ensureVihaaSchoolState();state.kidsSchool.done[ses.grade][ses.module]=true;state.kidsSchool.attempt[ses.grade+"|"+ses.module]=Number(state.kidsSchool.attempt[ses.grade+"|"+ses.module]||0)+1;state.stars+=1;
+    el("kidsSchoolNext").textContent="Module Complete ✓";el("kidsSchoolNext").style.display="inline-block";
+    el("kidsSchoolNext").onclick=function(){el("kidsSchoolGame").hidden=true;renderVihaaSchoolPath(ses.grade);confetti();toast("⭐ "+vihaaSchoolGrades[ses.grade].modules[ses.module][1]+" complete!");};
+  }else{
+    el("kidsSchoolNext").style.display="inline-block";el("kidsSchoolNext").onclick=function(){ses.q++;renderVihaaSchoolQuestion();};
+  }
+  save();renderHeader();
+}
+
+var vihaaOldRenderKidsZoneV8=renderKidsZone;
+renderKidsZone=function(){
+  vihaaOldRenderKidsZoneV8();
+  renderVihaaSchoolPath((state.kidsSchool&&state.kidsSchool.grade)||"lkg");
 };
 
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
