@@ -250,6 +250,12 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
 @media(max-width:1100px){.deep-topic-grid{grid-template-columns:repeat(3,1fr)}.deep-modes{grid-template-columns:repeat(3,1fr)}.deep-class-row{grid-template-columns:repeat(6,minmax(60px,1fr))}}
 @media(max-width:700px){.deep-topic-grid{grid-template-columns:repeat(2,1fr)}.deep-modes{grid-template-columns:repeat(2,1fr)}.deep-options{grid-template-columns:1fr}.deep-class-row{grid-template-columns:repeat(4,minmax(60px,1fr))}}
 @media(max-width:430px){.deep-topic-grid{grid-template-columns:1fr}.deep-class-row{grid-template-columns:repeat(3,minmax(60px,1fr))}}
+
+.math-early-stage-selector{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0 4px}
+.math-early-stage-selector button{border:2px solid var(--line);background:#fff;border-radius:17px;padding:12px 10px;font-weight:1000;color:var(--text);cursor:pointer;box-shadow:0 7px 18px rgba(50,47,100,.06)}
+.math-early-stage-selector button.active{border-color:#6c4cff;background:#f0edff;color:#4f39c0;box-shadow:0 0 0 4px rgba(108,76,255,.08)}
+.math-early-stage-selector button:hover{transform:translateY(-2px)}
+@media(max-width:560px){.math-early-stage-selector{grid-template-columns:1fr}.math-early-stage-selector button{padding:10px}}
 </style>
 </head>
 <body data-subject="english">
@@ -768,10 +774,10 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
 
 <section class="view" id="view-mathkids">
   <div class="kids-hero">
-    <div><div class="eyebrow" style="color:#8b6a00">Early Maths · Play & Learn</div><h2>🧸 Maths Kids Starter Zone</h2><p>Counting, number names, addition, subtraction, tables and shapes through short visual games.</p><div style="margin-top:12px"><span class="kids-badge">⭐ Correct answer unlocks Next</span> <span class="kids-badge" id="mathKidsAgeChip">Age 10 · Adaptive difficulty</span></div></div>
-    <div class="kids-art">1️⃣ 2️⃣ 3️⃣<br>➕ ✖️ 🔷</div>
+    <div><div class="eyebrow" style="color:#8b6a00">Early Maths · Play & Learn</div><h2>🧸 Maths Kids Starter Zone</h2><p>LKG, UKG and Class 1 only — playful counting, number sense, simple operations, shapes, patterns and measurement.</p><div style="margin-top:12px"><span class="kids-badge">⭐ Correct answer unlocks Next</span> <span class="kids-badge" id="mathKidsAgeChip">LKG · Play-based</span></div></div>
+    <div class="kids-art">1️⃣ 2️⃣ 3️⃣<br>🍎 🔺 🎨</div>
   </div>
-  <div class="section-head"><div><h3>Choose a Maths Starter World</h3><p>Each world has 100 levels × 10 questions. Mastery is earned only after Level 100.</p></div><div class="chip" id="mathKidsBadgeCount">0 / 6 mastered</div></div>
+  <div class="math-early-stage-selector" id="mathEarlyStageSelector"><button data-early-stage="lkg">🧸 LKG</button><button data-early-stage="ukg">🎒 UKG</button><button data-early-stage="class1">📘 Class 1</button></div><div class="section-head"><div><h3>Choose a Maths Starter World</h3><p>Foundational play only. Difficulty stays inside the selected LKG / UKG / Class 1 level.</p></div><div class="chip" id="mathKidsBadgeCount">0 / 6 mastered</div></div>
   <div class="kids-category-grid" id="mathKidsCategoryGrid"></div>
   <div class="math-tables-panel" id="mathTablesPanel" hidden>
     <div class="section-head" style="margin-top:0"><div><h3>✖️ Tables 1–20</h3><p>Learn every table first. Then start a mixed test using all 20 tables.</p></div><button class="btn outline" id="mathTablesClose">Close</button></div>
@@ -789,11 +795,11 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
 
 <section class="view" id="view-mathmonster">
   <div class="monster-wrap"><div class="monster-cloud">
-    <div class="monster-top"><div class="monster-brand"><div class="eyebrow" style="color:#ff7a00">VIHAA Maths Battle</div><h2>👾 Monster Maths Arena</h2><p>Choose a Maths world, solve 10 questions and reduce the monster HP to zero.</p></div></div>
+    <div class="monster-top"><div class="monster-brand"><div class="eyebrow" style="color:#ff7a00">VIHAA Maths Battle</div><h2>👾 Monster Maths Arena</h2><p>Choose a Maths world and defeat 10 HARD → EXPERT → BOSS questions. No easy-repeat battle questions.</p></div></div>
     <div class="monster-session-score"><span>🏆 Wins: <b id="mathMonsterWins">0</b></span><span>🎖️ Mastered: <b id="mathMonsterMastered">0</b>/12</span></div>
     <div class="monster-topic-grid" id="mathMonsterTopicGrid"></div>
     <div class="monster-arena" id="mathMonsterArena" hidden>
-      <div class="monster-battle"><div class="monster-char" id="mathMonsterChar">👹</div><div><div style="display:flex;justify-content:space-between;gap:10px"><b id="mathMonsterTitle">Numbers</b><span class="slot-sub" id="mathMonsterCounter">1 / 10</span></div><div class="monster-hp"><i id="mathMonsterHpBar"></i></div><div class="slot-sub">Wrong answer does not reveal the solution; retry until correct.</div></div></div>
+      <div class="monster-battle"><div class="monster-char" id="mathMonsterChar">👹</div><div><div style="display:flex;justify-content:space-between;gap:10px"><b id="mathMonsterTitle">Numbers</b><span class="slot-sub" id="mathMonsterCounter">1 / 10</span></div><div class="monster-hp"><i id="mathMonsterHpBar"></i></div><div class="slot-sub">Questions get harder every hit. Wrong options lock; the answer stays hidden.</div></div></div>
       <div class="monster-question"><h3 id="mathMonsterQuestion">2 + 3 = ?</h3></div><div class="monster-options" id="mathMonsterOptions"></div><div class="monster-status" id="mathMonsterFeedback"></div>
       <div class="monster-session-actions"><button class="btn dark" id="mathMonsterNext" style="display:none">Next →</button><button class="btn outline" id="mathMonsterClose">Choose Topic</button></div>
     </div>
@@ -5519,7 +5525,7 @@ if(questionHistory.engineVersion!=="9.1.0"){
 
 
 /* VIHAA v9.2 HERO CLICK HARD-FIX */
-VIHAA_QUESTION_ENGINE_VERSION="12.0.0";
+VIHAA_QUESTION_ENGINE_VERSION="12.1.0";
 
 function vihaaFastUniqueBatch(worldId,count,tier){
   questionHistory.seen=questionHistory.seen||{};
@@ -5634,13 +5640,13 @@ renderHome=function(){
   }
   /* Make the loaded release obvious and normalize old cache-buster URLs without reloading. */
   try{
-    var wanted="?v=12.0.0";
+    var wanted="?v=12.1.0";
     if(location.search!==wanted)history.replaceState(null,"",location.pathname+wanted+location.hash);
   }catch(e){}
 };
 
-if(questionHistory.engineVersion!=="12.0.0"){
-  questionHistory.engineVersion="12.0.0";
+if(questionHistory.engineVersion!=="12.1.0"){
+  questionHistory.engineVersion="12.1.0";
   questionHistory.answerRecent={};
   questionHistory.answerTextRecent={};
   saveQuestionHistory();
@@ -5654,7 +5660,7 @@ if(questionHistory.engineVersion!=="12.0.0"){
 })();
 
 /* VIHAA v10.0 ZERO-TO-HERO ADAPTIVE ENGLISH */
-VIHAA_QUESTION_ENGINE_VERSION="12.0.0";
+VIHAA_QUESTION_ENGINE_VERSION="12.1.0";
 
 function ensureAdaptiveZeroHero(){
   if(!state.adaptive)state.adaptive={skills:{},cards:{},sessions:0};
@@ -5915,7 +5921,7 @@ ensureAdaptiveZeroHero();
 
 
 /* VIHAA v10.1 WRITING TEACHER SPELLING GRAMMAR SCORE */
-VIHAA_QUESTION_ENGINE_VERSION="12.0.0";
+VIHAA_QUESTION_ENGINE_VERSION="12.1.0";
 
 var vihaaCommonTypos={
 "weakup":"wake up","wakeup":"wake up","writting":"writing","recieve":"receive","recieved":"received",
@@ -6013,7 +6019,7 @@ checkAdaptiveWriting=function(){
 
 
 /* VIHAA v11.0 ENDLESS ADAPTIVE ENGINE */
-VIHAA_QUESTION_ENGINE_VERSION="12.0.0";
+VIHAA_QUESTION_ENGINE_VERSION="12.1.0";
 
 function ensureAdaptiveEndless(){
   ensureAdaptiveZeroHero();
@@ -6311,7 +6317,7 @@ ensureAdaptiveEndless();
 
 
 /* VIHAA v11.0.1 NATURAL ENGLISH POLISH */
-VIHAA_QUESTION_ENGINE_VERSION="12.0.0";
+VIHAA_QUESTION_ENGINE_VERSION="12.1.0";
 
 function vihaaArticleFor(phrase){
   var w=String(phrase||"").trim().toLowerCase();
@@ -6367,7 +6373,7 @@ vihaaMakeSpeakingPhrase=function(serial,stage){
 
 
 /* VIHAA v12.0 CLASS 1-12 DEEP CURRICULUM ACADEMY */
-VIHAA_QUESTION_ENGINE_VERSION="12.0.0";
+VIHAA_QUESTION_ENGINE_VERSION="12.1.0";
 
 function deepSplit(s){return String(s||"").split("||").filter(Boolean);}
 var vihaaDeepCurriculum={
@@ -6594,6 +6600,209 @@ renderExtraHome=function(){vihaaOldRenderExtraHomeV12();if(isExtraSubject(state.
 var vihaaOldRenderMathHomeV12=renderMathHome;
 renderMathHome=function(){vihaaOldRenderMathHomeV12();renderDeepAcademy("maths","deepMath");};
 ensureDeepAcademyState();
+
+
+/* VIHAA v12.1 EARLY-MATHS + TOUGH MONSTER PATCH */
+VIHAA_QUESTION_ENGINE_VERSION="12.1.0";
+
+/* Kids Starter is now strictly LKG / UKG / Class 1.
+   It is intentionally decoupled from the learner profile age. */
+mathKidsCategories=[
+ {id:"count",icon:"🔢",title:"Counting & Number Sense",desc:"Count objects, before/after, more/less and simple number order."},
+ {id:"names",icon:"🔤",title:"Numbers & Number Names",desc:"Recognise numerals and age-appropriate number names."},
+ {id:"add",icon:"➕",title:"Picture Addition",desc:"Small visual sums only — within the selected early-years stage."},
+ {id:"sub",icon:"➖",title:"Picture Subtraction",desc:"Take-away with small numbers and visual support."},
+ {id:"shapes",icon:"🔷",title:"Shapes & Space",desc:"Circle, triangle, square, rectangle, oval and simple position words."},
+ {id:"patterns",icon:"🎨",title:"Patterns & Measurement",desc:"AB patterns, big/small, long/short, heavy/light and simple ordering."}
+];
+
+function ensureMathKidsStage(){
+  if(!state.math.kids)state.math.kids={progress:{}};
+  if(!state.math.kids.earlyStage)state.math.kids.earlyStage="lkg";
+  if(["lkg","ukg","class1"].indexOf(state.math.kids.earlyStage)<0)state.math.kids.earlyStage="lkg";
+  return state.math.kids.earlyStage;
+}
+function mathKidsStageLabel(){var s=ensureMathKidsStage();return s==="lkg"?"LKG · Play-based":s==="ukg"?"UKG · Foundation":"Class 1 · Foundation";}
+function mathKidsStageRange(){var s=ensureMathKidsStage();return s==="lkg"?{max:20,add:10}:s==="ukg"?{max:50,add:20}:{max:100,add:40};}
+mathKidsProgress=function(cat){
+  ensureMathKidsStage();
+  if(!state.math.kids.progress)state.math.kids.progress={};
+  var key=state.math.kids.earlyStage+"_"+cat;
+  if(!state.math.kids.progress[key])state.math.kids.progress[key]={level:1,q:1,completed:false,variant:0};
+  var p=state.math.kids.progress[key];
+  p.level=Math.max(1,Math.min(100,Number(p.level||1)));
+  p.q=Math.max(1,Math.min(10,Number(p.q||1)));
+  p.variant=Math.max(0,Number(p.variant||0));
+  return p;
+};
+
+renderMathKids=function(){
+  ensureMathKidsStage();
+  var count=0;mathKidsCategories.forEach(function(x){if(mathKidsProgress(x.id).completed)count++;});
+  el("mathKidsBadgeCount").textContent=count+" / 6 mastered";
+  el("mathKidsAgeChip").textContent=mathKidsStageLabel();
+  var selector=el("mathEarlyStageSelector");
+  if(selector){
+    selector.querySelectorAll("[data-early-stage]").forEach(function(b){
+      var id=b.getAttribute("data-early-stage");
+      b.classList.toggle("active",id===state.math.kids.earlyStage);
+      b.onclick=function(){
+        state.math.kids.earlyStage=id;save();
+        el("mathKidsGame").hidden=true;el("mathTablesPanel").hidden=true;
+        renderMathKids();
+      };
+    });
+  }
+  el("mathKidsCategoryGrid").innerHTML=mathKidsCategories.map(function(x){
+    var p=mathKidsProgress(x.id),pct=p.completed?100:((p.level-1)/100*100);
+    return '<button class="math-kids-card" data-math-kids="'+x.id+'"><span class="emo">'+x.icon+'</span><b>'+x.title+'</b><small>'+x.desc+'</small><span class="level-line">'+(p.completed?"Mastered · 100/100":"Level "+p.level+" / 100 · Q"+p.q+"/10")+'</span><span class="level-track"><i style="width:'+pct+'%"></i></span><span class="kids-mini-progress">'+(p.completed?"Maths Master ✓":mathKidsStageLabel())+'</span></button>';
+  }).join("");
+  el("mathKidsCategoryGrid").querySelectorAll("[data-math-kids]").forEach(function(b){b.onclick=function(){startMathKids(this.getAttribute("data-math-kids"));};});
+};
+
+function vihaaEarlyBasicShapes(){
+  return [["⚪","circle",0],["🔺","triangle",3],["🟥","square",4],["▭","rectangle",4],["⬭","oval",0]];
+}
+function vihaaEarlyNumOpts(ans,max,seed){
+  ans=Number(ans);var out=[ans],d=[1,-1,2,-2,3,-3,5,-5];
+  for(var i=0;i<d.length&&out.length<4;i++){var v=ans+d[(seed+i)%d.length];if(v>=0&&v<=max&&out.indexOf(v)<0)out.push(v);}
+  while(out.length<4){var z=Math.min(max,out.length);if(out.indexOf(z)<0)out.push(z);else out.push(Math.min(max,z+1));}
+  return shuffleCopy(out.slice(0,4));
+}
+makeMathKidsQuestion=function(cat,level,q,variant){
+  ensureMathKidsStage();
+  variant=Math.max(0,Number(variant||0));
+  var stage=state.math.kids.earlyStage,limits=mathKidsStageRange(),n=(level-1)*10+q,seed=n+variant*1009+(stage==="lkg"?101:stage==="ukg"?211:307);
+  var item={q:"",ans:0,visual:"🧮",opts:null,note:mathKidsStageLabel()+" · gentle progression"},obj=mathCountObjects[seed%mathCountObjects.length];
+
+  if(cat==="count"){
+    if(stage==="lkg"){
+      var cap=level<=40?10:20,cnt=1+(seed%cap);
+      item.q="How many "+obj[1]+" do you see?";item.ans=cnt;item.visual=Array(cnt+1).join('<span class="math-count-star">'+obj[0]+'</span>');item.opts=vihaaEarlyNumOpts(cnt,20,seed);
+    }else if(stage==="ukg"){
+      var mode=seed%3;
+      if(mode===0){var c=1+(seed%50);item.q="What number comes after "+c+"?";item.ans=c+1;item.visual='<span class="math-symbol-visual">'+c+' ➜ ?</span>';item.opts=vihaaEarlyNumOpts(c+1,60,seed);}
+      else if(mode===1){var c2=2+(seed%49);item.q="What number comes before "+c2+"?";item.ans=c2-1;item.visual='<span class="math-symbol-visual">? ➜ '+c2+'</span>';item.opts=vihaaEarlyNumOpts(c2-1,60,seed);}
+      else{var a=1+(seed%30),b=1+((seed*7)%30);if(a===b)b++;item.q="Which number is bigger: "+a+" or "+b+"?";item.ans=Math.max(a,b);item.visual='<span class="math-symbol-visual">'+a+'  ↔  '+b+'</span>';item.opts=vihaaEarlyNumOpts(item.ans,50,seed);}
+    }else{
+      var m=seed%4;
+      if(m===0){var c3=1+(seed%99);item.q="What number comes after "+c3+"?";item.ans=c3+1;item.visual='<span class="math-symbol-visual">'+c3+' ➜ ?</span>';item.opts=vihaaEarlyNumOpts(item.ans,100,seed);}
+      else if(m===1){var t=1+(seed%9),o=seed%10,val=t*10+o;item.q=val+" has how many tens?";item.ans=t;item.visual='<span class="math-symbol-visual">'+val+'</span>';item.opts=vihaaEarlyNumOpts(t,10,seed);}
+      else if(m===2){var st=(seed%10)*5;item.q="Count by 5: "+st+", "+(st+5)+", "+(st+10)+", ?";item.ans=st+15;item.visual='<span class="math-symbol-visual">5️⃣ 5️⃣ 5️⃣</span>';item.opts=vihaaEarlyNumOpts(item.ans,100,seed);}
+      else{var a1=10+(seed%80),b1=10+((seed*5)%80);if(a1===b1)b1++;item.q="Which number is smaller: "+a1+" or "+b1+"?";item.ans=Math.min(a1,b1);item.visual='<span class="math-symbol-visual">'+a1+'  ↔  '+b1+'</span>';item.opts=vihaaEarlyNumOpts(item.ans,100,seed);}
+    }
+  }else if(cat==="names"){
+    var maxName=stage==="lkg"?(level<=50?10:20):stage==="ukg"?(level<=50?20:50):100;
+    var value=1+(seed%maxName),name=numberNameLarge(value);
+    if(seed%2===0){item.q="Which word says "+value+"?";item.ans=name;item.visual='<span class="math-symbol-visual">'+value+'</span>';item.opts=[name,numberNameLarge(Math.max(1,value-1)),numberNameLarge(Math.min(maxName,value+1)),numberNameLarge(Math.min(maxName,value+2))];}
+    else{item.q='Which number is "'+name+'"?';item.ans=String(value);item.visual='<span class="math-symbol-visual">🔤</span>';item.opts=vihaaEarlyNumOpts(value,maxName,seed).map(String);}
+  }else if(cat==="add"||cat==="sub"){
+    var maxOp=stage==="lkg"?(level<=50?5:10):stage==="ukg"?(level<=50?10:20):(level<=60?20:40);
+    var a2=1+(seed%Math.max(2,Math.floor(maxOp*.6))),b2=1+((seed*3)%Math.max(2,Math.floor(maxOp*.4)));
+    if(cat==="add"){
+      if(a2+b2>maxOp)b2=Math.max(1,maxOp-a2);
+      item.q="How many altogether? "+a2+" + "+b2+" = ?";item.ans=a2+b2;
+      item.visual=(a2+b2<=12)?Array(a2+1).join('<span class="math-count-star">🍎</span>')+' <b style="font-size:28px">+</b> '+Array(b2+1).join('<span class="math-count-star">🍎</span>'):'<span class="math-symbol-visual">🍎 '+a2+' + '+b2+'</span>';
+    }else{
+      var hi=Math.max(a2+b2,2),take=Math.min(b2,hi-1);item.q=hi+" apples. Take away "+take+". How many left?";item.ans=hi-take;
+      item.visual=hi<=12?Array(hi+1).join('<span class="math-count-star">🍎</span>'):'<span class="math-symbol-visual">🍎 × '+hi+'</span>';
+    }
+    item.opts=vihaaEarlyNumOpts(item.ans,maxOp,seed);
+  }else if(cat==="shapes"){
+    var sh=vihaaEarlyBasicShapes(),s=sh[seed%sh.length];
+    if(stage==="class1"&&seed%3===0){
+      item.q="How many straight sides does a "+s[1]+" have?";item.ans=s[2];item.visual='<span class="math-shape-glyph">'+s[0]+'</span>';item.opts=vihaaEarlyNumOpts(item.ans,5,seed);
+    }else{
+      item.q="What shape is this?";item.ans=s[1];item.visual='<span class="math-shape-glyph">'+s[0]+'</span>';item.opts=shuffleCopy([s[1]].concat(sh.filter(function(x){return x[1]!==s[1];}).slice(0,3).map(function(x){return x[1];})));
+    }
+  }else{
+    var pm=seed%5;
+    if(pm===0){var first=seed%2?"🔵":"🔺",second=first==="🔵"?"🔺":"🔵";item.q="What comes next?";item.ans=first;item.visual='<span class="math-symbol-visual">'+first+' '+second+' '+first+' '+second+' ?</span>';item.opts=shuffleCopy([first,second,"⭐","🟥"]);}
+    else if(pm===1){item.q="Which is longer?";item.ans="long line";item.visual='<span class="math-symbol-visual">━━━━━━  ━━━</span>';item.opts=shuffleCopy(["long line","short line","same length","cannot tell"]);}
+    else if(pm===2){item.q="Which is heavier in everyday life?";item.ans="elephant";item.visual='<span class="math-symbol-visual">🐘  🪶</span>';item.opts=shuffleCopy(["elephant","feather","same","zero"]);}
+    else if(pm===3){var x1=1+(seed%9),x2=x1+1,x3=x2+1;item.q="Complete the pattern: "+x1+", "+x2+", "+x3+", ?";item.ans=x3+1;item.visual='<span class="math-symbol-visual">🔢</span>';item.opts=vihaaEarlyNumOpts(item.ans,20,seed);}
+    else{item.q="Which object is small?";item.ans="small ball";item.visual='<span class="math-symbol-visual">⚽  ·  ⚪</span>';item.opts=shuffleCopy(["small ball","big ball","both big","no ball"]);}
+  }
+  return item;
+};
+
+/* Tough Monster Maths Arena — independent of Kids Starter. */
+function monsterGcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=a%b;a=b;b=t;}return a;}
+function monsterLcm(a,b){return Math.abs(a*b)/monsterGcd(a,b);}
+function toughMonsterOpts(ans,seed){
+  ans=Number(ans);var dec=Math.abs(ans%1)>1e-9,scale=Math.max(1,Math.abs(ans)),ds=dec?[.1,-.1,.25,-.25,.5,-.5]:[1,-1,2,-2,3,-3,5,-5],out=[ans];
+  for(var i=0;i<ds.length&&out.length<4;i++){var v=ans+ds[(seed+i)%ds.length]*(dec?1:Math.max(1,Math.round(scale*.03)));v=dec?Math.round(v*100)/100:Math.round(v);if(v!==ans&&out.indexOf(v)<0)out.push(v);}
+  return shuffleCopy(out.slice(0,4));
+}
+function makeToughMonsterQuestion(topic,round,seed){
+  var stage=round+1,a=17+((seed*11+stage*13)%83),b=7+((seed*7+stage*5)%37),q,ans;
+  if(topic===1){
+    if(stage<=3){var n=10000+((seed*7919)%89999),d=7+(seed%12);q="Find the remainder: "+n+" ÷ "+d;ans=n%d;}
+    else if(stage<=7){var base=100000+((seed*104729)%800000),place=[10,100,1000,10000][seed%4];q="What is the place value of digit "+(Math.floor(base/place)%10)+" in "+base.toLocaleString("en-IN")+"?";ans=(Math.floor(base/place)%10)*place;}
+    else{var m=11+(seed%18),x=1000+((seed*97)%9000);q="Smallest number to add to "+x+" to make it divisible by "+m+"?";ans=(m-(x%m))%m;}
+  }else if(topic===2){
+    if(stage<=4){var c=40+((seed*17)%160);q=a+" × "+b+" − "+c+" = ?";ans=a*b-c;}
+    else{var x2=200+((seed*31)%900),y2=80+((seed*19)%400),z2=20+((seed*13)%160);q=x2+" − ("+y2+" + "+z2+") = ?";ans=x2-y2-z2;}
+  }else if(topic===3){
+    var m1=12+(seed%38),m2=11+((seed*5)%29);if(stage<=5){q=m1+" × "+m2+" = ?";ans=m1*m2;}else{var p=m1*m2;q=p+" ÷ ? = "+m1;ans=m2;}
+  }else if(topic===4){
+    var u=12+(seed%48),v=18+((seed*7)%54);
+    if(stage%2){q="HCF of "+u+" and "+v+" = ?";ans=monsterGcd(u,v);}else{q="LCM of "+u+" and "+v+" = ?";ans=monsterLcm(u,v);}
+  }else if(topic===5){
+    if(stage<=5){var den=[4,5,8,10][seed%4],num=1+(seed%(den-1)),whole=den*(20+(seed%35));q=num+"/"+den+" of "+whole+" = ?";ans=num*whole/den;}
+    else{var d1=Math.round((10+(seed%90))/10*100)/100,d2=Math.round((5+((seed*7)%50))/10*100)/100;q=d1+" × "+d2+" = ? (2 d.p.)";ans=Math.round(d1*d2*100)/100;}
+  }else if(topic===6){
+    if(stage<=5){var pct=[12.5,15,20,25,30,40][seed%6],whole2=80+((seed*20)%920);q=pct+"% of "+whole2+" = ?";ans=Math.round(whole2*pct)/100;}
+    else{var old=100+((seed*23)%500),inc=10+(seed%31);q="A value "+old+" increases by "+inc+"%. New value?";ans=Math.round(old*(1+inc/100)*100)/100;}
+  }else if(topic===7){
+    if(stage<=4){var l=9+(seed%25),w=7+((seed*3)%20);q="Rectangle perimeter, l="+l+", b="+w+" ?";ans=2*(l+w);}
+    else if(stage<=7){var base2=10+(seed%30),h=6+((seed*5)%20);q="Triangle area with base "+base2+" and height "+h+" = ?";ans=base2*h/2;}
+    else{var r=7*(1+(seed%4));q="Circle area for r="+r+" using π=22/7 = ?";ans=22*r*r/7;}
+  }else if(topic===8){
+    if(stage<=5){var coef=2+(seed%8),root=3+((seed*3)%15),cons=5+((seed*11)%30);q=coef+"x + "+cons+" = "+(coef*root+cons)+". Find x.";ans=root;}
+    else{var r1=2+(seed%7),r2=3+((seed*5)%8);q="For x² − "+(r1+r2)+"x + "+(r1*r2)+" = 0, larger root = ?";ans=Math.max(r1,r2);}
+  }else if(topic===9){
+    if(stage<=5){var x0=1+(seed%8),y0=1+((seed*3)%8),dx=[3,5,6,8][seed%4],dy=[4,12,8,15][seed%4];q="Distance from ("+x0+","+y0+") to ("+(x0+dx)+","+(y0+dy)+") = ?";ans=Math.sqrt(dx*dx+dy*dy);}
+    else{var xA=2+(seed%9),yA=3+((seed*2)%9),xB=xA+4,yB=yA+2; q="Slope from ("+xA+","+yA+") to ("+xB+","+yB+") = ?";ans=.5;}
+  }else if(topic===10){
+    var trig=[["sin 30° + cos 60°",1],["2 sin 30° cos 60°",0.5],["tan 45° + sin 30°",1.5],["sin 90° − cos 60°",0.5],["cos 0° + sin 30°",1.5]][seed%5];q=trig[0]+" = ?";ans=trig[1];
+  }else if(topic===11){
+    if(stage<=5){var nums=[a,b,a+10,b+10,a+b];ans=Math.round(nums.reduce(function(s,x){return s+x;},0)/nums.length*100)/100;q="Mean of "+nums.join(", ")+" = ?";}
+    else{var fav=2+(seed%7),total=fav+3+(seed%9);q=fav+" favourable outcomes out of "+total+". Probability (2 d.p.)?";ans=Math.round(fav/total*100)/100;}
+  }else{
+    if(stage<=3){var n1=2+(seed%5),xv=2+((seed*3)%4);q="If f(x)=x^"+n1+", find f'("+xv+").";ans=n1*Math.pow(xv,n1-1);}
+    else if(stage<=6){var aa=2+(seed%7),bb=3+((seed*3)%9),cc=1+(seed%5),dd=2+((seed*7)%8);q="det[["+aa+","+bb+"],["+cc+","+dd+"]] = ?";ans=aa*dd-bb*cc;}
+    else{var k=2+(seed%6);q="Evaluate ∫₀¹ "+k+"x dx.";ans=k/2;}
+  }
+  ans=Math.round(Number(ans)*100)/100;
+  return{q:q,ans:ans,opts:toughMonsterOpts(ans,seed),difficulty:stage<=3?"HARD":stage<=7?"EXPERT":"BOSS"};
+}
+
+renderMathMonster=function(){
+  var mastered=state.math.monster.mastered||{},count=Object.keys(mastered).filter(function(k){return mastered[k];}).length;
+  el("mathMonsterWins").textContent=state.math.monster.wins||0;el("mathMonsterMastered").textContent=count;
+  el("mathMonsterTopicGrid").innerHTML=mathWorlds.map(function(w){return '<button class="monster-topic" data-math-monster="'+w.id+'"><span class="micon">'+w.icon+'</span>'+w.title+'<small>'+(mastered[w.id]?"Mastered ✓":"HARD → BOSS · 10 unique")+'</small></button>';}).join("");
+  el("mathMonsterTopicGrid").querySelectorAll("[data-math-monster]").forEach(function(b){b.onclick=function(){startMathMonster(Number(this.getAttribute("data-math-monster")));};});
+};
+startMathMonster=function(topic){
+  mathMonsterSession={topic:topic,index:0,locked:false,hp:100,item:null,used:[],seedBase:(state.math.monster.wins||0)*10007+topic*997+(state.math.answers||0)*37};
+  el("mathMonsterArena").hidden=false;el("mathMonsterTitle").textContent=mathWorlds[topic-1].icon+" "+mathWorlds[topic-1].title;el("mathMonsterChar").textContent=["👹","👾","🤖","🐲"][topic%4];renderMathMonsterQuestion();
+};
+renderMathMonsterQuestion=function(){
+  var s0=mathMonsterSession,tryNo=0,item;
+  do{item=makeToughMonsterQuestion(s0.topic,s0.index,s0.seedBase+s0.index*101+tryNo*1009);tryNo++;}while(s0.used.indexOf(item.q)>=0&&tryNo<80);
+  s0.used.push(item.q);s0.item=item;s0.locked=false;
+  el("mathMonsterCounter").textContent=(s0.index+1)+" / 10 · "+item.difficulty;
+  el("mathMonsterHpBar").style.width=s0.hp+"%";el("mathMonsterQuestion").textContent=item.q;el("mathMonsterFeedback").textContent="";el("mathMonsterNext").style.display="none";
+  el("mathMonsterOptions").innerHTML=item.opts.map(function(v){return '<button class="monster-option" data-math-monster-answer="'+v+'">'+v+'</button>';}).join("");
+  el("mathMonsterOptions").querySelectorAll("[data-math-monster-answer]").forEach(function(b){b.onclick=function(){
+    if(s0.locked)return;var v=Number(this.getAttribute("data-math-monster-answer")),ok=Math.abs(v-Number(item.ans))<.0001;
+    if(!ok){this.classList.add("wrong");this.disabled=true;el("mathMonsterFeedback").textContent="❌ Wrong — "+item.difficulty+" battle. Try another option; answer stays hidden.";recordMathMistake(item.q,item.ans,s0.topic,v);save();beep(false);return;}
+    s0.locked=true;s0.hp=Math.max(0,s0.hp-10);this.classList.add("correct");el("mathMonsterHpBar").style.width=s0.hp+"%";el("mathMonsterFeedback").textContent="✅ "+item.difficulty+" hit!";el("mathMonsterOptions").querySelectorAll("button").forEach(function(x){x.disabled=true;});el("mathMonsterNext").style.display="inline-block";state.math.xp+=8;state.xp+=8;save();beep(true);
+  };});
+};
+
+ensureMathKidsStage();
 
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
 if(el("multiReset"))el("multiReset").onclick=function(){if(extraAdaptiveReview.active)resetExtraAdaptiveReview();else resetExtraQuestion();};
