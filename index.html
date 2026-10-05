@@ -519,7 +519,7 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
 </section>
 
 <section class="view" id="view-mathpuzzles">
-  <div class="section-head" style="margin-top:2px"><div><h3>🧩 Maths Puzzle Arcade</h3><p>Three progressive 1,000-round Maths challenge tracks. Correct answer only unlocks Next.</p></div><div class="chip">🎮 Maths Games</div></div>
+  <div class="section-head" style="margin-top:2px"><div><h3>🧩 Maths Puzzle Arcade</h3><p>Three progressive 1,000-round Maths challenge tracks. One mistake fails the current question; the answer is explained and a new unique question replaces it.</p></div><div class="chip">🎮 Maths Games</div></div>
   <div class="arcade-grid">
     <div class="arcade-card"><div class="arcade-icon">❓</div><h3>Missing Number</h3><p>Find the hidden number in equations that get harder over time.</p><span class="arcade-score">🎯 Q <span id="mathPuzzleMissingNo">1</span> / 1000</span><div style="margin-top:12px"><button class="btn dark" data-math-puzzle="missing">Continue Challenge</button></div></div>
     <div class="arcade-card"><div class="arcade-icon">➕</div><h3>Operator Master</h3><p>Choose +, −, × or ÷ to make the equation true.</p><span class="arcade-score">🎯 Q <span id="mathPuzzleOperatorNo">1</span> / 1000</span><div style="margin-top:12px"><button class="btn dark" data-math-puzzle="operator">Continue Challenge</button></div></div>
@@ -530,6 +530,7 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
     <div class="letter-challenge-meta"><b id="mathPuzzleProgressText">Question 1 / 1000</b><span id="mathPuzzleDifficulty">Difficulty 1 / 100</span></div>
     <div class="bar" style="margin:10px 0 6px"><i id="mathPuzzleProgressBar"></i></div>
     <div class="math-q" id="mathPuzzleQuestion">5 + ? = 12</div><div class="math-q-options" id="mathPuzzleOptions"></div><div class="adaptive-feedback" id="mathPuzzleFeedback"></div>
+    <div class="formula-example-box" id="mathPuzzleExplanation" hidden style="max-width:900px;margin:14px auto 0"></div>
     <div class="mini-actions" style="justify-content:center"><button class="btn green" id="mathPuzzleNext" style="display:none">Next Challenge →</button></div>
   </div>
 </section>
@@ -812,7 +813,7 @@ Object.keys(banks).forEach(function(k){banks[k].forEach(function(q){q[5]=Number(
 
 var LEGACY_KEY="vihanGrammarAdventureV2", KEY="vihaaGrammarAdventureV3";
 var QUESTION_HISTORY_KEY="vihaaGrammarQuestionHistoryV2";
-var fresh={currentSubject:"english",math:{xp:0,stars:0,answers:0,correct:0,quizLevel:1,topicStats:{},sessions:0,mistakes:[],kids:{wins:0,mastered:{}},monster:{wins:0,mastered:{}},puzzles:{missing:{current:1,correct:0},operator:{current:1,correct:0},formula:{current:1,correct:0}},adaptive:{sessions:0}},name:"Vihan",photo:"",highest:1,completed:{},xp:0,stars:0,streak:1,lastDay:"",mistakes:[],answers:0,correct:0,sessions:0,seconds:0,topicStats:{},speech:true,sound:true,dark:false,chestDate:"",chestReward:"",bossBadges:{},secretBadges:[],parentMission:null,leagueSchool:"",leagueClass:"",learnerMode:"auto",miniGames:{sentence:0,scramble:0,letter:0},guessLetter:{current:1,correct:0,completed:false},sentenceChallenge:{current:1,correct:0,completed:false},scrambleChallenge:{current:1,correct:0,completed:false},adaptive:{skills:{grammar:{a:0,c:0},vocabulary:{a:0,c:0},listening:{a:0,c:0},speaking:{a:0,c:0},recall:{a:0,c:0}},cards:{},sessions:0,lastSession:"",speakingIndex:0,listeningIndex:0},monsterVocab:{wins:0,mastered:{}},kidsBadges:{},kidsWins:0,kidsMastered:{},kidsCursor:{}};
+var fresh={currentSubject:"english",math:{xp:0,stars:0,answers:0,correct:0,quizLevel:1,topicStats:{},sessions:0,mistakes:[],kids:{wins:0,mastered:{}},monster:{wins:0,mastered:{}},puzzles:{missing:{current:1,correct:0,variant:0},operator:{current:1,correct:0,variant:0},formula:{current:1,correct:0,variant:0}},adaptive:{sessions:0}},name:"Vihan",photo:"",highest:1,completed:{},xp:0,stars:0,streak:1,lastDay:"",mistakes:[],answers:0,correct:0,sessions:0,seconds:0,topicStats:{},speech:true,sound:true,dark:false,chestDate:"",chestReward:"",bossBadges:{},secretBadges:[],parentMission:null,leagueSchool:"",leagueClass:"",learnerMode:"auto",miniGames:{sentence:0,scramble:0,letter:0},guessLetter:{current:1,correct:0,completed:false},sentenceChallenge:{current:1,correct:0,completed:false},scrambleChallenge:{current:1,correct:0,completed:false},adaptive:{skills:{grammar:{a:0,c:0},vocabulary:{a:0,c:0},listening:{a:0,c:0},speaking:{a:0,c:0},recall:{a:0,c:0}},cards:{},sessions:0,lastSession:"",speakingIndex:0,listeningIndex:0},monsterVocab:{wins:0,mastered:{}},kidsBadges:{},kidsWins:0,kidsMastered:{},kidsCursor:{}};
 var state=loadState();
 var questionHistory=loadQuestionHistory();
 var game=null,gameStartedAt=0,deferredPrompt=null;
@@ -1046,17 +1047,55 @@ function renderMathMonster(){var mastered=state.math.monster.mastered||{},count=
 function startMathMonster(topic){mathMonsterSession={topic:topic,index:0,locked:false,hp:100,item:null};el("mathMonsterArena").hidden=false;el("mathMonsterTitle").textContent=mathWorlds[topic-1].icon+" "+mathWorlds[topic-1].title;el("mathMonsterChar").textContent=["👹","👾","🤖","🐲"][topic%4];renderMathMonsterQuestion();}
 function renderMathMonsterQuestion(){var s0=mathMonsterSession,item=mathQuestionFor(s0.topic,(state.math.answers||0)+s0.index+17),opts=mathOptionsFor(item.ans,s0.index+33);s0.item=item;s0.locked=false;el("mathMonsterCounter").textContent=(s0.index+1)+" / 10";el("mathMonsterHpBar").style.width=s0.hp+"%";el("mathMonsterQuestion").textContent=item.q;el("mathMonsterFeedback").textContent="";el("mathMonsterNext").style.display="none";el("mathMonsterOptions").innerHTML=opts.map(function(v){return '<button class="monster-option" data-math-monster-answer="'+v+'">'+v+'</button>';}).join("");el("mathMonsterOptions").querySelectorAll("[data-math-monster-answer]").forEach(function(b){b.onclick=function(){var v=Number(this.getAttribute("data-math-monster-answer")),ok=Math.abs(v-Number(item.ans))<.0001;if(!ok){this.classList.add("wrong");this.disabled=true;el("mathMonsterFeedback").textContent="❌ Wrong — retry. Answer stays hidden.";recordMathMistake(item.q,item.ans,s0.topic,v);save();beep(false);return;}s0.locked=true;s0.hp=Math.max(0,s0.hp-10);this.classList.add("correct");el("mathMonsterHpBar").style.width=s0.hp+"%";el("mathMonsterFeedback").textContent="✅ Correct hit!";el("mathMonsterOptions").querySelectorAll("button").forEach(function(x){x.disabled=true;});el("mathMonsterNext").style.display="inline-block";state.math.xp+=6;state.xp+=6;save();beep(true);};});}
 function nextMathMonster(){if(!mathMonsterSession.locked)return;mathMonsterSession.index++;if(mathMonsterSession.index<10){renderMathMonsterQuestion();return;}state.math.monster.wins++;state.math.monster.mastered[mathMonsterSession.topic]=true;state.math.stars+=2;state.stars+=2;state.xp+=40;save();confetti();toast("👾 Maths Monster defeated! +2⭐");el("mathMonsterArena").hidden=true;renderMathMonster();renderMathPassport();}
-var mathPuzzleSession={type:null,item:null,locked:false};
+var mathPuzzleSession={type:null,item:null,locked:false,failed:false,lastQuestion:""};
 function renderMathPuzzleCards(){el("mathPuzzleMissingNo").textContent=Math.min(1000,state.math.puzzles.missing.current||1);el("mathPuzzleOperatorNo").textContent=Math.min(1000,state.math.puzzles.operator.current||1);el("mathPuzzleFormulaNo").textContent=Math.min(1000,state.math.puzzles.formula.current||1);}
-function makeMathPuzzle(type,qNo){
-  var stage=Math.min(100,Math.ceil(qNo/10)),a=3+((qNo*7+stage)%Math.max(9,stage*3)),b=2+((qNo*5+stage)%Math.max(8,stage*2));
-  if(type==="missing"){var mode=stage<30?0:stage<60?1:(qNo%2),ans,q;if(mode===0){ans=b;q=a+" + ? = "+(a+b);}else{ans=a;q="? × "+b+" = "+(a*b);}return{q:q,ans:ans,opts:mathOptionsFor(ans,qNo)};}
-  if(type==="operator"){a=3+(qNo%17);b=2+((qNo*3)%9);var ops=["+","−","×","÷"],op=ops[qNo%4],target;if(op==="+")target=a+b;else if(op==="−")target=a-b;else if(op==="×")target=a*b;else{a=b*(2+(qNo%8));target=a/b;}return{q:a+" ? "+b+" = "+target,ans:op,opts:shuffleCopy(ops)};}
-  var x=mathFormulas[(qNo*7)%mathFormulas.length],wrong=shuffleCopy(mathFormulas.filter(function(f){return f.id!==x.id;})).slice(0,3);return{q:"Which formula matches this use? "+x.intro,ans:x.eq,opts:shuffleCopy([x].concat(wrong)).map(function(f){return f.eq;})};
+function makeMathPuzzle(type,qNo,variant){
+  variant=variant||0;var stage=Math.min(100,Math.ceil(qNo/10)),seed=qNo+variant*1009,a=3+((seed*7+stage)%Math.max(9,stage*3)),b=2+((seed*5+stage)%Math.max(8,stage*2));
+  if(type==="missing"){
+    var mode=stage<30?0:stage<60?1:(seed%2),ans,q,explain;
+    if(mode===0){ans=b;q=a+" + ? = "+(a+b);explain="To find a missing addend, subtract the known number from the total: "+(a+b)+" − "+a+" = "+b+".";}
+    else{ans=a;q="? × "+b+" = "+(a*b);explain="To find a missing factor, divide the product by the known factor: "+(a*b)+" ÷ "+b+" = "+a+".";}
+    return{q:q,ans:ans,opts:mathOptionsFor(ans,seed),explain:explain};
+  }
+  if(type==="operator"){
+    a=3+(seed%17);b=2+((seed*3)%9);var ops=["+","−","×","÷"],op=ops[seed%4],target,calc;
+    if(op==="+"){target=a+b;calc=a+" + "+b+" = "+target;}
+    else if(op==="−"){target=a-b;calc=a+" − "+b+" = "+target;}
+    else if(op==="×"){target=a*b;calc=a+" × "+b+" = "+target;}
+    else{a=b*(2+(seed%8));target=a/b;calc=a+" ÷ "+b+" = "+target;}
+    return{q:a+" ? "+b+" = "+target,ans:op,opts:shuffleCopy(ops),explain:"The correct operator is "+op+" because "+calc+". The other operators do not give "+target+"."};
+  }
+  var x=mathFormulas[(seed*7)%mathFormulas.length],wrong=shuffleCopy(mathFormulas.filter(function(f){return f.id!==x.id;})).slice(0,3);
+  return{q:"Which formula matches this use? "+x.intro,ans:x.eq,opts:shuffleCopy([x].concat(wrong)).map(function(f){return f.eq;}),explain:x.why+" It is commonly used for: "+x.where};
 }
-function startMathPuzzle(type){mathPuzzleSession.type=type;el("mathPuzzleStage").hidden=false;renderMathPuzzle();}
-function renderMathPuzzle(){var type=mathPuzzleSession.type,p=state.math.puzzles[type],qNo=Math.min(1000,p.current||1),stage=Math.min(100,Math.ceil(qNo/10)),item=makeMathPuzzle(type,qNo);mathPuzzleSession.item=item;mathPuzzleSession.locked=false;el("mathPuzzleTitle").textContent=(type==="missing"?"❓ Missing Number":type==="operator"?"➕ Operator Master":"📐 Formula Match")+" · 1000 Challenge";el("mathPuzzleProgressText").textContent="Question "+qNo+" / 1000";el("mathPuzzleDifficulty").textContent="Difficulty "+stage+" / 100";el("mathPuzzleProgressBar").style.width=((qNo-1)/1000*100)+"%";el("mathPuzzleQuestion").textContent=item.q;el("mathPuzzleFeedback").textContent="";el("mathPuzzleNext").style.display="none";el("mathPuzzleOptions").innerHTML=item.opts.map(function(v){return '<button class="math-q-option" data-math-puzzle-answer="'+String(v).replace(/"/g,"&quot;")+'">'+v+'</button>';}).join("");el("mathPuzzleOptions").querySelectorAll("[data-math-puzzle-answer]").forEach(function(b){b.onclick=function(){var val=this.getAttribute("data-math-puzzle-answer"),ok=String(item.ans)===val;if(!ok){this.classList.add("wrong");this.disabled=true;el("mathPuzzleFeedback").textContent="❌ Not correct. Next remains locked.";recordMathMistake(item.q,item.ans,1,val);save();beep(false);return;}mathPuzzleSession.locked=true;this.classList.add("correct");el("mathPuzzleFeedback").textContent="✅ Correct!";el("mathPuzzleOptions").querySelectorAll("button").forEach(function(x){x.disabled=true;});var st=state.math.puzzles[type];st.correct=(st.correct||0)+1;if(st.current<1000)st.current++;state.math.xp+=5;state.xp+=5;save();el("mathPuzzleNext").style.display="inline-block";renderMathPuzzleCards();beep(true);};});}
-function nextMathPuzzle(){if(mathPuzzleSession.locked)renderMathPuzzle();}
+function showMathPuzzleExplanation(item,picked,correct){
+  var box=el("mathPuzzleExplanation");box.hidden=false;box.innerHTML="";
+  var title=document.createElement("div");title.style.fontWeight="1000";title.style.marginBottom="8px";title.textContent=(correct?"✅ Correct Answer: ":"📘 Correct Answer: ")+item.ans;box.appendChild(title);
+  if(!correct){var yours=document.createElement("div");yours.style.marginBottom="8px";yours.style.fontWeight="800";yours.textContent="Your answer: "+picked;box.appendChild(yours);}
+  var why=document.createElement("div");why.style.lineHeight="1.6";why.innerHTML="<b>Why?</b> ";var whyText=document.createElement("span");whyText.textContent=item.explain||"This value makes the equation or formula condition true.";why.appendChild(whyText);box.appendChild(why);
+}
+function startMathPuzzle(type){mathPuzzleSession={type:type,item:null,locked:false,failed:false,lastQuestion:""};el("mathPuzzleStage").hidden=false;renderMathPuzzle();}
+function renderMathPuzzle(){
+  var type=mathPuzzleSession.type,p=state.math.puzzles[type],qNo=Math.min(1000,p.current||1),stage=Math.min(100,Math.ceil(qNo/10)),variant=p.variant||0,item=makeMathPuzzle(type,qNo,variant),guard=0;
+  while(mathPuzzleSession.lastQuestion&&item.q===mathPuzzleSession.lastQuestion&&guard<120){p.variant=(p.variant||0)+1;variant=p.variant;item=makeMathPuzzle(type,qNo,variant);guard++;}
+  mathPuzzleSession.item=item;mathPuzzleSession.locked=false;mathPuzzleSession.failed=false;mathPuzzleSession.lastQuestion=item.q;
+  el("mathPuzzleTitle").textContent=(type==="missing"?"❓ Missing Number":type==="operator"?"➕ Operator Master":"📐 Formula Match")+" · 1000 Challenge";
+  el("mathPuzzleHint").textContent="One mistake fails this question. Learn the explanation, then a new unique question replaces it.";
+  el("mathPuzzleProgressText").textContent="Question "+qNo+" / 1000";el("mathPuzzleDifficulty").textContent="Difficulty "+stage+" / 100";el("mathPuzzleProgressBar").style.width=((qNo-1)/1000*100)+"%";el("mathPuzzleQuestion").textContent=item.q;el("mathPuzzleFeedback").textContent="";el("mathPuzzleExplanation").hidden=true;el("mathPuzzleExplanation").innerHTML="";el("mathPuzzleNext").style.display="none";el("mathPuzzleNext").textContent="Next Challenge →";
+  el("mathPuzzleOptions").innerHTML=item.opts.map(function(v){return '<button class="math-q-option" data-math-puzzle-answer="'+String(v).replace(/"/g,"&quot;")+'">'+v+'</button>';}).join("");
+  el("mathPuzzleOptions").querySelectorAll("[data-math-puzzle-answer]").forEach(function(b){b.onclick=function(){
+    if(mathPuzzleSession.locked)return;var val=this.getAttribute("data-math-puzzle-answer"),ok=String(item.ans)===val,st=state.math.puzzles[type];
+    mathPuzzleSession.locked=true;el("mathPuzzleOptions").querySelectorAll("button").forEach(function(x){x.disabled=true;});
+    if(!ok){
+      mathPuzzleSession.failed=true;this.classList.add("wrong");recordMathMistake(item.q,item.ans,1,val);st.variant=(st.variant||0)+1;
+      el("mathPuzzleFeedback").textContent="❌ One mistake = question failed. Progress stays at Question "+qNo+".";
+      showMathPuzzleExplanation(item,val,false);el("mathPuzzleNext").textContent="New Unique Question →";el("mathPuzzleNext").style.display="inline-block";save();beep(false);return;
+    }
+    mathPuzzleSession.failed=false;this.classList.add("correct");el("mathPuzzleFeedback").textContent="✅ Correct! Question "+qNo+" cleared.";showMathPuzzleExplanation(item,val,true);
+    st.correct=(st.correct||0)+1;if(st.current<1000)st.current++;st.variant=0;state.math.xp+=5;state.xp+=5;save();el("mathPuzzleNext").textContent=st.current>=1000&&qNo>=1000?"Challenge Complete":"Next Challenge →";el("mathPuzzleNext").style.display="inline-block";renderMathPuzzleCards();beep(true);
+  };});
+}
+function nextMathPuzzle(){if(!mathPuzzleSession.locked)return;renderMathPuzzle();}
 function renderMathMistakes(){var list=state.math.mistakes||[];el("mathMistakeCount").textContent=list.length+" mistake"+(list.length===1?"":"s");if(!list.length){el("mathMistakeList").innerHTML='<div class="empty"><div class="big">🎉</div><h3>No Maths mistakes saved</h3><p>Wrong Maths answers will appear here automatically.</p></div>';return;}el("mathMistakeList").innerHTML=list.slice().reverse().map(function(m){var w=mathWorlds[(m.topic||1)-1]||mathWorlds[0];return '<div class="mistake"><strong>'+m.q+'</strong><span>'+w.title+' · Your last answer: '+m.picked+' · Correct: '+m.ans+' · Attempts: '+(m.count||1)+'</span><div style="margin-top:8px"><button class="btn soft" data-math-mistake-topic="'+(m.topic||1)+'">Practice Topic</button></div></div>';}).join("");el("mathMistakeList").querySelectorAll("[data-math-mistake-topic]").forEach(function(b){b.onclick=function(){startMathQuiz(Number(this.getAttribute("data-math-mistake-topic")));};});}
 function mathWorldMastered(id){var st=state.math.topicStats[id]||{a:0,c:0},p=st.a?Math.round(st.c/st.a*100):0;return !!(state.math.monster.mastered[id]||(st.a>=10&&p>=80));}
 function renderMathPassport(){var count=0;el("mathPassportGrid").innerHTML=mathWorlds.map(function(w){var mastered=mathWorldMastered(w.id),st=state.math.topicStats[w.id]||{a:0,c:0},p=st.a?Math.round(st.c/st.a*100):0;if(mastered)count++;return '<div class="passport-stamp '+(mastered?"unlocked":"")+'"><div class="seal">'+w.icon+'</div><div><b>'+w.title+'</b><small>'+(mastered?"Maths Mastery Stamp ✓":(st.a||0)+" attempts · "+p+"% accuracy")+'</small></div></div>';}).join("");el("mathPassportCount").textContent=count+" / 12 stamps";}
