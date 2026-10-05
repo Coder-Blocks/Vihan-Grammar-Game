@@ -182,7 +182,7 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
     <button class="nav-btn math-only" data-view="mathhome"><span class="ic">🧮</span>Maths Map</button>
     <button class="nav-btn math-only" data-view="mathquiz"><span class="ic">🎯</span>Math Quiz</button>
     <button class="nav-btn math-only" data-view="mathformula"><span class="ic">📐</span>Formula Lab</button>
-    <button class="nav-btn math-only" data-view="parent"><span class="ic">📊</span>Progress</button>
+    <button class="nav-btn math-only" data-view="mathprogress"><span class="ic">📊</span>Maths Progress</button>
     <button class="nav-btn math-only" data-view="settings"><span class="ic">⚙️</span>Settings</button>
   </nav>
 </aside>
@@ -461,6 +461,23 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
   <div class="vault-grid" id="certificateVault"></div>
 
   <div class="panel" style="margin-top:16px"><h3>✨ Secret Event Collection</h3><p style="color:var(--muted)">Rare stars, meteors, treasure doors and mystery eggs can appear without warning.</p><div id="secretBadgeList" class="quiz-badges"></div></div>
+</section>
+
+<section class="view" id="view-mathprogress">
+  <div class="section-head" style="margin-top:2px"><div><h3>📊 Maths Progress</h3><p id="mathProgressSubtitle">Maths learning overview</p></div></div>
+  <div class="stats-grid">
+    <div class="stat"><div class="num" id="mpLevels">0</div><div class="lab">Maths Levels Cleared</div></div>
+    <div class="stat"><div class="num" id="mpAccuracy">0%</div><div class="lab">Maths Accuracy</div></div>
+    <div class="stat"><div class="num" id="mpSessions">0</div><div class="lab">Maths Quiz Sessions</div></div>
+    <div class="stat"><div class="num" id="mpAnswers">0</div><div class="lab">Maths Answers</div></div>
+  </div>
+  <div class="panel"><h3>Maths Topic Performance</h3><div class="chart-list" id="mathTopicChart"></div></div>
+  <div class="panel" style="margin-top:14px">
+    <h3>Maths Learning Path</h3>
+    <p class="slot-sub">Your Maths progress is tracked separately from English. English grammar scores never appear here.</p>
+    <div class="bar" style="margin-top:12px"><i id="mathOverallBar"></i></div>
+    <div class="slot-sub" id="mathOverallText" style="margin-top:8px">0 / 12 topics practiced</div>
+  </div>
 </section>
 
 <section class="view" id="view-parent">
@@ -928,7 +945,7 @@ function showView(name){
   document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
   var target=el("view-"+name);if(target)target.classList.add("active");
   document.querySelectorAll(".nav-btn").forEach(function(b){b.classList.toggle("active",b.getAttribute("data-view")===name);});
-  if(name==="home")renderHome();if(name==="mathhome")renderMathHome();if(name==="mathformula")renderMathFormulas();if(name==="adaptive")renderAdaptiveCoach();if(name==="kids")renderKidsZone();if(name==="monster")renderMonsterTopics();if(name==="minigames")renderMiniGameScores();if(name==="mistakes")renderMistakes();if(name==="rewards")renderRewards();if(name==="parent")renderParent();if(name==="sunday")renderSundayQuiz();if(name==="settings")renderSettings();
+  if(name==="home")renderHome();if(name==="mathhome")renderMathHome();if(name==="mathprogress")renderMathProgress();if(name==="mathformula")renderMathFormulas();if(name==="adaptive")renderAdaptiveCoach();if(name==="kids")renderKidsZone();if(name==="monster")renderMonsterTopics();if(name==="minigames")renderMiniGameScores();if(name==="mistakes")renderMistakes();if(name==="rewards")renderRewards();if(name==="parent")renderParent();if(name==="sunday")renderSundayQuiz();if(name==="settings")renderSettings();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function renderProfilePhoto(){var img=el("profilePhoto"),emoji=el("avatarEmoji");if(!img||!emoji)return;if(state.photo){img.src=state.photo;img.hidden=false;emoji.style.display="none";}else{img.removeAttribute("src");img.hidden=true;emoji.style.display="grid";}}
@@ -2960,16 +2977,25 @@ function showSecretEvent(){
 function collectSecretEvent(){
   var box=el("secretEvent");if(!box.classList.contains("show"))return;var name=box.dataset.name||"Secret Event",icon=box.dataset.icon||"✨",tag=icon+" "+name;if(state.secretBadges.indexOf(tag)<0)state.secretBadges.push(tag);state.xp+=75;state.stars+=2;save();localStorage.setItem("vihaaSecretSeen:"+today(),"1");box.classList.add("burst");setTimeout(function(){box.classList.remove("show","burst");},330);confetti();toast(name+" collected! +75 XP +2⭐");renderRewards();
 }
+function renderMathProgress(){
+  var m=state.math||{answers:0,correct:0,sessions:0,quizLevel:1,topicStats:{}},stats=m.topicStats||{},practiced=0;
+  el("mathProgressSubtitle").textContent="Maths learning overview for "+state.name;
+  el("mpLevels").textContent=Math.max(0,(m.quizLevel||1)-1);
+  el("mpAccuracy").textContent=pct(m.correct||0,m.answers||0)+"%";
+  el("mpSessions").textContent=m.sessions||0;
+  el("mpAnswers").textContent=m.answers||0;
+  el("mathTopicChart").innerHTML=mathWorlds.map(function(w){
+    var st=stats[w.id]||{a:0,c:0},p=pct(st.c||0,st.a||0);if((st.a||0)>0)practiced++;
+    return '<div class="chart-row"><span>'+w.icon+' '+w.title+'</span><div class="track"><i style="width:'+p+'%"></i></div><b>'+p+'%</b></div>';
+  }).join("");
+  el("mathOverallBar").style.width=(practiced/12*100)+"%";
+  el("mathOverallText").textContent=practiced+" / 12 Maths topics practiced";
+}
 function renderParent(){
-  if(state.currentSubject==="maths"){
-    var m=state.math||{answers:0,correct:0,sessions:0,quizLevel:1,topicStats:{}};
-    el("pLevels").textContent=Math.max(0,(m.quizLevel||1)-1);el("pAccuracy").textContent=pct(m.correct||0,m.answers||0)+"%";el("pSessions").textContent=m.sessions||0;el("pMinutes").textContent=Math.max(0,Math.round(state.seconds/60))+"m";
-    el("topicChart").innerHTML=mathWorlds.map(function(w){var st=(m.topicStats&&m.topicStats[w.id])||{a:0,c:0},p=pct(st.c,st.a);return '<div class="chart-row"><span>'+w.icon+' '+w.title+'</span><div class="track"><i style="width:'+p+'%"></i></div><b>'+p+'%</b></div>';}).join("");
-    el("parentSubtitle").textContent="Maths learning overview for "+state.name;renderMission();return;
-  }
   var completed=Object.keys(state.completed).filter(function(k){return state.completed[k];}).length;
   el("pLevels").textContent=completed;el("pAccuracy").textContent=pct(state.correct,state.answers)+"%";el("pSessions").textContent=state.sessions;el("pMinutes").textContent=Math.max(0,Math.round(state.seconds/60))+"m";
-  el("topicChart").innerHTML=worlds.map(function(w){var st=state.topicStats[w.id]||{a:0,c:0};var p=pct(st.c,st.a);return '<div class="chart-row"><span>'+w.icon+' '+w.title+'</span><div class="track"><i style="width:'+p+'%"></i></div><b>'+p+'%</b></div>';}).join("");el("parentSubtitle").textContent="English learning overview for "+state.name;renderMission();
+  el("topicChart").innerHTML=worlds.map(function(w){var st=state.topicStats[w.id]||{a:0,c:0};var p=pct(st.c,st.a);return '<div class="chart-row"><span>'+w.icon+' '+w.title+'</span><div class="track"><i style="width:'+p+'%"></i></div><b>'+p+'%</b></div>';}).join("");
+  el("parentSubtitle").textContent="English learning overview for "+state.name;renderMission();
 }
 function processProfilePhoto(file){if(!file||!file.type||file.type.indexOf("image/")!==0){toast("Please choose an image file");return;}if(file.size>12*1024*1024){toast("Photo is too large");return;}var reader=new FileReader();reader.onload=function(ev){var im=new Image();im.onload=function(){var size=Math.min(im.width,im.height),sx=(im.width-size)/2,sy=(im.height-size)/2,c=document.createElement("canvas");c.width=320;c.height=320;var ctx=c.getContext("2d");ctx.drawImage(im,sx,sy,size,size,0,0,320,320);state.photo=c.toDataURL("image/jpeg",.84);save();renderProfilePhoto();toast("Profile photo updated");};im.onerror=function(){toast("Could not read this photo");};im.src=ev.target.result;};reader.readAsDataURL(file);}
 function renderSundayQuiz(){
