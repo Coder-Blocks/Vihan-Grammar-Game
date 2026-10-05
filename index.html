@@ -273,7 +273,7 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
 </section>
 
 <section class="view" id="view-mathformula">
-  <div class="section-head"><div><h3>📐 Formula Lab</h3><p>A–Z practical formula library: school maths → competitive maths → higher studies. Click any formula for the full lesson.</p></div><div class="chip"><span class="formula-count" id="mathFormulaCount">0</span> formulas</div></div>
+  <div class="section-head"><div><h3>📐 Formula Lab</h3><p>99 core formulas across 18 categories: school maths → competitive maths → higher studies. Click any formula to open its complete lesson.</p></div><div class="chip"><span class="formula-count" id="mathFormulaCount">0</span> formulas</div></div>
   <div class="formula-toolbar"><input class="formula-search" id="mathFormulaSearch" placeholder="Search formula, topic or use…"><button class="btn outline" id="mathFormulaReset">Clear</button></div>
   <div class="formula-filter" id="mathFormulaFilters"></div>
   <div class="math-formulas" id="mathFormulaGrid"></div>
@@ -877,7 +877,6 @@ function renderMathHome(){
   el("mathWorldGrid").querySelectorAll("[data-math-topic]").forEach(function(b){b.onclick=function(){startMathQuiz(Number(this.getAttribute("data-math-topic")));};});
   renderSubjectGolden();
 }
-function renderMathFormulas(){el("mathFormulaGrid").innerHTML=mathFormulas.map(function(x){return '<div class="formula-card"><b>'+x[0]+'</b><div class="formula-eq">'+x[1]+'</div></div>';}).join("");}
 function mathQuestionFor(topic,serial){
   var d=Math.max(1,Math.min(10,Math.ceil((state.math.quizLevel||1)/10))),a=2+((serial*7+d*3)%Math.max(8,d*12)),b=2+((serial*11+d*5)%Math.max(7,d*10)),q,ans;
   if(topic===1){ans=a*10+b;q=(a*10+b)+" has how many tens?";ans=a;}
@@ -2962,9 +2961,15 @@ function collectSecretEvent(){
   var box=el("secretEvent");if(!box.classList.contains("show"))return;var name=box.dataset.name||"Secret Event",icon=box.dataset.icon||"✨",tag=icon+" "+name;if(state.secretBadges.indexOf(tag)<0)state.secretBadges.push(tag);state.xp+=75;state.stars+=2;save();localStorage.setItem("vihaaSecretSeen:"+today(),"1");box.classList.add("burst");setTimeout(function(){box.classList.remove("show","burst");},330);confetti();toast(name+" collected! +75 XP +2⭐");renderRewards();
 }
 function renderParent(){
+  if(state.currentSubject==="maths"){
+    var m=state.math||{answers:0,correct:0,sessions:0,quizLevel:1,topicStats:{}};
+    el("pLevels").textContent=Math.max(0,(m.quizLevel||1)-1);el("pAccuracy").textContent=pct(m.correct||0,m.answers||0)+"%";el("pSessions").textContent=m.sessions||0;el("pMinutes").textContent=Math.max(0,Math.round(state.seconds/60))+"m";
+    el("topicChart").innerHTML=mathWorlds.map(function(w){var st=(m.topicStats&&m.topicStats[w.id])||{a:0,c:0},p=pct(st.c,st.a);return '<div class="chart-row"><span>'+w.icon+' '+w.title+'</span><div class="track"><i style="width:'+p+'%"></i></div><b>'+p+'%</b></div>';}).join("");
+    el("parentSubtitle").textContent="Maths learning overview for "+state.name;renderMission();return;
+  }
   var completed=Object.keys(state.completed).filter(function(k){return state.completed[k];}).length;
   el("pLevels").textContent=completed;el("pAccuracy").textContent=pct(state.correct,state.answers)+"%";el("pSessions").textContent=state.sessions;el("pMinutes").textContent=Math.max(0,Math.round(state.seconds/60))+"m";
-  el("topicChart").innerHTML=worlds.map(function(w){var s=state.topicStats[w.id]||{a:0,c:0};var p=pct(s.c,s.a);return '<div class="chart-row"><span>'+w.icon+' '+w.title+'</span><div class="track"><i style="width:'+p+'%"></i></div><b>'+p+'%</b></div>';}).join("");renderMission();
+  el("topicChart").innerHTML=worlds.map(function(w){var st=state.topicStats[w.id]||{a:0,c:0};var p=pct(st.c,st.a);return '<div class="chart-row"><span>'+w.icon+' '+w.title+'</span><div class="track"><i style="width:'+p+'%"></i></div><b>'+p+'%</b></div>';}).join("");el("parentSubtitle").textContent="English learning overview for "+state.name;renderMission();
 }
 function processProfilePhoto(file){if(!file||!file.type||file.type.indexOf("image/")!==0){toast("Please choose an image file");return;}if(file.size>12*1024*1024){toast("Photo is too large");return;}var reader=new FileReader();reader.onload=function(ev){var im=new Image();im.onload=function(){var size=Math.min(im.width,im.height),sx=(im.width-size)/2,sy=(im.height-size)/2,c=document.createElement("canvas");c.width=320;c.height=320;var ctx=c.getContext("2d");ctx.drawImage(im,sx,sy,size,size,0,0,320,320);state.photo=c.toDataURL("image/jpeg",.84);save();renderProfilePhoto();toast("Profile photo updated");};im.onerror=function(){toast("Could not read this photo");};im.src=ev.target.result;};reader.readAsDataURL(file);}
 function renderSundayQuiz(){
