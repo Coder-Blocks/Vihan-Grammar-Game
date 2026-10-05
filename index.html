@@ -5423,6 +5423,135 @@ if(questionHistory.engineVersion!=="9.1.0"){
   saveQuestionHistory();
 }
 
+
+/* VIHAA v9.2 HERO CLICK HARD-FIX */
+VIHAA_QUESTION_ENGINE_VERSION="9.2.0";
+
+function vihaaFastUniqueBatch(worldId,count,tier){
+  questionHistory.seen=questionHistory.seen||{};
+  questionHistory.recent=Array.isArray(questionHistory.recent)?questionHistory.recent:[];
+  questionHistory.answerTextRecent=questionHistory.answerTextRecent||{};
+  questionHistory.answerTextRecent[worldId]=Array.isArray(questionHistory.answerTextRecent[worldId])?questionHistory.answerTextRecent[worldId]:[];
+
+  var out=[],batchPrompt={},batchAnswer={},recentAns=questionHistory.answerTextRecent[worldId],tries=0,need=Math.max(1,Number(count||5));
+  vihaaGrammarTierOverride=Number(tier||0);
+
+  while(out.length<need&&tries<2500){
+    tries++;
+    questionHistory.seq=(questionHistory.seq||0)+1;
+    var q=generatedQuestion(worldId,questionHistory.seq);
+    if(!q||q.length<7)continue;
+    var prompt=String(q[0]||"").trim(),norm=prompt.toLowerCase().replace(/\s+/g," ");
+    var answer=String(q[q[5]+1]||"").trim(),answerNorm=answer.toLowerCase();
+    var fp=questionFingerprint(q);
+
+    if(!prompt||!answer)continue;
+    if(batchPrompt[norm]||batchAnswer[answerNorm])continue;
+    if(questionHistory.seen[fp])continue;
+    if(recentAns.indexOf(answerNorm)>=0)continue;
+
+    batchPrompt[norm]=1;batchAnswer[answerNorm]=1;
+    questionHistory.seen[fp]=1;
+    questionHistory.recent.push(norm);
+    if(questionHistory.recent.length>1500)questionHistory.recent=questionHistory.recent.slice(-1500);
+    recentAns.push(answerNorm);
+    if(recentAns.length>20)recentAns.shift();
+    questionHistory.served=(questionHistory.served||0)+1;
+    out.push(q);
+  }
+
+  /* Never freeze or deadlock a level because of old local history.
+     Keep the 5 questions unique inside this round, but relax only old-history filters. */
+  if(out.length<need){
+    recentAns.length=0;
+    var emergency=0;
+    while(out.length<need&&emergency<5000){
+      emergency++;questionHistory.seq=(questionHistory.seq||0)+1;
+      var q2=generatedQuestion(worldId,questionHistory.seq);
+      if(!q2||q2.length<7)continue;
+      var p2=String(q2[0]||"").trim(),n2=p2.toLowerCase().replace(/\s+/g," ");
+      var a2=String(q2[q2[5]+1]||"").trim(),a2n=a2.toLowerCase();
+      if(!p2||!a2||batchPrompt[n2]||batchAnswer[a2n])continue;
+      batchPrompt[n2]=1;batchAnswer[a2n]=1;
+      questionHistory.seen[questionFingerprint(q2)]=1;
+      questionHistory.recent.push(n2);
+      if(questionHistory.recent.length>1500)questionHistory.recent=questionHistory.recent.slice(-1500);
+      recentAns.push(a2n);if(recentAns.length>20)recentAns.shift();
+      out.push(q2);
+    }
+  }
+
+  vihaaGrammarTierOverride=0;
+  saveQuestionHistory();
+  return out;
+}
+
+function vihaaLaunchLevel(level){
+  level=Number(level||state.highest||1);
+  if(level<1)level=1;if(level>100)level=100;
+  if(level>state.highest)level=state.highest;
+  var w=worldOfLevel(level),local=((level-1)%10)+1,tier=Math.max(1,Math.min(5,Math.ceil(local/2)));
+  var raw=vihaaFastUniqueBatch(w,5,tier);
+  if(raw.length!==5)throw new Error("Unable to build five unique questions.");
+  startGame("adventure",raw.map(function(q){return{q:q,w:w};}),level,w);
+}
+
+startAdventure=function(level){
+  var btn=el("continueBtn"),target=Number(level||state.highest||1);
+  if(btn){btn.disabled=true;btn.dataset.oldText=btn.textContent;btn.textContent="⏳ Loading Level "+target+"…";}
+  /* Yield one frame so the click always gives visible feedback before question generation. */
+  setTimeout(function(){
+    try{
+      vihaaLaunchLevel(target);
+    }catch(err){
+      console.error("VIHAA hero launch hard-fix",err);
+      /* Preserve learner progress; clear only question-history throttles and retry once. */
+      questionHistory.answerRecent={};
+      questionHistory.answerTextRecent={};
+      questionHistory.recent=[];
+      saveQuestionHistory();
+      try{
+        vihaaLaunchLevel(target);
+      }catch(err2){
+        console.error("VIHAA hero retry failed",err2);
+        toast("⚠️ Challenge engine refreshed. Click Continue Level again.");
+      }
+    }finally{
+      if(btn){btn.disabled=false;btn.textContent=btn.dataset.oldText||("▶ Continue Level "+Math.min(state.highest,100));}
+    }
+  },30);
+};
+
+function vihaaStartHeroNow(){
+  startAdventure(Math.min(Number(state.highest||1),100));
+  return false;
+}
+
+/* Rebind the hero button after every render so no older handler/overlay can leave it inert. */
+var vihaaOldRenderHomeV92=renderHome;
+renderHome=function(){
+  vihaaOldRenderHomeV92();
+  var btn=el("continueBtn");
+  if(btn){
+    btn.disabled=false;
+    btn.style.pointerEvents="auto";
+    btn.style.cursor="pointer";
+    btn.onclick=function(e){if(e){e.preventDefault();e.stopPropagation();}return vihaaStartHeroNow();};
+  }
+  /* Make the loaded release obvious and normalize old cache-buster URLs without reloading. */
+  try{
+    var wanted="?v=9.2.0";
+    if(location.search!==wanted)history.replaceState(null,"",location.pathname+wanted+location.hash);
+  }catch(e){}
+};
+
+if(questionHistory.engineVersion!=="9.2.0"){
+  questionHistory.engineVersion="9.2.0";
+  questionHistory.answerRecent={};
+  questionHistory.answerTextRecent={};
+  saveQuestionHistory();
+}
+
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
 if(el("multiReset"))el("multiReset").onclick=function(){if(extraAdaptiveReview.active)resetExtraAdaptiveReview();else resetExtraQuestion();};
 if(el("multiNext"))el("multiNext").onclick=function(){if(extraAdaptiveReview.active)nextExtraAdaptiveReview();else nextExtraQuestion();};
@@ -5452,7 +5581,7 @@ if(el("mathPuzzleClose"))el("mathPuzzleClose").onclick=function(){el("mathPuzzle
 if(el("mathPassportDownload"))el("mathPassportDownload").onclick=downloadMathPassport;if(el("mathFormulaSearch"))el("mathFormulaSearch").oninput=renderMathFormulas;if(el("mathFormulaReset"))el("mathFormulaReset").onclick=function(){el("mathFormulaSearch").value="";formulaFilter="All";renderMathFormulas();};if(el("formulaBackBtn"))el("formulaBackBtn").onclick=function(){showView("mathformula");};if(el("formulaRevealAnswer"))el("formulaRevealAnswer").onclick=function(){el("formulaPracticeAnswer").classList.add("show");this.textContent="Full Solution Revealed";};if(el("formulaPracticeTopicBtn"))el("formulaPracticeTopicBtn").onclick=function(){if(window.activeMathFormula)startMathQuiz(window.activeMathFormula.topic||0);};if(el("mathReset"))el("mathReset").onclick=resetMathQuestion;if(el("mathNext"))el("mathNext").onclick=nextMathQuestion;if(el("mathBackHome"))el("mathBackHome").onclick=function(){mathGame=null;showView("mathhome");};
 document.querySelectorAll(".nav-btn").forEach(function(b){b.onclick=function(){showView(b.getAttribute("data-view"));};});
 document.querySelectorAll("[data-go]").forEach(function(b){b.onclick=function(){showView(b.getAttribute("data-go"));};});
-el("continueBtn").onclick=function(){startAdventure(Math.min(state.highest,100));};
+if(el("continueBtn"))el("continueBtn").onclick=function(e){if(e){e.preventDefault();e.stopPropagation();}return vihaaStartHeroNow();};
 if(el("adaptiveSmartBtn"))el("adaptiveSmartBtn").onclick=startAdaptiveSmart;if(el("adaptiveReviewBtn"))el("adaptiveReviewBtn").onclick=startAdaptiveReview;if(el("adaptiveListenBtn"))el("adaptiveListenBtn").onclick=startAdaptiveListening;if(el("adaptiveSpeakBtn"))el("adaptiveSpeakBtn").onclick=startAdaptiveSpeaking;if(el("adaptiveHearAgain"))el("adaptiveHearAgain").onclick=function(){if(adaptiveSession.mode==="listening")speak(adaptiveSession.items[adaptiveSession.index].word);};if(el("adaptiveListenNext"))el("adaptiveListenNext").onclick=nextAdaptiveListening;if(el("adaptiveSpeakHear"))el("adaptiveSpeakHear").onclick=function(){if(adaptiveSession.mode==="speaking")speak(adaptiveSession.items[adaptiveSession.index]);};if(el("adaptiveMicBtn"))el("adaptiveMicBtn").onclick=runAdaptiveSpeech;if(el("adaptiveSpeakNext"))el("adaptiveSpeakNext").onclick=nextAdaptiveSpeaking;if(el("adaptiveRecallCheck"))el("adaptiveRecallCheck").onclick=checkAdaptiveRecall;if(el("adaptiveRecallNext"))el("adaptiveRecallNext").onclick=nextAdaptiveRecall;if(el("adaptiveRecallInput"))el("adaptiveRecallInput").onkeydown=function(e){if(e.key==="Enter")checkAdaptiveRecall();};document.querySelectorAll("[data-close-adaptive]").forEach(function(b){b.onclick=function(){hideAdaptiveStages();};});
 if(el("monsterSoundBtn"))el("monsterSoundBtn").onclick=function(){speak("Choose a vocabulary topic. Preview ten words, then complete Listen, Match, and Recall to defeat the monster.");};if(el("monsterStartListen"))el("monsterStartListen").onclick=function(){startMonsterPhase("listen");};if(el("monsterHearAgain"))el("monsterHearAgain").onclick=function(){if(monsterSession.phase==="recall"){toast("🔒 Audio unlocks after correct spelling.");return;}var item=monsterSession.items[monsterSession.index];if(item)speak(item[1]);};if(el("monsterNext"))el("monsterNext").onclick=nextMonsterQuestion;if(el("monsterCheckRecall"))el("monsterCheckRecall").onclick=checkMonsterRecall;if(el("monsterRecallInput"))el("monsterRecallInput").onkeydown=function(e){if(e.key==="Enter")checkMonsterRecall();};if(el("monsterPlayAgain"))el("monsterPlayAgain").onclick=function(){openMonsterTopic(monsterSession.topic);};if(el("monsterChooseTopic"))el("monsterChooseTopic").onclick=function(){el("monsterArena").hidden=true;window.scrollTo({top:0,behavior:"smooth"});};
 if(el("closeKidsGame"))el("closeKidsGame").onclick=function(){el("kidsGame").hidden=true;};if(el("kidsListenAll"))el("kidsListenAll").onclick=function(){var c=kidsData[kidsSession.category];if(c)speak(c.items.map(function(x){return x[1];}).join(". "));};if(el("startKidsMatch"))el("startKidsMatch").onclick=startKidsMatching;if(el("nextKidsMatch"))el("nextKidsMatch").onclick=nextKidsQuestion;
