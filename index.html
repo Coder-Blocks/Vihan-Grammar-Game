@@ -238,6 +238,18 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
 .teacher-correction{margin-top:12px;border:1px solid #b9e1cf;background:#eefbf5;border-radius:14px;padding:12px}.teacher-correction b{display:block;margin-bottom:5px}.teacher-correction p{margin:0;line-height:1.55;font-weight:750}
 .teacher-next{margin-top:10px;font-size:12px;font-weight:850;color:var(--muted)}
 @media(max-width:720px){.teacher-rubric{grid-template-columns:repeat(2,1fr)}.teacher-sections{grid-template-columns:1fr}}
+
+.deep-academy{margin:22px 0;background:linear-gradient(135deg,#f9fbff,#fff 52%,#f7f2ff);border:1px solid var(--line);border-radius:26px;padding:18px;box-shadow:0 12px 34px rgba(39,45,83,.07)}
+.deep-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap}.deep-head h3{margin:4px 0 6px;font-size:24px}.deep-head p{margin:0;color:var(--muted);font-weight:750;max-width:850px;line-height:1.5}.deep-source-actions{display:flex;gap:8px;flex-wrap:wrap}
+.deep-class-row{display:grid;grid-template-columns:repeat(12,minmax(54px,1fr));gap:7px;margin-top:16px;overflow-x:auto;padding-bottom:4px}.deep-class-btn{border:1px solid var(--line);background:#fff;border-radius:13px;padding:9px 4px;font-weight:950;color:var(--text);cursor:pointer;min-width:54px}.deep-class-btn.active{background:#6d52ff;color:#fff;border-color:#6d52ff}
+.deep-selected{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.deep-selected span{font-size:10px;font-weight:950;padding:6px 9px;border-radius:999px;background:#f0edff;color:#5740c4}
+.deep-topic-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.deep-topic-card{border:1px solid var(--line);background:#fff;border-radius:16px;padding:12px;text-align:left;cursor:pointer;color:var(--text);min-height:116px}.deep-topic-card:hover{transform:translateY(-2px);border-color:#9685ff}.deep-topic-card.active{border-color:#6d52ff;box-shadow:0 0 0 3px rgba(109,82,255,.08)}.deep-topic-card b{font-size:12px;display:block}.deep-topic-card small{font-size:9px;display:block;color:var(--muted);font-weight:800;line-height:1.4;margin-top:5px}.deep-topic-no{font-size:9px;font-weight:950;color:#6d52ff;margin-bottom:4px}
+.deep-modes{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:14px}.deep-mode-btn{border:1px solid var(--line);background:#fff;border-radius:15px;padding:11px 8px;text-align:center;cursor:pointer;color:var(--text);font-weight:950;font-size:11px}.deep-mode-btn span{font-size:22px;display:block;margin-bottom:4px}.deep-mode-btn small{display:block;color:var(--muted);font-size:8px;margin-top:3px}
+.deep-stage{margin-top:14px;border:1px solid var(--line);background:#fff;border-radius:21px;padding:16px}.deep-stage-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}.deep-stage-head h4{margin:0 0 4px;font-size:19px}.deep-stage-meta{display:flex;gap:7px;flex-wrap:wrap}.deep-stage-meta span{padding:5px 8px;border-radius:999px;background:#f4f1ff;font-size:9px;font-weight:950;color:#5740c4}
+.deep-lesson{margin:12px 0;padding:14px;border-radius:15px;background:linear-gradient(135deg,#fffdf5,#f7fbff);border:1px solid #e8e5f0;line-height:1.55;font-weight:700}.deep-q{font-size:clamp(19px,2.2vw,28px);font-weight:950;text-align:center;margin:18px auto 12px;max-width:920px}.deep-options{display:grid;grid-template-columns:1fr 1fr;gap:9px;max-width:920px;margin:0 auto}.deep-option{border:2px solid var(--line);background:#fff;border-radius:14px;padding:12px;font-weight:900;cursor:pointer;color:var(--text)}.deep-option.correct{border-color:#45c88e;background:#eafaf3}.deep-option.wrong{border-color:#ef7180;background:#fff0f2}.deep-feedback{text-align:center;font-weight:900;min-height:30px;margin:10px 0}.deep-input{width:min(920px,100%);display:block;margin:10px auto;border:2px solid var(--line);border-radius:15px;padding:13px;font:inherit;min-height:90px}.deep-actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}.deep-scorecard{max-width:920px;margin:10px auto;padding:13px;border-radius:15px;background:#f3fbf7;border:1px solid #a8dfc7;font-weight:800;line-height:1.5}
+@media(max-width:1100px){.deep-topic-grid{grid-template-columns:repeat(3,1fr)}.deep-modes{grid-template-columns:repeat(3,1fr)}.deep-class-row{grid-template-columns:repeat(6,minmax(60px,1fr))}}
+@media(max-width:700px){.deep-topic-grid{grid-template-columns:repeat(2,1fr)}.deep-modes{grid-template-columns:repeat(2,1fr)}.deep-options{grid-template-columns:1fr}.deep-class-row{grid-template-columns:repeat(4,minmax(60px,1fr))}}
+@media(max-width:430px){.deep-topic-grid{grid-template-columns:1fr}.deep-class-row{grid-template-columns:repeat(3,minmax(60px,1fr))}}
 </style>
 </head>
 <body data-subject="english">
@@ -372,6 +384,14 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
   <div class="golden-hunt math-golden"><div class="hunt-copy"><b id="multiGoldenTitle">🎈 Golden Balloon Hunt</b><span>Same VIHAA Golden Balloon challenge continues across every subject.</span></div><div class="gold-letters" id="multiGoldLetters"><span class="gold-letter">V</span><span class="gold-letter">I</span><span class="gold-letter">H</span><span class="gold-letter">A</span><span class="gold-letter">A</span></div></div>
   <div class="section-head"><div><h3 id="multiMapTitle">100-Level Learning Map</h3><p>10 worlds × 10 levels. Age-adaptive questions get tougher as you progress.</p></div><div class="chip" id="multiAgeChip">Age 10</div></div>
   <div class="multi-world-grid" id="multiWorldGrid"></div>
+  <section class="deep-academy" id="subjectDeepAcademy">
+    <div class="deep-head"><div><div class="eyebrow">AP SCHOOL TEXTBOOKS + NCERT SENIOR SECONDARY ALIGNMENT</div><h3 id="deepSubjectTitle">📚 Class 1–12 Deep Textbook Academy</h3><p>Original interactive lessons, chapter skills and endless practice aligned to official textbook structures. Select class → topic → learning mode.</p></div><div class="deep-source-actions"><a class="btn soft" href="https://cse.ap.gov.in/textBooksDownloadingPagetitleWise" target="_blank" rel="noopener">AP Textbooks 1–10 ↗</a><a class="btn soft" href="https://ncert.nic.in/textbook.php" target="_blank" rel="noopener">NCERT I–XII ↗</a></div></div>
+    <div class="deep-class-row" id="deepSubjectClasses"></div>
+    <div class="deep-selected"><span id="deepSubjectClassLabel">Class 1</span><span id="deepSubjectSource">Curriculum aligned</span><span>∞ fresh practice</span></div>
+    <div class="deep-topic-grid" id="deepSubjectTopics"></div>
+    <div class="deep-modes" id="deepSubjectModes"></div>
+    <div class="deep-stage" id="deepSubjectStage" hidden></div>
+  </section>
 </section>
 
 <section class="view" id="view-subjectquiz">
@@ -465,6 +485,14 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
   <div class="golden-hunt math-golden"><div class="hunt-copy"><b>🎈 Maths Golden Balloon Hunt</b><span>Same VIHAA Golden Balloon challenge — now inside your Maths path.</span></div><div class="gold-letters" id="mathGoldLetters"><span class="gold-letter">V</span><span class="gold-letter">I</span><span class="gold-letter">H</span><span class="gold-letter">A</span><span class="gold-letter">A</span></div></div>
   <div class="section-head"><div><h3>A–Z Maths Learning Map</h3><p>Start with numbers and operations, then move toward higher studies.</p></div><div class="chip">🧮 Maths</div></div>
   <div class="math-world-grid" id="mathWorldGrid"></div>
+  <section class="deep-academy" id="mathDeepAcademy">
+    <div class="deep-head"><div><div class="eyebrow">AP SCHOOL TEXTBOOKS + NCERT SENIOR SECONDARY ALIGNMENT</div><h3>📚 Maths Class 1–12 Deep Textbook Academy</h3><p>Numbers to calculus: class-wise concepts, subskills, endless questions, recall, reading, listening, explanation and worked-writing practice.</p></div><div class="deep-source-actions"><a class="btn soft" href="https://cse.ap.gov.in/textBooksDownloadingPagetitleWise" target="_blank" rel="noopener">AP Maths 1–10 ↗</a><a class="btn soft" href="https://ncert.nic.in/textbook.php" target="_blank" rel="noopener">NCERT Maths I–XII ↗</a></div></div>
+    <div class="deep-class-row" id="deepMathClasses"></div>
+    <div class="deep-selected"><span id="deepMathClassLabel">Class 1</span><span id="deepMathSource">Curriculum aligned</span><span>∞ fresh practice</span></div>
+    <div class="deep-topic-grid" id="deepMathTopics"></div>
+    <div class="deep-modes" id="deepMathModes"></div>
+    <div class="deep-stage" id="deepMathStage" hidden></div>
+  </section>
 </section>
 
 <section class="view" id="view-mathquiz">
