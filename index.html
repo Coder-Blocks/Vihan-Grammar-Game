@@ -121,29 +121,64 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
 .dark{--bg:#15162a;--panel:#20223b;--text:#f3f3ff;--muted:#aeb1ca;--line:#34364f}.dark body{background:#15162a}.dark .topbar,.dark .sidebar,.dark .world-card,.dark .quick,.dark .panel,.dark .question-card,.dark .stat,.dark .topic-btn,.dark .option,.dark .modal-card{background:#20223b}.dark .lesson-card{background:#1a1c33}.dark .chip{background:#252743}.dark .nav-btn{color:#c7cae3}.dark .nav-btn.active{background:#302b59}.dark .option:hover{background:#292b48}.dark .world-progress,.dark .bar,.dark .chart-row .track{background:#34364f}.dark .name-row input{background:#17192c;color:white}
 @media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static;display:flex;align-items:center;gap:10px;overflow:auto;padding:9px}.profile{display:none}.nav{display:flex;min-width:max-content}.nav-btn{white-space:nowrap}.hero{grid-template-columns:1fr}.hero-art{display:none}.world-grid{grid-template-columns:1fr}.quick-grid{grid-template-columns:1fr 1fr}.stats-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.app{padding:10px}.topbar{top:5px}.brand small{display:none}.header-stats .chip:nth-child(2){display:none}.hero{padding:24px;border-radius:24px}.hero h2{font-size:36px}.quick-grid,.topic-select{grid-template-columns:1fr}.question-card{padding:20px}.question-card h2{font-size:21px}.chart-row{grid-template-columns:105px 1fr 38px}.header-stats{gap:4px}.chip{padding:7px 8px;font-size:12px}}
+.subject-gate{position:fixed;inset:0;z-index:9999;background:
+radial-gradient(circle at 12% 18%,rgba(40,200,216,.22),transparent 28%),
+radial-gradient(circle at 88% 16%,rgba(108,76,255,.24),transparent 28%),
+linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:center;padding:22px;transition:.55s ease}
+.subject-gate.hide{opacity:0;visibility:hidden;pointer-events:none;transform:scale(1.04)}
+.subject-shell{width:min(980px,100%);text-align:center;color:#fff}.subject-shell h1{font-size:clamp(34px,7vw,68px);margin:8px 0;letter-spacing:-.05em}.subject-shell>p{color:#d8ddff;font-weight:800;margin:0 auto 25px;max-width:680px}
+.subject-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.subject-card{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.15);border-radius:30px;padding:28px 22px;min-height:280px;color:#fff;text-align:left;cursor:pointer;box-shadow:0 24px 70px rgba(0,0,0,.28);transition:.35s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
+.subject-card:hover{transform:translateY(-8px) rotateX(3deg) rotateY(-2deg);box-shadow:0 32px 80px rgba(0,0,0,.38)}.subject-card.opening{animation:subjectOpen .8s cubic-bezier(.2,.8,.2,1) forwards}.subject-card .subject-icon{font-size:76px;filter:drop-shadow(0 12px 18px rgba(0,0,0,.2))}.subject-card h2{font-size:34px;margin:10px 0 7px}.subject-card p{color:rgba(255,255,255,.86);font-weight:750;line-height:1.55}.subject-card .enter{display:inline-flex;margin-top:14px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.16);font-weight:950}.subject-card.english{background:linear-gradient(145deg,#5545d8,#7659ef 58%,#28c8d8)}.subject-card.maths{background:linear-gradient(145deg,#ff8a3d,#ffb332 48%,#ff5f6d)}
+.subject-card:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:rgba(255,255,255,.12);right:-55px;bottom:-70px}
+@keyframes subjectOpen{0%{transform:scale(1)}35%{transform:scale(1.04) rotateY(5deg)}100%{transform:scale(1.35);opacity:0}}
+.subject-switch{border:0;background:var(--panel);color:var(--text);font-weight:900;border-radius:999px;padding:8px 11px;box-shadow:var(--shadow)}
+.math-only{display:none!important}body[data-subject="maths"] .english-only{display:none!important}body[data-subject="maths"] .math-only{display:flex!important}body[data-subject="maths"] .nav .math-only{display:flex!important}
+.math-hero{border-radius:30px;padding:28px;background:linear-gradient(135deg,#ff8a3d,#ffb332 48%,#ff5f6d);color:white;display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;box-shadow:0 20px 50px rgba(255,112,80,.22)}.math-hero h2{font-size:clamp(34px,6vw,58px);margin:5px 0}.math-hero p{max-width:720px;color:#fff6e8;font-weight:800}.math-hero .math-art{font-size:90px;filter:drop-shadow(0 12px 20px rgba(128,50,0,.25))}
+.math-world-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}.math-world{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow);transition:.25s}.math-world:hover{transform:translateY(-4px)}.math-world .icon{font-size:34px}.math-world h4{margin:8px 0 5px;font-size:17px}.math-world p{color:var(--muted);font-size:12px;font-weight:700;line-height:1.45}.math-world button{margin-top:8px}
+.math-formulas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.formula-card{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:14px}.formula-card b{display:block;margin-bottom:6px}.formula-eq{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f7f5ff;border-radius:12px;padding:10px;font-weight:900;color:#4e3fa4}
+.math-quiz-box{max-width:780px;margin:16px auto;background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:20px;box-shadow:var(--shadow)}.math-q{font-size:clamp(24px,5vw,42px);font-weight:1000;text-align:center;margin:24px 0}.math-q-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.math-q-option{border:2px solid var(--line);background:var(--panel);color:var(--text);border-radius:16px;padding:14px;font-weight:950}.math-q-option.correct{background:#e9fbf4;border-color:#39c98e;color:#117653}.math-q-option.wrong{background:#fff0f2;border-color:#ff7d89;color:#a52b3a}
+.math-progress{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.math-chip{background:#fff3df;color:#8b4f00;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:950}.math-golden{margin-top:14px}
+@media(max-width:850px){.math-world-grid{grid-template-columns:repeat(2,1fr)}.math-hero{grid-template-columns:1fr}.math-hero .math-art{display:none}}
+@media(max-width:620px){.subject-grid{grid-template-columns:1fr}.subject-card{min-height:220px}.math-world-grid,.math-formulas,.math-q-options{grid-template-columns:1fr}}
 </style>
 </head>
-<body>
+<body data-subject="english">
+<div class="subject-gate" id="subjectGate">
+  <div class="subject-shell">
+    <div class="eyebrow" style="color:#aeeeff">VIHAA LEARNING UNIVERSE</div>
+    <h1>Choose Your Quest</h1>
+    <p>One learning universe, two paths. Pick English or Maths and continue with the same XP, stars, rewards and VIHAA Golden Balloon experience.</p>
+    <div class="subject-grid">
+      <button class="subject-card english" data-subject-choice="english"><div class="subject-icon">📘</div><h2>English Quest</h2><p>Vocabulary, grammar, listening, speaking, recall, puzzles and adaptive practice.</p><span class="enter">Open English →</span></button>
+      <button class="subject-card maths" data-subject-choice="maths"><div class="subject-icon">🧮</div><h2>Maths Quest</h2><p>Basics, tables, formulas, school maths, algebra, geometry, trigonometry and higher maths.</p><span class="enter">Open Maths →</span></button>
+    </div>
+  </div>
+</div>
 <div class="app">
 <header class="topbar">
-  <div class="brand"><div class="brand-mark">📘</div><div><h1>VIHAA English Quest</h1><small>100-Level English Quest</small></div></div>
-  <div class="header-stats"><div class="chip xp">⚡ <span id="xpTop">0 XP</span></div><div class="chip star">⭐ <span id="starsTop">0</span></div><div class="chip streak">🔥 <span id="streakTop">1</span></div></div>
+  <div class="brand"><div class="brand-mark" id="brandMark">📘</div><div><h1 id="brandTitle">VIHAA English Quest</h1><small id="brandSub">100-Level English Quest</small></div></div>
+  <button class="subject-switch" id="subjectSwitch">⇄ Subject</button><div class="header-stats"><div class="chip xp">⚡ <span id="xpTop">0 XP</span></div><div class="chip star">⭐ <span id="starsTop">0</span></div><div class="chip streak">🔥 <span id="streakTop">1</span></div></div>
 </header>
 <div class="layout">
 <aside class="sidebar">
   <div class="profile"><button class="avatar" id="profilePhotoBtn" type="button" title="Change learner profile photo" aria-label="Change learner profile photo"><span class="avatar-emoji" id="avatarEmoji">🧒</span><img id="profilePhoto" alt="Learner profile photo" hidden></button><strong id="profileName">Vihan</strong><span id="profileRole">English Explorer · Ages 6–60</span></div>
   <nav class="nav">
-    <button class="nav-btn active" data-view="home"><span class="ic">🗺️</span>Quest Map</button>
-    <button class="nav-btn" data-view="practice"><span class="ic">🎯</span>Practice</button>
-    <button class="nav-btn" data-view="adaptive"><span class="ic">🧠</span>Adaptive Coach</button>
-    <button class="nav-btn" data-view="kids"><span class="ic">🧸</span>Kids Starter</button>
-    <button class="nav-btn" data-view="monster"><span class="ic">👾</span>Monster Vocab</button>
-    <button class="nav-btn" data-view="minigames"><span class="ic">🧩</span>Puzzle Arcade</button>
-    <button class="nav-btn" data-view="mistakes"><span class="ic">📕</span>Mistakes</button>
-    <button class="nav-btn" data-view="rewards"><span class="ic">🎖️</span>Rewards</button>
-    <button class="nav-btn" data-view="sunday"><span class="ic">🏆</span>Sunday Quiz</button>
-    <button class="nav-btn" data-view="parent"><span class="ic">📊</span>Progress</button>
-    <button class="nav-btn" data-view="settings"><span class="ic">⚙️</span>Settings</button>
+    <button class="nav-btn english-only active" data-view="home"><span class="ic">🗺️</span>Quest Map</button>
+    <button class="nav-btn english-only" data-view="practice"><span class="ic">🎯</span>Practice</button>
+    <button class="nav-btn english-only" data-view="adaptive"><span class="ic">🧠</span>Adaptive Coach</button>
+    <button class="nav-btn english-only" data-view="kids"><span class="ic">🧸</span>Kids Starter</button>
+    <button class="nav-btn english-only" data-view="monster"><span class="ic">👾</span>Monster Vocab</button>
+    <button class="nav-btn english-only" data-view="minigames"><span class="ic">🧩</span>Puzzle Arcade</button>
+    <button class="nav-btn english-only" data-view="mistakes"><span class="ic">📕</span>Mistakes</button>
+    <button class="nav-btn english-only" data-view="rewards"><span class="ic">🎖️</span>Rewards</button>
+    <button class="nav-btn english-only" data-view="sunday"><span class="ic">🏆</span>Sunday Quiz</button>
+    <button class="nav-btn english-only" data-view="parent"><span class="ic">📊</span>Progress</button>
+    <button class="nav-btn english-only" data-view="settings"><span class="ic">⚙️</span>Settings</button>
+    <button class="nav-btn math-only" data-view="mathhome"><span class="ic">🧮</span>Maths Map</button>
+    <button class="nav-btn math-only" data-view="mathquiz"><span class="ic">🎯</span>Math Quiz</button>
+    <button class="nav-btn math-only" data-view="mathformula"><span class="ic">📐</span>Formula Lab</button>
+    <button class="nav-btn math-only" data-view="parent"><span class="ic">📊</span>Progress</button>
+    <button class="nav-btn math-only" data-view="settings"><span class="ic">⚙️</span>Settings</button>
   </nav>
 </aside>
 <main class="content">
@@ -153,7 +188,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
     <div class="hero-art"><div class="mascot">🦊</div></div>
   </div>
   <div class="golden-hunt">
-    <div class="hunt-copy"><b>🎈 Golden Balloon Hunt</b><span>One golden balloon can appear at a secret time each day. Blast it and collect VIHAA.</span></div>
+    <div class="hunt-copy"><b id="goldHuntTitle">🎈 English Golden Balloon Hunt</b><span id="goldHuntText">One golden balloon can appear at a secret time each day. Blast it and collect VIHAA.</span></div>
     <div class="gold-letters" id="goldLetters"><span class="gold-letter">V</span><span class="gold-letter">I</span><span class="gold-letter">H</span><span class="gold-letter">A</span><span class="gold-letter">A</span></div>
   </div>
   <div class="gift-unlocked" id="giftUnlocked">
@@ -208,6 +243,33 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
     <div class="quick"><div style="font-size:28px">📊</div><b>Progress Center</b><p>Accuracy, sessions, strong areas and topics needing practice.</p><button class="btn soft" data-go="parent">View Progress</button></div>
     <div class="quick"><div style="font-size:28px">🏆</div><b>Sunday Quiz</b><p>500 paid slots · live elimination · weekly prizes.</p><button class="btn soft" data-go="sunday">View Competition</button></div>
   </div>
+</section>
+
+<section class="view" id="view-mathhome">
+  <div class="math-hero">
+    <div><div class="eyebrow" style="color:#fff7d2">VIHAA Maths Quest</div><h2>From 1 + 1 to Higher Mathematics.</h2><p>Learn concepts, remember formulas, solve step by step and grow from basic arithmetic to algebra, geometry, trigonometry, calculus and beyond.</p><div class="actions"><button class="btn dark" id="mathStartQuiz">▶ Start Maths Quiz</button><button class="btn soft" data-go="mathformula">📐 Formula Lab</button></div></div>
+    <div class="math-art">🧮</div>
+  </div>
+  <div class="golden-hunt math-golden"><div class="hunt-copy"><b>🎈 Maths Golden Balloon Hunt</b><span>Same VIHAA Golden Balloon challenge — now inside your Maths path.</span></div><div class="gold-letters" id="mathGoldLetters"><span class="gold-letter">V</span><span class="gold-letter">I</span><span class="gold-letter">H</span><span class="gold-letter">A</span><span class="gold-letter">A</span></div></div>
+  <div class="section-head"><div><h3>A–Z Maths Learning Map</h3><p>Start with numbers and operations, then move toward higher studies.</p></div><div class="chip">🧮 Maths</div></div>
+  <div class="math-world-grid" id="mathWorldGrid"></div>
+</section>
+
+<section class="view" id="view-mathquiz">
+  <div class="section-head"><div><h3>🎯 Maths Quiz Arena</h3><p>Dynamic sums. Correct answer unlocks the next question.</p></div><div class="chip" id="mathQuizTopicChip">Mixed Maths</div></div>
+  <div class="math-quiz-box">
+    <div class="math-progress"><span class="math-chip" id="mathQuestionCount">Question 1 / 10</span><span class="math-chip" id="mathDifficultyChip">Difficulty 1</span></div>
+    <div class="bar" style="margin:12px 0"><i id="mathQuizProgress"></i></div>
+    <div class="math-q" id="mathQuestion">7 + 8 = ?</div>
+    <div class="math-q-options" id="mathOptions"></div>
+    <div class="adaptive-feedback" id="mathFeedback"></div>
+    <div class="monster-session-actions"><button class="btn green" id="mathNext" style="display:none">Next →</button><button class="btn outline" id="mathBackHome">Back to Maths Map</button></div>
+  </div>
+</section>
+
+<section class="view" id="view-mathformula">
+  <div class="section-head"><div><h3>📐 Formula Lab</h3><p>Learn → remember → apply. Formula packs from school maths to higher studies.</p></div><div class="chip">Formula Book</div></div>
+  <div class="math-formulas" id="mathFormulaGrid"></div>
 </section>
 
 <section class="view" id="view-adaptive">
@@ -627,7 +689,7 @@ Object.keys(banks).forEach(function(k){banks[k].forEach(function(q){q[5]=Number(
 
 var LEGACY_KEY="vihanGrammarAdventureV2", KEY="vihaaGrammarAdventureV3";
 var QUESTION_HISTORY_KEY="vihaaGrammarQuestionHistoryV2";
-var fresh={name:"Vihan",photo:"",highest:1,completed:{},xp:0,stars:0,streak:1,lastDay:"",mistakes:[],answers:0,correct:0,sessions:0,seconds:0,topicStats:{},speech:true,sound:true,dark:false,chestDate:"",chestReward:"",bossBadges:{},secretBadges:[],parentMission:null,leagueSchool:"",leagueClass:"",learnerMode:"auto",miniGames:{sentence:0,scramble:0,letter:0},guessLetter:{current:1,correct:0,completed:false},sentenceChallenge:{current:1,correct:0,completed:false},scrambleChallenge:{current:1,correct:0,completed:false},adaptive:{skills:{grammar:{a:0,c:0},vocabulary:{a:0,c:0},listening:{a:0,c:0},speaking:{a:0,c:0},recall:{a:0,c:0}},cards:{},sessions:0,lastSession:"",speakingIndex:0,listeningIndex:0},monsterVocab:{wins:0,mastered:{}},kidsBadges:{},kidsWins:0,kidsMastered:{},kidsCursor:{}};
+var fresh={currentSubject:"english",math:{xp:0,stars:0,answers:0,correct:0,quizLevel:1,topicStats:{},sessions:0},name:"Vihan",photo:"",highest:1,completed:{},xp:0,stars:0,streak:1,lastDay:"",mistakes:[],answers:0,correct:0,sessions:0,seconds:0,topicStats:{},speech:true,sound:true,dark:false,chestDate:"",chestReward:"",bossBadges:{},secretBadges:[],parentMission:null,leagueSchool:"",leagueClass:"",learnerMode:"auto",miniGames:{sentence:0,scramble:0,letter:0},guessLetter:{current:1,correct:0,completed:false},sentenceChallenge:{current:1,correct:0,completed:false},scrambleChallenge:{current:1,correct:0,completed:false},adaptive:{skills:{grammar:{a:0,c:0},vocabulary:{a:0,c:0},listening:{a:0,c:0},speaking:{a:0,c:0},recall:{a:0,c:0}},cards:{},sessions:0,lastSession:"",speakingIndex:0,listeningIndex:0},monsterVocab:{wins:0,mastered:{}},kidsBadges:{},kidsWins:0,kidsMastered:{},kidsCursor:{}};
 var state=loadState();
 var questionHistory=loadQuestionHistory();
 var game=null,gameStartedAt=0,deferredPrompt=null;
@@ -635,7 +697,7 @@ var BALLOON_KEY="vihaaGoldenBalloonV1", BALLOON_TARGET=["V","I","H","A","A"];
 var balloonState=loadBalloonState(),goldTimer=null,ambientTimer=null,contestPollTimer=null,contestClient=null,contestBackendReady=false;
 if(!balloonState.deviceToken){balloonState.deviceToken=(crypto.randomUUID?crypto.randomUUID():("xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){var r=Math.random()*16|0,v=c==="x"?r:(r&3|8);return v.toString(16);})));localStorage.setItem(BALLOON_KEY,JSON.stringify(balloonState));}
 
-function loadState(){try{var raw=localStorage.getItem(KEY)||localStorage.getItem(LEGACY_KEY)||"null";var x=JSON.parse(raw);return Object.assign({},fresh,x||{}, {completed:Object.assign({},fresh.completed,(x&&x.completed)||{}),topicStats:Object.assign({},fresh.topicStats,(x&&x.topicStats)||{}),bossBadges:Object.assign({},fresh.bossBadges,(x&&x.bossBadges)||{}),secretBadges:Array.isArray(x&&x.secretBadges)?x.secretBadges:[],miniGames:Object.assign({},fresh.miniGames,(x&&x.miniGames)||{}),guessLetter:Object.assign({},fresh.guessLetter,(x&&x.guessLetter)||{}),sentenceChallenge:Object.assign({},fresh.sentenceChallenge,(x&&x.sentenceChallenge)||{}),scrambleChallenge:Object.assign({},fresh.scrambleChallenge,(x&&x.scrambleChallenge)||{}),adaptive:Object.assign({},fresh.adaptive,(x&&x.adaptive)||{}, {skills:{grammar:Object.assign({},fresh.adaptive.skills.grammar,(x&&x.adaptive&&x.adaptive.skills&&x.adaptive.skills.grammar)||{}),vocabulary:Object.assign({},fresh.adaptive.skills.vocabulary,(x&&x.adaptive&&x.adaptive.skills&&x.adaptive.skills.vocabulary)||{}),listening:Object.assign({},fresh.adaptive.skills.listening,(x&&x.adaptive&&x.adaptive.skills&&x.adaptive.skills.listening)||{}),speaking:Object.assign({},fresh.adaptive.skills.speaking,(x&&x.adaptive&&x.adaptive.skills&&x.adaptive.skills.speaking)||{}),recall:Object.assign({},fresh.adaptive.skills.recall,(x&&x.adaptive&&x.adaptive.skills&&x.adaptive.skills.recall)||{})},cards:Object.assign({},fresh.adaptive.cards,(x&&x.adaptive&&x.adaptive.cards)||{})}),monsterVocab:Object.assign({},fresh.monsterVocab,(x&&x.monsterVocab)||{}, {mastered:Object.assign({},fresh.monsterVocab.mastered,(x&&x.monsterVocab&&x.monsterVocab.mastered)||{})}),kidsBadges:Object.assign({},fresh.kidsBadges,(x&&x.kidsBadges)||{}),kidsMastered:Object.assign({},fresh.kidsMastered,(x&&x.kidsMastered)||{}),kidsCursor:Object.assign({},fresh.kidsCursor,(x&&x.kidsCursor)||{})});}catch(e){return Object.assign({},fresh);}}
+function loadState(){try{var raw=localStorage.getItem(KEY)||localStorage.getItem(LEGACY_KEY)||"null";var x=JSON.parse(raw);return Object.assign({},fresh,x||{}, {math:Object.assign({},fresh.math,(x&&x.math)||{}, {topicStats:Object.assign({},fresh.math.topicStats,(x&&x.math&&x.math.topicStats)||{})}),completed:Object.assign({},fresh.completed,(x&&x.completed)||{}),topicStats:Object.assign({},fresh.topicStats,(x&&x.topicStats)||{}),bossBadges:Object.assign({},fresh.bossBadges,(x&&x.bossBadges)||{}),secretBadges:Array.isArray(x&&x.secretBadges)?x.secretBadges:[],miniGames:Object.assign({},fresh.miniGames,(x&&x.miniGames)||{}),guessLetter:Object.assign({},fresh.guessLetter,(x&&x.guessLetter)||{}),sentenceChallenge:Object.assign({},fresh.sentenceChallenge,(x&&x.sentenceChallenge)||{}),scrambleChallenge:Object.assign({},fresh.scrambleChallenge,(x&&x.scrambleChallenge)||{}),adaptive:Object.assign({},fresh.adaptive,(x&&x.adaptive)||{}, {skills:{grammar:Object.assign({},fresh.adaptive.skills.grammar,(x&&x.adaptive&&x.adaptive.skills&&x.adaptive.skills.grammar)||{}),vocabulary:Object.assign({},fresh.adaptive.skills.vocabulary,(x&&x.adaptive&&x.adaptive.skills&&x.adaptive.skills.vocabulary)||{}),listening:Object.assign({},fresh.adaptive.skills.listening,(x&&x.adaptive&&x.adaptive.skills&&x.adaptive.skills.listening)||{}),speaking:Object.assign({},fresh.adaptive.skills.speaking,(x&&x.adaptive&&x.adaptive.skills&&x.adaptive.skills.speaking)||{}),recall:Object.assign({},fresh.adaptive.skills.recall,(x&&x.adaptive&&x.adaptive.skills&&x.adaptive.skills.recall)||{})},cards:Object.assign({},fresh.adaptive.cards,(x&&x.adaptive&&x.adaptive.cards)||{})}),monsterVocab:Object.assign({},fresh.monsterVocab,(x&&x.monsterVocab)||{}, {mastered:Object.assign({},fresh.monsterVocab.mastered,(x&&x.monsterVocab&&x.monsterVocab.mastered)||{})}),kidsBadges:Object.assign({},fresh.kidsBadges,(x&&x.kidsBadges)||{}),kidsMastered:Object.assign({},fresh.kidsMastered,(x&&x.kidsMastered)||{}),kidsCursor:Object.assign({},fresh.kidsCursor,(x&&x.kidsCursor)||{})});}catch(e){return Object.assign({},fresh);}}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));renderHeader();}
 function el(id){return document.getElementById(id);}
 function toast(msg){var t=el("toast");t.textContent=msg;t.classList.add("show");setTimeout(function(){t.classList.remove("show");},1900);}
@@ -644,7 +706,7 @@ function burstAt(x,y,emoji){for(var i=0;i<5;i++){var n=document.createElement("s
 function animateReward(ok,button){var card=document.querySelector(".question-card");replayClass(card,ok?"correct-pop":"wrong-shake");if(ok){var xp=document.querySelector(".chip.xp"),star=document.querySelector(".chip.star");replayClass(xp,"animate");replayClass(star,"animate");if(button){var r=button.getBoundingClientRect();burstAt(r.left+r.width*.5+window.scrollX,r.top+r.height*.4+window.scrollY,"✨");}}}
 function loadBalloonState(){try{var x=JSON.parse(localStorage.getItem(BALLOON_KEY)||"null");if(x&&(x.deviceId||x.deviceToken))return x;}catch(e){}var x={deviceId:makeUserSeed(),deviceToken:(crypto.randomUUID?crypto.randomUUID():("xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){var r=Math.random()*16|0,v=c==="x"?r:(r&3|8);return v.toString(16);}))),letters:[],spawnedDate:"",collectedDates:[],complete:false};localStorage.setItem(BALLOON_KEY,JSON.stringify(x));return x;}
 function saveBalloonState(){localStorage.setItem(BALLOON_KEY,JSON.stringify(balloonState));renderGoldenLetters();}
-function renderGoldenLetters(){var nodes=el("goldLetters")?el("goldLetters").children:[];for(var i=0;i<nodes.length;i++)nodes[i].classList.toggle("found",i<balloonState.letters.length);if(el("giftUnlocked"))el("giftUnlocked").classList.toggle("show",balloonState.letters.length>=5);}
+function renderGoldenLetters(){var nodes=el("goldLetters")?el("goldLetters").children:[];for(var i=0;i<nodes.length;i++)nodes[i].classList.toggle("found",i<balloonState.letters.length);var mathNodes=el("mathGoldLetters")?el("mathGoldLetters").children:[];for(var j=0;j<mathNodes.length;j++)mathNodes[j].classList.toggle("found",j<balloonState.letters.length);if(el("giftUnlocked"))el("giftUnlocked").classList.toggle("show",balloonState.letters.length>=5);}
 function localDateKey(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 function hasContestConfig(){return !!(window.VIHAA_SUPABASE&&window.VIHAA_SUPABASE.url&&window.VIHAA_SUPABASE.anonKey&&window.supabase&&window.supabase.createClient);}
 function secretMinute(dateKey){var h=parseInt(hashText((balloonState.deviceId||balloonState.deviceToken)+"|"+dateKey),36)||1;return 8*60+(h%(13*60));}
@@ -755,17 +817,91 @@ function today(){return localDateKey();}
 function currentWorld(){return Math.min(10,Math.ceil(state.highest/10));}
 function worldOfLevel(l){return Math.min(10,Math.ceil(l/10));}
 function localLevel(l){return ((l-1)%10)+1;}
+var mathWorlds=[
+{id:1,icon:"🔢",title:"Numbers & Place Value",desc:"Counting, number names, place value, odd/even and comparison."},
+{id:2,icon:"➕",title:"Addition & Subtraction",desc:"Mental maths, carrying, borrowing and word problems."},
+{id:3,icon:"✖️",title:"Multiplication & Tables",desc:"Tables 1–100, products, factors and speed practice."},
+{id:4,icon:"➗",title:"Division, HCF & LCM",desc:"Division, remainders, divisibility, HCF and LCM."},
+{id:5,icon:"🍕",title:"Fractions & Decimals",desc:"Fractions, decimals, conversions and operations."},
+{id:6,icon:"💯",title:"Percentages & Ratios",desc:"Percentages, ratio, proportion, profit and loss."},
+{id:7,icon:"📏",title:"Geometry & Mensuration",desc:"Angles, shapes, perimeter, area, surface area and volume."},
+{id:8,icon:"𝑥",title:"Algebra",desc:"Expressions, identities, equations, polynomials and quadratics."},
+{id:9,icon:"📈",title:"Graphs & Coordinate Geometry",desc:"Coordinates, slope, distance, midpoint and straight lines."},
+{id:10,icon:"📐",title:"Trigonometry",desc:"sin, cos, tan, identities, heights and distances."},
+{id:11,icon:"🎲",title:"Statistics & Probability",desc:"Mean, median, mode, probability and data interpretation."},
+{id:12,icon:"∫",title:"Higher Mathematics",desc:"Matrices, vectors, limits, differentiation, integration and series."}
+];
+var mathFormulas=[
+["Arithmetic","Average = Sum of values ÷ Number of values"],["Percentage","Percentage = (Part ÷ Whole) × 100"],["Simple Interest","SI = (P × R × T) ÷ 100"],["Compound Interest","A = P(1 + r/100)^n"],
+["Speed","Speed = Distance ÷ Time"],["Rectangle","Area = l × b"],["Triangle","Area = ½ × b × h"],["Circle","Area = πr² · Circumference = 2πr"],
+["Pythagoras","a² + b² = c²"],["Slope","m = (y₂ − y₁) ÷ (x₂ − x₁)"],["Quadratic","x = (-b ± √(b²−4ac)) ÷ 2a"],["Trigonometry","sin²θ + cos²θ = 1"],
+["Distance Formula","d = √((x₂−x₁)² + (y₂−y₁)²)"],["Derivative","d(xⁿ)/dx = n·xⁿ⁻¹"],["Integration","∫xⁿ dx = xⁿ⁺¹/(n+1) + C"],["Probability","P(E) = Favourable outcomes ÷ Total outcomes"]
+];
+var mathGame=null;
+function renderMathHome(){
+  el("mathWorldGrid").innerHTML=mathWorlds.map(function(w){return '<article class="math-world"><div class="icon">'+w.icon+'</div><h4>'+w.title+'</h4><p>'+w.desc+'</p><button class="btn soft" data-math-topic="'+w.id+'">Practice</button></article>';}).join("");
+  el("mathWorldGrid").querySelectorAll("[data-math-topic]").forEach(function(b){b.onclick=function(){startMathQuiz(Number(this.getAttribute("data-math-topic")));};});
+  renderSubjectGolden();
+}
+function renderMathFormulas(){el("mathFormulaGrid").innerHTML=mathFormulas.map(function(x){return '<div class="formula-card"><b>'+x[0]+'</b><div class="formula-eq">'+x[1]+'</div></div>';}).join("");}
+function mathQuestionFor(topic,serial){
+  var d=Math.max(1,Math.min(10,Math.ceil((state.math.quizLevel||1)/10))),a=2+((serial*7+d*3)%Math.max(8,d*12)),b=2+((serial*11+d*5)%Math.max(7,d*10)),q,ans;
+  if(topic===1){ans=a*10+b;q=(a*10+b)+" has how many tens?";ans=a;}
+  else if(topic===2){if(serial%2){q=a+" + "+b+" = ?";ans=a+b;}else{var hi=Math.max(a,b),lo=Math.min(a,b);q=hi+" − "+lo+" = ?";ans=hi-lo;}}
+  else if(topic===3){a=2+(serial%Math.min(99,9+d*3));b=2+((serial*3)%12);q=a+" × "+b+" = ?";ans=a*b;}
+  else if(topic===4){b=2+(serial%9);ans=2+((serial*5)%Math.max(5,d*6));a=b*ans;q=a+" ÷ "+b+" = ?";ans=ans;}
+  else if(topic===5){var den=2+(serial%8),num=1+(serial%(den-1));q="Which decimal equals "+num+"/"+den+" ?";ans=Math.round((num/den)*100)/100;}
+  else if(topic===6){var pct=[10,20,25,50,75][serial%5];a=20+((serial*10)%180);q=pct+"% of "+a+" = ?";ans=a*pct/100;}
+  else if(topic===7){a=3+(serial%15);b=4+((serial*2)%13);q="Rectangle area: "+a+" × "+b+" = ?";ans=a*b;}
+  else if(topic===8){a=2+(serial%9);b=3+((serial*2)%12);q="If x + "+a+" = "+(a+b)+", x = ?";ans=b;}
+  else if(topic===9){a=1+(serial%8);b=1+((serial*3)%8);var x2=a+2,y2=b+2;q="Slope from ("+a+","+b+") to ("+x2+","+y2+") = ?";ans=1;}
+  else if(topic===10){var trig=[["sin 30°",0.5],["cos 60°",0.5],["tan 45°",1],["sin 90°",1]][serial%4];q=trig[0]+" = ?";ans=trig[1];}
+  else if(topic===11){var vals=[a,b,a+b];ans=Math.round((vals.reduce(function(x,y){return x+y;},0)/3)*100)/100;q="Mean of "+vals.join(", ")+" = ?";}
+  else{var n=2+(serial%5),x=2+(serial%4);q="If f(x)=x^"+n+", f'("+x+") = ?";ans=n*Math.pow(x,n-1);}
+  return {q:q,ans:ans};
+}
+function mathOptionsFor(ans,serial){
+  var arr=[ans],delta=Math.max(1,Math.abs(Number(ans))*0.1);for(var i=1;arr.length<4&&i<10;i++){var v;if(Number.isInteger(ans))v=ans+([1,-1,2,-2,3,-3][(serial+i)%6]);else v=Math.round((ans+([.1,-.1,.25,-.25,.5,-.5][(serial+i)%6]))*100)/100;if(arr.indexOf(v)<0)arr.push(v);}return shuffleCopy(arr);
+}
+function startMathQuiz(topic){
+  state.currentSubject="maths";save();applySubject("maths",false);mathGame={topic:topic||0,index:0,total:10,score:0,locked:false,serial:(state.math.answers||0)+1};showView("mathquiz");renderMathQuestion();
+}
+function renderMathQuestion(){
+  var topic=mathGame.topic||(((mathGame.index+(state.math.answers||0))%12)+1),item=mathQuestionFor(topic,mathGame.serial+mathGame.index),opts=mathOptionsFor(item.ans,mathGame.serial+mathGame.index);mathGame.item=item;mathGame.currentTopic=topic;mathGame.locked=false;
+  el("mathQuestionCount").textContent="Question "+(mathGame.index+1)+" / "+mathGame.total;el("mathDifficultyChip").textContent="Difficulty "+Math.max(1,Math.ceil((state.math.quizLevel||1)/10));el("mathQuizTopicChip").textContent=mathWorlds[topic-1].title;el("mathQuizProgress").style.width=(mathGame.index/mathGame.total*100)+"%";el("mathQuestion").textContent=item.q;el("mathFeedback").textContent="";el("mathNext").style.display="none";
+  el("mathOptions").innerHTML=opts.map(function(x){return '<button class="math-q-option" data-math-answer="'+x+'">'+x+'</button>';}).join("");el("mathOptions").querySelectorAll("[data-math-answer]").forEach(function(b){b.onclick=function(){answerMath(this);};});
+}
+function answerMath(btn){
+  if(mathGame.locked)return;var picked=Number(btn.getAttribute("data-math-answer")),ans=Number(mathGame.item.ans),ok=Math.abs(picked-ans)<.0001;state.math.answers++;if(!state.math.topicStats[mathGame.currentTopic])state.math.topicStats[mathGame.currentTopic]={a:0,c:0};state.math.topicStats[mathGame.currentTopic].a++;
+  if(!ok){btn.classList.add("wrong");btn.disabled=true;el("mathFeedback").textContent="❌ Try again. Next stays locked until the correct answer.";beep(false);save();return;}
+  mathGame.locked=true;mathGame.score++;state.math.correct++;state.math.topicStats[mathGame.currentTopic].c++;state.math.xp+=10;state.xp+=10;btn.classList.add("correct");el("mathFeedback").textContent="✅ Correct!";el("mathOptions").querySelectorAll(".math-q-option").forEach(function(x){x.disabled=true;});el("mathNext").style.display="inline-block";beep(true);save();
+}
+function nextMathQuestion(){if(!mathGame||!mathGame.locked)return;mathGame.index++;if(mathGame.index<mathGame.total){renderMathQuestion();return;}state.math.sessions++;if(mathGame.score>=8){state.math.stars+=2;state.stars+=2;state.math.quizLevel=Math.min(100,(state.math.quizLevel||1)+1);confetti();}save();toast("🧮 Maths Quiz: "+mathGame.score+"/10");showView("mathhome");renderMathHome();}
+function renderSubjectGolden(){
+  var count=balloonState.letters.length,nodes=el("mathGoldLetters")?el("mathGoldLetters").children:[];for(var i=0;i<nodes.length;i++)nodes[i].classList.toggle("found",i<count);
+}
+function applySubject(subject,animate){
+  subject=subject==="maths"?"maths":"english";state.currentSubject=subject;document.body.setAttribute("data-subject",subject);
+  el("brandMark").textContent=subject==="maths"?"🧮":"📘";el("brandTitle").textContent=subject==="maths"?"VIHAA Maths Quest":"VIHAA English Quest";el("brandSub").textContent=subject==="maths"?"A–Z Maths Learning Quest":"100-Level English Quest";
+  if(el("profileRole"))el("profileRole").textContent=subject==="maths"?"Maths Explorer · Basic to Higher Studies":"English Explorer · Ages 6–60";
+  if(subject==="maths"){showView("mathhome");renderMathHome();}else{showView("home");renderHome();}
+  save();
+}
+function openSubjectGate(){var g=el("subjectGate");g.classList.remove("hide");}
+function chooseSubject(subject,card){
+  if(card)card.classList.add("opening");setTimeout(function(){el("subjectGate").classList.add("hide");if(card)card.classList.remove("opening");applySubject(subject,true);},520);
+}
 function showView(name){
   document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
   var target=el("view-"+name);if(target)target.classList.add("active");
   document.querySelectorAll(".nav-btn").forEach(function(b){b.classList.toggle("active",b.getAttribute("data-view")===name);});
-  if(name==="home")renderHome();if(name==="adaptive")renderAdaptiveCoach();if(name==="kids")renderKidsZone();if(name==="monster")renderMonsterTopics();if(name==="minigames")renderMiniGameScores();if(name==="mistakes")renderMistakes();if(name==="rewards")renderRewards();if(name==="parent")renderParent();if(name==="sunday")renderSundayQuiz();if(name==="settings")renderSettings();
+  if(name==="home")renderHome();if(name==="mathhome")renderMathHome();if(name==="mathformula")renderMathFormulas();if(name==="adaptive")renderAdaptiveCoach();if(name==="kids")renderKidsZone();if(name==="monster")renderMonsterTopics();if(name==="minigames")renderMiniGameScores();if(name==="mistakes")renderMistakes();if(name==="rewards")renderRewards();if(name==="parent")renderParent();if(name==="sunday")renderSundayQuiz();if(name==="settings")renderSettings();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function renderProfilePhoto(){var img=el("profilePhoto"),emoji=el("avatarEmoji");if(!img||!emoji)return;if(state.photo){img.src=state.photo;img.hidden=false;emoji.style.display="none";}else{img.removeAttribute("src");img.hidden=true;emoji.style.display="grid";}}
 function renderHeader(){
   el("xpTop").textContent=state.xp+" XP";el("starsTop").textContent=state.stars;el("streakTop").textContent=state.streak;
-  el("profileName").textContent=state.name;el("parentSubtitle").textContent="Learning overview for "+state.name;var roleMap={auto:"English Explorer · Ages 6–60",kids:"Young Explorer · Age 6–12",teen:"Teen Learner · Age 13–17",adult:"Adult Learner · Age 18–35",career:"Career Learner · Age 36–60"};if(el("profileRole"))el("profileRole").textContent=roleMap[state.learnerMode]||roleMap.auto;renderProfilePhoto();
+  el("profileName").textContent=state.name;el("parentSubtitle").textContent="Learning overview for "+state.name;var roleMap={auto:"English Explorer · Ages 6–60",kids:"Young Explorer · Age 6–12",teen:"Teen Learner · Age 13–17",adult:"Adult Learner · Age 18–35",career:"Career Learner · Age 36–60"};if(el("profileRole"))el("profileRole").textContent=state.currentSubject==="maths"?"Maths Explorer · Basic to Higher Studies":(roleMap[state.learnerMode]||roleMap.auto);renderProfilePhoto();
   document.documentElement.classList.toggle("dark",!!state.dark);
 }
 function renderHome(){
@@ -2835,6 +2971,7 @@ function beep(ok){if(!state.sound)return;try{var C=window.AudioContext||window.w
 function confetti(){var colors=["#6c4cff","#28c8d8","#ffbf3f","#ff5d6c","#24b47e"];for(var i=0;i<45;i++){var d=document.createElement("i");d.className="confetti";d.style.left=Math.random()*100+"vw";d.style.background=colors[i%colors.length];d.style.animationDelay=(Math.random()*.5)+"s";document.body.appendChild(d);setTimeout(function(x){x.remove();}.bind(null,d),2400);}}
 function updateDailyLabel(){el("dailyBtn").textContent=state.lastDay===today()?"Play Again":"Play Today";}
 
+document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("mathStartQuiz"))el("mathStartQuiz").onclick=function(){startMathQuiz(0);};if(el("mathNext"))el("mathNext").onclick=nextMathQuestion;if(el("mathBackHome"))el("mathBackHome").onclick=function(){showView("mathhome");};
 document.querySelectorAll(".nav-btn").forEach(function(b){b.onclick=function(){showView(b.getAttribute("data-view"));};});
 document.querySelectorAll("[data-go]").forEach(function(b){b.onclick=function(){showView(b.getAttribute("data-go"));};});
 el("continueBtn").onclick=function(){startAdventure(Math.min(state.highest,100));};
@@ -2893,7 +3030,7 @@ if("serviceWorker" in navigator){
 var contestFile=el("contestScreenshot");
 if(contestFile){contestFile.onchange=function(){var file=this.files&&this.files[0],preview=el("contestPreview");if(!file){preview.classList.remove("show");preview.removeAttribute("src");return;}if(file.size>6*1024*1024){toast("Screenshot must be under 6 MB");this.value="";preview.classList.remove("show");return;}var u=URL.createObjectURL(file);preview.src=u;preview.classList.add("show");};}
 if(el("contestForm")){el("contestForm").onsubmit=function(e){e.preventDefault();if(!contestBackendReady){toast("Secure contest backend is still connecting.");return false;}submitContestEntry();return false;};}
-renderHeader();renderPractice();renderMiniGameScores();renderKidsZone();renderMonsterTopics();renderAdaptiveCoach();renderHome();renderMistakes();renderRewards();renderParent();renderSundayQuiz();renderSettings();renderEngagement();updateDailyLabel();renderGoldenLetters();scheduleGoldenBalloon();scheduleOneTimeTestGoldenBalloon();scheduleSecretEvent();startAmbientBalloons();initContestBackend();
+renderHeader();renderPractice();renderMiniGameScores();renderKidsZone();renderMonsterTopics();renderAdaptiveCoach();renderMathFormulas();renderMathHome();renderHome();renderMistakes();renderRewards();renderParent();renderSundayQuiz();renderSettings();renderEngagement();updateDailyLabel();renderGoldenLetters();scheduleGoldenBalloon();scheduleOneTimeTestGoldenBalloon();scheduleSecretEvent();startAmbientBalloons();initContestBackend();
 })();
 </script>
 </body>
