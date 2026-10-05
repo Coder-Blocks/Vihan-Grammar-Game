@@ -193,11 +193,11 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
     <div><div class="eyebrow" style="color:#8b6a00">Early Learning · Play & Match</div><h2>🧸 Kids Starter Zone</h2><p>Look, listen, match and learn everyday English words through simple picture games.</p><div style="margin-top:12px"><span class="kids-badge">⭐ Earn XP & badges</span></div></div>
     <div class="kids-art">🍎 🐶 🥕<br>🎨 🔤 🚗</div>
   </div>
-  <div class="section-head"><div><h3>Choose a Learning World</h3><p>Tap a category to learn the words, then play the matching round.</p></div><div class="chip" id="kidsBadgeCount">0 badges</div></div>
+  <div class="section-head"><div><h3>Choose a Learning World</h3><p>Full A–Z libraries plus Numbers 1–100. Learn the words, then master them through matching rounds.</p></div><div class="chip" id="kidsBadgeCount">0 badges</div></div>
   <div class="kids-category-grid" id="kidsCategoryGrid"></div>
 
   <div class="kids-game" id="kidsGame" hidden>
-    <div class="kids-game-top"><div><h2 id="kidsGameTitle" style="margin:0">🍎 Fruits</h2><div class="slot-sub">Learn first, then match the picture to the correct English word.</div></div><button class="btn outline" id="closeKidsGame">Close</button></div>
+    <div class="kids-game-top"><div><h2 id="kidsGameTitle" style="margin:0">🍎 Fruits</h2><div class="slot-sub">Learn the full library, then match new items in short rounds until the category is mastered.</div></div><button class="btn outline" id="closeKidsGame">Close</button></div>
     <div class="kids-progress"><i id="kidsProgressBar"></i></div>
     <div class="kids-learn-grid" id="kidsLearnGrid"></div>
     <div class="mini-actions" style="justify-content:center"><button class="btn soft" id="kidsListenAll">🔊 Hear Words</button><button class="btn dark" id="startKidsMatch">🎮 Start Matching</button></div>
@@ -533,7 +533,7 @@ Object.keys(banks).forEach(function(k){banks[k].forEach(function(q){q[5]=Number(
 
 var LEGACY_KEY="vihanGrammarAdventureV2", KEY="vihaaGrammarAdventureV3";
 var QUESTION_HISTORY_KEY="vihaaGrammarQuestionHistoryV2";
-var fresh={name:"Vihan",photo:"",highest:1,completed:{},xp:0,stars:0,streak:1,lastDay:"",mistakes:[],answers:0,correct:0,sessions:0,seconds:0,topicStats:{},speech:true,sound:true,dark:false,chestDate:"",chestReward:"",bossBadges:{},secretBadges:[],parentMission:null,leagueSchool:"",leagueClass:"",learnerMode:"auto",miniGames:{sentence:0,scramble:0,letter:0},kidsBadges:{},kidsWins:0};
+var fresh={name:"Vihan",photo:"",highest:1,completed:{},xp:0,stars:0,streak:1,lastDay:"",mistakes:[],answers:0,correct:0,sessions:0,seconds:0,topicStats:{},speech:true,sound:true,dark:false,chestDate:"",chestReward:"",bossBadges:{},secretBadges:[],parentMission:null,leagueSchool:"",leagueClass:"",learnerMode:"auto",miniGames:{sentence:0,scramble:0,letter:0},kidsBadges:{},kidsWins:0,kidsMastered:{},kidsCursor:{}};
 var state=loadState();
 var questionHistory=loadQuestionHistory();
 var game=null,gameStartedAt=0,deferredPrompt=null;
@@ -541,7 +541,7 @@ var BALLOON_KEY="vihaaGoldenBalloonV1", BALLOON_TARGET=["V","I","H","A","A"];
 var balloonState=loadBalloonState(),goldTimer=null,ambientTimer=null,contestPollTimer=null,contestClient=null,contestBackendReady=false;
 if(!balloonState.deviceToken){balloonState.deviceToken=(crypto.randomUUID?crypto.randomUUID():("xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(c){var r=Math.random()*16|0,v=c==="x"?r:(r&3|8);return v.toString(16);})));localStorage.setItem(BALLOON_KEY,JSON.stringify(balloonState));}
 
-function loadState(){try{var raw=localStorage.getItem(KEY)||localStorage.getItem(LEGACY_KEY)||"null";var x=JSON.parse(raw);return Object.assign({},fresh,x||{}, {completed:Object.assign({},fresh.completed,(x&&x.completed)||{}),topicStats:Object.assign({},fresh.topicStats,(x&&x.topicStats)||{}),bossBadges:Object.assign({},fresh.bossBadges,(x&&x.bossBadges)||{}),secretBadges:Array.isArray(x&&x.secretBadges)?x.secretBadges:[],miniGames:Object.assign({},fresh.miniGames,(x&&x.miniGames)||{}),kidsBadges:Object.assign({},fresh.kidsBadges,(x&&x.kidsBadges)||{})});}catch(e){return Object.assign({},fresh);}}
+function loadState(){try{var raw=localStorage.getItem(KEY)||localStorage.getItem(LEGACY_KEY)||"null";var x=JSON.parse(raw);return Object.assign({},fresh,x||{}, {completed:Object.assign({},fresh.completed,(x&&x.completed)||{}),topicStats:Object.assign({},fresh.topicStats,(x&&x.topicStats)||{}),bossBadges:Object.assign({},fresh.bossBadges,(x&&x.bossBadges)||{}),secretBadges:Array.isArray(x&&x.secretBadges)?x.secretBadges:[],miniGames:Object.assign({},fresh.miniGames,(x&&x.miniGames)||{}),kidsBadges:Object.assign({},fresh.kidsBadges,(x&&x.kidsBadges)||{}),kidsMastered:Object.assign({},fresh.kidsMastered,(x&&x.kidsMastered)||{}),kidsCursor:Object.assign({},fresh.kidsCursor,(x&&x.kidsCursor)||{})});}catch(e){return Object.assign({},fresh);}}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));renderHeader();}
 function el(id){return document.getElementById(id);}
 function toast(msg){var t=el("toast");t.textContent=msg;t.classList.add("show");setTimeout(function(){t.classList.remove("show");},1900);}
@@ -693,28 +693,1416 @@ function renderHome(){
   el("worldGrid").querySelectorAll("[data-level]").forEach(function(b){b.addEventListener("click",function(){startAdventure(Number(b.getAttribute("data-level")));});});renderEngagement();
 }
 var kidsData={
-  fruits:{title:"Fruits",icon:"🍎",items:[["🍎","Apple"],["🍌","Banana"],["🍊","Orange"],["🍇","Grapes"],["🍉","Watermelon"],["🍓","Strawberry"],["🥭","Mango"],["🍍","Pineapple"]]},
-  animals:{title:"Animals",icon:"🐶",items:[["🐶","Dog"],["🐱","Cat"],["🦁","Lion"],["🐘","Elephant"],["🐵","Monkey"],["🐰","Rabbit"],["🐯","Tiger"],["🐼","Panda"]]},
-  vegetables:{title:"Vegetables",icon:"🥕",items:[["🥕","Carrot"],["🥔","Potato"],["🍅","Tomato"],["🥒","Cucumber"],["🌽","Corn"],["🫛","Peas"],["🫑","Pepper"],["🥬","Leafy Green"]]},
-  body:{title:"Body Parts",icon:"👃",items:[["👁️","Eye"],["👂","Ear"],["👃","Nose"],["👄","Mouth"],["🦷","Tooth"],["✋","Hand"],["🦶","Foot"],["🦵","Leg"]]},
-  colors:{title:"Colors",icon:"🎨",items:[["🔴","Red"],["🔵","Blue"],["🟢","Green"],["🟡","Yellow"],["🟣","Purple"],["🟠","Orange"],["⚫","Black"],["⚪","White"]]},
-  numbers:{title:"Numbers",icon:"🔢",items:[["1️⃣","One"],["2️⃣","Two"],["3️⃣","Three"],["4️⃣","Four"],["5️⃣","Five"],["6️⃣","Six"],["7️⃣","Seven"],["8️⃣","Eight"]]},
-  alphabet:{title:"Alphabet",icon:"🔤",items:[["A","A"],["B","B"],["C","C"],["D","D"],["E","E"],["F","F"],["G","G"],["H","H"]]},
-  clothes:{title:"Clothes",icon:"👕",items:[["👕","T-shirt"],["👖","Trousers"],["👗","Dress"],["🧥","Jacket"],["🧢","Cap"],["👟","Shoes"],["🧦","Socks"],["🧤","Gloves"]]},
-  vehicles:{title:"Vehicles",icon:"🚗",items:[["🚗","Car"],["🚌","Bus"],["🚲","Bicycle"],["🏍️","Motorcycle"],["🚆","Train"],["✈️","Airplane"],["🚢","Ship"],["🚕","Taxi"]]},
-  home:{title:"Home Items",icon:"🏠",items:[["🛏️","Bed"],["🪑","Chair"],["🚪","Door"],["🪟","Window"],["💡","Light"],["🧹","Broom"],["🪞","Mirror"],["🛋️","Sofa"]]}
+  "alphabet": {
+    "title": "Alphabet A–Z",
+    "icon": "🔤",
+    "items": [
+      [
+        "A a",
+        "A"
+      ],
+      [
+        "B b",
+        "B"
+      ],
+      [
+        "C c",
+        "C"
+      ],
+      [
+        "D d",
+        "D"
+      ],
+      [
+        "E e",
+        "E"
+      ],
+      [
+        "F f",
+        "F"
+      ],
+      [
+        "G g",
+        "G"
+      ],
+      [
+        "H h",
+        "H"
+      ],
+      [
+        "I i",
+        "I"
+      ],
+      [
+        "J j",
+        "J"
+      ],
+      [
+        "K k",
+        "K"
+      ],
+      [
+        "L l",
+        "L"
+      ],
+      [
+        "M m",
+        "M"
+      ],
+      [
+        "N n",
+        "N"
+      ],
+      [
+        "O o",
+        "O"
+      ],
+      [
+        "P p",
+        "P"
+      ],
+      [
+        "Q q",
+        "Q"
+      ],
+      [
+        "R r",
+        "R"
+      ],
+      [
+        "S s",
+        "S"
+      ],
+      [
+        "T t",
+        "T"
+      ],
+      [
+        "U u",
+        "U"
+      ],
+      [
+        "V v",
+        "V"
+      ],
+      [
+        "W w",
+        "W"
+      ],
+      [
+        "X x",
+        "X"
+      ],
+      [
+        "Y y",
+        "Y"
+      ],
+      [
+        "Z z",
+        "Z"
+      ]
+    ]
+  },
+  "numbers": {
+    "title": "Numbers 1–100",
+    "icon": "🔢",
+    "items": [
+      [
+        "1",
+        "One"
+      ],
+      [
+        "2",
+        "Two"
+      ],
+      [
+        "3",
+        "Three"
+      ],
+      [
+        "4",
+        "Four"
+      ],
+      [
+        "5",
+        "Five"
+      ],
+      [
+        "6",
+        "Six"
+      ],
+      [
+        "7",
+        "Seven"
+      ],
+      [
+        "8",
+        "Eight"
+      ],
+      [
+        "9",
+        "Nine"
+      ],
+      [
+        "10",
+        "Ten"
+      ],
+      [
+        "11",
+        "Eleven"
+      ],
+      [
+        "12",
+        "Twelve"
+      ],
+      [
+        "13",
+        "Thirteen"
+      ],
+      [
+        "14",
+        "Fourteen"
+      ],
+      [
+        "15",
+        "Fifteen"
+      ],
+      [
+        "16",
+        "Sixteen"
+      ],
+      [
+        "17",
+        "Seventeen"
+      ],
+      [
+        "18",
+        "Eighteen"
+      ],
+      [
+        "19",
+        "Nineteen"
+      ],
+      [
+        "20",
+        "Twenty"
+      ],
+      [
+        "21",
+        "Twenty One"
+      ],
+      [
+        "22",
+        "Twenty Two"
+      ],
+      [
+        "23",
+        "Twenty Three"
+      ],
+      [
+        "24",
+        "Twenty Four"
+      ],
+      [
+        "25",
+        "Twenty Five"
+      ],
+      [
+        "26",
+        "Twenty Six"
+      ],
+      [
+        "27",
+        "Twenty Seven"
+      ],
+      [
+        "28",
+        "Twenty Eight"
+      ],
+      [
+        "29",
+        "Twenty Nine"
+      ],
+      [
+        "30",
+        "Thirty"
+      ],
+      [
+        "31",
+        "Thirty One"
+      ],
+      [
+        "32",
+        "Thirty Two"
+      ],
+      [
+        "33",
+        "Thirty Three"
+      ],
+      [
+        "34",
+        "Thirty Four"
+      ],
+      [
+        "35",
+        "Thirty Five"
+      ],
+      [
+        "36",
+        "Thirty Six"
+      ],
+      [
+        "37",
+        "Thirty Seven"
+      ],
+      [
+        "38",
+        "Thirty Eight"
+      ],
+      [
+        "39",
+        "Thirty Nine"
+      ],
+      [
+        "40",
+        "Forty"
+      ],
+      [
+        "41",
+        "Forty One"
+      ],
+      [
+        "42",
+        "Forty Two"
+      ],
+      [
+        "43",
+        "Forty Three"
+      ],
+      [
+        "44",
+        "Forty Four"
+      ],
+      [
+        "45",
+        "Forty Five"
+      ],
+      [
+        "46",
+        "Forty Six"
+      ],
+      [
+        "47",
+        "Forty Seven"
+      ],
+      [
+        "48",
+        "Forty Eight"
+      ],
+      [
+        "49",
+        "Forty Nine"
+      ],
+      [
+        "50",
+        "Fifty"
+      ],
+      [
+        "51",
+        "Fifty One"
+      ],
+      [
+        "52",
+        "Fifty Two"
+      ],
+      [
+        "53",
+        "Fifty Three"
+      ],
+      [
+        "54",
+        "Fifty Four"
+      ],
+      [
+        "55",
+        "Fifty Five"
+      ],
+      [
+        "56",
+        "Fifty Six"
+      ],
+      [
+        "57",
+        "Fifty Seven"
+      ],
+      [
+        "58",
+        "Fifty Eight"
+      ],
+      [
+        "59",
+        "Fifty Nine"
+      ],
+      [
+        "60",
+        "Sixty"
+      ],
+      [
+        "61",
+        "Sixty One"
+      ],
+      [
+        "62",
+        "Sixty Two"
+      ],
+      [
+        "63",
+        "Sixty Three"
+      ],
+      [
+        "64",
+        "Sixty Four"
+      ],
+      [
+        "65",
+        "Sixty Five"
+      ],
+      [
+        "66",
+        "Sixty Six"
+      ],
+      [
+        "67",
+        "Sixty Seven"
+      ],
+      [
+        "68",
+        "Sixty Eight"
+      ],
+      [
+        "69",
+        "Sixty Nine"
+      ],
+      [
+        "70",
+        "Seventy"
+      ],
+      [
+        "71",
+        "Seventy One"
+      ],
+      [
+        "72",
+        "Seventy Two"
+      ],
+      [
+        "73",
+        "Seventy Three"
+      ],
+      [
+        "74",
+        "Seventy Four"
+      ],
+      [
+        "75",
+        "Seventy Five"
+      ],
+      [
+        "76",
+        "Seventy Six"
+      ],
+      [
+        "77",
+        "Seventy Seven"
+      ],
+      [
+        "78",
+        "Seventy Eight"
+      ],
+      [
+        "79",
+        "Seventy Nine"
+      ],
+      [
+        "80",
+        "Eighty"
+      ],
+      [
+        "81",
+        "Eighty One"
+      ],
+      [
+        "82",
+        "Eighty Two"
+      ],
+      [
+        "83",
+        "Eighty Three"
+      ],
+      [
+        "84",
+        "Eighty Four"
+      ],
+      [
+        "85",
+        "Eighty Five"
+      ],
+      [
+        "86",
+        "Eighty Six"
+      ],
+      [
+        "87",
+        "Eighty Seven"
+      ],
+      [
+        "88",
+        "Eighty Eight"
+      ],
+      [
+        "89",
+        "Eighty Nine"
+      ],
+      [
+        "90",
+        "Ninety"
+      ],
+      [
+        "91",
+        "Ninety One"
+      ],
+      [
+        "92",
+        "Ninety Two"
+      ],
+      [
+        "93",
+        "Ninety Three"
+      ],
+      [
+        "94",
+        "Ninety Four"
+      ],
+      [
+        "95",
+        "Ninety Five"
+      ],
+      [
+        "96",
+        "Ninety Six"
+      ],
+      [
+        "97",
+        "Ninety Seven"
+      ],
+      [
+        "98",
+        "Ninety Eight"
+      ],
+      [
+        "99",
+        "Ninety Nine"
+      ],
+      [
+        "100",
+        "One Hundred"
+      ]
+    ]
+  },
+  "fruits": {
+    "title": "Fruits A–Z",
+    "icon": "🍎",
+    "items": [
+      [
+        "A 🍎",
+        "Apple"
+      ],
+      [
+        "B 🍌",
+        "Banana"
+      ],
+      [
+        "C 🍒",
+        "Cherry"
+      ],
+      [
+        "D 🌴",
+        "Date"
+      ],
+      [
+        "E 🫐",
+        "Elderberry"
+      ],
+      [
+        "F 🍈",
+        "Fig"
+      ],
+      [
+        "G 🍇",
+        "Grapes"
+      ],
+      [
+        "H 🍈",
+        "Honeydew"
+      ],
+      [
+        "I 🌵",
+        "Indian Fig"
+      ],
+      [
+        "J 🍈",
+        "Jackfruit"
+      ],
+      [
+        "K 🥝",
+        "Kiwi"
+      ],
+      [
+        "L 🍋",
+        "Lemon"
+      ],
+      [
+        "M 🥭",
+        "Mango"
+      ],
+      [
+        "N 🍑",
+        "Nectarine"
+      ],
+      [
+        "O 🍊",
+        "Orange"
+      ],
+      [
+        "P 🍍",
+        "Pineapple"
+      ],
+      [
+        "Q 🍐",
+        "Quince"
+      ],
+      [
+        "R 🍓",
+        "Raspberry"
+      ],
+      [
+        "S 🍓",
+        "Strawberry"
+      ],
+      [
+        "T 🍊",
+        "Tangerine"
+      ],
+      [
+        "U 🍊",
+        "Ugli Fruit"
+      ],
+      [
+        "V 🍎",
+        "Velvet Apple"
+      ],
+      [
+        "W 🍉",
+        "Watermelon"
+      ],
+      [
+        "X 🍉",
+        "Xigua"
+      ],
+      [
+        "Y 🟡",
+        "Yellow Passion Fruit"
+      ],
+      [
+        "Z 🍒",
+        "Ziziphus Jujube"
+      ]
+    ]
+  },
+  "animals": {
+    "title": "Animals A–Z",
+    "icon": "🐶",
+    "items": [
+      [
+        "A 🐜",
+        "Ant"
+      ],
+      [
+        "B 🐻",
+        "Bear"
+      ],
+      [
+        "C 🐱",
+        "Cat"
+      ],
+      [
+        "D 🐶",
+        "Dog"
+      ],
+      [
+        "E 🐘",
+        "Elephant"
+      ],
+      [
+        "F 🦊",
+        "Fox"
+      ],
+      [
+        "G 🦒",
+        "Giraffe"
+      ],
+      [
+        "H 🐴",
+        "Horse"
+      ],
+      [
+        "I 🦎",
+        "Iguana"
+      ],
+      [
+        "J 🐆",
+        "Jaguar"
+      ],
+      [
+        "K 🦘",
+        "Kangaroo"
+      ],
+      [
+        "L 🦁",
+        "Lion"
+      ],
+      [
+        "M 🐵",
+        "Monkey"
+      ],
+      [
+        "N 🦎",
+        "Newt"
+      ],
+      [
+        "O 🦉",
+        "Owl"
+      ],
+      [
+        "P 🐼",
+        "Panda"
+      ],
+      [
+        "Q 🐦",
+        "Quail"
+      ],
+      [
+        "R 🐰",
+        "Rabbit"
+      ],
+      [
+        "S 🐍",
+        "Snake"
+      ],
+      [
+        "T 🐯",
+        "Tiger"
+      ],
+      [
+        "U 🐏",
+        "Urial"
+      ],
+      [
+        "V 🦅",
+        "Vulture"
+      ],
+      [
+        "W 🐋",
+        "Whale"
+      ],
+      [
+        "X 🐟",
+        "X-ray Tetra"
+      ],
+      [
+        "Y 🐂",
+        "Yak"
+      ],
+      [
+        "Z 🦓",
+        "Zebra"
+      ]
+    ]
+  },
+  "vegetables": {
+    "title": "Vegetables A–Z",
+    "icon": "🥕",
+    "items": [
+      [
+        "A 🌿",
+        "Artichoke"
+      ],
+      [
+        "B 🫜",
+        "Beetroot"
+      ],
+      [
+        "C 🥕",
+        "Carrot"
+      ],
+      [
+        "D 🥕",
+        "Daikon"
+      ],
+      [
+        "E 🍆",
+        "Eggplant"
+      ],
+      [
+        "F 🌿",
+        "Fennel"
+      ],
+      [
+        "G 🧄",
+        "Garlic"
+      ],
+      [
+        "H 🌿",
+        "Horseradish"
+      ],
+      [
+        "I 🥬",
+        "Iceberg Lettuce"
+      ],
+      [
+        "J 🌶️",
+        "Jalapeño"
+      ],
+      [
+        "K 🥬",
+        "Kale"
+      ],
+      [
+        "L 🧅",
+        "Leek"
+      ],
+      [
+        "M 🍄",
+        "Mushroom"
+      ],
+      [
+        "N 🥬",
+        "Napa Cabbage"
+      ],
+      [
+        "O 🌿",
+        "Okra"
+      ],
+      [
+        "P 🥔",
+        "Potato"
+      ],
+      [
+        "Q 🥬",
+        "Quinoa Leaves"
+      ],
+      [
+        "R 🥕",
+        "Radish"
+      ],
+      [
+        "S 🥬",
+        "Spinach"
+      ],
+      [
+        "T 🫜",
+        "Turnip"
+      ],
+      [
+        "U 🍠",
+        "Ube"
+      ],
+      [
+        "V 🧅",
+        "Vidalia Onion"
+      ],
+      [
+        "W 🥬",
+        "Watercress"
+      ],
+      [
+        "X 🌿",
+        "Xanthosoma"
+      ],
+      [
+        "Y 🍠",
+        "Yam"
+      ],
+      [
+        "Z 🥒",
+        "Zucchini"
+      ]
+    ]
+  },
+  "body": {
+    "title": "Body Parts A–Z",
+    "icon": "👃",
+    "items": [
+      [
+        "A 💪",
+        "Arm"
+      ],
+      [
+        "B 🧍",
+        "Back"
+      ],
+      [
+        "C 🫁",
+        "Chest"
+      ],
+      [
+        "D 🫁",
+        "Diaphragm"
+      ],
+      [
+        "E 👂",
+        "Ear"
+      ],
+      [
+        "F 🦶",
+        "Foot"
+      ],
+      [
+        "G 👄",
+        "Gum"
+      ],
+      [
+        "H ✋",
+        "Hand"
+      ],
+      [
+        "I 👁️",
+        "Iris"
+      ],
+      [
+        "J 🙂",
+        "Jaw"
+      ],
+      [
+        "K 🦵",
+        "Knee"
+      ],
+      [
+        "L 🦵",
+        "Leg"
+      ],
+      [
+        "M 👄",
+        "Mouth"
+      ],
+      [
+        "N 👃",
+        "Nose"
+      ],
+      [
+        "O 🫀",
+        "Ovary"
+      ],
+      [
+        "P ✋",
+        "Palm"
+      ],
+      [
+        "Q 🦵",
+        "Quadriceps"
+      ],
+      [
+        "R 🩻",
+        "Rib"
+      ],
+      [
+        "S 🤷",
+        "Shoulder"
+      ],
+      [
+        "T 👅",
+        "Tongue"
+      ],
+      [
+        "U 👄",
+        "Uvula"
+      ],
+      [
+        "V 🩸",
+        "Vein"
+      ],
+      [
+        "W ✋",
+        "Wrist"
+      ],
+      [
+        "X 🩻",
+        "Xiphoid Process"
+      ],
+      [
+        "Y 🦴",
+        "Y-shaped Ligament"
+      ],
+      [
+        "Z 🙂",
+        "Zygomatic Bone"
+      ]
+    ]
+  },
+  "colors": {
+    "title": "Colors A–Z",
+    "icon": "🎨",
+    "items": [
+      [
+        "🟠 A",
+        "Amber"
+      ],
+      [
+        "🔵 B",
+        "Blue"
+      ],
+      [
+        "🩵 C",
+        "Cyan"
+      ],
+      [
+        "🔷 D",
+        "Denim"
+      ],
+      [
+        "🟢 E",
+        "Emerald"
+      ],
+      [
+        "🩷 F",
+        "Fuchsia"
+      ],
+      [
+        "🟢 G",
+        "Green"
+      ],
+      [
+        "🟤 H",
+        "Hazel"
+      ],
+      [
+        "🟦 I",
+        "Indigo"
+      ],
+      [
+        "🟢 J",
+        "Jade"
+      ],
+      [
+        "🟫 K",
+        "Khaki"
+      ],
+      [
+        "🟣 L",
+        "Lavender"
+      ],
+      [
+        "🩷 M",
+        "Magenta"
+      ],
+      [
+        "🔵 N",
+        "Navy"
+      ],
+      [
+        "🟠 O",
+        "Orange"
+      ],
+      [
+        "🟣 P",
+        "Purple"
+      ],
+      [
+        "🔵 Q",
+        "Queen Blue"
+      ],
+      [
+        "🔴 R",
+        "Red"
+      ],
+      [
+        "⚪ S",
+        "Silver"
+      ],
+      [
+        "🩵 T",
+        "Teal"
+      ],
+      [
+        "🟤 U",
+        "Umber"
+      ],
+      [
+        "🟣 V",
+        "Violet"
+      ],
+      [
+        "⚪ W",
+        "White"
+      ],
+      [
+        "🟩 X",
+        "Xanadu"
+      ],
+      [
+        "🟡 Y",
+        "Yellow"
+      ],
+      [
+        "🔵 Z",
+        "Zaffre"
+      ]
+    ]
+  },
+  "clothes": {
+    "title": "Clothes A–Z",
+    "icon": "👕",
+    "items": [
+      [
+        "A 🧑‍🍳",
+        "Apron"
+      ],
+      [
+        "B 👚",
+        "Blouse"
+      ],
+      [
+        "C 🧢",
+        "Cap"
+      ],
+      [
+        "D 👗",
+        "Dress"
+      ],
+      [
+        "E 🎧",
+        "Earmuffs"
+      ],
+      [
+        "F 👗",
+        "Frock"
+      ],
+      [
+        "G 🧤",
+        "Gloves"
+      ],
+      [
+        "H 🎩",
+        "Hat"
+      ],
+      [
+        "I 👕",
+        "Innerwear"
+      ],
+      [
+        "J 👖",
+        "Jeans"
+      ],
+      [
+        "K 👘",
+        "Kurta"
+      ],
+      [
+        "L 👖",
+        "Leggings"
+      ],
+      [
+        "M 🧤",
+        "Mittens"
+      ],
+      [
+        "N 👗",
+        "Nightdress"
+      ],
+      [
+        "O 🧥",
+        "Overcoat"
+      ],
+      [
+        "P 🥼",
+        "Pajamas"
+      ],
+      [
+        "Q 🧥",
+        "Quilted Jacket"
+      ],
+      [
+        "R 🧥",
+        "Raincoat"
+      ],
+      [
+        "S 👔",
+        "Shirt"
+      ],
+      [
+        "T 👕",
+        "T-shirt"
+      ],
+      [
+        "U 🥋",
+        "Uniform"
+      ],
+      [
+        "V 🦺",
+        "Vest"
+      ],
+      [
+        "W 🦺",
+        "Waistcoat"
+      ],
+      [
+        "X 👗",
+        "X-back Dress"
+      ],
+      [
+        "Y 👖",
+        "Yoga Pants"
+      ],
+      [
+        "Z 🧥",
+        "Zip-up Hoodie"
+      ]
+    ]
+  },
+  "vehicles": {
+    "title": "Vehicles A–Z",
+    "icon": "🚗",
+    "items": [
+      [
+        "A ✈️",
+        "Airplane"
+      ],
+      [
+        "B 🚌",
+        "Bus"
+      ],
+      [
+        "C 🚗",
+        "Car"
+      ],
+      [
+        "D 🚚",
+        "Dump Truck"
+      ],
+      [
+        "E 🚜",
+        "Excavator"
+      ],
+      [
+        "F 🚒",
+        "Fire Truck"
+      ],
+      [
+        "G 🚛",
+        "Garbage Truck"
+      ],
+      [
+        "H 🚁",
+        "Helicopter"
+      ],
+      [
+        "I 🍦",
+        "Ice Cream Truck"
+      ],
+      [
+        "J 🚙",
+        "Jeep"
+      ],
+      [
+        "K 🛶",
+        "Kayak"
+      ],
+      [
+        "L 🚘",
+        "Limousine"
+      ],
+      [
+        "M 🏍️",
+        "Motorcycle"
+      ],
+      [
+        "N 🛥️",
+        "Narrowboat"
+      ],
+      [
+        "O 🚙",
+        "Off-road Vehicle"
+      ],
+      [
+        "P 🚓",
+        "Police Car"
+      ],
+      [
+        "Q 🏍️",
+        "Quad Bike"
+      ],
+      [
+        "R 🛺",
+        "Rickshaw"
+      ],
+      [
+        "S 🛴",
+        "Scooter"
+      ],
+      [
+        "T 🚆",
+        "Train"
+      ],
+      [
+        "U 🚲",
+        "Unicycle"
+      ],
+      [
+        "V 🚐",
+        "Van"
+      ],
+      [
+        "W 🛻",
+        "Wagon"
+      ],
+      [
+        "X 🚐",
+        "X-ray Van"
+      ],
+      [
+        "Y ⛵",
+        "Yacht"
+      ],
+      [
+        "Z 🚜",
+        "Zamboni"
+      ]
+    ]
+  },
+  "home": {
+    "title": "Home Items A–Z",
+    "icon": "🏠",
+    "items": [
+      [
+        "A 🪑",
+        "Armchair"
+      ],
+      [
+        "B 🛏️",
+        "Bed"
+      ],
+      [
+        "C 🪑",
+        "Chair"
+      ],
+      [
+        "D 🪑",
+        "Desk"
+      ],
+      [
+        "E 🌀",
+        "Electric Fan"
+      ],
+      [
+        "F 🧊",
+        "Fridge"
+      ],
+      [
+        "G 🥛",
+        "Glass"
+      ],
+      [
+        "H 🪝",
+        "Hanger"
+      ],
+      [
+        "I 🔥",
+        "Iron"
+      ],
+      [
+        "J 🫗",
+        "Jug"
+      ],
+      [
+        "K 🫖",
+        "Kettle"
+      ],
+      [
+        "L 💡",
+        "Lamp"
+      ],
+      [
+        "M 🪞",
+        "Mirror"
+      ],
+      [
+        "N 🗄️",
+        "Nightstand"
+      ],
+      [
+        "O ♨️",
+        "Oven"
+      ],
+      [
+        "P 🛏️",
+        "Pillow"
+      ],
+      [
+        "Q 🛏️",
+        "Quilt"
+      ],
+      [
+        "R 🧶",
+        "Rug"
+      ],
+      [
+        "S 🛋️",
+        "Sofa"
+      ],
+      [
+        "T 🪑",
+        "Table"
+      ],
+      [
+        "U 🍴",
+        "Utensils"
+      ],
+      [
+        "V 🏺",
+        "Vase"
+      ],
+      [
+        "W 🚪",
+        "Wardrobe"
+      ],
+      [
+        "X 🎼",
+        "Xylophone"
+      ],
+      [
+        "Y 🧶",
+        "Yarn"
+      ],
+      [
+        "Z 🍋",
+        "Zester"
+      ]
+    ]
+  }
 };
 var kidsSession={category:null,round:[],index:0,answered:false};
+function kidsMasteredCount(key){return Array.isArray(state.kidsMastered&&state.kidsMastered[key])?state.kidsMastered[key].length:0;}
+function kidsCategoryComplete(key){return kidsMasteredCount(key)>=kidsData[key].items.length;}
 function renderKidsZone(){
-  var keys=Object.keys(kidsData);if(el("kidsBadgeCount"))el("kidsBadgeCount").textContent=Object.keys(state.kidsBadges||{}).filter(function(k){return state.kidsBadges[k];}).length+" badges";
-  if(el("kidsCategoryGrid"))el("kidsCategoryGrid").innerHTML=keys.map(function(k){var c=kidsData[k],won=state.kidsBadges&&state.kidsBadges[k];return '<button class="kids-cat" data-kids-cat="'+k+'"><span class="emo">'+c.icon+'</span>'+c.title+'<small>'+(won?"Badge earned ✓":"Learn + Match")+'</small></button>';}).join("");
+  var keys=Object.keys(kidsData),badges=keys.filter(function(k){return kidsCategoryComplete(k);}).length;if(el("kidsBadgeCount"))el("kidsBadgeCount").textContent=badges+" / "+keys.length+" mastery badges";
+  if(el("kidsCategoryGrid"))el("kidsCategoryGrid").innerHTML=keys.map(function(k){var c=kidsData[k],done=kidsMasteredCount(k),total=c.items.length,won=kidsCategoryComplete(k);return '<button class="kids-cat" data-kids-cat="'+k+'"><span class="emo">'+c.icon+'</span>'+c.title+'<small>'+(won?"Mastered ✓":done+" / "+total+" learned")+'</small></button>';}).join("");
   if(el("kidsCategoryGrid"))el("kidsCategoryGrid").querySelectorAll("[data-kids-cat]").forEach(function(b){b.onclick=function(){openKidsCategory(this.getAttribute("data-kids-cat"));};});
 }
 function openKidsCategory(key){
-  var c=kidsData[key];if(!c)return;kidsSession.category=key;el("kidsGame").hidden=false;el("kidsGameTitle").textContent=c.icon+" "+c.title;el("kidsLearnGrid").innerHTML=c.items.map(function(x){return '<button class="learn-item" data-say="'+x[1]+'"><span class="pic">'+x[0]+'</span><b>'+x[1]+'</b></button>';}).join("");el("kidsLearnGrid").querySelectorAll("[data-say]").forEach(function(b){b.onclick=function(){speak(this.getAttribute("data-say"));};});el("kidsMatchArea").hidden=true;el("kidsGame").scrollIntoView({behavior:"smooth",block:"start"});
+  var c=kidsData[key];if(!c)return;kidsSession.category=key;el("kidsGame").hidden=false;el("kidsGameTitle").textContent=c.icon+" "+c.title+" · "+kidsMasteredCount(key)+"/"+c.items.length;el("kidsLearnGrid").innerHTML=c.items.map(function(x){var mastered=(state.kidsMastered[key]||[]).indexOf(x[1])>=0;return '<button class="learn-item" data-say="'+x[1]+'"><span class="pic">'+x[0]+'</span><b>'+x[1]+'</b><small style="display:block;color:var(--muted);margin-top:4px">'+(mastered?"✓ learned":"tap to hear")+'</small></button>';}).join("");el("kidsLearnGrid").querySelectorAll("[data-say]").forEach(function(b){b.onclick=function(){speak(this.getAttribute("data-say"));};});el("kidsMatchArea").hidden=true;el("kidsGame").scrollIntoView({behavior:"smooth",block:"start"});
 }
 function startKidsMatching(){
-  var c=kidsData[kidsSession.category];if(!c)return;kidsSession.round=shuffleCopy(c.items).slice(0,6);kidsSession.index=0;kidsSession.answered=false;el("kidsMatchArea").hidden=false;renderKidsQuestion();
+  var key=kidsSession.category,c=kidsData[key];if(!c)return;var mastered=state.kidsMastered[key]||[],unlearned=c.items.filter(function(x){return mastered.indexOf(x[1])<0;}),pool=unlearned.length?unlearned:c.items.slice(),size=key==="numbers"?10:Math.min(8,pool.length),cursor=Number(state.kidsCursor[key]||0);if(cursor>=pool.length)cursor=0;var rotated=pool.slice(cursor).concat(pool.slice(0,cursor));kidsSession.round=rotated.slice(0,size);state.kidsCursor[key]=(cursor+size)%Math.max(1,pool.length);save();kidsSession.index=0;kidsSession.answered=false;el("kidsMatchArea").hidden=false;renderKidsQuestion();
 }
 function renderKidsQuestion(){
   var item=kidsSession.round[kidsSession.index],c=kidsData[kidsSession.category];if(!item||!c)return;kidsSession.answered=false;el("kidsPromptPic").textContent=item[0];el("kidsRoundText").textContent=(kidsSession.index+1)+" of "+kidsSession.round.length;el("kidsProgressBar").style.width=(kidsSession.index/kidsSession.round.length*100)+"%";el("kidsResult").textContent="";el("nextKidsMatch").style.display="none";
@@ -722,10 +2110,10 @@ function renderKidsQuestion(){
   el("kidsMatchOptions").querySelectorAll(".kids-match-btn").forEach(function(b){b.onclick=function(){answerKidsMatch(this,item);};});speak(item[1]);
 }
 function answerKidsMatch(btn,item){
-  if(kidsSession.answered)return;var chosen=btn.getAttribute("data-kids-word"),ok=chosen===item[1];if(ok){kidsSession.answered=true;btn.classList.add("correct");el("kidsResult").textContent="✅ Correct — "+item[1]+"! +5 XP";state.xp+=5;state.kidsWins=(state.kidsWins||0)+1;save();beep(true);speak(item[1]);el("kidsMatchOptions").querySelectorAll(".kids-match-btn").forEach(function(x){x.disabled=true;});el("nextKidsMatch").style.display="inline-block";}else{btn.classList.add("wrong");btn.disabled=true;el("kidsResult").textContent="Try again 😊";beep(false);}
+  if(kidsSession.answered)return;var chosen=btn.getAttribute("data-kids-word"),ok=chosen===item[1];if(ok){kidsSession.answered=true;btn.classList.add("correct");el("kidsResult").textContent="✅ Correct — "+item[1]+"! +5 XP";state.xp+=5;state.kidsWins=(state.kidsWins||0)+1;var key=kidsSession.category;if(!Array.isArray(state.kidsMastered[key]))state.kidsMastered[key]=[];if(state.kidsMastered[key].indexOf(item[1])<0)state.kidsMastered[key].push(item[1]);save();beep(true);speak(item[1]);el("kidsMatchOptions").querySelectorAll(".kids-match-btn").forEach(function(x){x.disabled=true;});el("nextKidsMatch").style.display="inline-block";}else{btn.classList.add("wrong");btn.disabled=true;el("kidsResult").textContent="Try again 😊";beep(false);}
 }
 function nextKidsQuestion(){
-  kidsSession.index++;if(kidsSession.index<kidsSession.round.length){renderKidsQuestion();return;}var key=kidsSession.category;state.kidsBadges[key]=true;state.stars+=1;state.xp+=20;save();renderHeader();renderKidsZone();el("kidsProgressBar").style.width="100%";el("kidsMatchArea").hidden=true;confetti();toast("🏅 "+kidsData[key].title+" badge earned! +20 XP +1⭐");
+  kidsSession.index++;if(kidsSession.index<kidsSession.round.length){renderKidsQuestion();return;}var key=kidsSession.category,wasBadged=!!state.kidsBadges[key],complete=kidsCategoryComplete(key);if(complete&&!wasBadged){state.kidsBadges[key]=true;state.stars+=1;state.xp+=25;}else{state.xp+=10;}save();renderHeader();renderKidsZone();openKidsCategory(key);el("kidsProgressBar").style.width="100%";el("kidsMatchArea").hidden=true;confetti();toast(complete?(wasBadged?"✅ "+kidsData[key].title+" revision complete! +10 XP":"🏅 "+kidsData[key].title+" MASTERED! +25 XP +1⭐"):"✅ Round complete! "+kidsMasteredCount(key)+"/"+kidsData[key].items.length+" learned · +10 XP");
 }
 var miniData={
   sentences:[
