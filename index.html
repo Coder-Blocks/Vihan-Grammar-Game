@@ -524,8 +524,8 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
   <div class="section-head" style="margin-top:2px"><div><h3>🧩 Puzzle Arcade</h3><p>Three 1,000-question mastery tracks · spelling, vocabulary and sentence structure · correct answer required to advance.</p></div><div class="chip">🎮 Mini Games</div></div>
   <div class="arcade-grid">
     <div class="arcade-card"><div class="arcade-icon">🧠</div><h3>Sentence Puzzle</h3><p>1,000 unique sentence-building challenges. Grammar complexity rises every 10 questions.</p><span class="arcade-score">🎯 Q <span id="sentenceQuestionNo">1</span> / 1000</span><div style="margin-top:12px"><button class="btn dark" id="playSentencePuzzle">Continue Challenge</button></div></div>
-    <div class="arcade-card"><div class="arcade-icon">🔀</div><h3>Word Scramble</h3><p>1,000 unique spelling challenges. Vocabulary becomes harder every 10 questions.</p><span class="arcade-score">🎯 Q <span id="scrambleQuestionNo">1</span> / 1000</span><div style="margin-top:12px"><button class="btn dark" id="playWordScramble">Continue Challenge</button></div></div>
-    <div class="arcade-card"><div class="arcade-icon">🔤</div><h3>Guess the Letter</h3><p>1,000 different words · zero word repeats. Difficulty rises after every 10 questions.</p><span class="arcade-score">🎯 Q <span id="letterQuestionNo">1</span> / 1000</span><div style="margin-top:12px"><button class="btn dark" id="playGuessLetter">Continue Challenge</button></div></div>
+    <div class="arcade-card"><div class="arcade-icon">🔀</div><h3>Word Scramble + Spell Bee</h3><p>1,000 unique words · longer vocabulary from the start · hear the word, unscramble it and type the full spelling.</p><span class="arcade-score">🎯 Q <span id="scrambleQuestionNo">1</span> / 1000</span><div style="margin-top:12px"><button class="btn dark" id="playWordScramble">Continue Challenge</button></div></div>
+    <div class="arcade-card"><div class="arcade-icon">🔤</div><h3>Guess the Word · Spell Bee</h3><p>Longer and newer words from the start · zero word repeats · hear pronunciation and find the missing letter.</p><span class="arcade-score">🎯 Q <span id="letterQuestionNo">1</span> / 1000</span><div style="margin-top:12px"><button class="btn dark" id="playGuessLetter">Continue Challenge</button></div></div>
   </div>
 
   <div class="mini-stage" id="sentenceStage" hidden>
@@ -540,25 +540,25 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
   </div>
 
   <div class="mini-stage" id="scrambleStage" hidden>
-    <div class="mini-head"><div><h2>🔀 Word Scramble · 1000 Challenge</h2><div class="mini-sub" id="scrambleHint">Unscramble this word.</div></div><button class="btn outline" data-close-mini>Close</button></div>
+    <div class="mini-head"><div><h2>🔀 Word Scramble + Spell Bee · 1000 Challenge</h2><div class="mini-sub" id="scrambleHint">Hear it, unscramble it and type the full spelling.</div></div><button class="btn outline" data-close-mini>Close</button></div>
     <div class="letter-challenge-meta"><b id="scrambleProgressText">Question 1 / 1000</b><span id="scrambleDifficulty">Difficulty 1 / 100</span></div>
     <div class="bar" style="margin:10px 0 6px"><i id="scrambleProgressBar"></i></div>
     <div class="slot-sub" id="scrambleToughnessText" style="text-align:center">Correct spelling is required to unlock the next challenge.</div>
     <div class="scramble-word" id="scrambleLetters">ELPPA</div>
     <input class="scramble-input" id="scrambleInput" maxlength="24" autocomplete="off" placeholder="Type the word">
     <div class="mini-feedback" id="scrambleFeedback"></div>
-    <div class="mini-actions"><button class="btn dark" id="checkScramble">Check Answer</button><button class="btn green" id="nextScramble" style="display:none">Next Challenge →</button></div>
+    <div class="mini-actions"><button class="btn soft" id="scrambleHearWord">🔊 Hear Word</button><button class="btn dark" id="checkScramble">Check Answer</button><button class="btn green" id="nextScramble" style="display:none">Next Challenge →</button></div>
   </div>
 
   <div class="mini-stage" id="letterStage" hidden>
-    <div class="mini-head"><div><h2>🔤 Guess the Letter · 1000 Challenge</h2><div class="mini-sub" id="letterHint">Choose the missing letter.</div></div><button class="btn outline" data-close-mini>Close</button></div>
+    <div class="mini-head"><div><h2>🔤 Guess the Word · Spell Bee · 1000 Challenge</h2><div class="mini-sub" id="letterHint">Hear the word and choose the missing letter.</div></div><button class="btn outline" data-close-mini>Close</button></div>
     <div class="letter-challenge-meta"><b id="letterProgressText">Question 1 / 1000</b><span id="letterDifficulty">Difficulty 1 / 100</span></div>
     <div class="bar" style="margin:10px 0 6px"><i id="letterProgressBar"></i></div>
     <div class="slot-sub" id="letterToughnessText" style="text-align:center">Every 10 questions the challenge gets tougher.</div>
     <div class="missing-word" id="missingWord">A _ P L E</div>
     <div class="letter-options" id="letterOptions"></div>
     <div class="mini-feedback" id="letterFeedback"></div>
-    <div class="mini-actions"><button class="btn green" id="nextLetterWord" style="display:none">Next Challenge →</button></div>
+    <div class="mini-actions"><button class="btn soft" id="letterHearWord">🔊 Hear Word</button><button class="btn green" id="nextLetterWord" style="display:none">Next Challenge →</button></div>
   </div>
 </section>
 
@@ -3894,6 +3894,131 @@ renderExtraAdaptiveReview=function(){
 /* Visible assurance in the quiz UIs. */
 var vihaaExtraSubtitle=document.querySelector("#view-subjectquiz .section-head p");
 if(vihaaExtraSubtitle)vihaaExtraSubtitle.textContent="Expert questions only. Wrong answers lock the question; reset generates a different question. Exact question repeats are blocked by the procedural seed.";
+
+
+/* VIHAA v7.1 TOPIC CLICK + SPELL BEE PUZZLE FIX */
+var VIHAA_QUESTION_ENGINE_VERSION="7.1.0";
+
+/* ---------- Extra-subject Kids Starter: clicked card controls the topic ---------- */
+function vihaaPromptBody(q){
+  return String(q||"").replace(/^Level\s+\d+\s+·\s+Q\d+(?:\s+·\s+Reset\s+\d+)?\s+—\s+/,"").trim();
+}
+function vihaaKidsSeenKey(subject,stage,body){
+  return subject+"|"+stage+"|"+String(body).toLowerCase().replace(/\s+/g," ").trim();
+}
+startExtraKids=function(ev){
+  var st=currentExtraState(),k=st.kids;
+  if(k.completed){toast("🏆 Kids Starter already mastered");return;}
+  var btn=ev&&ev.currentTarget?ev.currentTarget:(this&&this.getAttribute?this:null);
+  var stage=btn?Number(btn.getAttribute("data-extra-kids-stage")||1):Number(ev)||1;
+  stage=Math.max(1,Math.min(6,stage||1));
+  k.openNonce=(k.openNonce||0)+1;
+  extraKidsSession={active:true,item:null,locked:false,failed:false,lastQuestion:"",stage:stage,openNonce:k.openNonce};
+  el("extraKidsGame").hidden=false;
+  renderExtraKidsQuestion();
+  el("extraKidsGame").scrollIntoView({behavior:"smooth",block:"start"});
+};
+renderExtraKidsQuestion=function(){
+  var cfg=currentExtraConfig(),st=currentExtraState(),k=st.kids,s=extraKidsSession.stage||1;
+  var localLevel=((Math.max(1,Number(k.level||1))-1)%10)+1;
+  var topicLevel=(s-1)*10+localLevel;
+  var baseVariant=(k.variant||0)+(extraKidsSession.openNonce||0)*37;
+  var seen=Array.isArray(k.seenQuestions)?k.seenQuestions:(k.seenQuestions=[]);
+  var item,body,key,guard=0;
+  do{
+    item=makeExtraQuestion(state.currentSubject,topicLevel,k.q,baseVariant+guard);
+    body=vihaaPromptBody(item.q);
+    key=vihaaKidsSeenKey(state.currentSubject,s,body);
+    guard++;
+  }while(seen.indexOf(key)>=0&&guard<80);
+  if(seen.indexOf(key)<0){
+    seen.push(key);
+    if(seen.length>500)seen.splice(0,seen.length-500);
+  }
+  item.q=body;
+  extraKidsSession.item=item;extraKidsSession.locked=false;extraKidsSession.failed=false;extraKidsSession.lastQuestion=body;
+  var w=cfg.worlds[s-1];
+  el("extraKidsGameTitle").textContent=cfg.icon+" "+cfg.name+" Starter · "+w[1];
+  el("extraKidsMeta").textContent="Topic "+s+" · "+w[1]+" · Path Level "+k.level+" / 100 · Question "+k.q+" / 10";
+  el("extraKidsLevelLabel").textContent="Topic "+s+" · "+w[1];
+  el("extraKidsBar").style.width=((k.q-1)/10*100)+"%";
+  el("extraKidsQuestion").textContent="Level "+k.level+" · Q"+k.q+" — "+body;
+  el("extraKidsFeedback").textContent="";el("extraKidsExplain").hidden=true;
+  el("extraKidsReset").style.display="none";el("extraKidsNext").style.display="none";
+  el("extraKidsOptions").innerHTML=item.opts.map(function(v){return '<button class="subject-game-option" data-extra-kid-answer="'+String(v).replace(/"/g,"&quot;")+'">'+v+'</button>';}).join("");
+  el("extraKidsOptions").querySelectorAll("[data-extra-kid-answer]").forEach(function(b){b.onclick=function(){answerExtraKids(this);};});
+  save();
+};
+answerExtraKids=function(btn){
+  if(extraKidsSession.locked)return;
+  var st=currentExtraState(),k=st.kids,item=extraKidsSession.item,p=btn.getAttribute("data-extra-kid-answer"),ok=p===item.ans;
+  extraKidsSession.locked=true;el("extraKidsOptions").querySelectorAll("button").forEach(function(x){x.disabled=true;});
+  if(!ok){
+    extraKidsSession.failed=true;btn.classList.add("wrong");k.variant=(k.variant||0)+1;
+    st.mistakes.push({q:item.q,ans:item.ans,picked:p,world:extraKidsSession.stage||item.world,count:1});
+    el("extraKidsFeedback").textContent="❌ Wrong. Reset gives a different question from this same topic.";
+    el("extraKidsExplain").hidden=false;el("extraKidsExplain").innerHTML="<b>Correct answer: "+item.ans+"</b><br>"+item.explain;
+    el("extraKidsReset").style.display="inline-block";save();beep(false);return;
+  }
+  btn.classList.add("correct");k.variant=0;state.xp+=4;
+  el("extraKidsFeedback").textContent="✅ Correct! Next stays inside "+currentExtraConfig().worlds[(extraKidsSession.stage||1)-1][1]+".";
+  el("extraKidsExplain").hidden=false;el("extraKidsExplain").innerHTML="<b>Why?</b> "+item.explain;
+  if(k.q<10)k.q++;
+  else if(k.level<100){k.level++;k.q=1;state.stars++;confetti();toast("⭐ Starter Path Level "+(k.level-1)+" complete");}
+  else{k.completed=true;state.stars+=10;confetti();toast("🏆 "+currentExtraConfig().name+" Kids Starter mastered!");}
+  el("extraKidsNext").style.display="inline-block";save();beep(true);
+};
+
+/* ---------- English Puzzle Arcade: longer, newer, unique word order ---------- */
+var vihaaNewAdvancedWords=("algorithm analysis analogy architecture astronomy atmosphere biodiversity bureaucracy calculation category chronology collaboration communication comprehension concentration configuration consequence constitution contradiction creativity cybersecurity democracy determination diagnosis differentiation ecosystem efficiency electricity encyclopedia engineering entrepreneurship environment equilibrium evaluation evidence extraordinary flexibility geography hypothesis implementation independence infrastructure innovation interpretation laboratory literature mathematics methodology negotiation observation opportunity organization perspective philosophy probability pronunciation psychology questionnaire recommendation responsibility scientific significant sophisticated sustainability technology temperature transformation vocabulary accessibility accountability achievement adaptation administration allocation anthropology application articulation authenticity capability civilization classification compatibility complexity conservation consistency contemporary coordination credibility curriculum declaration demonstration dependency development digitalization discrimination distribution economics education electromagnetic entrepreneurship estimation experimentation explanation globalization healthcare illustration imagination industrialization information intelligence investigation leadership linguistics management mechanism microbiology motivation neuroscience optimization participation perseverance phenomenon population productivity programming qualification rationalization recognition relationship representation research resilience revolution satellite simulation sociology statistics strategy transparency transportation verification").split(" ");
+var vihaaPuzzleWordBank=(function(){
+  var seen={},all=[],src=vihaaNewAdvancedWords.concat(scrambleWordBank);
+  src.forEach(function(w){
+    w=String(w||"").toLowerCase().replace(/[^a-z]/g,"");
+    if(!w||seen[w])return;seen[w]=1;all.push(w);
+  });
+  function h(w){var x=2166136261;for(var i=0;i<w.length;i++){x^=w.charCodeAt(i);x=Math.imul(x,16777619);}return x>>>0;}
+  var long=all.filter(function(w){return w.length>=6;}).sort(function(a,b){return (h(a)%997)-(h(b)%997)||b.length-a.length;});
+  var five=all.filter(function(w){return w.length===5;}).sort(function(a,b){return (h(a)%991)-(h(b)%991);});
+  var short=all.filter(function(w){return w.length<=4;}).sort(function(a,b){return (h(a)%983)-(h(b)%983);});
+  var out=long.concat(five,short);
+  return out.slice(0,1000);
+})();
+scrambleWordBank=vihaaPuzzleWordBank.slice();
+guessQuestionBank=(function(){
+  var bank=[];
+  for(var i=0;i<vihaaPuzzleWordBank.length&&bank.length<GUESS_LETTER_MAX;i++){
+    var word=vihaaPuzzleWordBank[i].toUpperCase(),qNo=bank.length+1;
+    bank.push({w:word,i:guessMissingIndex(word,qNo),key:word});
+  }
+  return bank;
+})();
+scrambleHintFor=function(word,stage){
+  if(word.length>=11)return "Spell Bee · "+word.length+" letters · advanced word. Hear it, study the scramble, then type the full spelling.";
+  if(word.length>=8)return "Spell Bee · "+word.length+" letters · medium-hard vocabulary. Use pronunciation + letter pattern.";
+  return "Spell Bee · "+word.length+" letters · no 4-letter-only loop. Hear it and spell the complete word.";
+};
+guessHintFor=function(item,stage){
+  if(item.w.length>=11)return "Advanced Spell Bee · "+item.w.length+" letters · listen carefully and find the missing letter.";
+  if(item.w.length>=8)return "Hard Spell Bee · "+item.w.length+" letters · pronunciation + spelling pattern.";
+  return "Spell Bee · "+item.w.length+" letters · longer vocabulary from the start.";
+};
+var vihaaOldNewScrambleV71=newScramble;
+newScramble=function(){
+  vihaaOldNewScrambleV71();
+  if(miniSession.scramble&&miniSession.scramble.w){
+    el("scrambleToughnessText").textContent="UNIQUE WORD · "+miniSession.scramble.w.length+" letters · Hear → Unscramble → Type full spelling";
+  }
+};
+var vihaaOldNewLetterGameV71=newLetterGame;
+newLetterGame=function(){
+  vihaaOldNewLetterGameV71();
+  if(miniSession.letter&&miniSession.letter.w){
+    el("letterToughnessText").textContent="UNIQUE WORD · "+miniSession.letter.w.length+" letters · Spell Bee pronunciation available · No word repeats";
+  }
+};
+if(el("scrambleHearWord"))el("scrambleHearWord").onclick=function(){var w=miniSession.scramble&&miniSession.scramble.w;if(w)speak(w);};
+if(el("letterHearWord"))el("letterHearWord").onclick=function(){var w=miniSession.letter&&miniSession.letter.w;if(w)speak(w);};
 
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
 if(el("multiReset"))el("multiReset").onclick=function(){if(extraAdaptiveReview.active)resetExtraAdaptiveReview();else resetExtraQuestion();};
