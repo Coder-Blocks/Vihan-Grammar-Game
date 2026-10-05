@@ -5491,7 +5491,7 @@ if(questionHistory.engineVersion!=="9.1.0"){
 
 
 /* VIHAA v9.2 HERO CLICK HARD-FIX */
-VIHAA_QUESTION_ENGINE_VERSION="10.1.0";
+VIHAA_QUESTION_ENGINE_VERSION="10.1.1";
 
 function vihaaFastUniqueBatch(worldId,count,tier){
   questionHistory.seen=questionHistory.seen||{};
@@ -5606,13 +5606,13 @@ renderHome=function(){
   }
   /* Make the loaded release obvious and normalize old cache-buster URLs without reloading. */
   try{
-    var wanted="?v=10.1.0";
+    var wanted="?v=10.1.1";
     if(location.search!==wanted)history.replaceState(null,"",location.pathname+wanted+location.hash);
   }catch(e){}
 };
 
-if(questionHistory.engineVersion!=="10.1.0"){
-  questionHistory.engineVersion="10.1.0";
+if(questionHistory.engineVersion!=="10.1.1"){
+  questionHistory.engineVersion="10.1.1";
   questionHistory.answerRecent={};
   questionHistory.answerTextRecent={};
   saveQuestionHistory();
@@ -5626,7 +5626,7 @@ if(questionHistory.engineVersion!=="10.1.0"){
 })();
 
 /* VIHAA v10.0 ZERO-TO-HERO ADAPTIVE ENGLISH */
-VIHAA_QUESTION_ENGINE_VERSION="10.1.0";
+VIHAA_QUESTION_ENGINE_VERSION="10.1.1";
 
 function ensureAdaptiveZeroHero(){
   if(!state.adaptive)state.adaptive={skills:{},cards:{},sessions:0};
@@ -5887,7 +5887,7 @@ ensureAdaptiveZeroHero();
 
 
 /* VIHAA v10.1 WRITING TEACHER SPELLING GRAMMAR SCORE */
-VIHAA_QUESTION_ENGINE_VERSION="10.1.0";
+VIHAA_QUESTION_ENGINE_VERSION="10.1.1";
 
 var vihaaCommonTypos={
 "weakup":"wake up","wakeup":"wake up","writting":"writing","recieve":"receive","recieved":"received",
@@ -5928,7 +5928,8 @@ function vihaaWritingAnalyse(text,item){
   if(!punct){mechanics.push("End with . ? or !");corrected+=".";}
   corrected=corrected.replace(/\s{2,}/g," ").replace(/\s+,/g,",").trim();
   corrected=corrected.replace(/\bI\s+wake up([^.!?]*?)brush my teeth,?\s*take a bath\s+and go to work\b/i,function(all,middle){
-    return ("I wake up"+middle).replace(/\s+/g," ").trim()+", brush my teeth, take a bath, and go to work";
+    middle=String(middle||"").replace(/\band\s*$/i,"").trim();
+    return ("I wake up "+middle).replace(/\s+/g," ").trim()+", brush my teeth, take a bath, and go to work";
   });
 
   var words=original?original.split(/\s+/).filter(Boolean).length:0,minWords=Number(item&&item.min||6);
