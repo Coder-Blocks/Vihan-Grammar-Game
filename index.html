@@ -512,7 +512,7 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
     <div class="kids-progress"><i id="mathKidsProgressBar"></i></div>
     <div class="kids-prompt"><span class="bigpic" id="mathKidsPromptPic">⭐</span><h3 id="mathKidsPrompt">How many?</h3><div class="slot-sub" id="mathKidsRoundText">1 of 10</div></div>
     <div class="kids-match-options" id="mathKidsOptions"></div><div class="kids-result" id="mathKidsResult"></div>
-    <div class="mini-actions" style="justify-content:center"><button class="btn green" id="mathKidsNext" style="display:none">Next →</button></div>
+    <div class="mini-actions" style="justify-content:center"><button class="btn danger" id="mathKidsReset" style="display:none">↻ Reset Question</button><button class="btn green" id="mathKidsNext" style="display:none">Next →</button></div>
   </div>
 </section>
 
@@ -1036,7 +1036,7 @@ var mathShapeDefs=[
 ];
 function mathKidsAge(){var a=Number(state.learnerAge||10);return Math.max(6,Math.min(60,a));}
 function mathKidsAgeTier(){var a=mathKidsAge();return a<=8?0:a<=12?1:a<=17?2:a<=35?3:4;}
-function mathKidsProgress(cat){if(!state.math.kids.progress)state.math.kids.progress={};if(!state.math.kids.progress[cat])state.math.kids.progress[cat]={level:1,q:1,completed:false};var p=state.math.kids.progress[cat];p.level=Math.max(1,Math.min(100,Number(p.level||1)));p.q=Math.max(1,Math.min(10,Number(p.q||1)));return p;}
+function mathKidsProgress(cat){if(!state.math.kids.progress)state.math.kids.progress={};if(!state.math.kids.progress[cat])state.math.kids.progress[cat]={level:1,q:1,completed:false,variant:0};var p=state.math.kids.progress[cat];p.level=Math.max(1,Math.min(100,Number(p.level||1)));p.q=Math.max(1,Math.min(10,Number(p.q||1)));p.variant=Math.max(0,Number(p.variant||0));return p;}
 function mathKidsAbsolute(p){return (p.level-1)*10+p.q;}
 function numberNameLarge(n){n=Math.floor(Math.abs(Number(n)||0));var ones=["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"],tens=["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"];function under1000(x){var out=[];if(x>=100){out.push(ones[Math.floor(x/100)]+" hundred");x%=100;}if(x>=20){out.push(tens[Math.floor(x/10)]+(x%10?"-"+ones[x%10]:""));}else if(x>0||!out.length)out.push(ones[x]);return out.join(" ");}if(n<1000)return under1000(n);var parts=[],units=[[1000000000,"billion"],[1000000,"million"],[1000,"thousand"]];units.forEach(function(u){if(n>=u[0]){var v=Math.floor(n/u[0]);parts.push(under1000(v)+" "+u[1]);n%=u[0];}});if(n)parts.push(under1000(n));return parts.join(" ");}
 function renderMathKids(){
@@ -1045,32 +1045,32 @@ function renderMathKids(){
   el("mathKidsCategoryGrid").querySelectorAll("[data-math-kids]").forEach(function(b){b.onclick=function(){startMathKids(this.getAttribute("data-math-kids"));};});
 }
 function renderMathTablesPanel(){el("mathTablesGrid").innerHTML=Array.from({length:20},function(_,i){var t=i+1,out="";for(var m=1;m<=10;m++)out+='<span>'+t+' × '+m+' = '+(t*m)+'</span>';return '<article class="math-table-card"><h4>Table '+t+'</h4><div class="math-table-list">'+out+'</div></article>';}).join("");}
-function makeMathKidsQuestion(cat,level,q){
-  var age=mathKidsAge(),tier=mathKidsAgeTier(),n=(level-1)*10+q,seed=n+tier*10007,item={q:"",ans:0,visual:"🧮",opts:null,note:"Age "+age+" · Level "+level};
+function makeMathKidsQuestion(cat,level,q,variant){
+  variant=Math.max(0,Number(variant||0));var age=mathKidsAge(),tier=mathKidsAgeTier(),n=(level-1)*10+q,seed=n+variant*1009+tier*10007,item={q:"",ans:0,visual:"🧮",opts:null,note:"Age "+age+" · Level "+level};
   if(cat==="count"){
-    if(tier===0){var obj=mathCountObjects[(n-1)%mathCountObjects.length],cnt=1+(Math.floor((n-1)/mathCountObjects.length)%50);item.q="Level "+level+": Count the "+obj[1]+" shown below.";item.ans=cnt;item.visual=Array(cnt+1).join('<span class="math-count-star">'+obj[0]+'</span>');}
-    else if(tier===1){var ob=mathCountObjects[(n*7)%mathCountObjects.length],groups=2+((n-1)%9),each=2+Math.floor((n-1)/9);item.q="Level "+level+": There are "+groups+" groups with "+each+" "+ob[1]+" in each group. How many altogether?";item.ans=groups*each;item.visual=Array(groups+1).join('<span class="math-group-chip">'+ob[0]+' × '+each+'</span>');}
+    if(tier===0){var obj=mathCountObjects[(seed-1)%mathCountObjects.length],cnt=1+(Math.floor((seed-1)/mathCountObjects.length)%50);item.q="Level "+level+": Count the "+obj[1]+" shown below.";item.ans=cnt;item.visual=Array(cnt+1).join('<span class="math-count-star">'+obj[0]+'</span>');}
+    else if(tier===1){var ob=mathCountObjects[(seed*7)%mathCountObjects.length],groups=2+((seed-1)%9),each=2+Math.floor((seed-1)/9)%60;item.q="Level "+level+": There are "+groups+" groups with "+each+" "+ob[1]+" in each group. How many altogether?";item.ans=groups*each;item.visual=Array(groups+1).join('<span class="math-group-chip">'+ob[0]+' × '+each+'</span>');}
     else{var step=2+((seed*3)%19),st=seed*3+tier*100;item.q="Continue the number pattern: "+st+", "+(st+step)+", "+(st+2*step)+", "+(st+3*step)+", ?";item.ans=st+4*step;item.visual='<span class="math-symbol-visual">🔢</span>';item.note="Skip-counting · step "+step;}
   }else if(cat==="names"){
-    var value=tier===0?n:tier===1?1000+n*37:tier===2?10000+n*7919:tier===3?100000+n*79191:500000+n*131071,name=numberNameLarge(value),offs=[1,10,100,1000];
-    if(n%2===0){item.q="Which number name matches "+value.toLocaleString("en-IN")+"?";item.ans=name;item.visual='<span class="math-symbol-visual">🔤</span>';item.opts=[name,numberNameLarge(value+offs[tier%4]),numberNameLarge(Math.max(1,value-offs[(tier+1)%4])),numberNameLarge(value+offs[(tier+2)%4])];}
+    var value=tier===0?1+(seed%999):tier===1?1000+seed*37:tier===2?10000+seed*7919:tier===3?100000+seed*79191:500000+seed*131071,name=numberNameLarge(value),offs=[1,10,100,1000];
+    if(seed%2===0){item.q="Which number name matches "+value.toLocaleString("en-IN")+"?";item.ans=name;item.visual='<span class="math-symbol-visual">🔤</span>';item.opts=[name,numberNameLarge(value+offs[tier%4]),numberNameLarge(Math.max(1,value-offs[(tier+1)%4])),numberNameLarge(value+offs[(tier+2)%4])];}
     else{item.q='Which number matches "'+name+'"?';item.ans=String(value);item.visual='<span class="math-symbol-visual">🔢</span>';item.opts=[String(value),String(value+offs[tier%4]),String(Math.max(1,value-offs[(tier+1)%4])),String(value+offs[(tier+2)%4])];}
   }else if(cat==="add"||cat==="sub"){
-    var scale=[1,10,100,1000,5000][tier],a=scale*n+level*7+age,b=scale*((n*13)%97+1)+q*3;
+    var scale=[1,10,100,1000,5000][tier],a=scale*seed+level*7+age,b=scale*((seed*13)%97+1)+q*3;
     if(tier>=3&&level>40){a=Math.round(a/10)/10;b=Math.round(b/10)/10;}
     if(cat==="add"){item.q=a+" + "+b+" = ?";item.ans=Math.round((a+b)*100)/100;item.visual='<span class="math-symbol-visual">➕</span>';}
     else{var hi=Math.max(a,b),lo=Math.min(a,b);item.q=hi+" − "+lo+" = ?";item.ans=Math.round((hi-lo)*100)/100;item.visual='<span class="math-symbol-visual">➖</span>';}
   }else if(cat==="tables"){
-    var z=n-1,table=(z%20)+1,block=Math.floor(z/20)%20,mult=((block+(table-1)*7)%20)+1,variant=(Math.floor(z/400)+tier)%3,product=table*mult;
+    var z=seed-1,table=(z%20)+1,block=Math.floor(z/20)%20,mult=((block+(table-1)*7)%20)+1,tableMode=(Math.floor(z/400)+tier)%3,product=table*mult;
     item.visual='<span class="math-symbol-visual">✖️</span>';
-    if(variant===0){item.q=table+" × "+mult+" = ?";item.ans=product;}
-    else if(variant===1){item.q=table+" × ? = "+product;item.ans=mult;}
+    if(tableMode===0){item.q=table+" × "+mult+" = ?";item.ans=product;}
+    else if(tableMode===1){item.q=table+" × ? = "+product;item.ans=mult;}
     else{item.q=product+" ÷ "+table+" = ?";item.ans=mult;}
     item.note="Mixed Tables 1–20 · Level "+level;
   }else{
-    var sd=mathShapeDefs[(n-1)%mathShapeDefs.length],cycle=Math.floor((n-1)/mathShapeDefs.length),glyph=sd[0],name0=sd[1],measure=sd[2],kind=sd[3];item.visual='<span class="math-shape-glyph">'+glyph+'</span>';
-    if(n<=mathShapeDefs.length){item.q="What shape is this?";item.ans=name0;item.opts=[name0].concat(mathShapeDefs.filter(function(x){return x[1]!==name0;}).slice((n*3)%20,(n*3)%20+3).map(function(x){return x[1];}));}
-    else if(n<=mathShapeDefs.length*2){item.q=kind==="2d"?"How many straight sides/corners are used to describe a "+name0+"?":"How many vertices does a "+name0+" have?";item.ans=measure;item.note=name0+" properties";}
+    var sd=mathShapeDefs[(seed-1)%mathShapeDefs.length],cycle=Math.floor((seed-1)/mathShapeDefs.length),glyph=sd[0],name0=sd[1],measure=sd[2],kind=sd[3];item.visual='<span class="math-shape-glyph">'+glyph+'</span>';
+    if(seed<=mathShapeDefs.length){item.q="What shape is this?";item.ans=name0;item.opts=[name0].concat(mathShapeDefs.filter(function(x){return x[1]!==name0;}).slice((n*3)%20,(n*3)%20+3).map(function(x){return x[1];}));}
+    else if(seed<=mathShapeDefs.length*2){item.q=kind==="2d"?"How many straight sides/corners are used to describe a "+name0+"?":"How many vertices does a "+name0+" have?";item.ans=measure;item.note=name0+" properties";}
     else if(kind==="2d"&&measure>=3){
       var side=2+cycle+tier; if(tier>=2&&measure>=3){item.q="A regular "+name0+" has "+measure+" sides of "+side+" cm each. Find its perimeter.";item.ans=measure*side;item.note="Perimeter = number of sides × side length";}else{var copies=2+cycle;item.q="There are "+copies+" "+name0+"s. How many sides are there altogether?";item.ans=copies*measure;item.note=copies+" × "+measure+" sides";}
     }else if(kind==="3d"&&measure>0){var copies3=2+cycle;item.q="There are "+copies3+" "+name0+"s. Each has "+measure+" vertices. How many vertices altogether?";item.ans=copies3*measure;item.note=copies3+" × "+measure+" vertices";}
@@ -1085,14 +1085,31 @@ function mathKidsOptions(item,cat,n){
 function startMathKids(cat){
   el("mathTablesPanel").hidden=true;el("mathKidsGame").hidden=true;
   if(cat==="tables"){renderMathTablesPanel();el("mathTablesPanel").hidden=false;el("mathTablesPanel").scrollIntoView({behavior:"smooth",block:"start"});return;}
-  var p=mathKidsProgress(cat);if(p.completed){toast("🏆 This Maths world is already mastered.");return;}mathKidsSession={cat:cat,level:p.level,index:p.q-1,total:10,locked:false,current:null};var c=mathKidsCategories.find(function(x){return x.id===cat;});el("mathKidsGameTitle").textContent=c.icon+" "+c.title;el("mathKidsGame").hidden=false;renderMathKidsQuestion();el("mathKidsGame").scrollIntoView({behavior:"smooth",block:"start"});
+  var p=mathKidsProgress(cat);if(p.completed){toast("🏆 This Maths world is already mastered.");return;}mathKidsSession={cat:cat,level:p.level,index:p.q-1,total:10,locked:false,failed:false,current:null,lastQuestion:""};var c=mathKidsCategories.find(function(x){return x.id===cat;});el("mathKidsGameTitle").textContent=c.icon+" "+c.title;el("mathKidsGame").hidden=false;renderMathKidsQuestion();el("mathKidsGame").scrollIntoView({behavior:"smooth",block:"start"});
 }
-function startMathTablesTest(){var p=mathKidsProgress("tables");if(p.completed){toast("🏆 Tables 1–20 already mastered.");return;}el("mathTablesPanel").hidden=true;mathKidsSession={cat:"tables",level:p.level,index:p.q-1,total:10,locked:false,current:null};el("mathKidsGameTitle").textContent="✖️ Tables 1–20 Test";el("mathKidsGame").hidden=false;renderMathKidsQuestion();el("mathKidsGame").scrollIntoView({behavior:"smooth",block:"start"});}
+function startMathTablesTest(){var p=mathKidsProgress("tables");if(p.completed){toast("🏆 Tables 1–20 already mastered.");return;}el("mathTablesPanel").hidden=true;mathKidsSession={cat:"tables",level:p.level,index:p.q-1,total:10,locked:false,failed:false,current:null,lastQuestion:""};el("mathKidsGameTitle").textContent="✖️ Tables 1–20 Test";el("mathKidsGame").hidden=false;renderMathKidsQuestion();el("mathKidsGame").scrollIntoView({behavior:"smooth",block:"start"});}
 function renderMathKidsQuestion(){
-  var s0=mathKidsSession,p=mathKidsProgress(s0.cat);s0.level=p.level;s0.index=p.q-1;var item=makeMathKidsQuestion(s0.cat,p.level,p.q),abs=mathKidsAbsolute(p),opts=mathKidsOptions(item,s0.cat,abs);s0.current=item;s0.locked=false;
-  var visual=el("mathKidsPromptPic");visual.className="bigpic math-kids-visual";visual.innerHTML=item.visual||'<span class="math-symbol-visual">🧮</span>';el("mathKidsPrompt").classList.add("math-kids-prompt-title");el("mathKidsPrompt").textContent=item.q;el("mathKidsRoundText").classList.add("math-kids-round");el("mathKidsRoundText").textContent="Question "+p.q+" of 10";el("mathKidsGameMeta").textContent="Level "+p.level+" / 100 · Question "+p.q+" / 10 · Age "+mathKidsAge()+" adaptive · Correct answer unlocks Next.";el("mathKidsProgressBar").style.width=((p.q-1)/10*100)+"%";el("mathKidsResult").innerHTML='<div class="math-kids-question-note">'+item.note+'</div>';el("mathKidsNext").style.display="none";
+  var s0=mathKidsSession,p=mathKidsProgress(s0.cat);s0.level=p.level;s0.index=p.q-1;
+  var item=makeMathKidsQuestion(s0.cat,p.level,p.q,p.variant||0),guard=0;
+  while(s0.lastQuestion&&item.q===s0.lastQuestion&&guard<60){p.variant++;item=makeMathKidsQuestion(s0.cat,p.level,p.q,p.variant);guard++;}
+  var abs=mathKidsAbsolute(p)+(p.variant||0)*1009,opts=mathKidsOptions(item,s0.cat,abs);s0.current=item;s0.locked=false;s0.failed=false;s0.lastQuestion=item.q;
+  var visual=el("mathKidsPromptPic");visual.className="bigpic math-kids-visual";visual.innerHTML=item.visual||'<span class="math-symbol-visual">🧮</span>';el("mathKidsPrompt").classList.add("math-kids-prompt-title");el("mathKidsPrompt").textContent=item.q;el("mathKidsRoundText").classList.add("math-kids-round");el("mathKidsRoundText").textContent="Question "+p.q+" of 10";el("mathKidsGameMeta").textContent="Level "+p.level+" / 100 · Question "+p.q+" / 10 · Age "+mathKidsAge()+" adaptive · One wrong answer resets this question.";el("mathKidsProgressBar").style.width=((p.q-1)/10*100)+"%";el("mathKidsResult").innerHTML='<div class="math-kids-question-note">'+item.note+'</div>';el("mathKidsNext").style.display="none";el("mathKidsReset").style.display="none";
   el("mathKidsOptions").innerHTML=opts.map(function(v){return '<button class="math-kids-option" data-math-kid-answer="'+String(v).replace(/"/g,"&quot;")+'">'+v+'</button>';}).join("");
-  el("mathKidsOptions").querySelectorAll("[data-math-kid-answer]").forEach(function(b){b.onclick=function(){if(s0.locked)return;var val=this.getAttribute("data-math-kid-answer"),ok=String(item.ans)===val;if(!ok){this.classList.add("wrong");this.disabled=true;el("mathKidsResult").innerHTML='<b>❌ Wrong.</b> Same question stays here. Try another answer.<div class="math-kids-question-note">'+item.note+'</div>';recordMathMistake(item.q,item.ans,1,val);save();beep(false);return;}s0.locked=true;this.classList.add("correct");el("mathKidsOptions").querySelectorAll("button").forEach(function(x){x.disabled=true;});el("mathKidsResult").innerHTML='<b>✅ Correct!</b><div class="math-kids-question-note">'+item.note+'</div>';var prog=mathKidsProgress(s0.cat);if(prog.q<10){prog.q++;}else if(prog.level<100){prog.level++;prog.q=1;state.math.stars++;state.stars++;confetti();toast("⭐ Level "+(prog.level-1)+" complete · Level "+prog.level+" unlocked");}else{prog.completed=true;prog.q=10;state.math.kids.wins++;state.math.stars+=10;state.stars+=10;confetti();toast("🏆 100 Levels complete · Maths Master!");}state.math.xp+=5;state.xp+=5;save();el("mathKidsNext").textContent=prog.completed?"Back to Worlds →":(prog.q===1?"Start Level "+prog.level+" →":"Next →");el("mathKidsNext").style.display="inline-block";renderMathKids();beep(true);};});
+  el("mathKidsOptions").querySelectorAll("[data-math-kid-answer]").forEach(function(b){b.onclick=function(){
+    if(s0.locked)return;var val=this.getAttribute("data-math-kid-answer"),ok=String(item.ans)===val;
+    if(!ok){
+      s0.locked=true;s0.failed=true;this.classList.add("wrong");el("mathKidsOptions").querySelectorAll("button").forEach(function(x){x.disabled=true;});
+      el("mathKidsResult").innerHTML='<b>❌ Wrong answer.</b> This question is locked. Press Reset Question for a new unique question.<div class="math-kids-question-note">'+item.note+'</div>';
+      el("mathKidsNext").style.display="none";el("mathKidsReset").style.display="inline-block";recordMathMistake(item.q,item.ans,1,val);save();beep(false);return;
+    }
+    s0.locked=true;s0.failed=false;this.classList.add("correct");el("mathKidsOptions").querySelectorAll("button").forEach(function(x){x.disabled=true;});el("mathKidsResult").innerHTML='<b>✅ Correct!</b><div class="math-kids-question-note">'+item.note+'</div>';
+    var prog=mathKidsProgress(s0.cat);prog.variant=0;
+    if(prog.q<10){prog.q++;}else if(prog.level<100){prog.level++;prog.q=1;state.math.stars++;state.stars++;confetti();toast("⭐ Level "+(prog.level-1)+" complete · Level "+prog.level+" unlocked");}else{prog.completed=true;prog.q=10;state.math.kids.wins++;state.math.stars+=10;state.stars+=10;confetti();toast("🏆 100 Levels complete · Maths Master!");}
+    state.math.xp+=5;state.xp+=5;save();el("mathKidsReset").style.display="none";el("mathKidsNext").textContent=prog.completed?"Back to Worlds →":(prog.q===1?"Start Level "+prog.level+" →":"Next →");el("mathKidsNext").style.display="inline-block";renderMathKids();beep(true);
+  };});
+}
+function resetMathKidsQuestion(){
+  var s0=mathKidsSession;if(!s0||!s0.cat||!s0.failed)return;var p=mathKidsProgress(s0.cat);p.variant=(p.variant||0)+1;s0.locked=false;s0.failed=false;save();renderMathKidsQuestion();
 }
 function nextMathKids(){if(!mathKidsSession.locked)return;var p=mathKidsProgress(mathKidsSession.cat);if(p.completed){el("mathKidsGame").hidden=true;renderMathKids();return;}mathKidsSession.locked=false;renderMathKidsQuestion();}
 var mathMonsterSession={topic:1,index:0,locked:false,hp:100,item:null};
@@ -3282,7 +3299,7 @@ if(el("mathAdaptiveMonster"))el("mathAdaptiveMonster").onclick=function(){showVi
 if(el("mathAdaptiveMistakes"))el("mathAdaptiveMistakes").onclick=function(){showView("mathmistakes");};
 if(el("mathAdaptiveFormula"))el("mathAdaptiveFormula").onclick=function(){var t=mathWeakTopic(),f0=mathFormulas.find(function(x){return x.topic===t;});if(f0)openFormulaDetail(f0.id);else showView("mathformula");};
 if(el("mathKidsClose"))el("mathKidsClose").onclick=function(){el("mathKidsGame").hidden=true;};if(el("mathTablesClose"))el("mathTablesClose").onclick=function(){el("mathTablesPanel").hidden=true;};if(el("mathTablesStartTest"))el("mathTablesStartTest").onclick=startMathTablesTest;
-if(el("mathKidsNext"))el("mathKidsNext").onclick=nextMathKids;
+if(el("mathKidsReset"))el("mathKidsReset").onclick=resetMathKidsQuestion;if(el("mathKidsNext"))el("mathKidsNext").onclick=nextMathKids;
 if(el("mathMonsterNext"))el("mathMonsterNext").onclick=nextMathMonster;
 if(el("mathMonsterClose"))el("mathMonsterClose").onclick=function(){el("mathMonsterArena").hidden=true;};
 document.querySelectorAll("[data-math-puzzle]").forEach(function(b){b.onclick=function(){startMathPuzzle(this.getAttribute("data-math-puzzle"));};});
