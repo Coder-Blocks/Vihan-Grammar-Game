@@ -220,6 +220,12 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
 .vikram-source-actions{display:flex;gap:8px;flex-wrap:wrap}.vikram-source-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:13px}.vikram-source-card{border:1px solid var(--line);background:#fff;border-radius:15px;padding:10px 11px;text-align:left;color:var(--text);cursor:pointer;min-height:76px;display:flex;gap:9px;align-items:flex-start}.vikram-source-card:hover{border-color:#8e7cff;transform:translateY(-2px);box-shadow:0 7px 18px rgba(50,47,100,.06)}.vikram-source-card .vs-icon{font-size:22px;line-height:1}.vikram-source-card b{display:block;font-size:11px;line-height:1.3}.vikram-source-card small{display:block;color:var(--muted);font-size:9px;font-weight:800;margin-top:3px}.vikram-source-note{margin-top:10px;font-size:10px;color:var(--muted);font-weight:750;line-height:1.45}.vikram-source-note strong{color:var(--text)}
 .vikram-chip{display:inline-flex;padding:6px 9px;border-radius:999px;background:#eafbf6;color:#167456;font-size:10px;font-weight:950}
 @media(max-width:850px){.vikram-source-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.vikram-source-grid{grid-template-columns:1fr}}
+
+.zero-hero-path{margin:18px 0;background:linear-gradient(135deg,#f8fbff,#fff 48%,#f8f4ff);border:1px solid var(--line);border-radius:24px;padding:18px}
+.zero-hero-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}.zero-hero-head h3{margin:3px 0 5px;font-size:22px}.zero-hero-head p{margin:0;color:var(--muted);font-weight:750}
+.zero-hero-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-top:14px}.zero-hero-card{border:1px solid var(--line);background:#fff;border-radius:16px;padding:12px;text-align:left;color:var(--text);cursor:pointer;min-height:112px;transition:.15s}.zero-hero-card:hover{border-color:#8f7cff;transform:translateY(-2px);box-shadow:0 8px 20px rgba(61,54,120,.08)}.zero-hero-card span{font-size:27px;display:block;margin-bottom:6px}.zero-hero-card b{display:block;font-size:12px}.zero-hero-card small{display:block;color:var(--muted);font-size:10px;line-height:1.35;margin-top:4px;font-weight:750}
+.adaptive-passage{max-width:920px;margin:14px auto;background:linear-gradient(135deg,#fffef8,#f8fbff);border:1px solid #e6e4f1;border-radius:18px;padding:16px 18px;line-height:1.7;font-size:15px;font-weight:650;color:var(--text)}.adaptive-passage h3{margin:0 0 7px;font-size:18px}.adaptive-smart-q{max-width:900px;margin:18px auto 12px;text-align:center;font-weight:950;font-size:clamp(20px,2.5vw,28px)}.reading-card p{margin:0}.writing-prompt p{margin:0 0 8px}.writing-guide{display:flex;gap:7px;flex-wrap:wrap}.writing-guide span{padding:6px 9px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:10px;font-weight:900}.adaptive-writing-input{display:block;width:min(920px,100%);margin:14px auto;border:2px solid var(--line);border-radius:16px;padding:14px;font:inherit;font-weight:650;color:var(--text);background:var(--panel);resize:vertical;min-height:120px;outline:none}.adaptive-writing-input:focus{border-color:#7a66ff;box-shadow:0 0 0 4px rgba(122,102,255,.08)}.writing-model{background:#ecfbf5;border-color:#9bdfc0}.adaptive-meta{flex-wrap:wrap}
+@media(max-width:1050px){.zero-hero-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:650px){.zero-hero-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:420px){.zero-hero-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body data-subject="english">
@@ -489,17 +495,19 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
 <section class="view" id="view-adaptive">
   <div class="adaptive-hero">
     <div class="eyebrow" style="color:#9ff3ff">VIHAA Smart Learning Engine</div>
-    <h2>🧠 Adaptive English Coach</h2>
-    <p>Your recent performance decides what comes next. Weak skills return more often; mastered items wait longer before review.</p>
+    <h2>🧠 Adaptive English Coach · Zero to Hero</h2>
+    <p>Learn English from alphabet and phonics to vocabulary, grammar, passages, listening, speaking, spelling and writing. Every activity adapts to your progress.</p>
     <div class="adaptive-focus"><span id="adaptiveFocusChip">Today: building your learning profile</span><span id="adaptivePathChip">Path: Foundations</span><span id="adaptiveDueChip">0 reviews due</span></div>
   </div>
   <div class="adaptive-grid">
     <div class="adaptive-panel"><h3>Skill Mastery</h3><p class="slot-sub">Accuracy is weighted with practice volume, so one lucky answer cannot mark a skill as mastered.</p><div class="adaptive-skills" id="adaptiveSkills"></div></div>
     <div class="adaptive-panel"><h3>Next Best Lesson</h3><p class="slot-sub" id="adaptiveRecommendation">Start a smart session and the coach will pick the weakest area.</p><div class="adaptive-actions">
-      <button class="adaptive-action" id="adaptiveSmartBtn"><span>✨</span>Smart Session<small>Automatically chooses review, listening, speaking or weak grammar.</small></button>
-      <button class="adaptive-action" id="adaptiveReviewBtn"><span>🔁</span>Recall Review<small id="adaptiveReviewText">Spaced repetition for weak vocabulary.</small></button>
+      <button class="adaptive-action" id="adaptiveSmartBtn"><span>✨</span>Smart Session<small>10 mixed Zero-to-Hero tasks: phonics, vocabulary, grammar, passages, spelling and real-world English.</small></button>
+      <button class="adaptive-action" id="adaptiveReviewBtn"><span>🔁</span>Recall Review<small id="adaptiveReviewText">Memory-only spaced repetition for words you need to remember.</small></button>
+      <button class="adaptive-action" id="adaptiveReadBtn"><span>📖</span>Reading Passages<small>Read original passages, answer comprehension questions and move from easy to advanced.</small></button>
       <button class="adaptive-action" id="adaptiveListenBtn"><span>🎧</span>Listening Lab<small>Hear English without seeing the answer first.</small></button>
       <button class="adaptive-action" id="adaptiveSpeakBtn"><span>🎙️</span>Speaking Coach<small>Speak real sentences; browser speech recognition checks what it heard.</small></button>
+      <button class="adaptive-action" id="adaptiveWriteBtn"><span>✍️</span>Writing Lab<small>Write sentences and short paragraphs with guided checks for length, capitals and punctuation.</small></button>
     </div></div>
   </div>
 
@@ -526,6 +534,52 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
     <input class="adaptive-input" id="adaptiveRecallInput" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Type from memory">
     <div class="adaptive-feedback" id="adaptiveRecallFeedback"></div>
     <div class="monster-session-actions"><button class="btn dark" id="adaptiveRecallCheck">Check</button><button class="btn green" id="adaptiveRecallNext" style="display:none">Next →</button></div>
+  </div>
+
+  <div class="zero-hero-path">
+    <div class="zero-hero-head"><div><div class="eyebrow">A–Z COMPLETE ENGLISH PATH</div><h3>🚀 Zero to Hero Learning Roadmap</h3><p>Start anywhere. The coach tracks every skill and gradually raises the difficulty.</p></div><span class="chip" id="zeroHeroStageChip">Stage 1 · Foundation</span></div>
+    <div class="zero-hero-grid">
+      <button class="zero-hero-card" data-zero-route="phonics"><span>🔤</span><b>1. Alphabet & Phonics</b><small>Letters, sounds, vowels, blends and decoding.</small></button>
+      <button class="zero-hero-card" data-zero-route="vocab"><span>🧠</span><b>2. Vocabulary</b><small>Everyday words → academic and professional words.</small></button>
+      <button class="zero-hero-card" data-zero-route="grammar"><span>🧩</span><b>3. Grammar</b><small>Nouns, pronouns, verbs, tenses, clauses and advanced usage.</small></button>
+      <button class="zero-hero-card" data-zero-route="sentences"><span>🧱</span><b>4. Sentences</b><small>Word order, punctuation and sentence building.</small></button>
+      <button class="zero-hero-card" data-zero-route="reading"><span>📖</span><b>5. Reading Passages</b><small>Read, understand, infer and answer questions.</small></button>
+      <button class="zero-hero-card" data-zero-route="listening"><span>🎧</span><b>6. Listening</b><small>Hear words and sentences with increasing speed.</small></button>
+      <button class="zero-hero-card" data-zero-route="speaking"><span>🎙️</span><b>7. Speaking</b><small>Pronunciation and real-life spoken English.</small></button>
+      <button class="zero-hero-card" data-zero-route="spelling"><span>🐝</span><b>8. Spelling</b><small>Spell Bee, word scramble and difficult vocabulary.</small></button>
+      <button class="zero-hero-card" data-zero-route="writing"><span>✍️</span><b>9. Writing</b><small>Sentences → paragraphs → practical writing.</small></button>
+      <button class="zero-hero-card" data-zero-route="fluency"><span>🏆</span><b>10. Real-world Fluency</b><small>Mixed English for school, travel, work and communication.</small></button>
+    </div>
+  </div>
+
+  <div class="adaptive-stage" id="adaptiveSmartStage" hidden>
+    <div class="adaptive-stage-head"><div><h2>✨ Smart Session · Zero to Hero</h2><div class="slot-sub" id="adaptiveSmartLevel">Mixed adaptive English</div></div><button class="btn outline" data-close-adaptive>Close</button></div>
+    <div class="adaptive-meta"><span id="adaptiveSmartCount">1 / 10</span><span id="adaptiveSmartDifficulty">Stage 1</span><span id="adaptiveSmartSkill">Skill</span></div>
+    <div class="adaptive-passage" id="adaptiveSmartPassage" hidden></div>
+    <div class="adaptive-prompt adaptive-smart-q" id="adaptiveSmartQuestion">Question</div>
+    <div class="adaptive-options" id="adaptiveSmartOptions"></div>
+    <div class="adaptive-feedback" id="adaptiveSmartFeedback"></div>
+    <div class="monster-session-actions"><button class="btn soft" id="adaptiveSmartHear">🔊 Hear</button><button class="btn green" id="adaptiveSmartNext" style="display:none">Next Skill →</button></div>
+  </div>
+
+  <div class="adaptive-stage" id="adaptiveReadingStage" hidden>
+    <div class="adaptive-stage-head"><div><h2>📖 Reading Passage Lab</h2><div class="slot-sub" id="adaptiveReadingLevel">Foundation Reading</div></div><button class="btn outline" data-close-adaptive>Close</button></div>
+    <div class="adaptive-meta"><span id="adaptiveReadingCount">Question 1 / 3</span><span id="adaptiveReadingPassageNo">Passage 1</span></div>
+    <article class="adaptive-passage reading-card"><h3 id="adaptiveReadingTitle">Passage</h3><p id="adaptiveReadingText"></p></article>
+    <div class="adaptive-prompt adaptive-smart-q" id="adaptiveReadingQuestion">Question</div>
+    <div class="adaptive-options" id="adaptiveReadingOptions"></div>
+    <div class="adaptive-feedback" id="adaptiveReadingFeedback"></div>
+    <div class="monster-session-actions"><button class="btn soft" id="adaptiveReadingHear">🔊 Read Passage</button><button class="btn green" id="adaptiveReadingNext" style="display:none">Next Question →</button></div>
+  </div>
+
+  <div class="adaptive-stage" id="adaptiveWritingStage" hidden>
+    <div class="adaptive-stage-head"><div><h2>✍️ Guided Writing Lab</h2><div class="slot-sub" id="adaptiveWritingLevel">Sentence Builder</div></div><button class="btn outline" data-close-adaptive>Close</button></div>
+    <div class="adaptive-meta"><span id="adaptiveWritingCount">Prompt 1 / 5</span><span id="adaptiveWritingTarget">Target: 8+ words</span></div>
+    <div class="adaptive-passage writing-prompt"><h3 id="adaptiveWritingTitle">Write</h3><p id="adaptiveWritingPrompt"></p><div class="writing-guide" id="adaptiveWritingGuide"></div></div>
+    <textarea class="adaptive-writing-input" id="adaptiveWritingInput" rows="5" placeholder="Write your answer here..."></textarea>
+    <div class="adaptive-feedback" id="adaptiveWritingFeedback"></div>
+    <div class="adaptive-passage writing-model" id="adaptiveWritingModel" hidden></div>
+    <div class="monster-session-actions"><button class="btn dark" id="adaptiveWritingCheck">Check Writing</button><button class="btn green" id="adaptiveWritingNext" style="display:none">Next Prompt →</button></div>
   </div>
 </section>
 
@@ -5425,7 +5479,7 @@ if(questionHistory.engineVersion!=="9.1.0"){
 
 
 /* VIHAA v9.2 HERO CLICK HARD-FIX */
-VIHAA_QUESTION_ENGINE_VERSION="9.2.1";
+VIHAA_QUESTION_ENGINE_VERSION="10.0.0";
 
 function vihaaFastUniqueBatch(worldId,count,tier){
   questionHistory.seen=questionHistory.seen||{};
@@ -5540,13 +5594,13 @@ renderHome=function(){
   }
   /* Make the loaded release obvious and normalize old cache-buster URLs without reloading. */
   try{
-    var wanted="?v=9.2.1";
+    var wanted="?v=10.0.0";
     if(location.search!==wanted)history.replaceState(null,"",location.pathname+wanted+location.hash);
   }catch(e){}
 };
 
-if(questionHistory.engineVersion!=="9.2.1"){
-  questionHistory.engineVersion="9.2.1";
+if(questionHistory.engineVersion!=="10.0.0"){
+  questionHistory.engineVersion="10.0.0";
   questionHistory.answerRecent={};
   questionHistory.answerTextRecent={};
   saveQuestionHistory();
@@ -5558,6 +5612,267 @@ if(questionHistory.engineVersion!=="9.2.1"){
      referenced an old name ('sub') in several branches, which caused Continue Level
      to throw before the quiz could open. This release removes those stale references. */
 })();
+
+/* VIHAA v10.0 ZERO-TO-HERO ADAPTIVE ENGLISH */
+VIHAA_QUESTION_ENGINE_VERSION="10.0.0";
+
+function ensureAdaptiveZeroHero(){
+  if(!state.adaptive)state.adaptive={skills:{},cards:{},sessions:0};
+  if(!state.adaptive.skills)state.adaptive.skills={};
+  ["grammar","vocabulary","listening","speaking","recall","reading","writing"].forEach(function(k){if(!state.adaptive.skills[k])state.adaptive.skills[k]={a:0,c:0};});
+  if(!state.adaptive.smartCursor)state.adaptive.smartCursor=0;
+  if(!state.adaptive.readingCursor)state.adaptive.readingCursor=0;
+  if(!state.adaptive.writingCursor)state.adaptive.writingCursor=0;
+}
+function vihaaAdaptiveStage(){
+  ensureAdaptiveZeroHero();
+  var keys=["grammar","vocabulary","listening","speaking","reading","writing"],sum=0,attempts=0;
+  keys.forEach(function(k){sum+=adaptiveSkillScore(k);attempts+=Number(state.adaptive.skills[k].a||0);});
+  var avg=sum/keys.length,stage=1;
+  if(attempts>=25&&avg>=55)stage=2;
+  if(attempts>=60&&avg>=62)stage=3;
+  if(attempts>=110&&avg>=70)stage=4;
+  if(attempts>=180&&avg>=78)stage=5;
+  return stage;
+}
+function vihaaStageName(n){return ["","Foundation","Everyday English","Connected English","Real-world English","Advanced Fluency"][n]||"Foundation";}
+
+var vihaaReadingPassages=[
+ {stage:1,title:"Mina and the Red Ball",text:"Mina has a red ball. She takes it to the park after breakfast. Her brother Arun comes with her. They play for twenty minutes and then walk home.",qs:[
+  ["Where does Mina take the ball?","to the park",["to the school","to the market","to the park","to the station"]],
+  ["Who comes with Mina?","her brother Arun",["her teacher","her brother Arun","her doctor","her neighbour"]],
+  ["What colour is the ball?","red",["blue","green","red","yellow"]]
+ ]},
+ {stage:1,title:"The School Bag",text:"Ravi puts a notebook, two pencils and a water bottle in his school bag. Before leaving home, he checks the bag once more. He does not want to forget anything.",qs:[
+  ["How many pencils does Ravi pack?","two",["one","two","three","four"]],
+  ["What does Ravi do before leaving home?","he checks the bag again",["he eats lunch","he checks the bag again","he buys a book","he calls a friend"]],
+  ["Why does he check the bag?","he does not want to forget anything",["the bag is heavy","he wants a new bag","he does not want to forget anything","school is closed"]]
+ ]},
+ {stage:2,title:"A Helpful Bus Ride",text:"Anika boards a crowded bus to the city library. An elderly passenger enters at the next stop, so Anika offers her seat. The passenger thanks her. Anika stands for the rest of the short journey and reaches the library on time.",qs:[
+  ["Where is Anika going?","the city library",["the railway station","the city library","a hospital","a market"]],
+  ["Why does Anika give up her seat?","an elderly passenger needs it",["she wants to get off","the seat is broken","an elderly passenger needs it","she feels sleepy"]],
+  ["What can we infer about Anika?","she is considerate",["she is careless","she is considerate","she is angry","she is late"]]
+ ]},
+ {stage:2,title:"The Small Garden Project",text:"Vihan's class decides to grow herbs behind the classroom. The students divide the work: some loosen the soil, some plant seeds and others make labels. They water the garden every morning. After two weeks, tiny green shoots appear.",qs:[
+  ["What is the class growing?","herbs",["trees","herbs","rice","flowers only"]],
+  ["How is the work organised?","students divide the tasks",["one student does everything","the teacher hires workers","students divide the tasks","nobody has a plan"]],
+  ["What happens after two weeks?","green shoots appear",["the garden disappears","green shoots appear","the labels are removed","school closes"]]
+ ]},
+ {stage:3,title:"Why Planning Saves Time",text:"People sometimes avoid planning because they think it delays the real work. In practice, a short plan can prevent repeated mistakes. By deciding the goal, the order of tasks and the resources needed, a learner can spend less time correcting avoidable problems. Planning does not remove every difficulty, but it makes progress easier to measure.",qs:[
+  ["What is the main idea?","a short plan can make work more efficient",["planning always removes every problem","a short plan can make work more efficient","planning is only for large companies","mistakes are never useful"]],
+  ["Which three things should a learner decide?","goal, task order and resources",["weather, colour and price","goal, task order and resources","friends, games and music","speed, luck and prizes"]],
+  ["What does the passage say planning cannot do?","remove every difficulty",["save any time","set a goal","remove every difficulty","measure progress"]]
+ ]},
+ {stage:3,title:"Learning from Feedback",text:"Feedback is useful when it is specific enough to guide the next attempt. A comment such as 'improve this' gives little direction. A clearer comment might identify an unclear sentence, explain why it is confusing and suggest a way to revise it. The learner still has to make the decision, but good feedback makes the decision better informed.",qs:[
+  ["Why is 'improve this' weak feedback?","it gives little direction",["it is too polite","it gives little direction","it is always incorrect","it is too long"]],
+  ["What can clearer feedback identify?","an unclear sentence and why it is confusing",["only the learner's name","an unclear sentence and why it is confusing","the weather","a final grade only"]],
+  ["Who makes the final revision decision?","the learner",["the computer","the learner","a stranger","nobody"]]
+ ]},
+ {stage:4,title:"A Community Water Audit",text:"A neighbourhood group noticed that its monthly water use had risen even though the number of residents had not changed. Instead of assuming that people were simply using more water, the group compared meter readings, inspected common taps and checked irrigation schedules. They discovered a slow underground leak near the garden. Repairing it reduced waste without asking residents to cut essential use.",qs:[
+  ["Why did the group investigate?","water use rose without more residents",["the garden was too small","water use rose without more residents","the meter was removed","residents requested a swimming pool"]],
+  ["What did the investigation reveal?","a slow underground leak",["a broken streetlight","a slow underground leak","a new resident","an incorrect calendar"]],
+  ["What broader lesson does the passage support?","evidence should be checked before blaming behaviour",["all leaks are visible","people should stop using water","evidence should be checked before blaming behaviour","meters are unnecessary"]]
+ ]},
+ {stage:4,title:"Remote Work and Communication",text:"Remote work can reduce commuting time, but it also changes how teams share information. In an office, a quick conversation may resolve a small doubt. Online, the same doubt can remain unnoticed unless people document decisions clearly and ask questions early. Successful remote teams therefore rely not only on digital tools but also on disciplined communication habits.",qs:[
+  ["What benefit of remote work is mentioned?","less commuting time",["free equipment","less commuting time","shorter projects","automatic promotions"]],
+  ["Why can small doubts remain unnoticed online?","people may not document or ask early",["computers cannot display text","people may not document or ask early","meetings are illegal","offices have no doubts"]],
+  ["What do successful remote teams need besides tools?","disciplined communication habits",["larger buildings","disciplined communication habits","more commuting","fewer questions"]]
+ ]},
+ {stage:5,title:"The Limits of a Single Metric",text:"A single performance metric can be useful, but it can also hide important trade-offs. For example, a service may become faster while producing more errors, or cheaper while becoming less accessible to some users. Strong evaluation therefore compares several measures and asks who benefits, who is disadvantaged and under what conditions the result was achieved. The goal is not to reject metrics, but to interpret them in context.",qs:[
+  ["What is the central argument?","metrics should be interpreted with context and multiple measures",["all metrics should be rejected","speed is the only useful measure","metrics should be interpreted with context and multiple measures","cheap services are always better"]],
+  ["Which trade-off is given as an example?","greater speed with more errors",["more rain with less wind","greater speed with more errors","higher salary with fewer hours","more books with more shelves"]],
+  ["What does strong evaluation ask about?","benefits, disadvantages and conditions",["only the final number","benefits, disadvantages and conditions","the colour of a chart","who spoke first"]]
+ ]},
+ {stage:5,title:"Clear Thinking under Uncertainty",text:"Good decisions do not require perfect certainty; they require an honest account of what is known, what is uncertain and what would change the conclusion. When evidence is incomplete, pretending to be certain can be more dangerous than admitting limits. A careful decision maker can still act, but should state assumptions, watch for new evidence and be willing to revise the plan.",qs:[
+  ["What does the passage say good decisions require?","an honest account of knowledge and uncertainty",["perfect certainty","an honest account of knowledge and uncertainty","no assumptions","a permanent plan"]],
+  ["Why can false certainty be dangerous?","it hides important limits in the evidence",["it makes writing shorter","it hides important limits in the evidence","it always costs money","it prevents any action"]],
+  ["What should a careful decision maker do after acting?","watch for new evidence and revise if needed",["ignore new evidence","watch for new evidence and revise if needed","never state assumptions","avoid all plans"]]
+ ]}
+];
+
+var vihaaWritingPrompts=[
+ {stage:1,title:"My Day",prompt:"Write one clear sentence about something you do every morning.",min:6,guide:["Start with a capital letter","Use a subject + action","End with ."],model:"I drink a glass of water every morning."},
+ {stage:1,title:"My Favourite Thing",prompt:"Write two simple sentences about a favourite toy, food, book or place.",min:10,guide:["Name the thing","Add one describing word","Use full stops"],model:"My favourite book is colourful. I read it before bed."},
+ {stage:2,title:"Describe a Place",prompt:"Write 2–3 sentences describing your school, street, park or room.",min:18,guide:["Use there is/are","Add 2 adjectives","Use correct punctuation"],model:"My school has a large playground. The classrooms are bright and clean. There are many trees near the gate."},
+ {stage:2,title:"Give Instructions",prompt:"Write three steps explaining how to make tea, pack a school bag or prepare for class.",min:22,guide:["Use First","Use Next","Use Finally"],model:"First, collect everything you need. Next, put the items in the correct order. Finally, check that nothing is missing."},
+ {stage:3,title:"Short Opinion",prompt:"Write a short paragraph: Is daily reading useful? Give one reason and one example.",min:35,guide:["State your opinion","Give a reason","Give an example"],model:"I think daily reading is useful because it builds vocabulary and concentration. For example, reading a short article every evening can introduce new words in context."},
+ {stage:3,title:"Past Experience",prompt:"Write a short paragraph about a problem you solved recently. Use past-tense verbs.",min:35,guide:["What happened?","What did you do?","What was the result?"],model:"Yesterday I could not find an important document. I checked my folders, searched my email and finally found the file in an old project folder. I then renamed it clearly."},
+ {stage:4,title:"Professional Email",prompt:"Write a short polite email asking someone to confirm a meeting time.",min:45,guide:["Greeting","Clear request","Polite closing"],model:"Hello, I am writing to confirm our meeting scheduled for tomorrow. Could you please let me know whether 3:00 PM still works for you? Thank you for your time. Kind regards."},
+ {stage:4,title:"Compare Two Options",prompt:"Write a paragraph comparing online learning with classroom learning. Mention one advantage of each.",min:50,guide:["Compare both sides","Use however/while","Give a conclusion"],model:"Online learning is flexible because students can study from many locations, while classroom learning provides immediate face-to-face interaction. However, both can be effective when lessons are well organised. The better option depends on the learner's needs."},
+ {stage:5,title:"Reasoned Argument",prompt:"Write a paragraph arguing whether technology always improves productivity. Include a limitation or counterpoint.",min:65,guide:["Clear claim","Evidence/reason","Counterpoint","Conclusion"],model:"Technology can improve productivity by automating repetitive work and making information easier to share. However, poorly chosen tools may create extra complexity or distract users. Productivity improves when technology fits the task and people understand how to use it effectively."},
+ {stage:5,title:"Executive Summary",prompt:"Write a concise summary of a fictional project that reduced customer waiting time. Include problem, action and result.",min:70,guide:["Problem","Action","Measured result","Next step"],model:"The project addressed long customer waiting times during peak hours. The team analysed demand patterns, simplified the intake process and introduced a clearer queue system. Average waiting time fell substantially while service quality remained stable. The next step is to monitor the new process and address any new bottlenecks."}
+];
+
+function vihaaSmartPool(stage){
+  var p=vihaaReadingPassages.filter(function(x){return x.stage===stage||Math.abs(x.stage-stage)===1;});
+  var vocab=[
+    ["Choose the word closest in meaning to 'begin'.","start",["stop","hide","start","break"],"Vocabulary"],
+    ["Which word means 'careful and exact'?","precise",["noisy","precise","empty","ordinary"],"Vocabulary"],
+    ["Choose the best formal word for 'look into a problem'.","investigate",["decorate","investigate","forget","repeat"],"Vocabulary"],
+    ["Which word means 'able to change easily when needed'?","flexible",["flexible","ancient","silent","fragile"],"Vocabulary"]
+  ];
+  var grammar=[
+    ["Choose the correct sentence.","She is reading a book.",["She reading a book.","She is reading a book.","She are reading a book.","She read now a book."],"Grammar"],
+    ["Choose the correct article: ___ honest answer.","an",["a","an","the","no"],"Grammar"],
+    ["Choose the correct form: They ___ finished the task.","have",["has","have","is","was"],"Grammar"],
+    ["Choose the best sentence.","Although it was raining, we continued walking.",["Although it was raining. We continued walking.","Although it was raining, we continued walking.","Although, it raining we continued.","It raining although continued."],"Grammar"],
+    ["Choose the correct conditional.","If I had known, I would have called you.",["If I had known, I would have called you.","If I know, I would have called you.","If I had knew, I call you.","If I known, I will called you."],"Grammar"]
+  ];
+  var phonics=[
+    ["Which letter begins the word 'sun'?","S",["F","S","M","T"],"Phonics"],
+    ["Which pair begins 'ship'?","sh",["ch","sh","th","ph"],"Phonics"],
+    ["Which word has a long vowel pattern?","kite",["kit","kite","sit","bit"],"Phonics"],
+    ["Which word belongs to the -at family?","hat",["hen","hat","hit","hot"],"Phonics"]
+  ];
+  var sentence=[
+    ["Choose the correctly ordered sentence.","We practise English every day.",["We English practise every day.","We practise English every day.","Every practise we English day.","English every day we practise is."],"Sentence Building"],
+    ["Choose the correct punctuation.","Where are you going?",["Where are you going.","Where are you going?","where are you going?","Where are you going!"],"Punctuation"],
+    ["Choose the clearest sentence.","After checking the figures, Maya sent the report.",["After checking the figures, the report was sent.","After checking the figures, Maya sent the report.","Checking figures, it sent.","The figures checking, Maya."],"Sentence Building"]
+  ];
+  var real=[
+    ["You need help in a shop. Which sentence is most polite?","Could you please help me find this item?",["Find this now.","Could you please help me find this item?","You help item.","Where item give."],"Real-world English"],
+    ["A colleague sends useful information. What is a natural reply?","Thank you. This is very helpful.",["Send more.","Thank you. This is very helpful.","Why you send?","Information okay no."],"Real-world English"],
+    ["You did not understand an instruction. What should you say?","Could you please explain that again?",["Repeat.","Could you please explain that again?","I no understand you.","Explain fast."],"Real-world English"]
+  ];
+  var out=[],i;
+  phonics.slice(stage>=4?2:0).forEach(function(x){out.push({skill:x[4],q:x[0],ans:x[1],opts:x[2],explain:"Focus on the sound or spelling pattern."});});
+  vocab.forEach(function(x){out.push({skill:x[4],q:x[0],ans:x[1],opts:x[2],explain:"Use context and precise meaning."});});
+  grammar.slice(0,Math.min(grammar.length,2+stage)).forEach(function(x){out.push({skill:x[4],q:x[0],ans:x[1],opts:x[2],explain:"Apply the grammar pattern in context."});});
+  sentence.forEach(function(x){out.push({skill:x[4],q:x[0],ans:x[1],opts:x[2],explain:"Choose the clearest standard-English structure."});});
+  real.forEach(function(x){out.push({skill:x[4],q:x[0],ans:x[1],opts:x[2],explain:"Choose natural, polite real-world English."});});
+  p.forEach(function(pass){
+    var qx=pass.qs[(state.adaptive.smartCursor||0)%pass.qs.length];
+    out.push({skill:"Reading",passage:pass.text,title:pass.title,q:qx[0],ans:qx[1],opts:qx[2],explain:"Answer from the passage, not from guesswork."});
+  });
+  return out;
+}
+
+function hideAdaptiveStages(){
+  ["adaptiveListeningStage","adaptiveSpeakingStage","adaptiveRecallStage","adaptiveSmartStage","adaptiveReadingStage","adaptiveWritingStage"].forEach(function(id){if(el(id))el(id).hidden=true;});
+}
+
+renderAdaptiveCoach=function(){
+  ensureAdaptiveZeroHero();
+  var due=adaptiveDueCards().length,stage=vihaaAdaptiveStage(),labels={grammar:"Grammar",vocabulary:"Vocabulary",listening:"Listening",speaking:"Speaking",recall:"Recall",reading:"Reading",writing:"Writing"};
+  var skills=["grammar","vocabulary","reading","listening","speaking","writing","recall"];
+  el("adaptiveSkills").innerHTML=skills.map(function(k){var n=adaptiveSkillScore(k);return '<div class="adaptive-skill"><span>'+labels[k]+'</span><div class="adaptive-meter"><i style="width:'+n+'%"></i></div><span class="adaptive-score">'+n+'%</span></div>';}).join("");
+  var weakest=skills[0],score=999;skills.forEach(function(k){var x=adaptiveSkillScore(k);if(x<score){score=x;weakest=k;}});
+  el("adaptiveFocusChip").textContent="Today: Strengthen "+labels[weakest];
+  el("adaptivePathChip").textContent="Path: "+vihaaStageName(stage);
+  el("adaptiveDueChip").textContent=due+" recall review"+(due===1?"":"s")+" due";
+  el("adaptiveReviewText").textContent=due?due+" memory cards are ready.":"Word memory review is separate from Smart Session.";
+  el("adaptiveRecommendation").textContent="Smart Session now mixes skills instead of opening Recall. Reading Passage Lab and Writing Lab are separate practice tracks.";
+  if(el("zeroHeroStageChip"))el("zeroHeroStageChip").textContent="Stage "+stage+" · "+vihaaStageName(stage);
+};
+
+function startAdaptiveSmart(){
+  ensureAdaptiveZeroHero();hideAdaptiveStages();
+  var stage=vihaaAdaptiveStage(),pool=vihaaSmartPool(stage),cursor=state.adaptive.smartCursor||0,items=[];
+  for(var i=0;i<10;i++)items.push(pool[(cursor+i*3)%pool.length]);
+  state.adaptive.smartCursor=(cursor+10)%Math.max(1,pool.length);
+  adaptiveSession={mode:"smart",index:0,items:items,locked:false,difficulty:stage};
+  el("adaptiveSmartStage").hidden=false;renderAdaptiveSmart();save();
+}
+function renderAdaptiveSmart(){
+  var item=adaptiveSession.items[adaptiveSession.index],stage=adaptiveSession.difficulty||1;adaptiveSession.locked=false;
+  el("adaptiveSmartCount").textContent=(adaptiveSession.index+1)+" / "+adaptiveSession.items.length;
+  el("adaptiveSmartDifficulty").textContent="Stage "+stage+" · "+vihaaStageName(stage);
+  el("adaptiveSmartSkill").textContent=item.skill;
+  el("adaptiveSmartLevel").textContent="Mixed A–Z English · "+vihaaStageName(stage);
+  el("adaptiveSmartQuestion").textContent=item.q;
+  el("adaptiveSmartFeedback").textContent="";el("adaptiveSmartNext").style.display="none";
+  if(item.passage){el("adaptiveSmartPassage").hidden=false;el("adaptiveSmartPassage").innerHTML="<h3>"+item.title+"</h3><p>"+item.passage+"</p>";}else{el("adaptiveSmartPassage").hidden=true;el("adaptiveSmartPassage").innerHTML="";}
+  var opts=shuffleCopy(item.opts.slice());
+  el("adaptiveSmartOptions").innerHTML=opts.map(function(x){return '<button class="adaptive-option" data-smart-answer="'+String(x).replace(/"/g,"&quot;")+'">'+x+'</button>';}).join("");
+  el("adaptiveSmartOptions").querySelectorAll("[data-smart-answer]").forEach(function(b){b.onclick=function(){answerAdaptiveSmart(this,item);};});
+}
+function answerAdaptiveSmart(btn,item){
+  if(adaptiveSession.locked)return;var picked=btn.getAttribute("data-smart-answer"),ok=picked===item.ans;
+  var skillMap={"Grammar":"grammar","Vocabulary":"vocabulary","Reading":"reading","Phonics":"reading","Sentence Building":"grammar","Punctuation":"grammar","Real-world English":"speaking"};
+  trackAdaptiveSkill(skillMap[item.skill]||"grammar",ok);
+  if(!ok){btn.classList.add("wrong");btn.disabled=true;el("adaptiveSmartFeedback").textContent="❌ Try again. "+item.explain;beep(false);save();renderAdaptiveCoach();return;}
+  adaptiveSession.locked=true;btn.classList.add("correct");el("adaptiveSmartOptions").querySelectorAll("button").forEach(function(x){x.disabled=true;});
+  el("adaptiveSmartFeedback").textContent="✅ Correct. "+item.explain;el("adaptiveSmartNext").style.display="inline-block";state.xp+=6;beep(true);save();renderAdaptiveCoach();
+}
+function nextAdaptiveSmart(){
+  if(!adaptiveSession.locked)return;adaptiveSession.index++;
+  if(adaptiveSession.index<adaptiveSession.items.length){renderAdaptiveSmart();return;}
+  state.adaptive.sessions=(state.adaptive.sessions||0)+1;state.xp+=25;state.stars+=1;save();confetti();toast("✨ Smart Session complete! +25 XP +1⭐");hideAdaptiveStages();renderAdaptiveCoach();
+}
+
+var adaptiveReadingSession={passage:null,q:0,index:0};
+function startAdaptiveReading(){
+  ensureAdaptiveZeroHero();hideAdaptiveStages();var stage=vihaaAdaptiveStage(),pool=vihaaReadingPassages.filter(function(x){return x.stage<=stage;});
+  var idx=(state.adaptive.readingCursor||0)%pool.length;state.adaptive.readingCursor=idx+1;
+  adaptiveReadingSession={passage:pool[idx],q:0,index:idx,stage:stage,locked:false};el("adaptiveReadingStage").hidden=false;renderAdaptiveReading();save();
+}
+function renderAdaptiveReading(){
+  var s=adaptiveReadingSession,p=s.passage,q=s.passage.qs[s.q];s.locked=false;
+  el("adaptiveReadingLevel").textContent="Stage "+p.stage+" · "+vihaaStageName(p.stage);
+  el("adaptiveReadingCount").textContent="Question "+(s.q+1)+" / "+p.qs.length;el("adaptiveReadingPassageNo").textContent="Passage "+((state.adaptive.readingCursor||1));
+  el("adaptiveReadingTitle").textContent=p.title;el("adaptiveReadingText").textContent=p.text;el("adaptiveReadingQuestion").textContent=q[0];el("adaptiveReadingFeedback").textContent="";el("adaptiveReadingNext").style.display="none";
+  el("adaptiveReadingOptions").innerHTML=shuffleCopy(q[2].slice()).map(function(x){return '<button class="adaptive-option" data-reading-answer="'+String(x).replace(/"/g,"&quot;")+'">'+x+'</button>';}).join("");
+  el("adaptiveReadingOptions").querySelectorAll("[data-reading-answer]").forEach(function(b){b.onclick=function(){answerAdaptiveReading(this,q);};});
+}
+function answerAdaptiveReading(btn,q){
+  if(adaptiveReadingSession.locked)return;var ok=btn.getAttribute("data-reading-answer")===q[1];trackAdaptiveSkill("reading",ok);
+  if(!ok){btn.classList.add("wrong");btn.disabled=true;el("adaptiveReadingFeedback").textContent="❌ Read the passage again and find the evidence.";beep(false);save();renderAdaptiveCoach();return;}
+  adaptiveReadingSession.locked=true;btn.classList.add("correct");el("adaptiveReadingOptions").querySelectorAll("button").forEach(function(x){x.disabled=true;});el("adaptiveReadingFeedback").textContent="✅ Correct — answer supported by the passage.";el("adaptiveReadingNext").style.display="inline-block";state.xp+=7;beep(true);save();renderAdaptiveCoach();
+}
+function nextAdaptiveReading(){
+  if(!adaptiveReadingSession.locked)return;adaptiveReadingSession.q++;
+  if(adaptiveReadingSession.q<adaptiveReadingSession.passage.qs.length){renderAdaptiveReading();return;}
+  state.xp+=15;state.stars+=1;save();confetti();toast("📖 Passage complete! +15 XP +1⭐");startAdaptiveReading();
+}
+
+var adaptiveWritingSession={items:[],index:0,stage:1,locked:false};
+function startAdaptiveWriting(){
+  ensureAdaptiveZeroHero();hideAdaptiveStages();var stage=vihaaAdaptiveStage(),pool=vihaaWritingPrompts.filter(function(x){return x.stage<=stage;}),cursor=(state.adaptive.writingCursor||0)%pool.length,items=[];
+  for(var i=0;i<Math.min(5,pool.length);i++)items.push(pool[(cursor+i)%pool.length]);
+  state.adaptive.writingCursor=cursor+items.length;adaptiveWritingSession={items:items,index:0,stage:stage,locked:false};el("adaptiveWritingStage").hidden=false;renderAdaptiveWriting();save();
+}
+function renderAdaptiveWriting(){
+  var s=adaptiveWritingSession,item=s.items[s.index];s.locked=false;
+  el("adaptiveWritingLevel").textContent="Stage "+item.stage+" · "+vihaaStageName(item.stage);el("adaptiveWritingCount").textContent="Prompt "+(s.index+1)+" / "+s.items.length;el("adaptiveWritingTarget").textContent="Target: "+item.min+"+ words";
+  el("adaptiveWritingTitle").textContent=item.title;el("adaptiveWritingPrompt").textContent=item.prompt;el("adaptiveWritingGuide").innerHTML=item.guide.map(function(x){return "<span>"+x+"</span>";}).join("");
+  el("adaptiveWritingInput").value="";el("adaptiveWritingInput").disabled=false;el("adaptiveWritingFeedback").textContent="";el("adaptiveWritingModel").hidden=true;el("adaptiveWritingModel").innerHTML="";el("adaptiveWritingNext").style.display="none";el("adaptiveWritingCheck").style.display="inline-block";
+}
+function checkAdaptiveWriting(){
+  if(adaptiveWritingSession.locked)return;var item=adaptiveWritingSession.items[adaptiveWritingSession.index],txt=el("adaptiveWritingInput").value.trim(),words=txt?txt.split(/\s+/).length:0;
+  var capital=/^[A-Z]/.test(txt),punct=/[.!?]$/.test(txt),ok=words>=item.min&&capital&&punct;trackAdaptiveSkill("writing",ok);
+  if(!ok){var needs=[];if(words<item.min)needs.push((item.min-words)+" more word"+(item.min-words===1?"":"s"));if(!capital)needs.push("start with a capital letter");if(!punct)needs.push("end with . ? or !");
+    el("adaptiveWritingFeedback").textContent="✍️ Improve it: "+needs.join(" · ");beep(false);save();renderAdaptiveCoach();return;}
+  adaptiveWritingSession.locked=true;el("adaptiveWritingInput").disabled=true;el("adaptiveWritingFeedback").textContent="✅ Good practice draft — length, capitalisation and ending punctuation checks passed.";
+  el("adaptiveWritingModel").hidden=false;el("adaptiveWritingModel").innerHTML="<b>Model example:</b><br>"+item.model;el("adaptiveWritingNext").style.display="inline-block";el("adaptiveWritingCheck").style.display="none";state.xp+=10;beep(true);save();renderAdaptiveCoach();
+}
+function nextAdaptiveWriting(){
+  if(!adaptiveWritingSession.locked)return;adaptiveWritingSession.index++;
+  if(adaptiveWritingSession.index<adaptiveWritingSession.items.length){renderAdaptiveWriting();return;}
+  state.xp+=20;state.stars+=1;save();confetti();toast("✍️ Writing practice complete! +20 XP +1⭐");hideAdaptiveStages();renderAdaptiveCoach();
+}
+
+function vihaaZeroRoute(route){
+  if(route==="phonics"){showView("kids");return;}
+  if(route==="vocab"){showView("monster");return;}
+  if(route==="grammar"){showView("practice");return;}
+  if(route==="sentences"){showView("minigames");setTimeout(function(){if(el("playSentencePuzzle"))el("playSentencePuzzle").click();},100);return;}
+  if(route==="reading"){startAdaptiveReading();return;}
+  if(route==="listening"){startAdaptiveListening();return;}
+  if(route==="speaking"){startAdaptiveSpeaking();return;}
+  if(route==="spelling"){showView("minigames");setTimeout(function(){if(el("playWordScramble"))el("playWordScramble").click();},100);return;}
+  if(route==="writing"){startAdaptiveWriting();return;}
+  startAdaptiveSmart();
+}
+
+/* Recall is intentionally separate: it remains memory/spaced repetition only. */
+var vihaaOldStartAdaptiveReviewV10=startAdaptiveReview;
+startAdaptiveReview=function(){
+  ensureAdaptiveZeroHero();vihaaOldStartAdaptiveReviewV10();
+  if(el("adaptiveRecallPrompt"))el("adaptiveRecallPrompt").textContent="Recall Review: type this saved vocabulary word from memory. This is NOT the Smart Session.";
+};
+
+ensureAdaptiveZeroHero();
+
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
 if(el("multiReset"))el("multiReset").onclick=function(){if(extraAdaptiveReview.active)resetExtraAdaptiveReview();else resetExtraQuestion();};
 if(el("multiNext"))el("multiNext").onclick=function(){if(extraAdaptiveReview.active)nextExtraAdaptiveReview();else nextExtraQuestion();};
@@ -5588,7 +5903,7 @@ if(el("mathPassportDownload"))el("mathPassportDownload").onclick=downloadMathPas
 document.querySelectorAll(".nav-btn").forEach(function(b){b.onclick=function(){showView(b.getAttribute("data-view"));};});
 document.querySelectorAll("[data-go]").forEach(function(b){b.onclick=function(){showView(b.getAttribute("data-go"));};});
 if(el("continueBtn"))el("continueBtn").onclick=function(e){if(e){e.preventDefault();e.stopPropagation();}return vihaaStartHeroNow();};
-if(el("adaptiveSmartBtn"))el("adaptiveSmartBtn").onclick=startAdaptiveSmart;if(el("adaptiveReviewBtn"))el("adaptiveReviewBtn").onclick=startAdaptiveReview;if(el("adaptiveListenBtn"))el("adaptiveListenBtn").onclick=startAdaptiveListening;if(el("adaptiveSpeakBtn"))el("adaptiveSpeakBtn").onclick=startAdaptiveSpeaking;if(el("adaptiveHearAgain"))el("adaptiveHearAgain").onclick=function(){if(adaptiveSession.mode==="listening")speak(adaptiveSession.items[adaptiveSession.index].word);};if(el("adaptiveListenNext"))el("adaptiveListenNext").onclick=nextAdaptiveListening;if(el("adaptiveSpeakHear"))el("adaptiveSpeakHear").onclick=function(){if(adaptiveSession.mode==="speaking")speak(adaptiveSession.items[adaptiveSession.index]);};if(el("adaptiveMicBtn"))el("adaptiveMicBtn").onclick=runAdaptiveSpeech;if(el("adaptiveSpeakNext"))el("adaptiveSpeakNext").onclick=nextAdaptiveSpeaking;if(el("adaptiveRecallCheck"))el("adaptiveRecallCheck").onclick=checkAdaptiveRecall;if(el("adaptiveRecallNext"))el("adaptiveRecallNext").onclick=nextAdaptiveRecall;if(el("adaptiveRecallInput"))el("adaptiveRecallInput").onkeydown=function(e){if(e.key==="Enter")checkAdaptiveRecall();};document.querySelectorAll("[data-close-adaptive]").forEach(function(b){b.onclick=function(){hideAdaptiveStages();};});
+if(el("adaptiveSmartBtn"))el("adaptiveSmartBtn").onclick=startAdaptiveSmart;if(el("adaptiveReviewBtn"))el("adaptiveReviewBtn").onclick=startAdaptiveReview;if(el("adaptiveReadBtn"))el("adaptiveReadBtn").onclick=startAdaptiveReading;if(el("adaptiveListenBtn"))el("adaptiveListenBtn").onclick=startAdaptiveListening;if(el("adaptiveSpeakBtn"))el("adaptiveSpeakBtn").onclick=startAdaptiveSpeaking;if(el("adaptiveWriteBtn"))el("adaptiveWriteBtn").onclick=startAdaptiveWriting;if(el("adaptiveHearAgain"))el("adaptiveHearAgain").onclick=function(){if(adaptiveSession.mode==="listening")speak(adaptiveSession.items[adaptiveSession.index].word);};if(el("adaptiveListenNext"))el("adaptiveListenNext").onclick=nextAdaptiveListening;if(el("adaptiveSpeakHear"))el("adaptiveSpeakHear").onclick=function(){if(adaptiveSession.mode==="speaking")speak(adaptiveSession.items[adaptiveSession.index]);};if(el("adaptiveMicBtn"))el("adaptiveMicBtn").onclick=runAdaptiveSpeech;if(el("adaptiveSpeakNext"))el("adaptiveSpeakNext").onclick=nextAdaptiveSpeaking;if(el("adaptiveRecallCheck"))el("adaptiveRecallCheck").onclick=checkAdaptiveRecall;if(el("adaptiveRecallNext"))el("adaptiveRecallNext").onclick=nextAdaptiveRecall;if(el("adaptiveRecallInput"))el("adaptiveRecallInput").onkeydown=function(e){if(e.key==="Enter")checkAdaptiveRecall();};if(el("adaptiveSmartHear"))el("adaptiveSmartHear").onclick=function(){var x=adaptiveSession.items&&adaptiveSession.items[adaptiveSession.index];if(x)speak((x.passage?x.passage+" ":"")+x.q);};if(el("adaptiveSmartNext"))el("adaptiveSmartNext").onclick=nextAdaptiveSmart;if(el("adaptiveReadingHear"))el("adaptiveReadingHear").onclick=function(){if(adaptiveReadingSession.passage)speak(adaptiveReadingSession.passage.text);};if(el("adaptiveReadingNext"))el("adaptiveReadingNext").onclick=nextAdaptiveReading;if(el("adaptiveWritingCheck"))el("adaptiveWritingCheck").onclick=checkAdaptiveWriting;if(el("adaptiveWritingNext"))el("adaptiveWritingNext").onclick=nextAdaptiveWriting;document.querySelectorAll("[data-zero-route]").forEach(function(b){b.onclick=function(){vihaaZeroRoute(this.getAttribute("data-zero-route"));};});document.querySelectorAll("[data-close-adaptive]").forEach(function(b){b.onclick=function(){hideAdaptiveStages();};});
 if(el("monsterSoundBtn"))el("monsterSoundBtn").onclick=function(){speak("Choose a vocabulary topic. Preview ten words, then complete Listen, Match, and Recall to defeat the monster.");};if(el("monsterStartListen"))el("monsterStartListen").onclick=function(){startMonsterPhase("listen");};if(el("monsterHearAgain"))el("monsterHearAgain").onclick=function(){if(monsterSession.phase==="recall"){toast("🔒 Audio unlocks after correct spelling.");return;}var item=monsterSession.items[monsterSession.index];if(item)speak(item[1]);};if(el("monsterNext"))el("monsterNext").onclick=nextMonsterQuestion;if(el("monsterCheckRecall"))el("monsterCheckRecall").onclick=checkMonsterRecall;if(el("monsterRecallInput"))el("monsterRecallInput").onkeydown=function(e){if(e.key==="Enter")checkMonsterRecall();};if(el("monsterPlayAgain"))el("monsterPlayAgain").onclick=function(){openMonsterTopic(monsterSession.topic);};if(el("monsterChooseTopic"))el("monsterChooseTopic").onclick=function(){el("monsterArena").hidden=true;window.scrollTo({top:0,behavior:"smooth"});};
 if(el("closeKidsGame"))el("closeKidsGame").onclick=function(){el("kidsGame").hidden=true;};if(el("kidsListenAll"))el("kidsListenAll").onclick=function(){var c=kidsData[kidsSession.category];if(c)speak(c.items.map(function(x){return x[1];}).join(". "));};if(el("startKidsMatch"))el("startKidsMatch").onclick=startKidsMatching;if(el("nextKidsMatch"))el("nextKidsMatch").onclick=nextKidsQuestion;
 if(el("playSentencePuzzle"))el("playSentencePuzzle").onclick=newSentencePuzzle;if(el("playWordScramble"))el("playWordScramble").onclick=newScramble;if(el("playGuessLetter"))el("playGuessLetter").onclick=newLetterGame;
