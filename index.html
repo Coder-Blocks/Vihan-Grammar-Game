@@ -1048,8 +1048,8 @@ function renderMathTablesPanel(){el("mathTablesGrid").innerHTML=Array.from({leng
 function makeMathKidsQuestion(cat,level,q){
   var age=mathKidsAge(),tier=mathKidsAgeTier(),n=(level-1)*10+q,seed=n+tier*10007,item={q:"",ans:0,visual:"🧮",opts:null,note:"Age "+age+" · Level "+level};
   if(cat==="count"){
-    if(tier===0){var obj=mathCountObjects[(n-1)%mathCountObjects.length],cnt=1+(Math.floor((n-1)/mathCountObjects.length)%50);item.q="Count the "+obj[1]+" below.";item.ans=cnt;item.visual=Array(cnt+1).join('<span class="math-count-star">'+obj[0]+'</span>');}
-    else if(tier===1){var ob=mathCountObjects[(n*7)%mathCountObjects.length],groups=2+((n-1)%9),each=2+(Math.floor((n-1)/9)%12);item.q="There are "+groups+" groups with "+each+" "+ob[1]+" in each group. How many altogether?";item.ans=groups*each;item.visual=Array(groups+1).join('<span class="math-group-chip">'+ob[0]+' × '+each+'</span>');}
+    if(tier===0){var obj=mathCountObjects[(n-1)%mathCountObjects.length],cnt=1+(Math.floor((n-1)/mathCountObjects.length)%50);item.q="Level "+level+": Count the "+obj[1]+" shown below.";item.ans=cnt;item.visual=Array(cnt+1).join('<span class="math-count-star">'+obj[0]+'</span>');}
+    else if(tier===1){var ob=mathCountObjects[(n*7)%mathCountObjects.length],groups=2+((n-1)%9),each=2+Math.floor((n-1)/9);item.q="Level "+level+": There are "+groups+" groups with "+each+" "+ob[1]+" in each group. How many altogether?";item.ans=groups*each;item.visual=Array(groups+1).join('<span class="math-group-chip">'+ob[0]+' × '+each+'</span>');}
     else{var step=2+((seed*3)%19),st=seed*3+tier*100;item.q="Continue the number pattern: "+st+", "+(st+step)+", "+(st+2*step)+", "+(st+3*step)+", ?";item.ans=st+4*step;item.visual='<span class="math-symbol-visual">🔢</span>';item.note="Skip-counting · step "+step;}
   }else if(cat==="names"){
     var value=tier===0?n:tier===1?1000+n*37:tier===2?10000+n*7919:tier===3?100000+n*79191:500000+n*131071,name=numberNameLarge(value),offs=[1,10,100,1000];
