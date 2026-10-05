@@ -200,7 +200,21 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
 .school-match-feedback{text-align:center;min-height:28px;font-weight:950;margin:12px 0 2px}
 .school-match-score{text-align:center;font-size:12px;font-weight:900;color:#5a45c5;margin-bottom:8px}
 @media(max-width:620px){.school-match-board{gap:20px}.school-match-node{font-size:12px;min-height:62px;padding:8px}.school-match-line{stroke-width:3}}
-</style>
+
+.school-match-sheet{background:linear-gradient(#fff,#fff) padding-box,repeating-linear-gradient(0deg,#f3f5fb 0,#f3f5fb 1px,transparent 1px,transparent 34px);border:1px solid #e1e5f2;border-radius:24px;padding:18px;box-shadow:0 12px 30px rgba(42,48,82,.08)}
+.school-match-title{text-align:center;margin-bottom:4px}.school-match-title b{font-size:22px}.school-match-title span{display:block;color:var(--muted);font-size:12px;font-weight:800;margin-top:4px}
+.school-match-board.worksheet{gap:90px;max-width:960px;padding:12px 18px 18px}.school-match-board.worksheet .school-match-col{gap:14px}
+.school-match-node.ws-left{min-height:78px;border:0;background:transparent;box-shadow:none;justify-content:flex-start;padding:0 6px;position:relative}
+.ws-letter-bubble{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;border:3px solid #31374b;font-size:32px;font-weight:900;box-shadow:0 5px 12px rgba(30,35,60,.08)}
+.ws-clue-card{min-height:64px;border-radius:15px;border:2px solid #dfe3ef;background:#fff;padding:10px 13px;display:flex;align-items:center;gap:10px;width:100%;font-weight:900}
+.school-match-node.ws-right{min-height:86px;border:2px solid #dfe3ef;background:#fff;box-shadow:0 7px 17px rgba(40,44,80,.07);display:flex;align-items:center;justify-content:flex-start;gap:13px;padding:10px 14px}
+.ws-picture{font-size:44px;line-height:1;min-width:52px;text-align:center;filter:drop-shadow(0 3px 4px rgba(30,40,60,.12))}
+.ws-word{font-size:18px;font-weight:950;text-align:left;line-height:1.15}.ws-word small{display:block;font-size:10px;color:var(--muted);font-weight:800;margin-top:4px}
+.school-match-node.ws-left.selected .ws-letter-bubble,.school-match-node.ws-left.selected .ws-clue-card{border-color:#6c4cff;background:#f2efff}
+.school-match-node.ws-left.matched .ws-letter-bubble,.school-match-node.ws-left.matched .ws-clue-card,.school-match-node.ws-right.matched{border-color:#45ca94;background:#e9fbf3}
+.workbook-library{margin-top:18px;border-top:1px dashed #d9dced;padding-top:16px}.workbook-library h4{margin:0 0 4px;font-size:18px}.workbook-library>p{margin:0;color:var(--muted);font-size:12px;font-weight:700}
+.workbook-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:12px}.workbook-card{border:1px solid var(--line);background:#fff;border-radius:15px;padding:11px;text-align:left;min-height:92px;color:var(--text);cursor:pointer}.workbook-card:hover{border-color:#a99cff;transform:translateY(-2px)}.workbook-card span{font-size:24px;display:block;margin-bottom:4px}.workbook-card b{font-size:12px;display:block}.workbook-card small{font-size:9px;color:var(--muted);font-weight:800;line-height:1.25;display:block;margin-top:3px}
+@media(max-width:900px){.workbook-grid{grid-template-columns:repeat(3,1fr)}.school-match-board.worksheet{gap:45px}}@media(max-width:620px){.workbook-grid{grid-template-columns:repeat(2,1fr)}.school-match-board.worksheet{gap:16px;padding:8px}.ws-letter-bubble{width:52px;height:52px;font-size:26px}.school-match-node.ws-right{padding:8px;gap:7px}.ws-picture{font-size:34px;min-width:38px}.ws-word{font-size:13px}}</style>
 </head>
 <body data-subject="english">
 <div class="subject-gate" id="subjectGate">
@@ -4800,6 +4814,69 @@ function bindVihaaSchoolMatching(){
   document.addEventListener("pointermove",move,{passive:true});document.addEventListener("pointerup",up,{once:false});
   window.addEventListener("resize",function(){vihaaRefreshMatchLines();},{once:true});
 }
+
+
+/* VIHAA v8.2 PICTURE WORKSHEET MATCHING + WORKBOOK LIBRARY */
+var VIHAA_QUESTION_ENGINE_VERSION="8.2.0";
+
+var vihaaPictureMap={
+ "apple":"🍎","banana":"🍌","cat":"🐱","dog":"🐶","elephant":"🐘","fish":"🐟","grapes":"🍇","hat":"🎩","ice cream":"🍦","jug":"🫗",
+ "ball":"⚽","moon":"🌙","sun":"☀️","rain":"🌧️","van":"🚐","egg":"🥚","ink":"🖋️","orange":"🍊","umbrella":"☂️","book":"📘","cup":"🥤","kite":"🪁","pencil":"✏️","bag":"🎒",
+ "red":"🍎","blue":"🌤️","green":"🌿","yellow":"🍌","white":"☁️","triangle":"🔺","square":"🟥","circle":"🔵","oval":"🥚","star":"⭐",
+ "ear":"👂","nose":"👃","eye":"👁️","hand":"✋","foot":"🦶","mouth":"👄","grandmother":"👵","grandfather":"👴","mother":"👩","father":"👨","brother":"👦","sister":"👧",
+ "carrot":"🥕","milk":"🥛","rice":"🍚","bread":"🍞","duck":"🦆","lion":"🦁","rabbit":"🐰","cow":"🐄","run":"🏃","jump":"🤸","read":"📖","write":"✍️","drink":"🥤","sleep":"😴",
+ "good morning":"🌅","thank you":"🙏","please":"🙂","sorry":"💛","good night":"🌙","teacher":"🧑‍🏫","school":"🏫","park":"🌳","doctor":"🧑‍⚕️","classroom":"🏫","garden":"🌻","market":"🛍️","bus":"🚌","farmer":"🧑‍🌾",
+ "she":"👧","he":"👦","it":"🐶","we":"👫","they":"👨‍👩‍👧","who":"🧑","where":"📍","when":"🕒","why":"❓","what":"💬","how":"🛠️",
+ "in":"📦","on":"⬆️","under":"⬇️","near":"↔️","between":"↔️","first":"1️⃣","next":"2️⃣","last":"3️⃣"
+};
+function vihaaPairPic(text){
+  var t=String(text||"").toLowerCase().replace(/[?.!]/g,"").trim();
+  if(vihaaPictureMap[t])return vihaaPictureMap[t];
+  for(var k in vihaaPictureMap){if(t.indexOf(k)>=0)return vihaaPictureMap[k];}
+  if(/^[a-z]$/i.test(t))return "🔤";
+  if(/^\d+$/.test(t))return "🔢";
+  return "🖼️";
+}
+function vihaaLooksLikeLetter(s){return /^[A-Z]$/.test(String(s||""));}
+function vihaaWorkbookForGrade(g){
+  if(g==="lkg")return[
+    ["🔤","Trace & recognise A–Z","Letter shapes and recognition","alphabet"],["🖼️","Letter → Picture","Match A with Apple, B with Banana","alphabet"],["🔡","Capital → Small","Match uppercase and lowercase letters","case"],["🔊","Beginning Sounds","Match letters to first-sound pictures","begin"],["🅰️","Vowel Hunt","Find A E I O U","vowels"],["🔢","1–10 Number Words","Match numbers and English words","num10"],["🎨","Colour Match","Match objects with colour words","colors"],["🔺","Shape Match","Match clues and common shapes","shapes"],["👃","Body Parts","Picture and body-part matching","body"],["👨‍👩‍👧","Family","Family relation matching","family"],["🍎","Food","Food picture vocabulary","food"],["🐶","Animals","Sound/picture to animal word","animals"],["👋","Polite Words","Greetings and everyday expressions","greetings"],["🏃","Action Words","Picture actions and verbs","actions"],["🎵","Rhyming Pairs","Match words with same endings","rhymes"],["🧠","Odd One Out","Category thinking with familiar words","picture"]
+  ];
+  if(g==="ukg")return[
+    ["🔊","Short Vowels","CVC vowel completion","shortvowels"],["🧩","CVC Picture Match","Simple word decoding","cvc"],["🏠","Word Families","Match -at, -in, -og families","families"],["🔗","Beginning Blends","bl, st, gr, fr, sp, cl","blends"],["✨","Digraph Match","sh, ch, th, wh, ph","digraphs"],["👀","Sight Words","Sentence gap + sight word","sight"],["🎵","Rhyme Match","Match rhyming pairs","rhymes2"],["1️⃣","One & Many","Singular to plural","plural"],["↔️","Opposites","Match opposite meanings","opposites"],["🏷️","Naming Words","Person/place/animal/thing","nouns"],["🏃","Doing Words","Subject to action word","verbs"],["🌟","Describing Words","Noun to adjective","adjectives"],["🅰️","A / An","Noun to correct article","articles"],["👉","This / That","Near/far and one/many","demonstratives"],["👦","Pronouns","Name to pronoun","pronouns"],["📍","Position Words","Object position to preposition","prepositions"],["✅","Is / Am / Are","Subject to be-verb","beverbs"],["🧱","Sentence Order","Jumbled words to sentence","sentence"],["❗","Punctuation","Sentence to correct punctuation","punctuation"],["📖","Mini Reading","Sentence/passage to answer","comprehension"]
+  ];
+  return[
+    ["🔤","Phonics Review","Sound-to-word decoding","phonics1"],["🅰️","Short / Long Vowels","Word pattern matching","vowels1"],["🏠","Word Families","Related spelling patterns","families1"],["🔗","Blends & Digraphs","Sound pattern recognition","digraphs1"],["👀","Sight Words","High-frequency words in context","sight1"],["🌍","Theme Vocabulary","School/home/community words","vocab1"],["🏷️","Nouns","Classify naming words","nouns1"],["🏫","Proper Nouns","Special-name matching","proper"],["👦","Pronouns","Noun to pronoun","pronouns1"],["🏃","Verbs","Subject-action matching","verbs1"],["🌟","Adjectives","Noun-description matching","adjectives1"],["🅰️","Articles","a/an/the practice","articles1"],["1️⃣","Singular / Plural","One-to-many forms","plural1"],["✅","Is / Am / Are","Subject agreement","beverbs1"],["👜","Has / Have","Subject to has/have","hashave"],["👉","Demonstratives","this/that/these/those","demonstratives1"],["📍","Prepositions","Position-word matching","prepositions1"],["❓","Question Words","Question type to question word","questionwords"],["🔠","Capitalisation","Fix names and sentence starts","capital"],["❗","Punctuation","Statements/questions/exclamations","punctuation1"],["🧩","Jumbled Sentences","Build correct sentence order","jumbled"],["📖","Reading Comprehension","Read and answer","comprehension1"],["1️⃣2️⃣3️⃣","Story Sequence","First/next/last","sequence"],["🎵","Rhyme & Poetry","Sound-pattern matching","poetry"],["🎙️","Speaking","Situation to spoken response","speaking"],["🖼️","Picture Description","Scene to sentence","picturedesc"],["✍️","Creative Writing","Prompt to connected sentences","writing"]
+  ];
+}
+function vihaaFindSchoolModuleIndex(grade,kind){
+  var arr=vihaaSchoolGrades[grade].modules;
+  for(var i=0;i<arr.length;i++)if(arr[i][3]===kind)return i;
+  return 0;
+}
+function vihaaAppendWorkbookLibrary(grade){
+  var box=el("kidsSchoolPath");if(!box)return;var old=el("kidsWorkbookLibrary");if(old)old.remove();
+  var lib=document.createElement("div");lib.id="kidsWorkbookLibrary";lib.className="workbook-library";
+  var items=vihaaWorkbookForGrade(grade);
+  lib.innerHTML='<h4>📒 Textbook-style Workbook Activities</h4><p>Picture matching, phonics, vocabulary, grammar, reading and writing practice in worksheet/game form.</p><div class="workbook-grid">'+items.map(function(a,i){return '<button class="workbook-card" data-wb-kind="'+a[3]+'"><span>'+a[0]+'</span><b>'+a[1]+'</b><small>'+a[2]+'</small></button>';}).join("")+'</div>';
+  box.appendChild(lib);
+  lib.querySelectorAll("[data-wb-kind]").forEach(function(b){b.onclick=function(){var kind=this.getAttribute("data-wb-kind"),idx=vihaaFindSchoolModuleIndex(grade,kind);openVihaaSchoolModule(grade,idx);setTimeout(function(){openVihaaSchoolMatching();},40);};});
+}
+var vihaaOldRenderSchoolPathV82=renderVihaaSchoolPath;
+renderVihaaSchoolPath=function(grade){
+  vihaaOldRenderSchoolPathV82(grade);vihaaAppendWorkbookLibrary(grade||state.kidsSchool.grade||"lkg");
+};
+
+var vihaaOldOpenSchoolMatchingV82=openVihaaSchoolMatching;
+openVihaaSchoolMatching=function(){
+  ensureVihaaSchoolState();
+  var ses=vihaaSchoolSession,g=vihaaSchoolGrades[ses.grade],m=g.modules[ses.module],pairs=vihaaSchoolMatchPairs(m[3],ses.module*17+ses.q*7);
+  vihaaMatchSession={pairs:pairs,matched:{},selected:null,grade:ses.grade,module:ses.module};
+  var rights=shuffleCopy(pairs.map(function(p,i){return{t:p[1],i:i};}));
+  var game=el("kidsSchoolGame");game.hidden=false;
+  game.innerHTML='<div class="school-match-sheet"><div class="kids-game-top"><div><h3>🧩 '+g.name+' · '+m[1]+'</h3><div class="slot-sub">Picture Worksheet Matching</div></div><button class="btn outline" id="kidsMatchBack">Back to Lesson</button></div><div class="school-match-title"><b>Match the correct pairs</b><span>Draw a line from LEFT to the correct picture/answer on RIGHT.</span></div><div class="school-match-score" id="schoolMatchScore">0 / '+pairs.length+' matched</div><div class="school-match-board worksheet" id="schoolMatchBoard"><svg class="school-match-lines" id="schoolMatchSvg"><line id="schoolPreviewLine" class="school-match-preview" x1="0" y1="0" x2="0" y2="0" style="display:none"></line></svg><div class="school-match-col">'+pairs.map(function(p,i){var left=vihaaLooksLikeLetter(p[0])?'<span class="ws-letter-bubble">'+vihaaHtml(p[0])+'</span>':'<span class="ws-clue-card"><span class="ws-picture">'+vihaaPairPic(p[0])+'</span><span>'+vihaaHtml(p[0])+'</span></span>';return '<button class="school-match-node ws-left school-left" data-match-left="'+i+'">'+left+'</button>';}).join("")+'</div><div class="school-match-col">'+rights.map(function(r){return '<button class="school-match-node ws-right school-right" data-match-right="'+r.i+'"><span class="ws-picture">'+vihaaPairPic(r.t)+'</span><span class="ws-word">'+vihaaHtml(r.t)+'<small>match here</small></span></button>';}).join("")+'</div></div><div class="school-match-feedback" id="schoolMatchFeedback"></div><div class="kids-school-actions"><button class="btn soft" id="schoolMatchReset">↻ New Mix</button></div></div>';
+  el("kidsMatchBack").onclick=function(){renderVihaaSchoolQuestion();};el("schoolMatchReset").onclick=function(){openVihaaSchoolMatching();};bindVihaaSchoolMatching();
+};
 
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
 if(el("multiReset"))el("multiReset").onclick=function(){if(extraAdaptiveReview.active)resetExtraAdaptiveReview();else resetExtraQuestion();};
