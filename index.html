@@ -514,12 +514,12 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
   <div class="adaptive-grid">
     <div class="adaptive-panel"><h3>Skill Mastery</h3><p class="slot-sub">Accuracy is weighted with practice volume, so one lucky answer cannot mark a skill as mastered.</p><div class="adaptive-skills" id="adaptiveSkills"></div></div>
     <div class="adaptive-panel"><h3>Next Best Lesson</h3><p class="slot-sub" id="adaptiveRecommendation">Start a smart session and the coach will pick the weakest area.</p><div class="adaptive-actions">
-      <button class="adaptive-action" id="adaptiveSmartBtn"><span>✨</span>Smart Session<small>10 mixed Zero-to-Hero tasks: phonics, vocabulary, grammar, passages, spelling and real-world English.</small></button>
-      <button class="adaptive-action" id="adaptiveReviewBtn"><span>🔁</span>Recall Review<small id="adaptiveReviewText">Memory-only spaced repetition for words you need to remember.</small></button>
-      <button class="adaptive-action" id="adaptiveReadBtn"><span>📖</span>Reading Passages<small>Read original passages, answer comprehension questions and move from easy to advanced.</small></button>
-      <button class="adaptive-action" id="adaptiveListenBtn"><span>🎧</span>Listening Lab<small>Hear English without seeing the answer first.</small></button>
-      <button class="adaptive-action" id="adaptiveSpeakBtn"><span>🎙️</span>Speaking Coach<small>Speak real sentences; browser speech recognition checks what it heard.</small></button>
-      <button class="adaptive-action" id="adaptiveWriteBtn"><span>✍️</span>Writing Lab<small>Write sentences and short paragraphs with guided checks for length, capitals and punctuation.</small></button>
+      <button class="adaptive-action" id="adaptiveSmartBtn"><span>✨</span>Smart Session<small>Endless Zero-to-Hero tasks: every Next generates a fresh phonics, vocabulary, grammar, passage, spelling or real-world English challenge.</small></button>
+      <button class="adaptive-action" id="adaptiveReviewBtn"><span>🔁</span>Recall Review<small id="adaptiveReviewText">Endless fresh memory challenges with new real English phrases; no fixed 7-card limit.</small></button>
+      <button class="adaptive-action" id="adaptiveReadBtn"><span>📖</span>Reading Passages<small>Unlimited original passages with fresh comprehension questions from foundation to advanced.</small></button>
+      <button class="adaptive-action" id="adaptiveListenBtn"><span>🎧</span>Listening Lab<small>Unlimited 5-stage listening: fresh words, details, instructions and real-life sentences.</small></button>
+      <button class="adaptive-action" id="adaptiveSpeakBtn"><span>🎙️</span>Speaking Coach<small>Unlimited fresh speaking sentences; difficulty rises from simple speech to advanced fluency.</small></button>
+      <button class="adaptive-action" id="adaptiveWriteBtn"><span>✍️</span>Writing Lab<small>Unlimited fresh writing prompts with teacher-style spelling, grammar, correction and 10-point scoring.</small></button>
     </div></div>
   </div>
 
@@ -5491,7 +5491,7 @@ if(questionHistory.engineVersion!=="9.1.0"){
 
 
 /* VIHAA v9.2 HERO CLICK HARD-FIX */
-VIHAA_QUESTION_ENGINE_VERSION="10.1.1";
+VIHAA_QUESTION_ENGINE_VERSION="11.0.0";
 
 function vihaaFastUniqueBatch(worldId,count,tier){
   questionHistory.seen=questionHistory.seen||{};
@@ -5606,13 +5606,13 @@ renderHome=function(){
   }
   /* Make the loaded release obvious and normalize old cache-buster URLs without reloading. */
   try{
-    var wanted="?v=10.1.1";
+    var wanted="?v=11.0.0";
     if(location.search!==wanted)history.replaceState(null,"",location.pathname+wanted+location.hash);
   }catch(e){}
 };
 
-if(questionHistory.engineVersion!=="10.1.1"){
-  questionHistory.engineVersion="10.1.1";
+if(questionHistory.engineVersion!=="11.0.0"){
+  questionHistory.engineVersion="11.0.0";
   questionHistory.answerRecent={};
   questionHistory.answerTextRecent={};
   saveQuestionHistory();
@@ -5626,7 +5626,7 @@ if(questionHistory.engineVersion!=="10.1.1"){
 })();
 
 /* VIHAA v10.0 ZERO-TO-HERO ADAPTIVE ENGLISH */
-VIHAA_QUESTION_ENGINE_VERSION="10.1.1";
+VIHAA_QUESTION_ENGINE_VERSION="11.0.0";
 
 function ensureAdaptiveZeroHero(){
   if(!state.adaptive)state.adaptive={skills:{},cards:{},sessions:0};
@@ -5887,7 +5887,7 @@ ensureAdaptiveZeroHero();
 
 
 /* VIHAA v10.1 WRITING TEACHER SPELLING GRAMMAR SCORE */
-VIHAA_QUESTION_ENGINE_VERSION="10.1.1";
+VIHAA_QUESTION_ENGINE_VERSION="11.0.0";
 
 var vihaaCommonTypos={
 "weakup":"wake up","wakeup":"wake up","writting":"writing","recieve":"receive","recieved":"received",
@@ -5982,6 +5982,304 @@ checkAdaptiveWriting=function(){
   el("adaptiveWritingModel").innerHTML="<b>📘 Model example (another correct way):</b><br>"+item.model;
   el("adaptiveWritingNext").style.display="inline-block";el("adaptiveWritingCheck").style.display="none";state.xp+=Math.max(5,Math.round(r.score));beep(true);save();renderAdaptiveCoach();
 };
+
+
+/* VIHAA v11.0 ENDLESS ADAPTIVE ENGINE */
+VIHAA_QUESTION_ENGINE_VERSION="11.0.0";
+
+function ensureAdaptiveEndless(){
+  ensureAdaptiveZeroHero();
+  if(!state.adaptive.endless)state.adaptive.endless={smart:0,recall:0,reading:0,listening:0,speaking:0,writing:0};
+  ["smart","recall","reading","listening","speaking","writing"].forEach(function(k){
+    if(!Number.isFinite(Number(state.adaptive.endless[k])))state.adaptive.endless[k]=0;
+  });
+}
+function vihaaEndlessNext(mode){
+  ensureAdaptiveEndless();
+  state.adaptive.endless[mode]=Number(state.adaptive.endless[mode]||0)+1;
+  save();
+  return state.adaptive.endless[mode];
+}
+function vihaaEIndex(serial,salt,len){
+  var x=Math.imul((serial+17)>>>0,(2654435761+salt*97)>>>0)>>>0;
+  x=(x^Math.imul((salt+11)>>>0,2246822519))>>>0;
+  return len?x%len:0;
+}
+function vihaaEPick(arr,serial,salt){return arr[vihaaEIndex(serial,salt,arr.length)];}
+function vihaaEStage(mode){
+  ensureAdaptiveEndless();
+  var base=vihaaAdaptiveStage(),n=Number(state.adaptive.endless[mode]||0);
+  return Math.max(1,Math.min(5,Math.max(base,1+Math.floor(n/30))));
+}
+var vihaaENames=["Aarav","Aanya","Vihan","Haasini","Ravi","Meera","Arjun","Kavya","Ishaan","Diya","Rahul","Anika","Kabir","Tara","Nikhil","Sana","Varun","Ira","Dev","Nisha","Maya","Rohan","Leela","Zoya","Neil","Kiran","Aditya","Mohan"];
+var vihaaEPlaces=["school library","science lab","community garden","city museum","railway station","reading room","sports centre","music room","computer lab","art studio","local market","bus terminal","book fair","auditorium","health centre","neighbourhood park","training room","project office","community hall","language club","study corner","workshop room","research centre","service desk"];
+var vihaaEThings=["notebook","project file","water bottle","dictionary","camera","calculator","timetable","backpack","paintbrush","microscope","ticket","keycard","poster","flashlight","tablet","helmet","folder","map","report","sample box","lunchbox","umbrella","reference book","measurement sheet","audio recorder","ID card"];
+var vihaaEAdjs=["careful","clear","detailed","useful","accurate","creative","practical","reliable","simple","bright","quiet","flexible","precise","helpful","efficient","thoughtful","balanced","realistic","organized","important","patient","confident","responsible","curious","consistent","effective"];
+var vihaaEAdvs=["carefully","clearly","accurately","politely","quietly","quickly","patiently","confidently","precisely","efficiently","thoughtfully","responsibly","steadily","deliberately","correctly","smoothly"];
+var vihaaEVerbs=["review","prepare","explain","organize","measure","collect","compare","record","design","present","check","deliver","summarize","investigate","solve","describe","confirm","update","repair","plan","discuss","complete","observe","practice","improve","evaluate"];
+var vihaaETopics=["daily reading","public transport","clean water","healthy routines","school projects","online learning","team communication","time management","recycling","local history","safe travel","customer service","digital safety","garden care","exercise habits","study planning","community volunteering","weather observations","energy saving","library use","workplace learning","food waste","road safety","creative writing"];
+var vihaaEWords=[
+ ["apple","A","/a/"],["banana","B","/b/"],["chair","ch","/ch/"],["ship","sh","/sh/"],["think","th","/th/"],["phone","ph","/f/"],["train","tr","/tr/"],["spoon","sp","/sp/"],["green","gr","/gr/"],["clock","cl","/cl/"],["frog","fr","/fr/"],["plane","pl","/pl/"],["kite","k","/k/"],["cube","c","/k/"],["whale","wh","/w/"],["zebra","z","/z/"],["queen","qu","/kw/"],["brush","br","/br/"],["stone","st","/st/"],["smile","sm","/sm/"],["globe","gl","/gl/"],["drum","dr","/dr/"],["flame","fl","/fl/"],["screen","scr","/skr/"],["spring","spr","/spr/"],["street","str","/str/"],["night","n","/n/"],["light","l","/l/"],["market","m","/m/"],["window","w","/w/"]
+];
+var vihaaESpellWords=["recommendation","environment","responsibility","communication","necessary","separate","beautiful","knowledge","successful","opportunity","development","government","beginning","receive","believe","business","language","experience","education","information","achievement","important","different","available","professional","community","decision","improvement","accurate","confidence"];
+var vihaaERecallAdj=["careful","clear","rapid","steady","practical","reliable","creative","precise","balanced","useful","quiet","flexible","strong","simple","detailed","effective","responsible","confident","patient","thoughtful","accurate","efficient","curious","organized","realistic","helpful","consistent","positive","active","focused","safe","smart"];
+var vihaaERecallNoun=["planning","analysis","review","report","practice","progress","decision","research","communication","schedule","project","summary","evidence","method","design","service","learning","feedback","solution","record","strategy","discussion","meeting","system","result","routine","exercise","journey","observation","response","presentation","assessment"];
+var vihaaERecallVerb=["review","prepare","check","organize","compare","record","explain","practice","improve","confirm","summarize","measure","discuss","evaluate","present","investigate","complete","update","describe","plan","observe","deliver","solve","read","write","listen","speak","revise","verify","arrange","monitor","support"];
+
+function vihaaUniqueOptions(correct,wrongs){
+  var out=[String(correct)],seen={};seen[String(correct).toLowerCase()]=1;
+  wrongs.forEach(function(x){x=String(x);var k=x.toLowerCase();if(!seen[k]){seen[k]=1;out.push(x);}});
+  return shuffleCopy(out.slice(0,4));
+}
+function vihaaMakeSmartItem(serial,stage){
+  var type=(serial-1)%8,name=vihaaEPick(vihaaENames,serial,1),name2=vihaaEPick(vihaaENames,serial,2),place=vihaaEPick(vihaaEPlaces,serial,3),thing=vihaaEPick(vihaaEThings,serial,4),thing2=vihaaEPick(vihaaEThings,serial,5),adj=vihaaEPick(vihaaEAdjs,serial,6),adv=vihaaEPick(vihaaEAdvs,serial,7),verb=vihaaEPick(vihaaEVerbs,serial,8);
+  var n=20+vihaaEIndex(serial,9,79),item={skill:"Grammar",passage:"",title:"",q:"",ans:"",opts:[],explain:""};
+  if(type===0){
+    var w=vihaaEPick(vihaaEWords,serial,10);item.skill="Phonics";item.q="During "+name+"'s reading practice at the "+place+", which statement about “"+w[0]+"” is correct?";
+    item.ans="“"+w[0]+"” begins with "+w[1]+" and the sound "+w[2]+".";
+    item.opts=vihaaUniqueOptions(item.ans,["“"+w[0]+"” begins with "+vihaaEPick(vihaaEWords,serial+3,11)[1]+".","“"+w[0]+"” has no opening consonant sound.","“"+w[0]+"” begins with the ending sound only."]);item.explain="Match the written beginning with the sound you hear.";
+  }else if(type===1){
+    item.skill="Vocabulary";item.q=name+" needs a phrase meaning work done with attention and accuracy for the "+thing+". Which answer fits best?";
+    item.ans=""+adj+" "+vihaaEPick(vihaaERecallNoun,serial,12);
+    item.opts=vihaaUniqueOptions(item.ans,[vihaaEPick(vihaaEAdvs,serial,13)+" "+thing,"careless "+thing2,"unrelated "+place]);item.explain="Use the meaning of the adjective and noun together.";
+  }else if(type===2){
+    item.skill="Grammar";item.q="Choose the grammatically correct sentence for "+name+"'s regular routine at the "+place+".";
+    item.ans=name+" "+verb+"s the "+thing+" "+adv+" every morning.";
+    item.opts=vihaaUniqueOptions(item.ans,[name+" "+verb+" the "+thing+" "+adv+" every morning.",name+" is "+verb+" the "+thing+" every morning.",name+" "+verb+"ed the "+thing+" every morning tomorrow."]);item.explain="A singular named subject normally takes the -s form in the simple present.";
+  }else if(type===3){
+    item.skill="Sentence Building";item.q="Which sentence is the clearest and best punctuated version of "+name+"'s note?";
+    item.ans="After checking the "+thing+", "+name+" "+verb+"ed the "+thing2+" at the "+place+".";
+    item.opts=vihaaUniqueOptions(item.ans,["After checking the "+thing+" "+name+" "+verb+"ed the "+thing2+" at the "+place+".","After checking, the "+thing+" "+verb+"ed "+name+".",name+" after the "+place+" the "+thing2+" "+verb+"ed."]);item.explain="The introductory phrase is followed by a comma and a clear subject.";
+  }else if(type===4){
+    var pass=vihaaMakeReadingPassage(serial,Math.max(1,stage));var qx=pass.qs[vihaaEIndex(serial,14,pass.qs.length)];
+    item.skill="Reading";item.title=pass.title;item.passage=pass.text;item.q=qx[0];item.ans=qx[1];item.opts=qx[2];item.explain="Use evidence from the passage.";
+  }else if(type===5){
+    item.skill="Real-world English";item.q=name+" is at the "+place+" and needs the "+thing+". Which reply is the most natural and polite?";
+    item.ans="Could you please help me find the "+thing+"?";
+    item.opts=vihaaUniqueOptions(item.ans,["Give "+thing+" now.","Where "+thing+"?","You must find the "+thing+" for me."]);item.explain="Polite requests use complete forms such as “Could you please…?”";
+  }else if(type===6){
+    item.skill="Grammar";item.q="By "+(6+vihaaEIndex(serial,15,6))+":00 tomorrow, "+name+" needs the "+thing+" completed. Choose the best tense.";
+    item.ans="By then, "+name+" will have "+verb+"ed the "+thing+".";
+    item.opts=vihaaUniqueOptions(item.ans,["By then, "+name+" "+verb+"s the "+thing+".","By then, "+name+" was "+verb+"ing the "+thing+".","By then, "+name+" has "+verb+" the "+thing+"."]);item.explain="Future perfect describes completion before a future deadline.";
+  }else{
+    var sw=vihaaEPick(vihaaESpellWords,serial,16);item.skill="Spelling";item.q=name+" is preparing a "+thing+" at the "+place+". Which sentence contains the correct spelling?";
+    item.ans="The correct spelling in "+name+"'s note is “"+sw+"”.";
+    var bad1=sw.replace(/ie/g,"ei"),bad2=sw.length>7?sw.slice(0,-1):sw+"e",bad3=sw.replace(/([a-z])\1/,"$1");
+    item.opts=vihaaUniqueOptions(item.ans,["The note spells it “"+bad1+"”.","The note spells it “"+bad2+"”.","The note spells it “"+bad3+"”."]);item.explain="Look closely at the complete standard spelling.";
+  }
+  return item;
+}
+
+function vihaaMakeReadingPassage(serial,stage){
+  var name=vihaaEPick(vihaaENames,serial,20),name2=vihaaEPick(vihaaENames,serial,21),place=vihaaEPick(vihaaEPlaces,serial,22),thing=vihaaEPick(vihaaEThings,serial,23),adj=vihaaEPick(vihaaEAdjs,serial,24),topic=vihaaEPick(vihaaETopics,serial,25),minutes=12+vihaaEIndex(serial,26,47),day=1+vihaaEIndex(serial,27,28);
+  var title,text,qs;
+  if(stage===1){
+    title=name+"'s Visit to the "+place;
+    text="On day "+day+", "+name+" goes to the "+place+" with "+name2+". "+name+" carries a "+adj+" "+thing+". They spend "+minutes+" minutes reading, talking and checking their things before they return home.";
+    qs=[
+      ["Where does "+name+" go?",""+name+" goes to the "+place+".",vihaaUniqueOptions(name+" goes to the "+place+".",[name+" goes to the "+vihaaEPick(vihaaEPlaces,serial+1,28)+".",name+" stays at home.",name+" goes to a hospital."])],
+      ["What does "+name+" carry?",""+name+" carries a "+adj+" "+thing+".",vihaaUniqueOptions(name+" carries a "+adj+" "+thing+".",[name+" carries a red bicycle.",name+" carries nothing.",name2+" carries a suitcase."])],
+      ["How long do they spend there?","They spend "+minutes+" minutes there.",vihaaUniqueOptions("They spend "+minutes+" minutes there.",["They spend "+(minutes+10)+" minutes there.","They stay all night.","They leave immediately."])]
+    ];
+  }else if(stage===2){
+    title="A Small "+topic+" Project";
+    text=name+" and "+name2+" start a "+topic+" project at the "+place+". "+name+" records observations in a "+thing+", while "+name2+" checks the schedule. They divide the work, compare results after "+minutes+" minutes and make one clear summary before leaving.";
+    qs=[
+      ["What project are they doing?","They are doing a "+topic+" project.",vihaaUniqueOptions("They are doing a "+topic+" project.",["They are planning a holiday.","They are buying furniture.","They are watching a film."])],
+      ["What does "+name+" do?",""+name+" records observations in the "+thing+".",vihaaUniqueOptions(name+" records observations in the "+thing+".",[name+" ignores the results.",name+" repairs a bus.",name2+" records a song."])],
+      ["How do they organise the work?","They divide the work and compare results.",vihaaUniqueOptions("They divide the work and compare results.",["One person does everything.","They avoid checking results.","They cancel the project."])]
+    ];
+  }else if(stage===3){
+    title="Why "+topic+" Needs a Clear Plan";
+    text="A clear plan can make "+topic+" easier to manage. In one activity at the "+place+", "+name+" first defined the goal, then listed the resources and finally checked progress after "+minutes+" minutes. The plan did not remove every problem, but it helped the team notice mistakes earlier and explain decisions more clearly.";
+    qs=[
+      ["What did "+name+" do first?",""+name+" defined the goal first.",vihaaUniqueOptions(name+" defined the goal first.",[name+" bought new equipment first.",name+" skipped the goal.",name+" ended the activity immediately."])],
+      ["What benefit did the plan provide?","It helped the team notice mistakes earlier.",vihaaUniqueOptions("It helped the team notice mistakes earlier.",["It removed every problem.","It made checking unnecessary.","It guaranteed perfect results."])],
+      ["What is the main idea?","A clear plan can improve how "+topic+" is managed.",vihaaUniqueOptions("A clear plan can improve how "+topic+" is managed.",["Planning always wastes time.","Only experts can plan.","Problems should be ignored."])]
+    ];
+  }else if(stage===4){
+    title="Investigating a "+topic+" Problem";
+    text="A team at the "+place+" noticed that a result connected with "+topic+" had changed unexpectedly. Instead of blaming one person, "+name+" compared records, "+name2+" checked the "+thing+", and the team repeated the measurement. They found a small process error. Correcting it improved the result without increasing the budget.";
+    qs=[
+      ["Why did the team investigate?","A result had changed unexpectedly.",vihaaUniqueOptions("A result had changed unexpectedly.",["They wanted a longer meeting.","The budget doubled.","Everyone agreed there was no problem."])],
+      ["What did the team find?","They found a small process error.",vihaaUniqueOptions("They found a small process error.",["They found no records.","They found a new building.","They found a weather forecast."])],
+      ["What lesson does the passage support?","Check evidence before blaming a person.",vihaaUniqueOptions("Check evidence before blaming a person.",["Blame the nearest person first.","Never repeat a measurement.","Ignore small changes."])]
+    ];
+  }else{
+    title="Evaluating Evidence about "+topic;
+    text="A single number can make a decision about "+topic+" look simple, but one measure rarely tells the whole story. At the "+place+", "+name+" compared speed, accuracy, cost and user impact before recommending a change. The evidence supported the change under some conditions, yet "+name+" also recorded the limits of the data and identified what new evidence could alter the conclusion.";
+    qs=[
+      ["Why did "+name+" compare several measures?","One measure alone could hide important trade-offs.",vihaaUniqueOptions("One measure alone could hide important trade-offs.",["The team disliked numbers.","Accuracy never matters.","Cost was the only concern."])],
+      ["What did "+name+" record besides the recommendation?","The limits of the data and evidence that could change the conclusion.",vihaaUniqueOptions("The limits of the data and evidence that could change the conclusion.",["Only the final number.","Personal opinions with no evidence.","A list of unrelated places."])],
+      ["What is the strongest conclusion?","Good evaluation considers evidence, trade-offs and uncertainty.",vihaaUniqueOptions("Good evaluation considers evidence, trade-offs and uncertainty.",["One metric is always enough.","Uncertainty should be hidden.","A decision should never be revised."])]
+    ];
+  }
+  return {stage:stage,title:title,text:text,qs:qs,serial:serial};
+}
+
+function vihaaMakeListeningItem(serial,stage){
+  var name=vihaaEPick(vihaaENames,serial,30),place=vihaaEPick(vihaaEPlaces,serial,31),thing=vihaaEPick(vihaaEThings,serial,32),thing2=vihaaEPick(vihaaEThings,serial,33),adj=vihaaEPick(vihaaEAdjs,serial,34),verb=vihaaEPick(vihaaEVerbs,serial,35),time=(6+vihaaEIndex(serial,36,12))+":"+(10+vihaaEIndex(serial,37,50));
+  var text,wrong=[];
+  if(stage===1){text=name+" has a "+adj+" "+thing+".";wrong=[name+" has a "+adj+" "+thing2+".",name+" lost the "+thing+".",name+" has two "+thing+"s."];}
+  else if(stage===2){text="Please put the "+adj+" "+thing+" beside the "+thing2+" at the "+place+".";wrong=["Please put the "+thing2+" beside the "+thing+".","Please take the "+thing+" home.","Please leave the "+thing+" outside."];}
+  else if(stage===3){text=name+"'s meeting starts at "+time+" in the "+place+", and the "+thing+" must be ready first.";wrong=[name+"'s meeting starts at "+time+" at home.",name+"'s meeting is cancelled and the "+thing+" is not needed.",name+"'s meeting starts later with the "+thing2+"."];}
+  else if(stage===4){text="Although the "+thing+" arrived late, "+name+" "+verb+"ed it "+vihaaEPick(vihaaEAdvs,serial,38)+" before the meeting at the "+place+".";wrong=["Because the "+thing+" arrived early, "+name+" ignored it.",name+" left the "+place+" before the "+thing+" arrived.","The meeting ended before "+name+" saw the "+thing+"."];}
+  else{text="The recommendation is useful only if "+name+" can verify the "+thing+" and explain its limitations clearly to the team at the "+place+".";wrong=["The recommendation is useful even if nobody checks the "+thing+".",name+" should hide the limitations from the team.","The team at the "+place+" does not need an explanation."];}
+  return {text:text,opts:vihaaUniqueOptions(text,wrong),serial:serial,stage:stage};
+}
+
+function vihaaMakeSpeakingPhrase(serial,stage){
+  var name=vihaaEPick(vihaaENames,serial,40),place=vihaaEPick(vihaaEPlaces,serial,41),thing=vihaaEPick(vihaaEThings,serial,42),thing2=vihaaEPick(vihaaEThings,serial,43),adj=vihaaEPick(vihaaEAdjs,serial,44),verb=vihaaEPick(vihaaEVerbs,serial,45);
+  if(stage===1)return "I have a "+adj+" "+thing+" and I am going to the "+place+".";
+  if(stage===2)return "Could you please help me "+verb+" the "+thing+" before I leave the "+place+"?";
+  if(stage===3)return name+" explained that the "+thing+" was more useful than the "+thing2+" for this task.";
+  if(stage===4)return "Although the schedule changed, "+name+" completed the "+thing+" and informed everyone at the "+place+".";
+  return "After reviewing the evidence, "+name+" concluded that the "+adj+" plan was effective, but its limitations should still be explained clearly.";
+}
+
+function vihaaMakeRecallCard(serial){
+  var a=vihaaEPick(vihaaERecallAdj,serial,50),n=vihaaEPick(vihaaERecallNoun,serial,51),v=vihaaEPick(vihaaERecallVerb,serial,52),adv=vihaaEPick(vihaaEAdvs,serial,53);
+  var type=(serial-1)%4,phrase;
+  if(type===0)phrase=a+" "+n;
+  else if(type===1)phrase=v+" the "+a+" "+n;
+  else if(type===2)phrase=adv+" "+v+" the "+n;
+  else phrase=a+" "+n+" for "+vihaaEPick(vihaaETopics,serial,54);
+  return {word:phrase,pic:"🧠",box:0,serial:serial};
+}
+
+function vihaaMakeWritingPrompt(serial,stage){
+  var name=vihaaEPick(vihaaENames,serial,60),place=vihaaEPick(vihaaEPlaces,serial,61),thing=vihaaEPick(vihaaEThings,serial,62),topic=vihaaEPick(vihaaETopics,serial,63),adj=vihaaEPick(vihaaEAdjs,serial,64),minutes=10+vihaaEIndex(serial,65,50);
+  if(stage===1)return {stage:1,title:"Daily Sentence · "+name,prompt:"Write one clear sentence about a morning routine that includes "+thing+" and a time before "+(7+vihaaEIndex(serial,66,4))+":30.",min:8,guide:["Capital letter","Subject + action","End punctuation"],model:"I check my "+thing+" before 7:30 every morning and then start my day."};
+  if(stage===2)return {stage:2,title:"Describe the "+place,prompt:"Write 2–3 sentences describing the "+place+". Mention a "+adj+" "+thing+" and one activity people can do there.",min:20,guide:["Use there is/are","Add an adjective","Use 2–3 sentences"],model:"The "+place+" is a useful place for the community. There is a "+adj+" "+thing+" near the entrance. People can read, learn, or complete their work there."};
+  if(stage===3)return {stage:3,title:"Opinion · "+topic,prompt:"Write a short paragraph explaining whether "+topic+" is useful. Give one reason and one real example involving "+name+".",min:38,guide:["Clear opinion","Reason","Example","Conclusion"],model:"I think "+topic+" can be useful when it solves a real problem. For example, "+name+" can use a simple plan to save time and avoid repeated mistakes. The benefit depends on how carefully the idea is applied."};
+  if(stage===4)return {stage:4,title:"Practical Message · "+place,prompt:"Write a polite email asking "+name+" to confirm a meeting at the "+place+" and bring the "+thing+". Mention that the meeting will last about "+minutes+" minutes.",min:50,guide:["Greeting","Clear request","Meeting detail","Polite closing"],model:"Hello "+name+", I am writing to confirm our meeting at the "+place+". Could you please bring the "+thing+" with you? We expect the meeting to last about "+minutes+" minutes. Thank you, and please let me know if the time needs to change. Kind regards."};
+  return {stage:5,title:"Analytical Writing · "+topic,prompt:"Write an analytical paragraph about "+topic+". Explain one benefit, one limitation, and what evidence you would check before making a final decision at the "+place+".",min:75,guide:["Claim","Benefit","Limitation","Evidence","Balanced conclusion"],model:topic+" may provide a useful benefit when it addresses a clearly defined need. However, the result can depend on context, cost and implementation quality. Before making a final decision at the "+place+", I would compare measurable outcomes, user impact and possible risks. A balanced conclusion should state both the evidence and its limitations."};
+}
+
+/* SMART SESSION — endless */
+startAdaptiveSmart=function(){
+  ensureAdaptiveEndless();hideAdaptiveStages();
+  var serial=vihaaEndlessNext("smart"),stage=vihaaEStage("smart"),item=vihaaMakeSmartItem(serial,stage);
+  adaptiveSession={mode:"smart",index:0,items:[item],locked:false,difficulty:stage,serial:serial};
+  el("adaptiveSmartStage").hidden=false;renderAdaptiveSmart();
+};
+renderAdaptiveSmart=function(){
+  var item=adaptiveSession.items[0],stage=adaptiveSession.difficulty||1;adaptiveSession.locked=false;
+  el("adaptiveSmartCount").textContent="Question "+adaptiveSession.serial+" · ∞";
+  el("adaptiveSmartDifficulty").textContent="Stage "+stage+" · "+vihaaStageName(stage);
+  el("adaptiveSmartSkill").textContent=item.skill;el("adaptiveSmartLevel").textContent="Endless A–Z English · fresh question every Next";
+  el("adaptiveSmartQuestion").textContent=item.q;el("adaptiveSmartFeedback").textContent="";el("adaptiveSmartNext").style.display="none";
+  if(item.passage){el("adaptiveSmartPassage").hidden=false;el("adaptiveSmartPassage").innerHTML="<h3>"+item.title+"</h3><p>"+item.passage+"</p>";}else{el("adaptiveSmartPassage").hidden=true;el("adaptiveSmartPassage").innerHTML="";}
+  el("adaptiveSmartOptions").innerHTML=shuffleCopy(item.opts.slice()).map(function(x){return '<button class="adaptive-option" data-smart-answer="'+String(x).replace(/"/g,"&quot;")+'">'+x+'</button>';}).join("");
+  el("adaptiveSmartOptions").querySelectorAll("[data-smart-answer]").forEach(function(b){b.onclick=function(){answerAdaptiveSmart(this,item);};});
+};
+nextAdaptiveSmart=function(){
+  if(!adaptiveSession.locked)return;
+  var serial=vihaaEndlessNext("smart"),stage=vihaaEStage("smart");adaptiveSession.serial=serial;adaptiveSession.difficulty=stage;adaptiveSession.items=[vihaaMakeSmartItem(serial,stage)];adaptiveSession.index=0;adaptiveSession.locked=false;renderAdaptiveSmart();
+  if(serial%10===0){state.xp+=20;state.stars+=1;save();toast("✨ 10 fresh Smart questions completed · +20 XP +1⭐");}
+};
+
+/* RECALL — endless unique memory phrases */
+startAdaptiveReview=function(){
+  ensureAdaptiveEndless();hideAdaptiveStages();var serial=vihaaEndlessNext("recall");
+  adaptiveSession={mode:"recall",index:0,items:[vihaaMakeRecallCard(serial)],locked:false,serial:serial};el("adaptiveRecallStage").hidden=false;renderAdaptiveRecall();save();
+};
+renderAdaptiveRecall=function(){
+  var card=adaptiveSession.items[0];adaptiveSession.locked=false;
+  el("adaptiveRecallCount").textContent="Card "+adaptiveSession.serial+" · ∞";el("adaptiveRecallBox").textContent="Fresh Memory Phrase";el("adaptiveRecallPic").textContent="🧠";
+  el("adaptiveRecallPrompt").textContent="Memorise: "+card.word;el("adaptiveRecallInput").value="";el("adaptiveRecallInput").disabled=true;el("adaptiveRecallFeedback").textContent="The phrase will hide in 2 seconds.";el("adaptiveRecallNext").style.display="none";
+  setTimeout(function(){if(adaptiveSession.mode==="recall"&&!adaptiveSession.locked&&adaptiveSession.items[0]===card){el("adaptiveRecallPrompt").textContent="Now type the phrase from memory. "+String(card.word).split(/\s+/).length+" words.";el("adaptiveRecallInput").disabled=false;el("adaptiveRecallFeedback").textContent="";el("adaptiveRecallInput").focus();}},2000);
+};
+checkAdaptiveRecall=function(){
+  if(adaptiveSession.locked)return;var card=adaptiveSession.items[0],val=normalizeSpeech(el("adaptiveRecallInput").value),ok=val===normalizeSpeech(card.word);trackAdaptiveSkill("recall",ok);trackAdaptiveSkill("vocabulary",ok);
+  if(!ok){el("adaptiveRecallFeedback").textContent="❌ Not exact yet. Try the phrase again from memory.";el("adaptiveRecallInput").select();beep(false);save();renderAdaptiveCoach();return;}
+  adaptiveSession.locked=true;el("adaptiveRecallFeedback").textContent="✅ Correct — "+card.word+". Fresh card unlocked.";el("adaptiveRecallInput").disabled=true;el("adaptiveRecallNext").style.display="inline-block";state.xp+=7;beep(true);speak(card.word);save();renderAdaptiveCoach();
+};
+nextAdaptiveRecall=function(){
+  if(!adaptiveSession.locked)return;var serial=vihaaEndlessNext("recall");adaptiveSession.serial=serial;adaptiveSession.items=[vihaaMakeRecallCard(serial)];adaptiveSession.locked=false;renderAdaptiveRecall();
+  if(serial%10===0){state.xp+=15;state.stars+=1;save();toast("🔁 10 fresh Recall cards completed · +15 XP +1⭐");}
+};
+
+/* READING — unlimited generated original passages */
+startAdaptiveReading=function(){
+  ensureAdaptiveEndless();hideAdaptiveStages();var serial=vihaaEndlessNext("reading"),stage=vihaaEStage("reading");
+  adaptiveReadingSession={passage:vihaaMakeReadingPassage(serial,stage),q:0,serial:serial,stage:stage,locked:false};el("adaptiveReadingStage").hidden=false;renderAdaptiveReading();save();
+};
+renderAdaptiveReading=function(){
+  var s=adaptiveReadingSession,p=s.passage,q=p.qs[s.q];s.locked=false;
+  el("adaptiveReadingLevel").textContent="Stage "+p.stage+" · "+vihaaStageName(p.stage)+" · Endless Reading";
+  el("adaptiveReadingCount").textContent="Question "+(s.q+1)+" / "+p.qs.length;el("adaptiveReadingPassageNo").textContent="Passage "+s.serial+" · ∞";
+  el("adaptiveReadingTitle").textContent=p.title;el("adaptiveReadingText").textContent=p.text;el("adaptiveReadingQuestion").textContent=q[0];el("adaptiveReadingFeedback").textContent="";el("adaptiveReadingNext").style.display="none";
+  el("adaptiveReadingOptions").innerHTML=shuffleCopy(q[2].slice()).map(function(x){return '<button class="adaptive-option" data-reading-answer="'+String(x).replace(/"/g,"&quot;")+'">'+x+'</button>';}).join("");
+  el("adaptiveReadingOptions").querySelectorAll("[data-reading-answer]").forEach(function(b){b.onclick=function(){answerAdaptiveReading(this,q);};});
+};
+nextAdaptiveReading=function(){
+  if(!adaptiveReadingSession.locked)return;adaptiveReadingSession.q++;
+  if(adaptiveReadingSession.q<adaptiveReadingSession.passage.qs.length){renderAdaptiveReading();return;}
+  state.xp+=12;save();var serial=vihaaEndlessNext("reading"),stage=vihaaEStage("reading");adaptiveReadingSession={passage:vihaaMakeReadingPassage(serial,stage),q:0,serial:serial,stage:stage,locked:false};toast("📖 New fresh passage generated");renderAdaptiveReading();
+};
+
+/* LISTENING — unlimited 5-stage generated sentences */
+startAdaptiveListening=function(){
+  ensureAdaptiveEndless();hideAdaptiveStages();var serial=vihaaEndlessNext("listening"),stage=vihaaEStage("listening");
+  adaptiveSession={mode:"listening",index:0,items:[vihaaMakeListeningItem(serial,stage)],locked:false,difficulty:stage,serial:serial};el("adaptiveListeningStage").hidden=false;renderAdaptiveListening();save();
+};
+renderAdaptiveListening=function(){
+  var item=adaptiveSession.items[0],stage=adaptiveSession.difficulty||1;adaptiveSession.locked=false;
+  el("adaptiveListenCount").textContent="Question "+adaptiveSession.serial+" · ∞";el("adaptiveListenDifficulty").textContent="Stage "+stage+" / 5";
+  el("adaptiveListenLevel").textContent=stage===1?"Short sentence recognition":stage===2?"Instructions & detail":stage===3?"Time, place & key facts":stage===4?"Complex sentence listening":"Advanced meaning & limitation";
+  el("adaptiveListenFeedback").textContent="Listen carefully. Each Next creates a fresh sentence.";el("adaptiveListenNext").style.display="none";
+  el("adaptiveListenOptions").innerHTML=shuffleCopy(item.opts.slice()).map(function(x){return '<button class="adaptive-option" data-adaptive-listen="'+String(x).replace(/"/g,"&quot;")+'">'+x+'</button>';}).join("");
+  el("adaptiveListenOptions").querySelectorAll("[data-adaptive-listen]").forEach(function(b){b.onclick=function(){answerAdaptiveListening(this,item);};});setTimeout(function(){speak(item.text);},180);
+};
+answerAdaptiveListening=function(btn,item){
+  if(adaptiveSession.locked)return;var ok=btn.getAttribute("data-adaptive-listen")===item.text;trackAdaptiveSkill("listening",ok);
+  if(!ok){btn.classList.add("wrong");btn.disabled=true;el("adaptiveListenFeedback").textContent="❌ Not the exact sentence. Listen again and compare the details.";beep(false);save();return;}
+  adaptiveSession.locked=true;btn.classList.add("correct");el("adaptiveListenFeedback").textContent="✅ Correct — details matched.";el("adaptiveListenOptions").querySelectorAll(".adaptive-option").forEach(function(x){x.disabled=true;});el("adaptiveListenNext").style.display="inline-block";state.xp+=6;beep(true);save();renderAdaptiveCoach();
+};
+nextAdaptiveListening=function(){
+  if(!adaptiveSession.locked)return;var serial=vihaaEndlessNext("listening"),stage=vihaaEStage("listening");adaptiveSession.serial=serial;adaptiveSession.difficulty=stage;adaptiveSession.items=[vihaaMakeListeningItem(serial,stage)];adaptiveSession.locked=false;renderAdaptiveListening();
+  if(serial%10===0){state.xp+=20;state.stars+=1;save();toast("🎧 10 fresh Listening questions completed · +20 XP +1⭐");}
+};
+
+/* SPEAKING — unlimited generated target sentences */
+startAdaptiveSpeaking=function(){
+  ensureAdaptiveEndless();hideAdaptiveStages();var serial=vihaaEndlessNext("speaking"),stage=vihaaEStage("speaking");
+  adaptiveSession={mode:"speaking",index:0,items:[vihaaMakeSpeakingPhrase(serial,stage)],locked:false,difficulty:stage,serial:serial};el("adaptiveSpeakingStage").hidden=false;renderAdaptiveSpeaking();save();
+};
+renderAdaptiveSpeaking=function(){
+  var phrase=adaptiveSession.items[0];adaptiveSession.locked=false;el("adaptiveSpeakCount").textContent="Sentence "+adaptiveSession.serial+" · ∞";el("adaptiveSpeakDifficulty").textContent="Stage "+adaptiveSession.difficulty+" / 5";el("adaptiveSpeakPhrase").textContent=phrase;el("adaptiveTranscript").textContent="Your recognised speech will appear here.";el("adaptiveSpeakFeedback").textContent="Fresh sentence generated — speak naturally and clearly.";el("adaptiveSpeakNext").style.display="none";el("adaptiveMicBtn").disabled=false;el("adaptiveMicBtn").textContent="🎙️ Speak Now";
+};
+nextAdaptiveSpeaking=function(){
+  if(!adaptiveSession.locked)return;var serial=vihaaEndlessNext("speaking"),stage=vihaaEStage("speaking");adaptiveSession.serial=serial;adaptiveSession.difficulty=stage;adaptiveSession.items=[vihaaMakeSpeakingPhrase(serial,stage)];adaptiveSession.locked=false;renderAdaptiveSpeaking();
+  if(serial%10===0){state.xp+=20;state.stars+=1;save();toast("🎙️ 10 fresh Speaking sentences completed · +20 XP +1⭐");}
+};
+
+/* WRITING — unlimited generated teacher-checked prompts */
+startAdaptiveWriting=function(){
+  ensureAdaptiveEndless();hideAdaptiveStages();var serial=vihaaEndlessNext("writing"),stage=vihaaEStage("writing");
+  adaptiveWritingSession={items:[vihaaMakeWritingPrompt(serial,stage)],index:0,stage:stage,serial:serial,locked:false};el("adaptiveWritingStage").hidden=false;renderAdaptiveWriting();save();
+};
+var vihaaEndlessWritingBaseRender=renderAdaptiveWriting;
+renderAdaptiveWriting=function(){
+  vihaaEndlessWritingBaseRender();
+  var item=adaptiveWritingSession.items[0];el("adaptiveWritingCount").textContent="Prompt "+adaptiveWritingSession.serial+" · ∞";el("adaptiveWritingTarget").textContent="Target: "+item.min+"+ words · Stage "+item.stage+"/5";
+};
+nextAdaptiveWriting=function(){
+  if(!adaptiveWritingSession.locked)return;var serial=vihaaEndlessNext("writing"),stage=vihaaEStage("writing");adaptiveWritingSession={items:[vihaaMakeWritingPrompt(serial,stage)],index:0,stage:stage,serial:serial,locked:false};renderAdaptiveWriting();
+  if(serial%10===0){state.xp+=25;state.stars+=1;save();toast("✍️ 10 fresh Writing prompts completed · +25 XP +1⭐");}
+};
+
+/* Adaptive dashboard copy now reflects endless tracks. */
+var vihaaEndlessCoachRender=renderAdaptiveCoach;
+renderAdaptiveCoach=function(){
+  vihaaEndlessCoachRender();
+  if(el("adaptiveDueChip"))el("adaptiveDueChip").textContent="∞ fresh practice available";
+  if(el("adaptiveReviewText"))el("adaptiveReviewText").textContent="Endless fresh memory phrases — no 7-card limit.";
+  if(el("adaptiveRecommendation"))el("adaptiveRecommendation").textContent="All six Coach modes are endless. Every Next generates a fresh task; difficulty rises across 5 stages.";
+};
+
+ensureAdaptiveEndless();
 
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
 if(el("multiReset"))el("multiReset").onclick=function(){if(extraAdaptiveReview.active)resetExtraAdaptiveReview();else resetExtraQuestion();};
