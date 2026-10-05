@@ -5491,7 +5491,7 @@ if(questionHistory.engineVersion!=="9.1.0"){
 
 
 /* VIHAA v9.2 HERO CLICK HARD-FIX */
-VIHAA_QUESTION_ENGINE_VERSION="11.0.0";
+VIHAA_QUESTION_ENGINE_VERSION="11.0.1";
 
 function vihaaFastUniqueBatch(worldId,count,tier){
   questionHistory.seen=questionHistory.seen||{};
@@ -5606,13 +5606,13 @@ renderHome=function(){
   }
   /* Make the loaded release obvious and normalize old cache-buster URLs without reloading. */
   try{
-    var wanted="?v=11.0.0";
+    var wanted="?v=11.0.1";
     if(location.search!==wanted)history.replaceState(null,"",location.pathname+wanted+location.hash);
   }catch(e){}
 };
 
-if(questionHistory.engineVersion!=="11.0.0"){
-  questionHistory.engineVersion="11.0.0";
+if(questionHistory.engineVersion!=="11.0.1"){
+  questionHistory.engineVersion="11.0.1";
   questionHistory.answerRecent={};
   questionHistory.answerTextRecent={};
   saveQuestionHistory();
@@ -5626,7 +5626,7 @@ if(questionHistory.engineVersion!=="11.0.0"){
 })();
 
 /* VIHAA v10.0 ZERO-TO-HERO ADAPTIVE ENGLISH */
-VIHAA_QUESTION_ENGINE_VERSION="11.0.0";
+VIHAA_QUESTION_ENGINE_VERSION="11.0.1";
 
 function ensureAdaptiveZeroHero(){
   if(!state.adaptive)state.adaptive={skills:{},cards:{},sessions:0};
@@ -5887,7 +5887,7 @@ ensureAdaptiveZeroHero();
 
 
 /* VIHAA v10.1 WRITING TEACHER SPELLING GRAMMAR SCORE */
-VIHAA_QUESTION_ENGINE_VERSION="11.0.0";
+VIHAA_QUESTION_ENGINE_VERSION="11.0.1";
 
 var vihaaCommonTypos={
 "weakup":"wake up","wakeup":"wake up","writting":"writing","recieve":"receive","recieved":"received",
@@ -5985,7 +5985,7 @@ checkAdaptiveWriting=function(){
 
 
 /* VIHAA v11.0 ENDLESS ADAPTIVE ENGINE */
-VIHAA_QUESTION_ENGINE_VERSION="11.0.0";
+VIHAA_QUESTION_ENGINE_VERSION="11.0.1";
 
 function ensureAdaptiveEndless(){
   ensureAdaptiveZeroHero();
@@ -6280,6 +6280,62 @@ renderAdaptiveCoach=function(){
 };
 
 ensureAdaptiveEndless();
+
+
+/* VIHAA v11.0.1 NATURAL ENGLISH POLISH */
+VIHAA_QUESTION_ENGINE_VERSION="11.0.1";
+
+function vihaaArticleFor(phrase){
+  var w=String(phrase||"").trim().toLowerCase();
+  if(/^(honest|hour|honour|heir)\b/.test(w))return "an";
+  if(/^(uni|use|user|euro|one)\b/.test(w))return "a";
+  return /^[aeiou]/.test(w)?"an":"a";
+}
+var vihaaNaturalWorkAdjs=["careful","detailed","accurate","efficient","systematic","practical","professional","thorough","clear","structured","reliable","balanced","focused","consistent","thoughtful","objective"];
+var vihaaNaturalWorkNouns=["analysis","review","planning","research","preparation","communication","documentation","evaluation","reporting","practice","assessment","investigation","presentation","summary","record keeping","decision making"];
+
+var vihaaOldMakeSmartItemV1101=vihaaMakeSmartItem;
+vihaaMakeSmartItem=function(serial,stage){
+  var item=vihaaOldMakeSmartItemV1101(serial,stage);
+  if((serial-1)%8===1){
+    var name=vihaaEPick(vihaaENames,serial,101),thing=vihaaEPick(vihaaEThings,serial,102),adj=vihaaEPick(vihaaNaturalWorkAdjs,serial,103),noun=vihaaEPick(vihaaNaturalWorkNouns,serial,104);
+    var coll=adj+" "+noun;
+    item.skill="Vocabulary";
+    item.q=name+" is preparing the "+thing+". Which sentence uses a natural phrase for work done with attention, quality and purpose?";
+    item.ans=name+" should use "+coll+" for the "+thing+".";
+    item.opts=vihaaUniqueOptions(item.ans,[
+      name+" should use careless "+noun+" for the "+thing+".",
+      name+" should use unrelated noise for the "+thing+".",
+      name+" should avoid checking the "+thing+" completely."
+    ]);
+    item.explain="“"+coll+"” is a natural English collocation for purposeful work.";
+  }
+  return item;
+};
+
+var vihaaOldMakeListeningItemV1101=vihaaMakeListeningItem;
+vihaaMakeListeningItem=function(serial,stage){
+  var item=vihaaOldMakeListeningItemV1101(serial,stage);
+  if(stage===1){
+    var name=vihaaEPick(vihaaENames,serial,105),thing=vihaaEPick(vihaaEThings,serial,106),thing2=vihaaEPick(vihaaEThings,serial,107),adj=vihaaEPick(vihaaEAdjs,serial,108),article=vihaaArticleFor(adj);
+    item.text=name+" has "+article+" "+adj+" "+thing+".";
+    item.opts=vihaaUniqueOptions(item.text,[
+      name+" has "+article+" "+adj+" "+thing2+".",
+      name+" lost the "+thing+".",
+      name+" has two "+thing+"s."
+    ]);
+  }
+  return item;
+};
+
+var vihaaOldMakeSpeakingPhraseV1101=vihaaMakeSpeakingPhrase;
+vihaaMakeSpeakingPhrase=function(serial,stage){
+  if(stage===1){
+    var adj=vihaaEPick(vihaaEAdjs,serial,109),thing=vihaaEPick(vihaaEThings,serial,110),place=vihaaEPick(vihaaEPlaces,serial,111);
+    return "I have "+vihaaArticleFor(adj)+" "+adj+" "+thing+" and I am going to the "+place+".";
+  }
+  return vihaaOldMakeSpeakingPhraseV1101(serial,stage);
+};
 
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
 if(el("multiReset"))el("multiReset").onclick=function(){if(extraAdaptiveReview.active)resetExtraAdaptiveReview();else resetExtraQuestion();};
