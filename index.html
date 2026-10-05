@@ -280,7 +280,7 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
     <div class="math-q" id="mathQuestion">7 + 8 = ?</div>
     <div class="math-q-options" id="mathOptions"></div>
     <div class="adaptive-feedback" id="mathFeedback"></div>
-    <div class="monster-session-actions"><button class="btn green" id="mathNext" style="display:none">Next →</button><button class="btn outline" id="mathBackHome">Back to Maths Map</button></div>
+    <div class="monster-session-actions"><button class="btn danger" id="mathReset" style="display:none">↻ New Question</button><button class="btn green" id="mathNext" style="display:none">Next →</button><button class="btn outline" id="mathBackHome">Back to Maths Map</button></div>
   </div>
 </section>
 
@@ -1171,19 +1171,53 @@ function mathWorldMastered(id){var st=state.math.topicStats[id]||{a:0,c:0},p=st.
 function renderMathPassport(){var count=0;el("mathPassportGrid").innerHTML=mathWorlds.map(function(w){var mastered=mathWorldMastered(w.id),st=state.math.topicStats[w.id]||{a:0,c:0},p=st.a?Math.round(st.c/st.a*100):0;if(mastered)count++;return '<div class="passport-stamp '+(mastered?"unlocked":"")+'"><div class="seal">'+w.icon+'</div><div><b>'+w.title+'</b><small>'+(mastered?"Maths Mastery Stamp ✓":(st.a||0)+" attempts · "+p+"% accuracy")+'</small></div></div>';}).join("");el("mathPassportCount").textContent=count+" / 12 stamps";}
 function downloadMathPassport(){var c=document.createElement("canvas");c.width=1600;c.height=1000;var x=c.getContext("2d"),g=x.createLinearGradient(0,0,1600,1000);g.addColorStop(0,"#fff4d8");g.addColorStop(1,"#ebe5ff");x.fillStyle=g;x.fillRect(0,0,1600,1000);x.fillStyle="#251d54";x.textAlign="center";x.font="900 64px Segoe UI";x.fillText("VIHAA MATHS SKILL PASSPORT",800,110);x.font="800 40px Segoe UI";x.fillText(state.name||"Maths Explorer",800,175);var mastered=0;mathWorlds.forEach(function(w,i){var ok=mathWorldMastered(w.id);if(ok)mastered++;var col=i%3,row=Math.floor(i/3),px=220+col*520,py=280+row*155;x.textAlign="left";x.font="44px Segoe UI";x.fillText(w.icon,px,py);x.font="700 23px Segoe UI";x.fillText(w.title,px+62,py-5);x.font="600 18px Segoe UI";x.fillStyle=ok?"#167651":"#777";x.fillText(ok?"MASTERED ✓":"In progress",px+62,py+28);x.fillStyle="#251d54";});x.textAlign="center";x.font="900 30px Segoe UI";x.fillText(mastered+" / 12 Maths mastery stamps",800,930);var a=document.createElement("a");a.href=c.toDataURL("image/png");a.download="VIHAA-Maths-Skill-Passport.png";document.body.appendChild(a);a.click();a.remove();toast("Maths Skill Passport downloaded");}
 function startMathQuiz(topic){
-  state.currentSubject="maths";save();applySubject("maths",false);mathGame={topic:topic||0,index:0,total:10,score:0,locked:false,serial:(state.math.answers||0)+1};showView("mathquiz");renderMathQuestion();
+  state.currentSubject="maths";save();document.body.setAttribute("data-subject","maths");
+  mathGame={topic:topic||0,index:0,total:10,score:0,locked:false,failed:false,variant:0,serial:(state.math.answers||0)+1,lastQuestion:""};
+  showView("mathquiz");
+}
+function ensureMathQuiz(){
+  if(!mathGame)mathGame={topic:0,index:0,total:10,score:0,locked:false,failed:false,variant:0,serial:(state.math.answers||0)+1,lastQuestion:""};
+  renderMathQuestion();
 }
 function renderMathQuestion(){
-  var topic=mathGame.topic||(((mathGame.index+(state.math.answers||0))%12)+1),item=mathQuestionFor(topic,mathGame.serial+mathGame.index),opts=mathOptionsFor(item.ans,mathGame.serial+mathGame.index);mathGame.item=item;mathGame.currentTopic=topic;mathGame.locked=false;
-  el("mathQuestionCount").textContent="Question "+(mathGame.index+1)+" / "+mathGame.total;el("mathDifficultyChip").textContent="Difficulty "+Math.max(1,Math.ceil((state.math.quizLevel||1)/10));el("mathQuizTopicChip").textContent=mathWorlds[topic-1].title;el("mathQuizProgress").style.width=(mathGame.index/mathGame.total*100)+"%";el("mathQuestion").textContent=item.q;el("mathFeedback").textContent="";el("mathNext").style.display="none";
-  el("mathOptions").innerHTML=opts.map(function(x){return '<button class="math-q-option" data-math-answer="'+x+'">'+x+'</button>';}).join("");el("mathOptions").querySelectorAll("[data-math-answer]").forEach(function(b){b.onclick=function(){answerMath(this);};});
+  if(!mathGame)return;
+  var seed=mathGame.serial+mathGame.index+(mathGame.variant||0)*101;
+  var topic=mathGame.topic||(((seed+(state.math.answers||0))%12)+1),item=mathQuestionFor(topic,seed),guard=0;
+  while(mathGame.lastQuestion&&item.q===mathGame.lastQuestion&&guard<50){mathGame.variant=(mathGame.variant||0)+1;seed=mathGame.serial+mathGame.index+mathGame.variant*101;topic=mathGame.topic||(((seed+(state.math.answers||0))%12)+1);item=mathQuestionFor(topic,seed);guard++;}
+  var opts=mathOptionsFor(item.ans,seed);
+  mathGame.item=item;mathGame.currentTopic=topic;mathGame.locked=false;mathGame.failed=false;mathGame.lastQuestion=item.q;
+  el("mathQuestionCount").textContent="Question "+(mathGame.index+1)+" / "+mathGame.total;
+  el("mathDifficultyChip").textContent="Difficulty "+Math.max(1,Math.ceil((state.math.quizLevel||1)/10));
+  el("mathQuizTopicChip").textContent=mathGame.topic?mathWorlds[topic-1].title:"Mixed Maths · "+mathWorlds[topic-1].title;
+  el("mathQuizProgress").style.width=(mathGame.index/mathGame.total*100)+"%";
+  el("mathQuestion").textContent=item.q;el("mathFeedback").textContent="";
+  el("mathNext").style.display="none";el("mathReset").style.display="none";
+  el("mathOptions").innerHTML=opts.map(function(x){return '<button class="math-q-option" data-math-answer="'+x+'">'+x+'</button>';}).join("");
+  el("mathOptions").querySelectorAll("[data-math-answer]").forEach(function(b){b.onclick=function(){answerMath(this);};});
 }
 function answerMath(btn){
-  if(mathGame.locked)return;var picked=Number(btn.getAttribute("data-math-answer")),ans=Number(mathGame.item.ans),ok=Math.abs(picked-ans)<.0001;state.math.answers++;if(!state.math.topicStats[mathGame.currentTopic])state.math.topicStats[mathGame.currentTopic]={a:0,c:0};state.math.topicStats[mathGame.currentTopic].a++;
-  if(!ok){btn.classList.add("wrong");btn.disabled=true;el("mathFeedback").textContent="❌ Try again. Next stays locked until the correct answer.";recordMathMistake(mathGame.item.q,mathGame.item.ans,mathGame.currentTopic,picked);beep(false);save();return;}
-  mathGame.locked=true;mathGame.score++;state.math.correct++;state.math.topicStats[mathGame.currentTopic].c++;state.math.xp+=10;state.xp+=10;btn.classList.add("correct");el("mathFeedback").textContent="✅ Correct!";el("mathOptions").querySelectorAll(".math-q-option").forEach(function(x){x.disabled=true;});el("mathNext").style.display="inline-block";beep(true);save();
+  if(!mathGame||mathGame.locked)return;
+  var picked=Number(btn.getAttribute("data-math-answer")),ans=Number(mathGame.item.ans),ok=Math.abs(picked-ans)<.0001;
+  state.math.answers++;if(!state.math.topicStats[mathGame.currentTopic])state.math.topicStats[mathGame.currentTopic]={a:0,c:0};state.math.topicStats[mathGame.currentTopic].a++;
+  if(!ok){
+    mathGame.locked=true;mathGame.failed=true;btn.classList.add("wrong");
+    el("mathOptions").querySelectorAll(".math-q-option").forEach(function(x){x.disabled=true;});
+    el("mathFeedback").textContent="❌ Wrong. This question is locked. Press New Question.";
+    el("mathReset").style.display="inline-block";el("mathNext").style.display="none";
+    recordMathMistake(mathGame.item.q,mathGame.item.ans,mathGame.currentTopic,picked);beep(false);save();return;
+  }
+  mathGame.locked=true;mathGame.failed=false;mathGame.score++;state.math.correct++;state.math.topicStats[mathGame.currentTopic].c++;state.math.xp+=10;state.xp+=10;
+  btn.classList.add("correct");el("mathFeedback").textContent="✅ Correct!";el("mathOptions").querySelectorAll(".math-q-option").forEach(function(x){x.disabled=true;});el("mathNext").style.display="inline-block";el("mathReset").style.display="none";beep(true);save();
 }
-function nextMathQuestion(){if(!mathGame||!mathGame.locked)return;mathGame.index++;if(mathGame.index<mathGame.total){renderMathQuestion();return;}state.math.sessions++;if(mathGame.score>=8){state.math.stars+=2;state.stars+=2;state.math.quizLevel=Math.min(100,(state.math.quizLevel||1)+1);confetti();}save();toast("🧮 Maths Quiz: "+mathGame.score+"/10");showView("mathhome");renderMathHome();}
+function resetMathQuestion(){
+  if(!mathGame||!mathGame.failed)return;mathGame.variant=(mathGame.variant||0)+1;mathGame.locked=false;mathGame.failed=false;renderMathQuestion();
+}
+function nextMathQuestion(){
+  if(!mathGame||!mathGame.locked||mathGame.failed)return;mathGame.index++;mathGame.variant=0;
+  if(mathGame.index<mathGame.total){renderMathQuestion();return;}
+  state.math.sessions++;if(mathGame.score>=8){state.math.stars+=2;state.stars+=2;state.math.quizLevel=Math.min(100,(state.math.quizLevel||1)+1);confetti();}
+  save();toast("🧮 Maths Quiz: "+mathGame.score+"/10");mathGame=null;showView("mathhome");renderMathHome();
+}
 function renderSubjectGolden(){
   var count=balloonState.letters.length,nodes=el("mathGoldLetters")?el("mathGoldLetters").children:[];for(var i=0;i<nodes.length;i++)nodes[i].classList.toggle("found",i<count);
 }
@@ -1202,7 +1236,7 @@ function showView(name){
   document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
   var target=el("view-"+name);if(target)target.classList.add("active");
   document.querySelectorAll(".nav-btn").forEach(function(b){b.classList.toggle("active",b.getAttribute("data-view")===name);});
-  if(name==="home")renderHome();if(name==="mathhome")renderMathHome();if(name==="mathadaptive")renderMathAdaptive();if(name==="mathkids")renderMathKids();if(name==="mathmonster")renderMathMonster();if(name==="mathpuzzles")renderMathPuzzleCards();if(name==="mathmistakes")renderMathMistakes();if(name==="mathpassport")renderMathPassport();if(name==="mathprogress")renderMathProgress();if(name==="mathformula")renderMathFormulas();if(name==="adaptive")renderAdaptiveCoach();if(name==="kids")renderKidsZone();if(name==="monster")renderMonsterTopics();if(name==="minigames")renderMiniGameScores();if(name==="mistakes")renderMistakes();if(name==="rewards")renderRewards();if(name==="parent")renderParent();if(name==="sunday")renderSundayQuiz();if(name==="settings")renderSettings();
+  if(name==="home")renderHome();if(name==="mathhome")renderMathHome();if(name==="mathquiz")ensureMathQuiz();if(name==="mathadaptive")renderMathAdaptive();if(name==="mathkids")renderMathKids();if(name==="mathmonster")renderMathMonster();if(name==="mathpuzzles")renderMathPuzzleCards();if(name==="mathmistakes")renderMathMistakes();if(name==="mathpassport")renderMathPassport();if(name==="mathprogress")renderMathProgress();if(name==="mathformula")renderMathFormulas();if(name==="adaptive")renderAdaptiveCoach();if(name==="kids")renderKidsZone();if(name==="monster")renderMonsterTopics();if(name==="minigames")renderMiniGameScores();if(name==="mistakes")renderMistakes();if(name==="rewards")renderRewards();if(name==="parent")renderParent();if(name==="sunday")renderSundayQuiz();if(name==="settings")renderSettings();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function renderProfilePhoto(){var img=el("profilePhoto"),emoji=el("avatarEmoji");if(!img||!emoji)return;if(state.photo){img.src=state.photo;img.hidden=false;emoji.style.display="none";}else{img.removeAttribute("src");img.hidden=true;emoji.style.display="grid";}}
@@ -3305,7 +3339,7 @@ if(el("mathMonsterClose"))el("mathMonsterClose").onclick=function(){el("mathMons
 document.querySelectorAll("[data-math-puzzle]").forEach(function(b){b.onclick=function(){startMathPuzzle(this.getAttribute("data-math-puzzle"));};});
 if(el("mathPuzzleNext"))el("mathPuzzleNext").onclick=nextMathPuzzle;
 if(el("mathPuzzleClose"))el("mathPuzzleClose").onclick=function(){el("mathPuzzleStage").hidden=true;};
-if(el("mathPassportDownload"))el("mathPassportDownload").onclick=downloadMathPassport;if(el("mathFormulaSearch"))el("mathFormulaSearch").oninput=renderMathFormulas;if(el("mathFormulaReset"))el("mathFormulaReset").onclick=function(){el("mathFormulaSearch").value="";formulaFilter="All";renderMathFormulas();};if(el("formulaBackBtn"))el("formulaBackBtn").onclick=function(){showView("mathformula");};if(el("formulaRevealAnswer"))el("formulaRevealAnswer").onclick=function(){el("formulaPracticeAnswer").classList.add("show");this.textContent="Full Solution Revealed";};if(el("formulaPracticeTopicBtn"))el("formulaPracticeTopicBtn").onclick=function(){if(window.activeMathFormula)startMathQuiz(window.activeMathFormula.topic||0);};if(el("mathNext"))el("mathNext").onclick=nextMathQuestion;if(el("mathBackHome"))el("mathBackHome").onclick=function(){showView("mathhome");};
+if(el("mathPassportDownload"))el("mathPassportDownload").onclick=downloadMathPassport;if(el("mathFormulaSearch"))el("mathFormulaSearch").oninput=renderMathFormulas;if(el("mathFormulaReset"))el("mathFormulaReset").onclick=function(){el("mathFormulaSearch").value="";formulaFilter="All";renderMathFormulas();};if(el("formulaBackBtn"))el("formulaBackBtn").onclick=function(){showView("mathformula");};if(el("formulaRevealAnswer"))el("formulaRevealAnswer").onclick=function(){el("formulaPracticeAnswer").classList.add("show");this.textContent="Full Solution Revealed";};if(el("formulaPracticeTopicBtn"))el("formulaPracticeTopicBtn").onclick=function(){if(window.activeMathFormula)startMathQuiz(window.activeMathFormula.topic||0);};if(el("mathReset"))el("mathReset").onclick=resetMathQuestion;if(el("mathNext"))el("mathNext").onclick=nextMathQuestion;if(el("mathBackHome"))el("mathBackHome").onclick=function(){mathGame=null;showView("mathhome");};
 document.querySelectorAll(".nav-btn").forEach(function(b){b.onclick=function(){showView(b.getAttribute("data-view"));};});
 document.querySelectorAll("[data-go]").forEach(function(b){b.onclick=function(){showView(b.getAttribute("data-go"));};});
 el("continueBtn").onclick=function(){startAdventure(Math.min(state.highest,100));};
