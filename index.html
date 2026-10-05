@@ -214,7 +214,13 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
 .school-match-node.ws-left.matched .ws-letter-bubble,.school-match-node.ws-left.matched .ws-clue-card,.school-match-node.ws-right.matched{border-color:#45ca94;background:#e9fbf3}
 .workbook-library{margin-top:18px;border-top:1px dashed #d9dced;padding-top:16px}.workbook-library h4{margin:0 0 4px;font-size:18px}.workbook-library>p{margin:0;color:var(--muted);font-size:12px;font-weight:700}
 .workbook-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:12px}.workbook-card{border:1px solid var(--line);background:#fff;border-radius:15px;padding:11px;text-align:left;min-height:92px;color:var(--text);cursor:pointer}.workbook-card:hover{border-color:#a99cff;transform:translateY(-2px)}.workbook-card span{font-size:24px;display:block;margin-bottom:4px}.workbook-card b{font-size:12px;display:block}.workbook-card small{font-size:9px;color:var(--muted);font-weight:800;line-height:1.25;display:block;margin-top:3px}
-@media(max-width:900px){.workbook-grid{grid-template-columns:repeat(3,1fr)}.school-match-board.worksheet{gap:45px}}@media(max-width:620px){.workbook-grid{grid-template-columns:repeat(2,1fr)}.school-match-board.worksheet{gap:16px;padding:8px}.ws-letter-bubble{width:52px;height:52px;font-size:26px}.school-match-node.ws-right{padding:8px;gap:7px}.ws-picture{font-size:34px;min-width:38px}.ws-word{font-size:13px}}</style>
+@media(max-width:900px){.workbook-grid{grid-template-columns:repeat(3,1fr)}.school-match-board.worksheet{gap:45px}}@media(max-width:620px){.workbook-grid{grid-template-columns:repeat(2,1fr)}.school-match-board.worksheet{gap:16px;padding:8px}.ws-letter-bubble{width:52px;height:52px;font-size:26px}.school-match-node.ws-right{padding:8px;gap:7px}.ws-picture{font-size:34px;min-width:38px}.ws-word{font-size:13px}}
+.vikram-source-library{margin-top:18px;background:linear-gradient(135deg,#f4fffc,#fff 48%,#f7f4ff);border:1px solid var(--line);border-radius:22px;padding:16px}
+.vikram-source-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}.vikram-source-head h4{margin:0 0 5px;font-size:19px}.vikram-source-head p{margin:0;color:var(--muted);font-size:11px;font-weight:750;max-width:780px;line-height:1.45}
+.vikram-source-actions{display:flex;gap:8px;flex-wrap:wrap}.vikram-source-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:13px}.vikram-source-card{border:1px solid var(--line);background:#fff;border-radius:15px;padding:10px 11px;text-align:left;color:var(--text);cursor:pointer;min-height:76px;display:flex;gap:9px;align-items:flex-start}.vikram-source-card:hover{border-color:#8e7cff;transform:translateY(-2px);box-shadow:0 7px 18px rgba(50,47,100,.06)}.vikram-source-card .vs-icon{font-size:22px;line-height:1}.vikram-source-card b{display:block;font-size:11px;line-height:1.3}.vikram-source-card small{display:block;color:var(--muted);font-size:9px;font-weight:800;margin-top:3px}.vikram-source-note{margin-top:10px;font-size:10px;color:var(--muted);font-weight:750;line-height:1.45}.vikram-source-note strong{color:var(--text)}
+.vikram-chip{display:inline-flex;padding:6px 9px;border-radius:999px;background:#eafbf6;color:#167456;font-size:10px;font-weight:950}
+@media(max-width:850px){.vikram-source-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.vikram-source-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body data-subject="english">
 <div class="subject-gate" id="subjectGate">
@@ -4876,6 +4882,90 @@ openVihaaSchoolMatching=function(){
   var game=el("kidsSchoolGame");game.hidden=false;
   game.innerHTML='<div class="school-match-sheet"><div class="kids-game-top"><div><h3>🧩 '+g.name+' · '+m[1]+'</h3><div class="slot-sub">Picture Worksheet Matching</div></div><button class="btn outline" id="kidsMatchBack">Back to Lesson</button></div><div class="school-match-title"><b>Match the correct pairs</b><span>Draw a line from LEFT to the correct picture/answer on RIGHT.</span></div><div class="school-match-score" id="schoolMatchScore">0 / '+pairs.length+' matched</div><div class="school-match-board worksheet" id="schoolMatchBoard"><svg class="school-match-lines" id="schoolMatchSvg"><line id="schoolPreviewLine" class="school-match-preview" x1="0" y1="0" x2="0" y2="0" style="display:none"></line></svg><div class="school-match-col">'+pairs.map(function(p,i){var left=vihaaLooksLikeLetter(p[0])?'<span class="ws-letter-bubble">'+vihaaHtml(p[0])+'</span>':'<span class="ws-clue-card"><span class="ws-picture">'+vihaaPairPic(p[0])+'</span><span>'+vihaaHtml(p[0])+'</span></span>';return '<button class="school-match-node ws-left school-left" data-match-left="'+i+'">'+left+'</button>';}).join("")+'</div><div class="school-match-col">'+rights.map(function(r){return '<button class="school-match-node ws-right school-right" data-match-right="'+r.i+'"><span class="ws-picture">'+vihaaPairPic(r.t)+'</span><span class="ws-word">'+vihaaHtml(r.t)+'<small>match here</small></span></button>';}).join("")+'</div></div><div class="school-match-feedback" id="schoolMatchFeedback"></div><div class="kids-school-actions"><button class="btn soft" id="schoolMatchReset">↻ New Mix</button></div></div>';
   el("kidsMatchBack").onclick=function(){renderVihaaSchoolQuestion();};el("schoolMatchReset").onclick=function(){openVihaaSchoolMatching();};bindVihaaSchoolMatching();
+};
+
+
+/* VIHAA v8.3 VIKRAM LKG COMPLETE SOURCE-LINKED LIBRARY */
+var VIHAA_QUESTION_ENGINE_VERSION="8.3.0";
+
+var vihaaVikramLkgSources=[
+["🧩","Alphabets in sequence","https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg/english/alphabets-in-sequence/alphabets-in-sequence/20/55"],
+["↔️","Circle / match the opposites","https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg/english/opposites/circle-the-opposites/19/54"],
+["👀","Circle the sight words","https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg/english/sight-words/circle-the-sight-words/22/60"],
+["🅰️","Colour the vowel letters","https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg/english/colour-the-vowel-letters/colour-the-vowel-letters/21/56"],
+["🔤","CVC words","https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg/english/cvc-words/cvc-words/18/53"],
+["🎨","Identify letter & colour related picture","https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg/english/identify-the-letter-and-colour-the-related-picture/identify-the-letter-and-colour-the-related-picture/7/42"],
+["✍️","Picture → beginning letter","https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg/english/identify-the-picture-and-write-the-beginning-letter/identify-the-picture-and-write-the-beginning-letter/6/41"],
+["🖼️","Picture related to the letter","https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg/english/identify-the-pictures-related-to-the-letter/identify-the-picture-related-to-the-letter/3/40"],
+["🔗","Match pictures with letters","https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg/english/match-the-pictures-with-letter/match-the-pictures-with-letter/24/62"],
+["🔡","Uppercase ↔ lowercase matching","https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg/english/match-the-uppercase-letter-with-its-lowercase-letter/match-the-uppercase-letter-with-its-lowercase-letter/23/61"],
+["📍","Prepositions","https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg/english/prepositions/prepositions/41/83"],
+["✏️","Tracing lowercase alphabets","https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg/english/tracing-lowercase-alphabets/tracing-lowercase-alphabets/80/135"],
+["🖋️","Tracing uppercase cursive alphabets","https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg/english/tracing-uppercase-cursive-alphabets/tracing-uppercase-cursive-alphabets/81/136"],
+["👉","Sight words: these / those","https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg/english/sight-words/use-sight-words-these-and-those/22/59"],
+["👈","Sight words: this / that","https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg/english/sight-words/use-sight-words-this-and-that/22/58"],
+["🌈","Sight words colour-code activity","https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg/english/sight-words/use-sight-words-with-colour-code-to-finish-the-picture/22/57"]
+].concat("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(function(L,i){
+ return ["🔤","Letter "+L+" worksheets","https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg/english/tracing-uppercase-alphabets/letter-"+L.toLowerCase()+"/1/"+(i+1)];
+}));
+
+function vihaaOpenSource(url){window.open(url,"_blank","noopener,noreferrer");}
+
+function vihaaAppendVikramSourceLibrary(grade){
+  var box=el("kidsSchoolPath");if(!box)return;var old=el("vikramSourceLibrary");if(old)old.remove();
+  if(grade!=="lkg")return;
+  var sec=document.createElement("div");sec.id="vikramSourceLibrary";sec.className="vikram-source-library";
+  sec.innerHTML='<div class="vikram-source-head"><div><h4>📚 Vikram Learning · LKG English Source Library</h4><p>Complete source-linked access for the LKG English worksheet collection. The publisher currently lists <b>195 printable LKG English worksheets</b>. Open any category below to use its original worksheet pages and PDF download controls.</p></div><div class="vikram-source-actions"><span class="vikram-chip">195 printable worksheets</span><button class="btn dark" id="vikramOpenAll">Open Complete Library ↗</button></div></div><div class="vikram-source-grid">'+vihaaVikramLkgSources.map(function(x){return '<button class="vikram-source-card" data-vikram-url="'+vihaaHtml(x[2])+'"><span class="vs-icon">'+x[0]+'</span><span><b>'+vihaaHtml(x[1])+'</b><small>Original worksheet / PDF source ↗</small></span></button>';}).join("")+'</div><div class="vikram-source-note"><strong>Note:</strong> These cards open the original Vikram Learning pages instead of copying their PDF files into this GitHub project. This keeps the worksheets on the publisher’s own host while making the full LKG library reachable from VIHAA.</div>';
+  box.appendChild(sec);
+  el("vikramOpenAll").onclick=function(){vihaaOpenSource("https://vikramlearning.com/free-worksheets/lower-kindergarten-or-lkg-worksheets/english-worksheets/1");};
+  sec.querySelectorAll("[data-vikram-url]").forEach(function(b){b.onclick=function(){vihaaOpenSource(this.getAttribute("data-vikram-url"));};});
+}
+
+var vihaaOldRenderSchoolPathV83=renderVihaaSchoolPath;
+renderVihaaSchoolPath=function(grade){
+  vihaaOldRenderSchoolPathV83(grade);
+  vihaaAppendVikramSourceLibrary(grade||state.kidsSchool.grade||"lkg");
+};
+
+/* Add native activity labels represented by the uploaded/source worksheets. */
+(function(){
+  var mods=vihaaSchoolGrades&&vihaaSchoolGrades.lkg&&vihaaSchoolGrades.lkg.modules;
+  if(!mods)return;
+  function has(kind){return mods.some(function(m){return m[3]===kind;});}
+  if(!has("sequencealpha"))mods.push(["🔢","Alphabet Sequence","Fill missing capital/small letters in A–Z order.","sequencealpha"]);
+  if(!has("opposites"))mods.push(["↔️","Opposites","Match and choose opposite words with picture clues.","opposites"]);
+  if(!has("sightsearch"))mods.push(["🔎","Sight Word Hunt","Find common sight words inside a letter grid.","sightsearch"]);
+})();
+var vihaaOldSchoolLessonV83=vihaaSchoolLesson;
+vihaaSchoolLesson=function(kind){
+  if(kind==="sequencealpha")return["English letters follow a fixed A–Z sequence. Find the missing letter by checking the letters before and after it.",["A B _ D","g _ i","X Y Z"]];
+  if(kind==="opposites")return["Opposites are words with contrasting meanings. Match each word with the picture or word showing the opposite idea.",["happy ↔ sad","inside ↔ outside","open ↔ closed"]];
+  if(kind==="sightsearch")return["Sight words are common words we recognise quickly. Search a grid and spot words such as the, is, to, one and not.",["the","is","to","one","not"]];
+  return vihaaOldSchoolLessonV83(kind);
+};
+var vihaaOldSchoolQuestionV83=vihaaSchoolQuestion;
+vihaaSchoolQuestion=function(kind,serial){
+  var s=Number(serial||1);
+  if(kind==="sequencealpha"){
+    var alpha="ABCDEFGHIJKLMNOPQRSTUVWXYZ",i=1+(s%24),ans=alpha[i],q="Fill the missing letter: "+alpha[i-1]+"  _  "+alpha[i+1];
+    return vihaaSafeMcq(q,ans,[ans,alpha[(i+3)%26],alpha[(i+7)%26],alpha[(i+11)%26]],ans+" comes between "+alpha[i-1]+" and "+alpha[i+1]+".");
+  }
+  if(kind==="opposites"){
+    var p=[["happy","sad"],["inside","outside"],["sit","stand"],["full","empty"],["near","far"],["open","closed"],["left","right"],["laugh","cry"],["soft","hard"],["clean","dirty"],["float","sink"]];
+    var x=p[s%p.length];return vihaaSafeMcq("What is the opposite of ‘"+x[0]+"’?",x[1],[x[1],"same","middle","again"],x[0]+" and "+x[1]+" are opposites.");
+  }
+  if(kind==="sightsearch"){
+    var w=["his","that","her","the","to","so","is","do","no","one","up","not"],ans=w[s%w.length];
+    return vihaaSafeMcq("Which option is one of today’s sight words?",ans,[ans,"zebra","rocket","purple"],ans+" is a common sight word in this activity.");
+  }
+  return vihaaOldSchoolQuestionV83(kind,serial);
+};
+var vihaaOldMatchPairsV83=vihaaSchoolMatchPairs;
+vihaaSchoolMatchPairs=function(kind,seed){
+  if(kind==="sequencealpha")return[["A _ C","B"],["D _ F","E"],["H _ J","I"],["K _ M","L"],["X _ Z","Y"]];
+  if(kind==="opposites")return[["Happy","Sad"],["Inside","Outside"],["Sit","Stand"],["Full","Empty"],["Near","Far"],["Open","Closed"]];
+  if(kind==="sightsearch")return[["h _ s","his"],["t h _ t","that"],["t h _","the"],["_ s","is"],["o n _","one"]];
+  return vihaaOldMatchPairsV83(kind,seed);
 };
 
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
