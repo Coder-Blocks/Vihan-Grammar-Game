@@ -5519,7 +5519,7 @@ if(questionHistory.engineVersion!=="9.1.0"){
 
 
 /* VIHAA v9.2 HERO CLICK HARD-FIX */
-VIHAA_QUESTION_ENGINE_VERSION="11.0.1";
+VIHAA_QUESTION_ENGINE_VERSION="12.0.0";
 
 function vihaaFastUniqueBatch(worldId,count,tier){
   questionHistory.seen=questionHistory.seen||{};
@@ -5634,13 +5634,13 @@ renderHome=function(){
   }
   /* Make the loaded release obvious and normalize old cache-buster URLs without reloading. */
   try{
-    var wanted="?v=11.0.1";
+    var wanted="?v=12.0.0";
     if(location.search!==wanted)history.replaceState(null,"",location.pathname+wanted+location.hash);
   }catch(e){}
 };
 
-if(questionHistory.engineVersion!=="11.0.1"){
-  questionHistory.engineVersion="11.0.1";
+if(questionHistory.engineVersion!=="12.0.0"){
+  questionHistory.engineVersion="12.0.0";
   questionHistory.answerRecent={};
   questionHistory.answerTextRecent={};
   saveQuestionHistory();
@@ -5654,7 +5654,7 @@ if(questionHistory.engineVersion!=="11.0.1"){
 })();
 
 /* VIHAA v10.0 ZERO-TO-HERO ADAPTIVE ENGLISH */
-VIHAA_QUESTION_ENGINE_VERSION="11.0.1";
+VIHAA_QUESTION_ENGINE_VERSION="12.0.0";
 
 function ensureAdaptiveZeroHero(){
   if(!state.adaptive)state.adaptive={skills:{},cards:{},sessions:0};
@@ -5915,7 +5915,7 @@ ensureAdaptiveZeroHero();
 
 
 /* VIHAA v10.1 WRITING TEACHER SPELLING GRAMMAR SCORE */
-VIHAA_QUESTION_ENGINE_VERSION="11.0.1";
+VIHAA_QUESTION_ENGINE_VERSION="12.0.0";
 
 var vihaaCommonTypos={
 "weakup":"wake up","wakeup":"wake up","writting":"writing","recieve":"receive","recieved":"received",
@@ -6013,7 +6013,7 @@ checkAdaptiveWriting=function(){
 
 
 /* VIHAA v11.0 ENDLESS ADAPTIVE ENGINE */
-VIHAA_QUESTION_ENGINE_VERSION="11.0.1";
+VIHAA_QUESTION_ENGINE_VERSION="12.0.0";
 
 function ensureAdaptiveEndless(){
   ensureAdaptiveZeroHero();
@@ -6311,7 +6311,7 @@ ensureAdaptiveEndless();
 
 
 /* VIHAA v11.0.1 NATURAL ENGLISH POLISH */
-VIHAA_QUESTION_ENGINE_VERSION="11.0.1";
+VIHAA_QUESTION_ENGINE_VERSION="12.0.0";
 
 function vihaaArticleFor(phrase){
   var w=String(phrase||"").trim().toLowerCase();
@@ -6364,6 +6364,236 @@ vihaaMakeSpeakingPhrase=function(serial,stage){
   }
   return vihaaOldMakeSpeakingPhraseV1101(serial,stage);
 };
+
+
+/* VIHAA v12.0 CLASS 1-12 DEEP CURRICULUM ACADEMY */
+VIHAA_QUESTION_ENGINE_VERSION="12.0.0";
+
+function deepSplit(s){return String(s||"").split("||").filter(Boolean);}
+var vihaaDeepCurriculum={
+maths:{
+1:deepSplit("Numbers to 100|counting;place value;compare;number names||Addition & Subtraction|facts within 20;number bonds;story sums;mental maths||Shapes & Space|2D shapes;3D objects;position;patterns||Measurement|long-short;heavy-light;capacity;non-standard units||Time & Calendar|day;week;month;clock basics||Money & Data|coins;notes;simple buying;pictographs;sorting"),
+2:deepSplit("Numbers to 1000|place value;expanded form;compare;skip counting||Addition & Subtraction|2/3 digit operations;regrouping;word problems||Multiplication Foundations|equal groups;repeated addition;tables 2–5||Division Foundations|sharing;grouping;inverse relationship||Geometry & Measurement|lines;shapes;symmetry;length;mass;capacity||Time Money Data|clock;calendar;money problems;pictographs"),
+3:deepSplit("Numbers & Place Value|larger numbers;rounding;comparison||Four Operations|addition;subtraction;multiplication;division||Fractions|part-whole;unit fractions;comparison||Geometry|lines;angles intuition;polygons;solids||Measurement|perimeter;length;mass;capacity||Time Money Data|elapsed time;transactions;tables;bar ideas"),
+4:deepSplit("Large Numbers|place value;rounding;Roman numerals;estimation||Operations|multi-digit multiplication;division;multi-step problems||Fractions & Decimals|equivalent fractions;comparison;tenths;hundredths||Factors & Multiples|divisibility;prime/composite;patterns||Geometry & Mensuration|angles;triangles;quadrilaterals;perimeter;area||Data Handling|bar graphs;tables;interpretation;average intuition"),
+5:deepSplit("Large Numbers & Operations|Indian/international place value;estimation;multi-step operations||Fractions|proper/improper;mixed numbers;operations||Decimals|place value;compare;add/subtract;money links||Factors & Multiples|HCF;LCM;divisibility;prime factors||Geometry & Mensuration|angles;triangles;circles;nets;area;volume intuition||Data Handling|bar graphs;line ideas;mean intuition;patterns"),
+6:deepSplit("Knowing Numbers & Whole Numbers|large numbers;estimation;properties;number line||Integers|negative numbers;ordering;operations foundations||Fractions & Decimals|operations;comparison;applications||Ratio & Proportion|ratios;unitary method;percent foundations||Algebra|variables;expressions;simple equations||Geometry Mensuration Data|lines;angles;triangles;perimeter;area;bar graphs;mean"),
+7:deepSplit("Integers & Rational Numbers|operations;properties;number line||Fractions Decimals Percent|operations;percentage applications||Simple Equations|variables;transposition;word problems||Comparing Quantities|ratio;profit-loss;simple interest||Geometry|lines;angles;triangles;congruence;circles||Algebra Mensuration Data|expressions;area;mean;median;mode;probability"),
+8:deepSplit("Rational Numbers|properties;operations;representation||Linear Equations|one variable;applications||Quadrilaterals & Practical Geometry|polygons;angle sums;construction||Squares Cubes Roots|patterns;root methods||Comparing Quantities & Algebra|percent;discount;tax;compound interest;identities;factorisation||Mensuration Data Graphs|surface area;volume;pie charts;graphs;probability"),
+9:deepSplit("Number Systems|real numbers;irrational numbers;exponents||Polynomials|terms;zeros;identities;factorisation||Coordinate Geometry|Cartesian plane;coordinates||Linear Equations in Two Variables|graphs;solutions;applications||Geometry|Euclid;lines;angles;triangles;quadrilaterals;circles||Mensuration Statistics Probability|Heron;surface area;volume;data;chance"),
+10:deepSplit("Real Numbers|Euclid division;HCF LCM;irrationality||Polynomials & Quadratics|zeros;relations;factorisation;formula||Pair of Linear Equations|graphical;substitution;elimination;applications||Arithmetic Progressions|nth term;sum;applications||Triangles Coordinate Trigonometry|similarity;distance;section;ratios;identities||Circles Mensuration Statistics Probability|tangents;constructions;areas;solids;mean;probability"),
+11:deepSplit("Sets Relations Functions|sets;operations;domain;range;types||Trigonometric Functions|angles;identities;graphs;equations||Complex Numbers & Quadratics|Argand plane;algebra;roots||Permutations Combinations Binomial|counting;arrangements;selections;expansions||Sequences Conics|AP;GP;straight lines;circle;parabola;ellipse;hyperbola||Limits Derivatives Statistics Probability|limits;derivative rules;variance;conditional ideas"),
+12:deepSplit("Relations & Inverse Trigonometry|relations;functions;inverse trig;identities||Matrices & Determinants|operations;inverse;properties;linear equations||Continuity Differentiability AOD|limits;continuity;chain rule;maxima-minima||Integrals & Differential Equations|indefinite;definite;area;ODE basics||Vectors & 3D|dot;cross;lines;planes;distance||Linear Programming & Probability|constraints;optimization;Bayes;random variables")
+},
+telugu:{
+1:deepSplit("అక్షర పరిచయం|అచ్చులు;హల్లులు;శబ్దం;అక్షర గుర్తింపు||గుణింతాల ప్రారంభం|కా;కి;కీ;కు;కూ||చిత్ర పదజాలం|ఇల్లు;పాఠశాల;పండ్లు;జంతువులు||చిన్న పదాలు|రెండు/మూడు అక్షరాలు;పద నిర్మాణం||చిన్న వాక్యాలు|కర్త;క్రియ;సులభ క్రమం||వినికిడి పఠనం రచన|అభివాదాలు;పద పఠనం;అక్షర రేఖనం"),
+2:deepSplit("అక్షర దృఢీకరణ|అచ్చులు;హల్లులు;గుణింతాలు||ఒత్తుల పరిచయం|క్క;త్త;మ్మ;న్న||పదజాలం|కుటుంబం;పాఠశాల;ప్రకృతి;ఆహారం||లింగం & వచనం|పుంలింగం;స్త్రీలింగం;ఏకవచనం;బహువచనం||చిన్న కథలు|క్రమం;పాత్రలు;ప్రధాన భావం||రచన|చిత్ర వివరణ;2–3 వాక్యాలు;శుద్ధలేఖనం"),
+3:deepSplit("గుణింతాలు & ఒత్తులు|సంపూర్ణ రూపాలు;సంయుక్తాక్షరాలు||పదభేదాల పరిచయం|నామవాచకం;సర్వనామం;క్రియ||లింగం వచనం|రూప మార్పులు;ప్రయోగం||పర్యాయ విరుద్ధ పదాలు|సామానార్థకాలు;వ్యతిరేక పదాలు||పఠన అవగాహన|గద్య;ప్రశ్నలు;ప్రధాన భావం||పద్య రచన|తుక;భావం;చిన్న పేరా;లేఖ"),
+4:deepSplit("వ్యాకరణ మౌళికాలు|నామవాచకం;సర్వనామం;క్రియ;విశేషణం||కాలాలు|వర్తమాన;భూత;భవిష్యత్||విభక్తుల పరిచయం|కు;తో;లో;నుండి;యొక్క||సమాసాల ఆరంభం|పద కలయిక;అర్థ సంబంధం||పఠనం|గద్య;పద్య;సందర్భార్థం;సారాంశం||పదసంపద రచన|నానార్థాలు;జాతీయాలు;లేఖ;కథ;సంభాషణ"),
+5:deepSplit("పదభేదాలు|నామవాచకం;సర్వనామం;క్రియ;విశేషణం;క్రియావిశేషణం||సంధి పరిచయం|అచ్చుసంధి భావన;పద మార్పులు||సమాసాలు|సరళ సమాసాలు;విగ్రహ వాక్యం||జాతీయాలు & సామెతలు|అర్థం;సందర్భం||గద్య పద్య పఠనం|సారాంశం;అనుమానం;భావం;అలంకార పరిచయం||రచన|వ్యాసం;లేఖ;డైరీ;కథ;వివరణ"),
+6:deepSplit("వ్యాకరణం|పదభేదాలు;విభక్తులు;కాలాలు;వచనం||సంధులు|సవర్ణదీర్ఘ;గుణ;వృద్ధి పరిచయాలు||సమాసాలు|తత్పురుష;కర్మధారయ;ద్వంద్వ భావనలు||పదసంపద|పర్యాయ;నానార్థ;విరుద్ధ||గద్య పద్య విశ్లేషణ|పాత్ర;భావం;సందర్భం;యతి;ప్రాస||రచన|వ్యాసం;లేఖ;వార్త;సంభాషణ;సృజనాత్మక రచన"),
+7:deepSplit("వ్యాకరణ దృఢీకరణ|వాక్య రకాలు;కర్త;కర్మ;క్రియ||సంధి & సమాసం|రూప నిర్మాణం;విగ్రహం||పద నిర్మాణం|కృదంతాలు;తద్ధితాలు||అలంకారాలు|ఉపమా;రూపక;అతిశయోక్తి||గద్య పద్య విమర్శ|సందేశం;పాత్ర;భావవ్యాఖ్య;రసం||రచన|వ్యాసం;ప్రసంగం;లేఖ;నివేదిక;కథ"),
+8:deepSplit("ఉన్నత వ్యాకరణం|సంధి;సమాసం;విభక్తులు;వాక్య నిర్మాణం||ఛందస్సు|గణాలు;యతి;ప్రాస||అలంకార శాస్త్రం|శబ్ద;అర్థ అలంకారాలు||సాహిత్య ప్రక్రియలు|కథ;వ్యాసం;నాటకం;జీవితచరిత్ర||పఠన నైపుణ్యం|సూచన;అనుమానం;రచయిత ఉద్దేశం||రచన & పదసంపద|జాతీయాలు;సామెతలు;నివేదిక;ప్రసంగం;సారాంశం"),
+9:deepSplit("వ్యాకరణ సమగ్రం|సంధి;సమాసం;విభక్తి;పదభేదం;వాక్య పరివర్తన||ఛందస్సు & అలంకారాలు|గణాలు;యతి;ప్రాస;ఉపమా;రూపక||గద్య సాహిత్యం|కథ;వ్యాసం;స్మృతి;పాత్ర||పద్య సాహిత్యం|భావం;రసం;శైలి;సందేశం||ఉపవాచకం|పాత్రలు;సంఘటనలు;సారాంశం||రచన|వ్యాసం;లేఖ;నివేదిక;సంభాషణ;సారాంశం"),
+10:deepSplit("భాషా నిర్మాణం|పదభేదాలు;వాక్యాలు;సంధి;సమాసం;విభక్తులు||ఛందస్సు & అలంకారాలు|గణాలు;యతి;ప్రాస;ప్రధాన అలంకారాలు||గద్య విశ్లేషణ|కేంద్ర భావం;పాత్ర;సందర్భం;సాక్ష్యం||పద్య విశ్లేషణ|భావవ్యాఖ్య;రసం;రచయిత దృక్పథం||ఉపవాచకం|కథా నిర్మాణం;పాత్ర వికాసం;సందేశం||పరీక్షా రచన|పదసంపద;వ్యాసం;లేఖ;నివేదిక;సారాంశం"),
+11:deepSplit("తెలుగు సాహిత్య పరిచయం|ప్రాచీన;మధ్యయుగ;ఆధునిక ధోరణులు||కావ్య పఠనం|భావం;రసం;ఛందస్సు;అలంకారం||గద్య ప్రక్రియలు|వ్యాసం;కథ;జీవితచరిత్ర;విమర్శ||వ్యాకరణ సమీక్ష|సంధి;సమాసం;వాక్య నిర్మాణం||భాషా వినియోగం|అనువాదం;సారాంశం;నోట్స్;ప్రసంగం||సృజనాత్మక రచన|కథ;వ్యాసం;సంభాషణ;నివేదిక"),
+12:deepSplit("తెలుగు సాహిత్య లోతు|కాల ధోరణులు;రచయిత దృక్పథం;సాహిత్య చరిత్ర||కావ్య విమర్శ|రసం;ధ్వని;అలంకారం;ఛందస్సు;శైలి||గద్య విమర్శ|విషయ నిర్మాణం;వాదన;పాత్ర;సామాజిక సందర్భం||వ్యాకరణ & శైలి|వాక్య పరివర్తన;సంధి;సమాసం;పద ప్రయోగం||అనువాద & సంప్రేషణ|సారాంశం;ప్రెసీ;అనువాదం;ప్రసంగం||ఉన్నత రచన|విమర్శనాత్మక వ్యాసం;నివేదిక;అధికారిక లేఖ")
+},
+hindi:{
+1:deepSplit("स्वर & व्यंजन|पहचान;ध्वनि;अक्षर रूप||मात्राओं की शुरुआत|ा;ि;ी;ु;ू;े;ो||चित्र शब्दावली|घर;स्कूल;फल;जानवर;रंग||सरल शब्द|दो/तीन अक्षर;शब्द बनाना||सरल वाक्य|कर्ता;क्रिया;बुनियादी क्रम||सुनना पढ़ना लिखना|अभिवादन;अक्षर लेखन;छोटे उत्तर"),
+2:deepSplit("स्वर व्यंजन पुनरावृत्ति|अक्षर;ध्वनि;शब्द||मात्राएँ|पूर्ण अभ्यास;शब्द निर्माण||संयुक्त अक्षर|क्ष;त्र;ज्ञ;सरल संयुक्त रूप||शब्दावली|परिवार;विद्यालय;प्रकृति;भोजन||लिंग & वचन|पुल्लिंग;स्त्रीलिंग;एकवचन;बहुवचन||कहानी & लेखन|क्रम;पात्र;चित्र वर्णन;श्रुतिलेख"),
+3:deepSplit("संज्ञा सर्वनाम क्रिया|शब्द-भेद परिचय||लिंग वचन|रूप परिवर्तन;वाक्य प्रयोग||विशेषण|गुण;रंग;आकार;वर्णन||पर्याय & विलोम|समानार्थी;विपरीतार्थी||पठन बोध|गद्य;प्रश्न;मुख्य विचार||कविता & लेखन|तुक;भाव;अनुच्छेद;पत्र;कहानी"),
+4:deepSplit("व्याकरण आधार|संज्ञा;सर्वनाम;क्रिया;विशेषण||काल परिचय|वर्तमान;भूत;भविष्य||कारक परिचय|को;से;में;पर;का/के/की||उपसर्ग प्रत्यय|शब्द निर्माण||पठन|गद्य;कविता;संदर्भ;सार||मुहावरे & लेखन|अर्थ;पत्र;कहानी;वर्णन;संवाद"),
+5:deepSplit("शब्द-भेद|संज्ञा;सर्वनाम;क्रिया;विशेषण;क्रिया-विशेषण||काल & वाच्य परिचय|काल रूप;कर्ता-कर्म||संधि/समास परिचय|शब्द जोड़;मूल विचार||मुहावरे & लोकोक्तियाँ|अर्थ;संदर्भ||गद्य काव्य बोध|सार;अनुमान;भाव;अलंकार परिचय||लेखन|अनुच्छेद;पत्र;डायरी;कहानी"),
+6:deepSplit("व्याकरण|संज्ञा;सर्वनाम;क्रिया;काल;कारक||उपसर्ग प्रत्यय|शब्द निर्माण;अर्थ परिवर्तन||संधि & समास|मूल प्रकार;विग्रह||शब्द-संपदा|पर्याय;विलोम;अनेकार्थी||गद्य काव्य विश्लेषण|पात्र;भाव;संदर्भ;रस||लेखन|अनुच्छेद;पत्र;संवाद;सूचना;कहानी"),
+7:deepSplit("व्याकरण सुदृढ़ीकरण|वाक्य;कर्ता;कर्म;क्रिया;वाच्य||संधि समास|प्रकार;विग्रह;प्रयोग||शब्द निर्माण|उपसर्ग;प्रत्यय;समासिक शब्द||अलंकार|उपमा;रूपक;अनुप्रास||गद्य काव्य|कथा;निबंध;भावार्थ;रस||लेखन|निबंध;पत्र;संवाद;रिपोर्ट"),
+8:deepSplit("उन्नत व्याकरण|काल;वाच्य;कारक;वाक्य रूपांतरण||संधि & समास|प्रकार;विग्रह;प्रयोग||अलंकार & रस|मुख्य अलंकार;रस पहचान||साहित्य विधाएँ|कथा;निबंध;नाटक;जीवनी||पठन कौशल|अनुमान;लेखक उद्देश्य;साक्ष्य||लेखन|मुहावरे;रिपोर्ट;भाषण;औपचारिक पत्र;सारांश"),
+9:deepSplit("व्याकरण समग्र|उपसर्ग;प्रत्यय;समास;वाक्य;वाच्य||काव्य बोध|भाव;रस;अलंकार;शैली||गद्य बोध|विचार;पात्र;तर्क;संदर्भ||पूरक पठन|कथानक;पात्र;संदेश||अपठित बोध|तथ्य;अनुमान;शीर्षक;सार||लेखन|अनुच्छेद;पत्र;ईमेल;संवाद;सूचना"),
+10:deepSplit("व्याकरण & प्रयोग|समास;पदबंध;वाक्य;वाच्य;मुहावरे||गद्य साहित्य|केंद्रीय विचार;पात्र;लेखक दृष्टि||काव्य साहित्य|भावार्थ;रस;अलंकार;काव्य भाषा||पूरक पाठ|कथानक;चरित्र;सामाजिक संदर्भ||अपठित गद्य/पद्य|साक्ष्य;अनुमान;सारांश||रचनात्मक लेखन|पत्र;ईमेल;विज्ञापन;सूचना;अनुच्छेद"),
+11:deepSplit("हिन्दी साहित्य|गद्य;काव्य;कथा;निबंध;संस्मरण||आरोह/वितान पठन|भाव;संदर्भ;लेखक दृष्टि||व्याकरण & भाषा|वाक्य;शब्द;मुहावरे;शुद्धता||अपठित बोध|गद्य;काव्य;नोट्स;सार||अभिव्यक्ति & माध्यम|रिपोर्ट;फीचर;लेख;पत्रकारीय लेखन||रचनात्मक लेखन|लेख;भाषण;पत्र;डायरी"),
+12:deepSplit("हिन्दी साहित्य गहराई|काव्य;गद्य;पूरक पठन;आलोचनात्मक दृष्टि||पाठ विश्लेषण|भाव;तर्क;संदर्भ;शिल्प||अभिव्यक्ति & माध्यम|समाचार;रिपोर्ट;फीचर;आलेख||अपठित बोध|तथ्य;अनुमान;सार;शीर्षक||रचनात्मक लेखन|औपचारिक पत्र;लेख;भाषण;रिपोर्ट||भाषा शुद्धता & परीक्षा|वाक्य;मुहावरे;दीर्घ उत्तर;तुलनात्मक प्रतिक्रिया")
+},
+physics:{
+1:deepSplit("Motion Around Us|moving/still;push;pull;fast/slow||Light & Shadow|sunlight;shadow;transparent/opaque||Sound Around Us|loud/soft;sources;hearing safety||Heat in Daily Life|hot/cold;sun warmth;safe touch||Magnets & Materials|attract/not attract;everyday magnets||Measurement Foundations|length;time;comparison;observation"),
+2:deepSplit("Push Pull Motion|direction;speed;rolling/sliding||Light|sources;shadows;day/night||Sound|vibration intuition;loudness;sources||Heat|warming;cooling;materials||Force in Daily Life|lifting;pushing;friction intuition||Measurement|length;mass;time;simple units"),
+3:deepSplit("Motion & Measurement|distance;time;speed intuition||Force & Work|push/pull;simple machines intuition||Light & Vision|reflection intuition;shadows;mirrors||Sound & Vibration|vibrating objects;pitch intuition||Heat & Temperature|hot/cold;thermometer idea;heat flow||Earth & Sky|day/night;moon;gravity intuition"),
+4:deepSplit("Measurement|standard units;length;mass;time;temperature||Force & Motion|friction;gravity;changes in motion||Energy|light;heat;sound;electrical examples||Light|reflection;transparent/translucent/opaque||Sound|vibration;pitch;loudness;hearing||Simple Machines|lever;pulley;inclined plane;wheel"),
+5:deepSplit("Motion|distance;time;average speed idea||Force|gravity;friction;balanced/unbalanced intuition||Work & Energy|forms;conversion;conservation intuition||Light|reflection;mirrors;lenses intuition||Sound|waves intuition;frequency;amplitude||Electricity|cells;bulbs;simple circuits;conductors"),
+6:deepSplit("Motion & Measurement|SI units;distance;time;speed||Force & Friction|push;pull;contact/non-contact;friction||Work & Energy Foundations|work idea;kinetic/potential examples||Light Shadows Reflection|ray idea;mirrors;images||Electricity & Circuits|cell;switch;series path;conductors||Magnets & Heat|poles;compass;temperature;heat transfer"),
+7:deepSplit("Motion|speed;time graphs intuition;uniform/non-uniform||Force & Pressure|force effects;pressure;applications||Heat|temperature;conduction;convection;radiation||Sound|vibration;frequency;amplitude;human voice||Light|reflection;refraction intro;lenses||Electric Current|heating;magnetic effect;safety"),
+8:deepSplit("Physical Quantities|units;measurement;density;errors basics||Force & Pressure|Newton ideas;friction;pressure||Motion|speed;velocity;acceleration;graphs||Energy|work;power;kinetic;potential||Sound|frequency;wavelength;speed||Light & Electricity|reflection;refraction;mirrors;lenses;current;voltage;resistance"),
+9:deepSplit("Motion|distance/displacement;velocity;acceleration;equations;graphs||Force & Laws|Newton laws;inertia;momentum;action-reaction||Gravitation|universal law;free fall;mass;weight;buoyancy||Work Energy Power|work;KE;PE;conservation;power||Sound|waves;echo;SONAR;human ear||Light & Experimental Skills|reflection;refraction;ray diagrams;SI;graphs;precision"),
+10:deepSplit("Reflection|laws;mirrors;ray diagrams;mirror formula||Refraction & Lenses|Snell law;refractive index;ray diagrams;lens formula;power||Human Eye|accommodation;defects;correction;dispersion||Electricity|Ohm law;resistance;series/parallel;power;energy||Magnetism|fields;motor;generator;electromagnetic induction||Energy Applications|household power;efficiency;safety"),
+11:deepSplit("Units & Measurements|dimensions;errors;significant figures||Kinematics|straight line;vectors;projectiles;circular motion||Laws of Motion|Newton laws;friction;dynamics||Work Energy Rotation|work-energy;collisions;centre of mass;torque;angular momentum||Gravitation & Properties of Matter|Kepler;escape speed;elasticity;fluids;viscosity||Thermal Physics Waves|calorimetry;thermodynamics;kinetic theory;SHM;waves"),
+12:deepSplit("Electrostatics|charge;Coulomb law;field;potential;capacitance||Current Electricity|drift;Ohm law;Kirchhoff;cells;bridges||Magnetism & EMI|Lorentz force;Biot-Savart;Faraday;Lenz;AC||Optics|ray optics;instruments;interference;diffraction;polarisation||Modern Physics|photoelectric effect;de Broglie;atoms;nuclei;radioactivity||Electronics|semiconductors;diodes;transistors;logic gates")
+},
+chemistry:{
+1:deepSplit("Materials Around Us|solid/liquid;colour;texture;use||Mixing & Separating|mix/not mix;filtering intuition;sorting||Water|dissolving;clean water;states intuition||Air|air occupies space;wind;breathing link||Changes|melting;freezing;reversible/irreversible intuition||Safe Materials|household substances;labels;safe use"),
+2:deepSplit("States of Matter|solid;liquid;gas intuition||Solutions|dissolving;soluble/insoluble||Mixtures|sorting;filtering;sieving;settling||Water Changes|evaporation;condensation intuition||Materials & Uses|metal;plastic;wood;glass||Everyday Reactions|cooking;rusting intuition;changes"),
+3:deepSplit("Matter & Properties|mass;volume intuition;states||Separation|filtration;evaporation;handpicking;sedimentation||Water & Solutions|solute;solvent intuition;concentration idea||Air & Gases|oxygen;carbon dioxide;uses||Physical vs Chemical Change|observable signs;reversibility||Materials|metals/non-metals intuition;natural/man-made"),
+4:deepSplit("Particle Idea|matter made of tiny particles;states||Mixtures & Solutions|homogeneous/heterogeneous intuition||Separation Techniques|filtration;evaporation;decantation;magnet||Acids Bases Everyday|sour;soap-like;indicators intuition||Changes|rusting;burning;cooking;physical/chemical||Water Air Environment|purification;pollution;safe use"),
+5:deepSplit("Matter & Particle Model|states;change of state;diffusion intuition||Atoms & Molecules Introduction|elements;compounds;symbols idea||Solutions|solute;solvent;saturation intuition||Acids Bases Salts Intro|indicators;neutralisation everyday||Metals & Non-metals Intro|properties;uses;corrosion||Chemical Changes|reactants/products;signs;energy"),
+6:deepSplit("Matter|states;particle model;changes||Separation of Substances|filtration;evaporation;distillation idea;chromatography intro||Elements Compounds Mixtures|classification;symbols;formula idea||Acids Bases Salts|indicators;pH intuition;neutralisation||Metals & Non-metals|properties;uses;reactivity intuition||Air Water & Reactions|composition;purification;pollution;rusting;combustion"),
+7:deepSplit("Physical & Chemical Changes|evidence;reversible/irreversible;rusting||Acids Bases Salts|indicators;neutralisation;applications||Atoms Molecules Symbols|formulae;valency intro||Metals & Non-metals|properties;reactions;corrosion||Combustion & Fuels|oxygen;flame;efficiency;pollution||Solutions & Environment|concentration;solubility;water/air pollutants"),
+8:deepSplit("Matter & Atomic Structure|atoms;subatomic particles;atomic number||Elements & Compounds|symbols;formulae;valency;ions||Chemical Reactions|word equations;balancing intro;types||Acids Bases Salts|pH;indicators;neutralisation;common salts||Metals Non-metals|reactivity;corrosion;alloys||Carbon & Solutions|bonding intuition;hydrocarbons;solubility;concentration"),
+9:deepSplit("Matter in Our Surroundings|particle nature;states;latent heat;evaporation||Pure Substances|mixtures;solutions;suspensions;colloids;separation||Atoms & Molecules|laws;atomic/molecular mass;mole intro||Structure of Atom|electrons;protons;neutrons;models;valency||Formulae & Reactions|formula writing;mass conservation;equations||Periodic Classification Intro|atomic number;groups;periods;trends intuition"),
+10:deepSplit("Chemical Reactions & Equations|balancing;combination;decomposition;displacement;redox||Acids Bases Salts|pH;indicators;neutralisation;common compounds||Metals & Non-metals|reactivity series;ionic compounds;extraction;corrosion||Carbon Compounds|covalent bonding;hydrocarbons;functional groups;ethanol;ethanoic acid;soap||Periodic Classification|groups;periods;valency;atomic size;metallic character||Laboratory & Applied Chemistry|observations;tests;equations;safety;environment"),
+11:deepSplit("Basic Concepts|mole;stoichiometry;formula;concentration||Atomic Structure|quantum numbers;orbitals;electronic configuration||Periodicity & Bonding|trends;Lewis;VSEPR;hybridisation;MOT basics||Thermodynamics & Equilibrium|enthalpy;Hess law;entropy;Gibbs;Kc;pH;buffer||Redox & Organic Basics|oxidation number;nomenclature;isomerism;electronic effects||Hydrocarbons & Environment|alkanes;alkenes;alkynes;aromatics;pollution;green chemistry"),
+12:deepSplit("Solutions|concentration;Raoult law;colligative properties||Electrochemistry & Kinetics|conductance;cells;Nernst;rate law;Arrhenius||Surface & Inorganic Chemistry|adsorption;catalysis;d/f block;coordination||Halo Compounds & Oxygen Organics|haloalkanes;alcohols;phenols;ethers||Carbonyls & Amines|aldehydes;ketones;acids;amines;diazonium||Biomolecules Polymers Everyday Chemistry|carbohydrates;proteins;nucleic acids;polymers;drugs;detergents")
+},
+social:{
+1:deepSplit("Me & My Family|relationships;roles;care;respect||My Home & School|places;rules;helpers;responsibility||Neighbourhood|shops;roads;public places;community helpers||Food Clothing Shelter|needs;sources;choices;seasons||Weather & Nature|sun;rain;plants;animals;seasons||Maps & Citizenship|left/right;near/far;simple routes;sharing;safety"),
+2:deepSplit("Families & Communities|types;roles;celebrations;diversity||School & Local Services|post;hospital;police;transport||Our Environment|plants;animals;water;air;care||Occupations|farmers;artisans;services;work dignity||Transport & Communication|old/new;road/rail/water;messages||Time Change Maps|past/present;timelines;symbols;directions;landmarks"),
+3:deepSplit("Our Community|public services;diversity;local government intuition||India Introduction|states idea;national symbols;capital;map||Land Water Weather|mountains;plains;rivers;seasons||Work & Livelihoods|farming;crafts;markets;services||Past & Present|sources;family/local history;change||Civic Values & Environment|rules;cooperation;equality;resources;conservation"),
+4:deepSplit("India Physical Features|mountains;plains;plateaus;coasts;islands||Rivers Climate Soils|water systems;monsoon;soil use||History Foundations|timelines;sources;early settlements;kingdom idea||Government Basics|local/state/national levels;services||Resources & Occupations|agriculture;industry;transport;trade||Maps Citizenship Environment|directions;scale;states;duties;conservation;disaster safety"),
+5:deepSplit("Indian Geography|physical divisions;rivers;climate;resources||Early Civilisations|settlements;agriculture;Harappan basics||Kingdoms & Culture|rulers;art;religion;trade||Government & Democracy|elections;representation;local bodies||Economy Basics|needs;goods;services;money;markets||Maps Globe Environment|latitude intuition;continents;oceans;resources;pollution;disasters"),
+6:deepSplit("History Early Societies|sources;hunter-gatherers;farmers;cities;Vedic society;kingdoms||Empires & Culture|Mauryas;post-Mauryan;Guptas;religions;art||Geography Earth & Maps|globe;latitudes;longitudes;motions;maps||Domains of Earth|lithosphere;hydrosphere;atmosphere;biosphere||Civics Diversity & Government|diversity;discrimination;government;democracy||Local Administration & Economy|rural/urban bodies;livelihoods;markets;public services"),
+7:deepSplit("Medieval India|kingdoms;Delhi Sultanate;Mughals;regional cultures||Social Change|tribes;nomads;Bhakti-Sufi;art;architecture||Geography Environment|landforms;water;air;natural/human environment||Human Environment|settlements;transport;communication;regional life||Civics Equality Government|equality;health;state roles;gender;media||Economy & Livelihoods|markets;production chains;workers;consumers"),
+8:deepSplit("Modern India|Company rule;colonialism;1857;reform;resistance||National Movement|nationalism;Gandhian era;independence||Geography Resources|land;soil;water;minerals;agriculture;industries||Civics Constitution|Constitution;secularism;Parliament;judiciary;social justice||Economics Production|agriculture;industry;labour;markets||Maps Society Environment|thematic maps;graphs;marginalisation;public facilities;sustainability"),
+9:deepSplit("History|French Revolution;socialism;Nazism;forest society;pastoralists||Geography India|size/location;physical features;drainage;climate;vegetation;population||Political Science|democracy;constitutional design;elections;institutions;rights||Economics|village economy;people as resource;poverty;food security||Regional Context|AP/India resources;development comparisons||Map & Civic Skills|locations;data interpretation;rights;public policy;evidence"),
+10:deepSplit("History|nationalism in Europe;India;global world;industrialisation;print culture||Geography|resources;agriculture;minerals;manufacturing;transport;lifelines||Political Science|power sharing;federalism;gender/religion/caste;parties;democracy outcomes||Economics|development;sectors;money/credit;globalisation;consumer rights||Regional Studies|AP resources;economy;governance;development||Map Source Exam Skills|maps;graphs;sources;case studies;cause-effect;evaluate"),
+11:deepSplit("History|early societies;empires;changing traditions;paths to modernisation||Geography|earth processes;climate;oceans;India physical environment||Political Theory|freedom;equality;justice;rights;citizenship;nationalism;secularism||Indian Constitution|making;rights;elections;executive;legislature;judiciary;federalism||Economics|statistics;Indian economic development;reforms;poverty;employment;infrastructure||Map Data Writing|graphs;tables;case evidence;source response;argument"),
+12:deepSplit("History|Harappan;states;kinship;religion;travellers;Bhakti-Sufi;colonialism;Gandhi;Constitution||Geography|human geography;population;settlements;resources;transport;India people/economy||Political Science|Cold War;world politics;Indian politics;movements||Economics|national income;money/banking;income/employment;budget;open economy||Development|globalisation;environment;human development;regional inequality||Source & Answer Writing|maps;cartoons;tables;extracts;causation;comparison;balanced conclusion")
+}
+};
+
+var vihaaDeepFacts={
+physics:[["SI unit of force","newton"],["SI unit of power","watt"],["SI unit of energy","joule"],["speed","distance divided by time"],["acceleration","change in velocity per unit time"],["Newton's second law","F = ma"],["momentum","mass × velocity"],["weight","mass × gravitational acceleration"],["wave speed","frequency × wavelength"],["frequency unit","hertz"],["current unit","ampere"],["potential difference unit","volt"],["resistance unit","ohm"],["Ohm's law","V = IR"],["electric power","P = VI"],["reflection law","angle of incidence equals angle of reflection"],["light travels fastest in","vacuum"],["sound requires","a material medium"],["convex lens","converges parallel light"],["Faraday's law","changing magnetic flux induces emf"],["photoelectric effect","electron emission caused by suitable light"],["capacitance unit","farad"],["magnetic field unit","tesla"]],
+chemistry:[["neutral pH","7"],["acid turns blue litmus","red"],["base turns red litmus","blue"],["water formula","H₂O"],["carbon dioxide formula","CO₂"],["common salt formula","NaCl"],["methane formula","CH₄"],["ethanol formula","C₂H₅OH"],["atomic number of hydrogen","1"],["atomic number of carbon","6"],["periodic table rows","periods"],["periodic table columns","groups"],["ionic bond","electron transfer"],["covalent bond","electron-pair sharing"],["oxidation","loss of electrons or rise in oxidation number"],["reduction","gain of electrons or fall in oxidation number"],["mole","amount containing Avogadro number of entities"],["Avogadro constant","about 6.022 × 10²³ mol⁻¹"],["molarity","moles of solute per litre of solution"],["catalyst","changes reaction rate without being consumed overall"],["activation energy","energy barrier for a reaction pathway"],["VSEPR","electron-pair repulsions help predict molecular shape"],["polymer","large molecule built from repeating units"]],
+social:[["Constitution of India came into effect","26 January 1950"],["India became independent","15 August 1947"],["voting age in India","18 years"],["0° latitude","Equator"],["largest continent","Asia"],["largest ocean","Pacific Ocean"],["capital of India","New Delhi"],["Parliament has","Lok Sabha and Rajya Sabha"],["fundamental rights are guaranteed by","the Constitution"],["inflation","general rise in the price level"],["primary sector","includes agriculture and extraction"],["GDP","value of final goods and services produced over a period"],["federalism","constitutional division of powers among levels"],["Harappan civilisation","urban Bronze Age civilisation of the Indus region"],["Mauryan ruler Ashoka","Maurya dynasty"],["Mughal founder in India","Babur"],["1857","major anti-colonial uprising against Company rule"],["longitude","angular distance east or west of prime meridian"],["monsoon","seasonal wind pattern associated with rainfall"],["judiciary","branch that interprets law and adjudicates disputes"],["money","medium of exchange and unit of account"],["globalisation","growing cross-border integration of economies and information"]],
+telugu:[["‘రాము’ పదభేదం","నామవాచకం"],["‘అతను’ పదభేదం","సర్వనామం"],["‘చదివాడు’ పదభేదం","క్రియ"],["‘అందమైన’ పదభేదం","విశేషణం"],["‘నీరు’ పర్యాయ పదం","జలం"],["‘ఇల్లు’ పర్యాయ పదం","గృహం"],["‘పెద్ద’ విరుద్ధ పదం","చిన్న"],["‘వెలుగు’ విరుద్ధ పదం","చీకటి"],["ఉపమా అలంకారం","పోలిక ద్వారా భావం చెప్పడం"],["యతి","పద్య పాదంలోని విరామ/సామ్య స్థానం"],["ప్రాస","పద్యంలోని ధ్వని సామ్య లక్షణం"],["సారాంశం","ప్రధాన భావాలను సంక్షిప్తంగా చెప్పడం"],["నామవాచకం","వ్యక్తి, స్థలం, వస్తువు లేదా భావానికి పేరు"],["సర్వనామం","నామవాచకానికి బదులు ఉపయోగించే పదం"],["క్రియ","చర్య లేదా స్థితిని తెలిపే పదం"]],
+hindi:[["‘राम’ शब्द-भेद","संज्ञा"],["‘वह’ शब्द-भेद","सर्वनाम"],["‘दौड़ता’ शब्द-भेद","क्रिया"],["‘सुंदर’ शब्द-भेद","विशेषण"],["‘बड़ा’ का विलोम","छोटा"],["‘दिन’ का विलोम","रात"],["‘जल’ का सामान्य अर्थ","पानी"],["संज्ञा","व्यक्ति, स्थान, वस्तु या भाव का नाम"],["सर्वनाम","संज्ञा के स्थान पर प्रयुक्त शब्द"],["क्रिया","काम या अवस्था बताने वाला शब्द"],["विशेषण","संज्ञा/सर्वनाम की विशेषता बताने वाला शब्द"],["उपमा अलंकार","एक वस्तु की तुलना दूसरी से करना"],["सारांश","मुख्य विचारों को संक्षेप में प्रस्तुत करना"],["मुहावरा","विशेष अर्थ वाला स्थिर पद/वाक्यांश"]]
+};
+
+function ensureDeepAcademyState(){
+  if(!state.deepAcademy)state.deepAcademy={};
+  ["maths","telugu","hindi","physics","chemistry","social"].forEach(function(s){
+    if(!state.deepAcademy[s])state.deepAcademy[s]={grade:1,topic:0,serial:0,recentAnswers:[]};
+    if(!Array.isArray(state.deepAcademy[s].recentAnswers))state.deepAcademy[s].recentAnswers=[];
+  });
+}
+function vihaaDeepSubjectLabel(s){return {maths:"Maths",telugu:"Telugu",hindi:"Hindi",physics:"Physics / Science Foundations",chemistry:"Chemistry / Matter Foundations",social:"Social / EVS Foundations"}[s]||s;}
+function vihaaDeepTopics(s,g){return (vihaaDeepCurriculum[s]||{})[g]||[];}
+function vihaaDeepTopicObj(raw){var p=String(raw||"").split("|");return{name:p[0],sub:(p[1]||"").split(";").filter(Boolean)};}
+function vihaaDeepSourceText(g){return Number(g)<=10?"AP School Education aligned · Classes 1–10":"NCERT senior-secondary aligned · Classes 11–12";}
+
+function renderDeepAcademy(subject,prefix){
+  ensureDeepAcademyState();var ds=state.deepAcademy[subject],g=Number(ds.grade||1),topics=vihaaDeepTopics(subject,g);if(ds.topic>=topics.length)ds.topic=0;
+  var classes=el(prefix+"Classes"),topicBox=el(prefix+"Topics"),modes=el(prefix+"Modes");if(!classes||!topicBox||!modes)return;
+  classes.innerHTML=Array.from({length:12},function(_,i){var n=i+1;return '<button class="deep-class-btn '+(n===g?"active":"")+'" data-deep-class="'+n+'">Class '+n+'</button>';}).join("");
+  classes.querySelectorAll("[data-deep-class]").forEach(function(b){b.onclick=function(){ds.grade=Number(this.getAttribute("data-deep-class"));ds.topic=0;save();renderDeepAcademy(subject,prefix);};});
+  if(el(prefix+"ClassLabel"))el(prefix+"ClassLabel").textContent="Class "+g+" · "+vihaaDeepSubjectLabel(subject);
+  if(el(prefix+"Source"))el(prefix+"Source").textContent=vihaaDeepSourceText(g);
+  topicBox.innerHTML=topics.map(function(raw,i){var t=vihaaDeepTopicObj(raw);return '<button class="deep-topic-card '+(i===Number(ds.topic||0)?"active":"")+'" data-deep-topic="'+i+'"><div class="deep-topic-no">Unit '+(i+1)+'</div><b>'+t.name+'</b><small>'+t.sub.join(" · ")+'</small></button>';}).join("");
+  topicBox.querySelectorAll("[data-deep-topic]").forEach(function(b){b.onclick=function(){ds.topic=Number(this.getAttribute("data-deep-topic"));save();renderDeepAcademy(subject,prefix);};});
+  var md=[["✨","Smart Session","Endless concept practice","smart"],["🔁","Recall","Memory with fresh targets","recall"],["📖","Read & Understand","Concept passage + question","reading"],["🎧","Listening","Hear and answer","listening"],["🎙️","Explain Aloud","Speak like a learner","speaking"],["✍️","Writing / Solution","Teacher-style score /10","writing"]];
+  modes.innerHTML=md.map(function(m){return '<button class="deep-mode-btn" data-deep-mode="'+m[3]+'"><span>'+m[0]+'</span>'+m[1]+'<small>'+m[2]+'</small></button>';}).join("");
+  modes.querySelectorAll("[data-deep-mode]").forEach(function(b){b.onclick=function(){openDeepMode(subject,prefix,this.getAttribute("data-deep-mode"));};});
+  save();
+}
+
+function vihaaDeepHash(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function vihaaDeepIndex(subject,g,serial,salt,max){return max?vihaaDeepHash(subject+":"+g+":"+serial+":"+salt)%max:0;}
+function vihaaDeepPick(arr,subject,g,serial,salt){return arr[vihaaDeepIndex(subject,g,serial,salt,arr.length)];}
+function vihaaDeepOpts(ans,wrong){var out=[String(ans)],seen={};seen[String(ans).toLowerCase()]=1;wrong.forEach(function(x){x=String(x);var k=x.toLowerCase();if(!seen[k]){seen[k]=1;out.push(x);}});return shuffleCopy(out.slice(0,4));}
+
+function vihaaDeepMathQ(g,serial){
+  var a=2+vihaaDeepIndex("maths",g,serial,1,Math.max(8,g*8)),b=2+vihaaDeepIndex("maths",g,serial,2,Math.max(7,g*7)),k=serial%5,q,ans,w,ex;
+  if(g<=2){if(k%2===0){ans=a+b;q=a+" + "+b+" = ?";w=[ans+1,ans-1,ans+2];ex="Add the two quantities.";}else{var h=a+b;ans=a;q=h+" − "+b+" = ?";w=[b,h,a+1];ex="Subtraction undoes addition.";}}
+  else if(g<=5){if(k===0){ans=a*b;q=a+" × "+b+" = ?";w=[ans+a,ans-b,a+b];ex="Use multiplication facts.";}else if(k===1){ans=a;q=(a*b)+" ÷ "+b+" = ?";w=[b,a+1,a*b];ex="Division is the inverse of multiplication.";}else if(k===2){var d=3+vihaaDeepIndex("maths",g,serial,5,7),n=1+vihaaDeepIndex("maths",g,serial,6,d-1);ans=n+"/"+d;q="Which fraction shows "+n+" part(s) out of "+d+" equal parts?";w=[d+"/"+n,(n+1)+"/"+d,n+"/"+(d+1)];ex="Numerator is selected parts; denominator is total equal parts.";}else{ans=2*(a+b);q="Rectangle length "+a+", breadth "+b+". Perimeter?";w=[a*b,a+b,2*a+b];ex="Perimeter = 2(l+b).";}}
+  else if(g<=8){if(k===0){ans=a-b;q="Evaluate "+a+" + ("+(-b)+")";w=[a+b,b-a,-(a+b)];ex="Adding a negative means subtracting.";}else if(k===1){var x=2+vihaaDeepIndex("maths",g,serial,7,8),c0=3+vihaaDeepIndex("maths",g,serial,8,15);ans=x;q="If 3x + "+c0+" = "+(3*x+c0)+", x = ?";w=[x+1,x-1,c0];ex="Undo addition then divide by 3.";}else if(k===2){ans=a*a;q="Square of "+a+" = ?";w=[2*a,a*a+a,a*a-1];ex="Square means number × itself.";}else{ans=(a/b).toFixed(2);q="Ratio "+a+":"+b+" as decimal to 2 d.p.?";w=[(b/a).toFixed(2),((a+b)/b).toFixed(2),(a*b).toFixed(2)];ex="Ratio a:b corresponds to a ÷ b.";}}
+  else if(g<=10){if(k===0){var r1=2+vihaaDeepIndex("maths",g,serial,9,7),r2=2+vihaaDeepIndex("maths",g,serial,10,7);ans=r1+r2;q="For x² − "+(r1+r2)+"x + "+(r1*r2)+" = 0, sum of roots?";w=[r1*r2,-(r1+r2),-(r1*r2)];ex="For x²+bx+c, sum of roots = −b.";}else if(k===1){ans="1";q="sin²θ + cos²θ = ?";w=["0","2","tan θ"];ex="Fundamental trigonometric identity.";}else if(k===2){ans="5";q="Distance between (1,2) and (4,6)?";w=["4","7","3"];ex="Use distance formula; differences are 3 and 4.";}else{var n0=2+vihaaDeepIndex("maths",g,serial,11,5),d0=n0+3+vihaaDeepIndex("maths",g,serial,12,5);ans=(n0/d0).toFixed(2);q=n0+" favourable outcomes out of "+d0+". Probability?";w=[(d0/n0).toFixed(2),((d0-n0)/d0).toFixed(2),(n0+d0).toFixed(2)];ex="Probability = favourable ÷ total.";}}
+  else{if(k===0){ans="2x";q="d/dx (x²) = ?";w=["x","x²","2"];ex="Power rule.";}else if(k===1){ans="x²/2 + C";q="∫ x dx = ?";w=["x + C","2x + C","ln x + C"];ex="Increase power by 1 and divide.";}else if(k===2){ans="ad − bc";q="det [[a,b],[c,d]] = ?";w=["ab − cd","ac − bd","ad + bc"];ex="2×2 determinant = ad − bc.";}else if(k===3){ans="n! / [r!(n−r)!]";q="Formula for nCr?";w=["n!/r!","n!/(n−r)!","r!/(n−r)!"];ex="Combination formula.";}else{ans="1";q="P(A) + P(Aᶜ) = ?";w=["0","2","P(A)"];ex="Event plus complement equals 1.";}}
+  return{q:q,ans:String(ans),opts:vihaaDeepOpts(String(ans),w.map(String)),explain:ex};
+}
+function vihaaDeepFactQ(subject,g,topic,serial){
+  var facts=vihaaDeepFacts[subject],f=vihaaDeepPick(facts,subject,g,serial,1),wrong=[];
+  for(var i=0;i<3;i++){var x=vihaaDeepPick(facts,subject,g,serial,10+i);if(x!==f)wrong.push(x[1]);}
+  var lead=subject==="telugu"?"తరగతి "+g+" · "+topic.name+": ":subject==="hindi"?"कक्षा "+g+" · "+topic.name+": ":"Class "+g+" · "+topic.name+": ";
+  return{q:lead+f[0]+"?",ans:String(f[1]),opts:vihaaDeepOpts(String(f[1]),wrong),explain:"Core concept check from this class-level learning path."};
+}
+function vihaaDeepFreshQ(subject,g,topic){
+  ensureDeepAcademyState();var ds=state.deepAcademy[subject],tries=0,q;
+  while(tries<100){ds.serial=Number(ds.serial||0)+1;tries++;q=subject==="maths"?vihaaDeepMathQ(g,ds.serial):vihaaDeepFactQ(subject,g,topic,ds.serial);if(ds.recentAnswers.indexOf(String(q.ans).toLowerCase())<0)break;}
+  ds.recentAnswers.push(String(q.ans).toLowerCase());if(ds.recentAnswers.length>5)ds.recentAnswers.shift();save();return{q:q,serial:ds.serial};
+}
+function vihaaDeepLesson(subject,g,topic){
+  if(subject==="telugu")return "ఈ యూనిట్‌లో "+topic.name+" ను దశలవారీగా నేర్చుకోండి. ప్రధాన అంశాలు: "+topic.sub.join(", ")+". చదవడం, వినికిడి, మాట్లాడటం, వ్యాకరణం మరియు రచనను కలిపి అభ్యాసం చేయండి.";
+  if(subject==="hindi")return "इस इकाई में "+topic.name+" को चरणबद्ध तरीके से सीखिए। मुख्य बिंदु: "+topic.sub.join(", ")+"। पढ़ना, सुनना, बोलना, व्याकरण और लेखन को साथ लेकर अभ्यास कीजिए।";
+  return "Class "+g+" "+vihaaDeepSubjectLabel(subject)+" focus: "+topic.name+". Learn these subskills: "+topic.sub.join(", ")+". Understand the idea, connect it to examples, then explain why the answer is correct.";
+}
+function vihaaDeepPassage(subject,g,topic,serial){
+  var lesson=vihaaDeepLesson(subject,g,topic);
+  if(subject==="telugu")return lesson+" ఒక మంచి విద్యార్థి నియమాన్ని చదివి, ఉదాహరణను గమనించి, తరువాత తన మాటల్లో భావాన్ని చెప్పాలి. ప్రశ్నకు పాఠ్యంలో ఉన్న ఆధారంతో జవాబు ఇవ్వాలి.";
+  if(subject==="hindi")return lesson+" एक अच्छा विद्यार्थी नियम पढ़ता है, उदाहरण देखता है और फिर अपने शब्दों में समझाता है। उत्तर पाठ के प्रमाण के आधार पर देना चाहिए।";
+  return lesson+" This learning passage connects definitions, examples, relationships and evidence. A strong learner should identify the key idea, apply it to a new example and explain the reasoning instead of memorising one isolated line.";
+}
+function vihaaDeepTarget(subject,g,topic){
+  if(subject==="telugu")return "నేను "+topic.name+" లో "+topic.sub.slice(0,2).join(" మరియు ")+" భావాలను ఉదాహరణతో వివరించగలను.";
+  if(subject==="hindi")return "मैं "+topic.name+" में "+topic.sub.slice(0,2).join(" और ")+" को उदाहरण के साथ समझा सकता/सकती हूँ।";
+  if(subject==="maths")return "I can explain "+topic.name+" and solve one related example step by step.";
+  return "I can explain "+topic.name+" using "+topic.sub.slice(0,2).join(" and ")+" with one clear example.";
+}
+
+var vihaaDeepSession={subject:null,prefix:null,mode:null,grade:1,topic:0,serial:0,item:null,locked:false};
+function openDeepMode(subject,prefix,mode){
+  ensureDeepAcademyState();var ds=state.deepAcademy[subject],g=Number(ds.grade||1),topic=vihaaDeepTopicObj(vihaaDeepTopics(subject,g)[Number(ds.topic||0)]),fresh=vihaaDeepFreshQ(subject,g,topic);
+  vihaaDeepSession={subject:subject,prefix:prefix,mode:mode,grade:g,topic:Number(ds.topic||0),serial:fresh.serial,item:fresh.q,locked:false};renderDeepStage();
+}
+function vihaaDeepNext(){
+  var s=vihaaDeepSession,ds=state.deepAcademy[s.subject],topic=vihaaDeepTopicObj(vihaaDeepTopics(s.subject,s.grade)[s.topic]),fresh=vihaaDeepFreshQ(s.subject,s.grade,topic);s.serial=fresh.serial;s.item=fresh.q;s.locked=false;renderDeepStage();
+}
+function renderDeepStage(){
+  var s=vihaaDeepSession,stage=el(s.prefix+"Stage"),topic=vihaaDeepTopicObj(vihaaDeepTopics(s.subject,s.grade)[s.topic]),q=s.item,mode=s.mode;
+  var modeName={smart:"✨ Smart Session",recall:"🔁 Recall",reading:"📖 Read & Understand",listening:"🎧 Listening",speaking:"🎙️ Explain Aloud",writing:"✍️ Writing / Solution"}[mode];
+  var html='<div class="deep-stage-head"><div><h4>'+modeName+' · '+topic.name+'</h4><div class="slot-sub">Class '+s.grade+' · '+vihaaDeepSubjectLabel(s.subject)+' · Item '+s.serial+' · ∞</div></div><button class="btn outline" id="deepCloseBtn">Close</button></div><div class="deep-stage-meta"><span>'+vihaaDeepSourceText(s.grade)+'</span><span>Unit '+(s.topic+1)+'</span><span>Fresh practice</span></div>';
+  if(mode==="reading")html+='<div class="deep-lesson">'+vihaaDeepPassage(s.subject,s.grade,topic,s.serial)+'</div><div class="deep-q">'+q.q+'</div><div class="deep-options" id="deepOptions"></div><div class="deep-feedback" id="deepFeedback"></div><div class="deep-actions"><button class="btn soft" id="deepHearBtn">🔊 Read Aloud</button><button class="btn green" id="deepNextBtn" style="display:none">Next Fresh →</button></div>';
+  else if(mode==="listening")html+='<div class="deep-lesson">Listen first. The question will be spoken aloud. Choose the best answer.</div><div class="deep-q">🎧 Listen to the question</div><div class="deep-options" id="deepOptions"></div><div class="deep-feedback" id="deepFeedback"></div><div class="deep-actions"><button class="btn soft" id="deepHearBtn">🔊 Hear Again</button><button class="btn green" id="deepNextBtn" style="display:none">Next Fresh →</button></div>';
+  else if(mode==="recall")html+='<div class="deep-lesson" id="deepRecallLesson">'+vihaaDeepLesson(s.subject,s.grade,topic)+'<br><b>Memory target:</b> '+q.ans+'</div><div class="deep-q" id="deepRecallPrompt">Memorise the target. It will hide in 3 seconds.</div><input class="deep-input" id="deepTextInput" placeholder="Type from memory" disabled><div class="deep-feedback" id="deepFeedback"></div><div class="deep-actions"><button class="btn dark" id="deepCheckBtn">Check Recall</button><button class="btn green" id="deepNextBtn" style="display:none">Next Fresh →</button></div>';
+  else if(mode==="speaking")html+='<div class="deep-lesson">'+vihaaDeepLesson(s.subject,s.grade,topic)+'</div><div class="deep-q" id="deepSpeakTarget">'+vihaaDeepTarget(s.subject,s.grade,topic)+'</div><div class="deep-feedback" id="deepFeedback">Read/explain the target clearly.</div><div class="deep-actions"><button class="btn soft" id="deepHearBtn">🔊 Hear Target</button><button class="btn dark" id="deepSpeakBtn">🎙️ Speak Now</button><button class="btn green" id="deepNextBtn" style="display:none">Next Fresh →</button></div>';
+  else if(mode==="writing")html+='<div class="deep-lesson">'+vihaaDeepLesson(s.subject,s.grade,topic)+'</div><div class="deep-q">Teacher task: '+vihaaDeepTarget(s.subject,s.grade,topic)+'</div><textarea class="deep-input" id="deepTextInput" rows="5" placeholder="Write your explanation / working here..."></textarea><div class="deep-feedback" id="deepFeedback"></div><div class="deep-actions"><button class="btn dark" id="deepCheckBtn">Check & Score /10</button><button class="btn green" id="deepNextBtn" style="display:none">Next Fresh →</button></div>';
+  else html+='<div class="deep-lesson">'+vihaaDeepLesson(s.subject,s.grade,topic)+'</div><div class="deep-q">'+q.q+'</div><div class="deep-options" id="deepOptions"></div><div class="deep-feedback" id="deepFeedback"></div><div class="deep-actions"><button class="btn soft" id="deepHearBtn">🔊 Hear</button><button class="btn green" id="deepNextBtn" style="display:none">Next Fresh →</button></div>';
+  stage.innerHTML=html;stage.hidden=false;stage.scrollIntoView({behavior:"smooth",block:"start"});el("deepCloseBtn").onclick=function(){stage.hidden=true;};
+  if(mode==="smart"||mode==="reading"||mode==="listening"){el("deepOptions").innerHTML=q.opts.map(function(x){return '<button class="deep-option" data-deep-answer="'+String(x).replace(/"/g,"&quot;")+'">'+x+'</button>';}).join("");el("deepOptions").querySelectorAll("[data-deep-answer]").forEach(function(b){b.onclick=function(){answerDeepMC(this);};});}
+  if(el("deepHearBtn"))el("deepHearBtn").onclick=function(){if(mode==="reading")speak(vihaaDeepPassage(s.subject,s.grade,topic,s.serial)+" "+q.q);else if(mode==="speaking")speak(el("deepSpeakTarget").textContent);else speak(q.q);};
+  if(el("deepNextBtn"))el("deepNextBtn").onclick=vihaaDeepNext;
+  if(mode==="listening")setTimeout(function(){speak(q.q);},250);
+  if(mode==="recall"){setTimeout(function(){if(!s.locked&&el("deepRecallLesson")){el("deepRecallLesson").innerHTML="<b>Memory hidden.</b> Recall the answer.";el("deepRecallPrompt").textContent=q.q;el("deepTextInput").disabled=false;el("deepTextInput").focus();}},3000);el("deepCheckBtn").onclick=checkDeepRecall;}
+  if(mode==="writing")el("deepCheckBtn").onclick=checkDeepWriting;
+  if(mode==="speaking")el("deepSpeakBtn").onclick=runDeepSpeaking;
+}
+function answerDeepMC(btn){
+  var s=vihaaDeepSession;if(s.locked)return;var p=btn.getAttribute("data-deep-answer"),ok=p===s.item.ans;
+  if(!ok){btn.classList.add("wrong");btn.disabled=true;el("deepFeedback").textContent="❌ Try again. Use the concept, not a guess.";beep(false);return;}
+  s.locked=true;btn.classList.add("correct");el("deepOptions").querySelectorAll("button").forEach(function(x){x.disabled=true;});el("deepFeedback").textContent="✅ Correct. "+s.item.explain;el("deepNextBtn").style.display="inline-block";state.xp+=5;save();beep(true);
+}
+function checkDeepRecall(){
+  var s=vihaaDeepSession;if(s.locked)return;var val=String(el("deepTextInput").value||"").trim().toLowerCase(),ans=String(s.item.ans).trim().toLowerCase();
+  if(val!==ans){el("deepFeedback").textContent="❌ Not exact yet. Try from memory again.";beep(false);return;}
+  s.locked=true;el("deepTextInput").disabled=true;el("deepFeedback").textContent="✅ Recalled correctly: "+s.item.ans;el("deepNextBtn").style.display="inline-block";state.xp+=6;save();beep(true);
+}
+function checkDeepWriting(){
+  var s=vihaaDeepSession,topic=vihaaDeepTopicObj(vihaaDeepTopics(s.subject,s.grade)[s.topic]),txt=String(el("deepTextInput").value||"").trim(),words=txt?txt.split(/\s+/).length:0,keys=topic.sub.slice(0,3),hit=0;
+  keys.forEach(function(k){var ps=k.toLowerCase().split(/\s+/);if(ps.some(function(p){return p.length>3&&txt.toLowerCase().indexOf(p)>=0;}))hit++;});
+  var min=s.grade<=3?8:s.grade<=7?18:s.grade<=10?30:45,score=Math.min(10,Math.round((Math.min(4,words/min*4)+Math.min(3,hit)+(/^[A-Zఅ-హऀ-ॿ]/.test(txt)?1:0)+(/[.!?।]$/.test(txt)?1:0)+(words>=min?1:0))*10)/10);
+  el("deepFeedback").innerHTML='<div class="deep-scorecard"><b>👩‍🏫 Teacher score: '+score+'/10</b><br>Length: '+words+' words · Topic coverage: '+hit+'/'+keys.length+'.<br>'+(score>=7?"Good. Add another reason/example for a stronger answer.":"Improve it using these ideas: "+keys.join(", ")+" and write a complete explanation.")+'</div>';
+  if(score>=7){s.locked=true;el("deepTextInput").disabled=true;el("deepNextBtn").style.display="inline-block";state.xp+=Math.round(score);save();beep(true);}else beep(false);
+}
+function runDeepSpeaking(){
+  var s=vihaaDeepSession;if(s.locked)return;
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){el("deepFeedback").textContent="Speech recognition is not supported here. Use Chrome/Android or Writing mode.";return;}
+  var target=normalizeSpeech(el("deepSpeakTarget").textContent),rec=new SR(),btn=el("deepSpeakBtn");rec.lang=s.subject==="telugu"?"te-IN":s.subject==="hindi"?"hi-IN":"en-IN";rec.interimResults=false;rec.maxAlternatives=3;btn.disabled=true;btn.textContent="🎙️ Listening…";
+  rec.onresult=function(e){var best=0,bestTxt="";for(var i=0;i<e.results[0].length;i++){var t=e.results[0][i].transcript,sc=speechSimilarity(target,t);if(sc>best){best=sc;bestTxt=t;}}if(best>=.62){s.locked=true;el("deepFeedback").textContent='✅ Heard: "'+bestTxt+'" · match '+Math.round(best*100)+"%. Next unlocked.";el("deepNextBtn").style.display="inline-block";state.xp+=7;save();beep(true);}else{el("deepFeedback").textContent='Try again. Heard: "'+bestTxt+'" · match '+Math.round(best*100)+"%.";beep(false);}};
+  rec.onerror=function(){el("deepFeedback").textContent="Could not recognise that attempt. Try again slowly.";};
+  rec.onend=function(){btn.disabled=false;btn.textContent="🎙️ Speak Again";};
+  rec.start();
+}
+
+var vihaaOldRenderExtraHomeV12=renderExtraHome;
+renderExtraHome=function(){vihaaOldRenderExtraHomeV12();if(isExtraSubject(state.currentSubject))renderDeepAcademy(state.currentSubject,"deepSubject");};
+var vihaaOldRenderMathHomeV12=renderMathHome;
+renderMathHome=function(){vihaaOldRenderMathHomeV12();renderDeepAcademy("maths","deepMath");};
+ensureDeepAcademyState();
 
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
 if(el("multiReset"))el("multiReset").onclick=function(){if(extraAdaptiveReview.active)resetExtraAdaptiveReview();else resetExtraQuestion();};
