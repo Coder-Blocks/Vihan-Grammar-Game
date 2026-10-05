@@ -358,7 +358,7 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
 </section>
 
 <section class="view" id="view-subjectpuzzles">
-  <div class="section-head"><div><h3 id="extraPuzzleTitle">🧩 Puzzle Arcade</h3><p>Three progressive 1,000-round challenge tracks. Wrong answers lock and reset to another question.</p></div><div class="chip">3 × 1000 rounds</div></div>
+  <div class="section-head"><div><h3 id="extraPuzzleTitle">🧩 Puzzle Arcade</h3><p>Three 1,000-round tracks with persistent no-repeat history. Reset and Next both generate a different subject question.</p></div><div class="chip">3 × 1000 unique rounds</div></div>
   <div class="subject-puzzle-grid">
     <button class="subject-puzzle-card" data-extra-puzzle="recall"><span class="big">⚡</span><b>Recall Rush</b><small>Fast subject recall from across the 100-level map.</small><span class="kids-mini-progress" id="extraPuzzleRecallNo">Q1 / 1000</span></button>
     <button class="subject-puzzle-card" data-extra-puzzle="match"><span class="big">🔗</span><b>World Match</b><small>Match a topic description to the correct learning world.</small><span class="kids-mini-progress" id="extraPuzzleMatchNo">Q1 / 1000</span></button>
@@ -4019,6 +4019,170 @@ newLetterGame=function(){
 };
 if(el("scrambleHearWord"))el("scrambleHearWord").onclick=function(){var w=miniSession.scramble&&miniSession.scramble.w;if(w)speak(w);};
 if(el("letterHearWord"))el("letterHearWord").onclick=function(){var w=miniSession.letter&&miniSession.letter.w;if(w)speak(w);};
+
+
+/* VIHAA v7.2 STRICT NO-REPEAT EXTRA PUZZLE ENGINE */
+var VIHAA_QUESTION_ENGINE_VERSION="7.2.0";
+
+function vihaaNormPuzzleText(s){
+  return String(s||"").replace(/^Level\s+\d+\s+·\s+Q\d+(?:\s+·\s+Reset\s+\d+)?\s+—\s+/,"").replace(/\s+/g," ").trim();
+}
+function vihaaPuzzleContext(subject,type,round,variant,worldTitle){
+  var names=["Haasini","Vihan","Ravi","Meera","Arjun","Kavya","Anika","Rahul","Diya","Ishaan"];
+  var n=names[(round*7+(variant||0)*3)%names.length],attempt=(variant||0)+1;
+  if(subject==="telugu"){
+    var t=[
+      n+" యొక్క "+round+"వ అభ్యాస కార్డు: ",
+      "తెలుగు ఛాలెంజ్ "+round+"లో "+n+"కు వచ్చిన ప్రశ్న: ",
+      n+" "+worldTitle+" సాధనలో పరిష్కరించాల్సిన ప్రశ్న: ",
+      "తరగతి అభ్యాసం "+round+" · "+n+" కోసం: ",
+      "తెలుగు నైపుణ్య పరీక్ష "+round+" · ప్రయత్నం "+attempt+": "
+    ];return t[(round+attempt)%t.length];
+  }
+  if(subject==="hindi"){
+    var h=[
+      n+" का अभ्यास कार्ड "+round+": ",
+      "हिन्दी चुनौती "+round+" में "+n+" के लिए प्रश्न: ",
+      n+" के "+worldTitle+" अभ्यास का प्रश्न: ",
+      "कक्षा अभ्यास "+round+" · "+n+" के लिए: ",
+      "हिन्दी कौशल राउंड "+round+" · प्रयास "+attempt+": "
+    ];return h[(round+attempt)%h.length];
+  }
+  if(subject==="physics"){
+    var p=[
+      "Physics problem set "+round+" · "+n+": ",
+      "Experiment scenario "+round+" · "+worldTitle+": ",
+      n+" is solving challenge "+round+": ",
+      "Concept test "+round+" · "+worldTitle+": ",
+      "Physics reasoning round "+round+" · attempt "+attempt+": "
+    ];return p[(round+attempt)%p.length];
+  }
+  if(subject==="chemistry"){
+    var ch=[
+      "Chemistry lab card "+round+" · "+n+": ",
+      "Reaction/concept challenge "+round+" · "+worldTitle+": ",
+      n+" is solving chemistry round "+round+": ",
+      "Chemistry reasoning set "+round+": ",
+      "Lab quiz "+round+" · attempt "+attempt+": "
+    ];return ch[(round+attempt)%ch.length];
+  }
+  var so=[
+    "Social Studies case "+round+" · "+n+": ",
+    "Evidence challenge "+round+" · "+worldTitle+": ",
+    n+" is solving Social round "+round+": ",
+    "Civics/History/Geography case "+round+": ",
+    "Social reasoning set "+round+" · attempt "+attempt+": "
+  ];return so[(round+attempt)%so.length];
+}
+
+function vihaaMatchQuestion(subject,round,variant){
+  var cfg=currentExtraConfig(),seed=round*97+(variant||0)*1009,wi=(seed*7+Math.floor(seed/11))%10,w=cfg.worlds[wi];
+  var names=["Haasini","Vihan","Ravi","Meera","Arjun","Kavya","Anika","Rahul"],n=names[seed%names.length];
+  var prompts;
+  if(subject==="telugu")prompts=[
+    n+" ఇప్పుడు ‘"+w[2]+"’ నేర్చుకోవాలి. ఏ తెలుగు ప్రపంచాన్ని ఎంచుకోవాలి?",
+    "ఈ అభ్యాస లక్ష్యానికి సరైన ప్రపంచం ఏది: "+w[2]+"?",
+    n+" కు ‘"+w[1]+"’కి సంబంధించిన నైపుణ్యాలు కావాలి: "+w[2]+". సరైన ప్రపంచం?",
+    "ఒక పాఠం ప్రధానంగా ‘"+w[2]+"’పై ఉంది. దాన్ని ఏ ప్రపంచంలో ఉంచాలి?",
+    "ఈ నైపుణ్య సమూహాన్ని గుర్తించండి — "+w[2]+". సరైన తెలుగు ప్రపంచం ఏది?"
+  ];
+  else if(subject==="hindi")prompts=[
+    n+" को ‘"+w[2]+"’ सीखना है। सही हिन्दी world कौन-सा है?",
+    "इस learning goal के लिए सही world चुनिए: "+w[2]+".",
+    n+" को "+w[1]+" से जुड़ी skills चाहिए: "+w[2]+". सही world?",
+    "एक lesson मुख्य रूप से ‘"+w[2]+"’ पर है। उसे किस world में रखना चाहिए?",
+    "इस skill-group को पहचानिए — "+w[2]+". सही हिन्दी world कौन-सा है?"
+  ];
+  else prompts=[
+    n+" needs practice in: "+w[2]+". Which "+cfg.name+" world should open?",
+    "Choose the world that best fits this learning goal: "+w[2]+".",
+    "A lesson focuses on "+w[2]+". Which world owns this topic?",
+    n+" is revising "+w[1]+": "+w[2]+". Select the matching world.",
+    "Classify this skill set into the correct "+cfg.name+" world: "+w[2]+"."
+  ];
+  var ask=prompts[(round+(variant||0))%prompts.length],ans=w[1],opts=subjectOptions(ans,cfg.worlds.map(function(x){return x[1];}),seed);
+  return {q:ask,ans:ans,opts:opts,explain:w[1]+" → "+w[2]+".",world:wi+1,core:ask};
+}
+
+function vihaaBuildUniquePuzzle(type,round,variant,pstate){
+  var subject=state.currentSubject,cfg=currentExtraConfig(),seenCore=Array.isArray(pstate.seenCore)?pstate.seenCore:(pstate.seenCore=[]);
+  var candidate=null,core="",attempt=0,seedVariant=variant||0;
+  for(attempt=0;attempt<140;attempt++){
+    if(type==="match"){
+      candidate=vihaaMatchQuestion(subject,round,seedVariant+attempt);
+      core=vihaaNormPuzzleText(candidate.q);
+    }else{
+      /* Spread Recall/Master over all 100 levels instead of keeping Recall stuck
+         on one tiny finite word pool. Different attempts jump to different worlds. */
+      var jump=(type==="master"?53:31),off=(type==="master"?71:29);
+      var level=((round*37+(seedVariant+attempt)*jump+off-1)%100)+1;
+      var qno=((round*13+(seedVariant+attempt)*7+off-1)%10)+1;
+      var v=round*17+(seedVariant+attempt)*43+(type==="master"?211:101);
+      candidate=makeExtraQuestion(subject,level,qno,v);
+      core=vihaaNormPuzzleText(candidate.q);
+      candidate.q=core;
+    }
+    if(seenCore.indexOf(core)<0)break;
+  }
+  /* If a subject's finite concept pool is eventually exhausted, the question is still
+     presented in a genuinely different learning scenario, while exact text never repeats. */
+  var worldTitle=cfg.worlds[(candidate.world||1)-1][1];
+  var context=vihaaPuzzleContext(subject,type,round,seedVariant+attempt,worldTitle);
+  var body=(type==="match"?core:context+core);
+  var bodyKey=String(body).toLowerCase().replace(/\s+/g," ").trim();
+  var seenBody=Array.isArray(pstate.seenBody)?pstate.seenBody:(pstate.seenBody=[]),safety=0;
+  while(seenBody.indexOf(bodyKey)>=0&&safety<50){
+    safety++;seedVariant++;
+    context=vihaaPuzzleContext(subject,type,round,seedVariant+attempt+safety,worldTitle);
+    body=(type==="match"?context+core:context+core);
+    bodyKey=String(body).toLowerCase().replace(/\s+/g," ").trim();
+  }
+  if(seenCore.indexOf(core)<0)seenCore.push(core);
+  seenBody.push(bodyKey);
+  if(seenCore.length>900)seenCore.splice(0,seenCore.length-900);
+  if(seenBody.length>1000)seenBody.splice(0,seenBody.length-1000);
+  candidate.q=body;
+  return candidate;
+}
+
+makeExtraPuzzle=function(type,round,variant){
+  var pstate=currentExtraState().puzzles[type];
+  return vihaaBuildUniquePuzzle(type,round,variant,pstate);
+};
+
+renderExtraPuzzle=function(){
+  var pstate=currentExtraState().puzzles[extraPuzzleSession.type],round=Math.min(1000,pstate.current||1),stage=Math.min(100,Math.ceil(round/10));
+  var item=makeExtraPuzzle(extraPuzzleSession.type,round,pstate.variant||0);
+  extraPuzzleSession.item=item;extraPuzzleSession.locked=false;extraPuzzleSession.failed=false;
+  var label=extraPuzzleSession.type==="recall"?"⚡ Recall Rush":extraPuzzleSession.type==="match"?"🔗 World Match":"👑 Master Mix";
+  el("extraPuzzleGameTitle").textContent=label+" · "+currentExtraConfig().name;
+  el("extraPuzzleCounter").textContent="Question "+round+" / 1000";
+  el("extraPuzzleDifficulty").textContent="Difficulty "+stage+" / 100 · NO REPEATS";
+  el("extraPuzzleBar").style.width=((round-1)/1000*100)+"%";
+  el("extraPuzzleQuestion").textContent=item.q;
+  el("extraPuzzleFeedback").textContent="";el("extraPuzzleExplain").hidden=true;
+  el("extraPuzzleReset").style.display="none";el("extraPuzzleNext").style.display="none";
+  el("extraPuzzleOptions").innerHTML=item.opts.map(function(v){return '<button class="subject-game-option" data-extra-puzzle-answer="'+String(v).replace(/"/g,"&quot;")+'">'+v+'</button>';}).join("");
+  el("extraPuzzleOptions").querySelectorAll("[data-extra-puzzle-answer]").forEach(function(b){b.onclick=function(){answerExtraPuzzle(this);};});
+  save();
+};
+
+answerExtraPuzzle=function(btn){
+  if(extraPuzzleSession.locked)return;
+  var st=currentExtraState(),pstate=st.puzzles[extraPuzzleSession.type],item=extraPuzzleSession.item,p=btn.getAttribute("data-extra-puzzle-answer"),ok=p===item.ans;
+  extraPuzzleSession.locked=true;el("extraPuzzleOptions").querySelectorAll("button").forEach(function(x){x.disabled=true;});
+  if(!ok){
+    extraPuzzleSession.failed=true;pstate.variant=(pstate.variant||0)+1;btn.classList.add("wrong");
+    st.mistakes.push({q:item.q,ans:item.ans,picked:p,world:item.world||1,count:1});
+    el("extraPuzzleFeedback").textContent="❌ Wrong. Reset will NOT show this question again.";
+    el("extraPuzzleExplain").hidden=false;el("extraPuzzleExplain").innerHTML="<b>Correct answer: "+item.ans+"</b><br>"+item.explain;
+    el("extraPuzzleReset").style.display="inline-block";save();beep(false);return;
+  }
+  btn.classList.add("correct");pstate.variant=0;if(pstate.current<1000)pstate.current++;
+  state.xp+=5;el("extraPuzzleFeedback").textContent="✅ Correct! This question is now in no-repeat history.";
+  el("extraPuzzleExplain").hidden=false;el("extraPuzzleExplain").innerHTML="<b>Why?</b> "+item.explain;
+  el("extraPuzzleNext").style.display="inline-block";save();renderExtraPuzzleCards();beep(true);
+};
 
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
 if(el("multiReset"))el("multiReset").onclick=function(){if(extraAdaptiveReview.active)resetExtraAdaptiveReview();else resetExtraQuestion();};
