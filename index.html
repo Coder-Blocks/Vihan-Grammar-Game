@@ -1331,7 +1331,7 @@ function makeExtraQuestion(subject,level,q,variant){
  } else {
    var sf=socialFacts[(seed+world*4)%socialFacts.length];ask=sf[0];ans=sf[1];pool=socialFacts.map(function(x){return x[1];});explain="Correct Social Studies fact: "+sf[0]+" → "+ans+".";
  }
- return{q:ask,ans:String(ans),opts:subjectOptions(String(ans),pool.map(String),seed),explain:explain,world:world};
+ var label="Level "+level+" · Q"+q+(variant?" · Reset "+(variant+1):"");return{q:label+" — "+ask,ans:String(ans),opts:subjectOptions(String(ans),pool.map(String),seed),explain:explain,world:world};
 }
 function renderExtraHome(){
  var cfg=currentExtraConfig(),st=currentExtraState();el("multiHero").className="multi-hero "+cfg.className;el("multiEyebrow").textContent=cfg.tag;el("multiHeroTitle").textContent=cfg.icon+" VIHAA "+cfg.name+" Quest";el("multiHeroText").textContent=cfg.desc;el("multiHeroArt").textContent=cfg.icon;el("multiContinue").textContent="▶ Continue Level "+st.level;el("multiGoldenTitle").textContent="🎈 "+cfg.name+" Golden Balloon Hunt";el("multiMapTitle").textContent=cfg.name+" · 100-Level Learning Map";el("multiAgeChip").textContent="Age "+(state.learnerAge||10)+" · Adaptive";el("extraNavMap").textContent=cfg.name+" Map";el("extraNavQuiz").textContent=cfg.name+" Quiz";
@@ -1339,7 +1339,7 @@ function renderExtraHome(){
 }
 function renderMultiGolden(){var nodes=el("multiGoldLetters")?el("multiGoldLetters").children:[];for(var i=0;i<nodes.length;i++)nodes[i].classList.toggle("found",i<balloonState.letters.length);}
 var extraQuiz={subject:null,item:null,locked:false,failed:false,lastQuestion:""};
-function startExtraQuiz(){if(!isExtraSubject(state.currentSubject))return;var st=currentExtraState();extraQuiz={subject:state.currentSubject,item:null,locked:false,failed:false,lastQuestion:""};showView("subjectquiz");renderExtraQuiz();}
+function startExtraQuiz(){if(!isExtraSubject(state.currentSubject))return;var st=currentExtraState();st.sessions=(st.sessions||0)+1;extraQuiz={subject:state.currentSubject,item:null,locked:false,failed:false,lastQuestion:""};save();showView("subjectquiz");renderExtraQuiz();}
 function renderExtraQuiz(){
  var cfg=currentExtraConfig(),st=currentExtraState(),item=makeExtraQuestion(state.currentSubject,st.level,st.q,st.variant||0),guard=0;while(extraQuiz.lastQuestion&&item.q===extraQuiz.lastQuestion&&guard<50){st.variant++;item=makeExtraQuestion(state.currentSubject,st.level,st.q,st.variant);guard++;}
  extraQuiz.item=item;extraQuiz.locked=false;extraQuiz.failed=false;extraQuiz.lastQuestion=item.q;var w=cfg.worlds[item.world-1];el("multiQuizTitle").textContent="🎯 "+cfg.name+" Quiz Arena";el("multiQuizWorld").textContent="World "+item.world+" · "+w[1];el("multiQuizLevel").textContent="Level "+st.level+" / 100";el("multiQuizQuestionNo").textContent="Question "+st.q+" / 10";el("multiQuizAge").textContent="Age "+(state.learnerAge||10);el("multiQuizProgress").style.width=((st.q-1)/10*100)+"%";el("multiQuestion").textContent=item.q;el("multiFeedback").textContent="";el("multiExplain").hidden=true;el("multiExplain").textContent="";el("multiReset").style.display="none";el("multiNext").style.display="none";
