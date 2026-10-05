@@ -5309,6 +5309,120 @@ if(!questionHistory.engineVersion||questionHistory.engineVersion!=="9.0.0"){
   saveQuestionHistory();
 }
 
+
+/* VIHAA v9.1 CLICK RECOVERY + NONBLOCKING UNIQUE BATCH */
+VIHAA_QUESTION_ENGINE_VERSION="9.1.0";
+
+function vihaaSafeUniqueBatch(worldId,count,tier){
+  questionHistory.answerRecent=questionHistory.answerRecent||{};
+  questionHistory.answerRecent[worldId]=questionHistory.answerRecent[worldId]||[];
+  questionHistory.seen=questionHistory.seen||{};
+  questionHistory.recent=Array.isArray(questionHistory.recent)?questionHistory.recent:[];
+  var out=[],batchPrompt={},batchAnswer={},guard=0,need=Math.max(1,count||5),recentKeys=questionHistory.answerRecent[worldId];
+
+  vihaaGrammarTierOverride=tier||0;
+  while(out.length<need&&guard<30000){
+    guard++;
+    questionHistory.seq=(questionHistory.seq||0)+1;
+    var q=generatedQuestion(worldId,questionHistory.seq);
+    if(!q||q.length<7)continue;
+    var prompt=String(q[0]||"").trim(),norm=prompt.toLowerCase().replace(/\s+/g," ");
+    var fp=questionFingerprint(q),actual=String(q[q[5]+1]||"").trim().toLowerCase();
+    var answerKey=vihaaCorrectKey(q);
+
+    /* No duplicate prompt or visible correct answer inside the current 5-question round.
+       Also avoid the recent concept-answer keys from the preceding questions. */
+    if(batchPrompt[norm]||batchAnswer[actual])continue;
+    if(questionHistory.seen[fp]||questionHistory.recent.indexOf(norm)>=0)continue;
+    if(recentKeys.indexOf(answerKey)>=0)continue;
+
+    batchPrompt[norm]=1;batchAnswer[actual]=1;questionHistory.seen[fp]=1;
+    questionHistory.recent.push(norm);if(questionHistory.recent.length>1500)questionHistory.recent=questionHistory.recent.slice(-1500);
+    recentKeys.push(answerKey);if(recentKeys.length>4)recentKeys.shift();
+    questionHistory.served=(questionHistory.served||0)+1;
+    out.push(q);
+  }
+
+  /* A finite grammar answer set must never make the UI deadlock.
+     If the four-answer cooldown blocks a round, keep exact-question and visible-answer
+     uniqueness, clear only the cooldown, and continue generating new contexts. */
+  if(out.length<need){
+    recentKeys.length=0;
+    while(out.length<need&&guard<60000){
+      guard++;questionHistory.seq=(questionHistory.seq||0)+1;
+      var q2=generatedQuestion(worldId,questionHistory.seq);
+      if(!q2||q2.length<7)continue;
+      var p2=String(q2[0]||"").trim(),n2=p2.toLowerCase().replace(/\s+/g," "),fp2=questionFingerprint(q2);
+      var a2=String(q2[q2[5]+1]||"").trim().toLowerCase();
+      if(batchPrompt[n2]||batchAnswer[a2]||questionHistory.seen[fp2]||questionHistory.recent.indexOf(n2)>=0)continue;
+      batchPrompt[n2]=1;batchAnswer[a2]=1;questionHistory.seen[fp2]=1;questionHistory.recent.push(n2);
+      if(questionHistory.recent.length>1500)questionHistory.recent=questionHistory.recent.slice(-1500);
+      recentKeys.push(vihaaCorrectKey(q2));if(recentKeys.length>4)recentKeys.shift();
+      questionHistory.served=(questionHistory.served||0)+1;out.push(q2);
+    }
+  }
+  vihaaGrammarTierOverride=0;
+  saveQuestionHistory();
+  return out;
+}
+
+startAdventure=function(level){
+  level=Number(level||state.highest||1);
+  if(level>state.highest)return;
+  var w=worldOfLevel(level),local=((level-1)%10)+1,tier=Math.max(1,Math.min(5,Math.ceil(local/2)));
+  try{
+    toast("🎯 Loading a new unique Level "+level+" challenge…");
+    var raw=vihaaSafeUniqueBatch(w,5,tier);
+    if(raw.length<5)throw new Error("Could not build five unique questions.");
+    startGame("adventure",raw.map(function(q){return{q:q,w:w};}),level,w);
+  }catch(err){
+    console.error("VIHAA level start recovery",err);
+    /* Recover malformed/old per-world cooldown data without touching learner progress. */
+    questionHistory.answerRecent=questionHistory.answerRecent||{};questionHistory.answerRecent[w]=[];
+    saveQuestionHistory();
+    try{
+      var retry=vihaaSafeUniqueBatch(w,5,tier);
+      if(retry.length<5)throw new Error("Retry pool incomplete.");
+      startGame("adventure",retry.map(function(q){return{q:q,w:w};}),level,w);
+    }catch(err2){
+      console.error("VIHAA retry failed",err2);
+      toast("⚠️ Question engine refreshed. Please click Continue once more.");
+    }
+  }
+};
+
+startPractice=function(worldId){
+  worldId=Number(worldId||currentWorld());
+  var tier=Math.max(1,Math.min(5,Math.ceil((worldDoneCount(worldId)+1)/2)));
+  try{
+    var raw=vihaaSafeUniqueBatch(worldId,5,tier);
+    if(raw.length<5)throw new Error("Practice pool incomplete.");
+    startGame("practice",raw.map(function(q){return{q:q,w:worldId};}),null,worldId);
+  }catch(err){
+    questionHistory.answerRecent=questionHistory.answerRecent||{};questionHistory.answerRecent[worldId]=[];saveQuestionHistory();
+    var retry=vihaaSafeUniqueBatch(worldId,5,tier);
+    if(retry.length===5)startGame("practice",retry.map(function(q){return{q:q,w:worldId};}),null,worldId);
+    else toast("⚠️ Practice engine refreshed. Please click again.");
+  }
+};
+
+startBossBattle=function(worldId){
+  worldId=Number(worldId||currentWorld());if(!worldId)return;
+  try{
+    var raw=vihaaSafeUniqueBatch(worldId,5,5);
+    if(raw.length<5)throw new Error("Boss pool incomplete.");
+    startGame("boss",raw.map(function(q){return{q:q,w:worldId};}),null,worldId);
+    game.bossHp=100;game.bossStartHp=100;renderBoss();
+  }catch(err){questionHistory.answerRecent=questionHistory.answerRecent||{};questionHistory.answerRecent[worldId]=[];saveQuestionHistory();toast("⚠️ Boss questions refreshed. Please start Boss again.");}
+};
+
+/* Old saved engines can carry a stale cooldown but learner XP/levels must stay intact. */
+if(questionHistory.engineVersion!=="9.1.0"){
+  questionHistory.engineVersion="9.1.0";
+  questionHistory.answerRecent={};
+  saveQuestionHistory();
+}
+
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
 if(el("multiReset"))el("multiReset").onclick=function(){if(extraAdaptiveReview.active)resetExtraAdaptiveReview();else resetExtraQuestion();};
 if(el("multiNext"))el("multiNext").onclick=function(){if(extraAdaptiveReview.active)nextExtraAdaptiveReview();else nextExtraQuestion();};
