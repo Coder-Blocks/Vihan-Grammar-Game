@@ -168,6 +168,13 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
 .math-progress{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.math-chip{background:#fff3df;color:#8b4f00;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:950}.math-golden{margin-top:14px}
 @media(max-width:850px){.math-world-grid{grid-template-columns:repeat(2,1fr)}.math-hero{grid-template-columns:1fr}.math-hero .math-art{display:none}}
 @media(max-width:620px){.subject-grid{grid-template-columns:1fr}.subject-card{min-height:220px}.math-world-grid,.math-formulas,.math-q-options{grid-template-columns:1fr}}
+
+.veg-visual{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px}
+.veg-letter{font-size:28px;font-weight:500;line-height:1;color:#111827}
+.veg-svg{width:44px;height:44px;display:block;filter:drop-shadow(0 3px 5px rgba(30,40,50,.12))}
+#kidsPromptPic .veg-svg{width:94px;height:94px}
+#kidsPromptPic .veg-letter{font-size:54px}
+#kidsPromptPic.veg-prompt{display:flex;align-items:center;justify-content:center;gap:14px}
 </style>
 </head>
 <body data-subject="english">
@@ -4186,6 +4193,81 @@ answerExtraPuzzle=function(btn){
 
 /* VIHAA v7.3 DISTINCT VEGETABLE VISUALS */
 var VIHAA_QUESTION_ENGINE_VERSION="7.3.0";
+
+/* VIHAA v7.4 REAL DISTINCT VEGETABLE SVG ART */
+var VIHAA_QUESTION_ENGINE_VERSION="7.4.0";
+
+function vihaaVegSvg(name){
+  var common='xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" class="veg-svg" aria-hidden="true"';
+  var n=String(name||"").toLowerCase();
+  if(n==="artichoke")return '<svg '+common+'><path d="M36 9c9 8 16 20 14 31-2 13-11 22-14 24-3-2-12-11-14-24-2-11 5-23 14-31z" fill="#69a84f"/><path d="M36 17l-8 15 8-5 8 5-8-15zm-11 15l-5 10 10-4-5-6zm22 0l5 10-10-4 5-6zm-15 9l4 15 4-15-4-5-4 5z" fill="#8bcf68"/><path d="M34 6h4v10h-4z" fill="#4a7c3d"/></svg>';
+  if(n==="beetroot")return '<svg '+common+'><path d="M36 28c12 0 19 8 17 18-2 11-11 18-17 18s-15-7-17-18c-2-10 5-18 17-18z" fill="#9c2a78"/><path d="M36 64l-4 7h8z" fill="#6d1858"/><path d="M33 29C26 18 19 15 15 11c9-1 16 3 20 12M39 28c6-11 13-14 18-18-10 0-16 4-20 12" stroke="#4c9a45" stroke-width="5" fill="none" stroke-linecap="round"/></svg>';
+  if(n==="carrot")return '<svg '+common+'><path d="M30 26h16L38 65c-2 5-5 5-7 0L22 26h8z" fill="#f28c28"/><path d="M28 28l11 30" stroke="#d76f12" stroke-width="2"/><path d="M33 25C26 12 21 8 18 7M36 25C36 12 37 8 40 5M39 25C46 13 51 10 55 9" stroke="#4d9b45" stroke-width="5" fill="none" stroke-linecap="round"/></svg>';
+  if(n==="daikon")return '<svg '+common+'><path d="M33 22c12 0 14 7 12 18-2 10-7 22-10 28-2 4-5 4-7 0-3-7-6-18-6-28 0-11 3-18 11-18z" fill="#f6f2df" stroke="#d8d2bd"/><path d="M32 23C26 13 18 10 14 9M35 23c2-11 6-15 11-20M37 24c7-8 13-9 18-9" stroke="#4f9a46" stroke-width="5" fill="none" stroke-linecap="round"/></svg>';
+  if(n==="eggplant")return '<svg '+common+'><path d="M47 23c10 10 6 28-7 39-8 7-18 6-24-1-6-7-4-18 3-25 9-10 20-17 28-13z" fill="#6f38a8"/><path d="M42 20l7-9 4 9 9 2-9 7-4-3-7-6z" fill="#4f963e"/></svg>';
+  if(n==="fennel")return '<svg '+common+'><path d="M26 39c-3 11 1 21 10 23 9-2 13-12 10-23-4-5-16-5-20 0z" fill="#dff0c4" stroke="#9fc27f"/><path d="M36 38V13M32 23L21 10M40 22L51 8M28 20L16 17M44 18l12-6" stroke="#64a85a" stroke-width="3" fill="none" stroke-linecap="round"/></svg>';
+  if(n==="garlic")return '<svg '+common+'><path d="M36 19c-3 7-12 8-14 20-2 11 5 24 14 24s16-13 14-24c-2-12-11-13-14-20z" fill="#efe8d8" stroke="#cfc4ac"/><path d="M36 20v41M30 25c-4 10-2 27 6 36M42 25c4 10 2 27-6 36" stroke="#c7bba3" fill="none"/><path d="M36 19V8" stroke="#5f9b4e" stroke-width="4" stroke-linecap="round"/></svg>';
+  if(n==="horseradish")return '<svg '+common+'><path d="M29 25c8-3 15 2 14 9-1 8-7 20-14 33-2 4-5 3-5-1 1-15 0-27 5-41z" fill="#e9d2a7" stroke="#c6ad7f"/><path d="M31 24C28 13 22 9 17 8M34 24c3-12 9-15 15-17M32 23c-7-5-13-5-18-4" stroke="#549947" stroke-width="4" fill="none" stroke-linecap="round"/></svg>';
+  if(n==="iceberg lettuce")return '<svg '+common+'><circle cx="36" cy="40" r="23" fill="#b7dc73"/><path d="M17 41c8-8 11-5 19-17 5 10 9 13 19 17M21 50c8-7 13-5 15-16 3 9 9 11 15 16M28 60c4-5 7-9 8-19 2 9 4 14 8 19" stroke="#7fb455" stroke-width="3" fill="none"/></svg>';
+  if(n==="jalapeño")return '<svg '+common+'><path d="M21 25c15-7 31-1 34 9 3 10-7 26-29 28-8 1-12-4-9-9 5-8 16-9 21-15 4-5 1-10-5-11-4-1-8 0-12 2z" fill="#3f9e49"/><path d="M22 26l-3-10 5-4 4 10" fill="#4f7f37"/></svg>';
+  if(n==="kale")return '<svg '+common+'><path d="M35 10c9 3 14 11 12 18 9-2 16 4 14 12-1 6-8 9-15 8 3 9-3 16-11 14-6-1-9-6-8-12-8 4-16-1-15-9 1-7 7-10 14-9-5-8 0-18 9-22z" fill="#3e8f4c"/><path d="M36 17v43M36 33l-12-7M36 40l14-8M36 48l-11 6" stroke="#b6d98e" stroke-width="2" fill="none"/></svg>';
+  if(n==="leek")return '<svg '+common+'><path d="M27 31h18l-3 29H30z" fill="#f3f1d8"/><path d="M30 31L22 7h7l7 24M36 31V6h7l-3 25M41 31l9-22h7L47 31" fill="#4f9a55"/><path d="M29 47h14" stroke="#d3ccb0" stroke-width="2"/></svg>';
+  if(n==="mushroom")return '<svg '+common+'><path d="M15 35c2-15 12-24 21-24s19 9 21 24H15z" fill="#d95757"/><circle cx="27" cy="23" r="3" fill="#fff1dc"/><circle cx="43" cy="19" r="3" fill="#fff1dc"/><path d="M30 35h12l4 25H26z" fill="#eee2c6"/><path d="M24 35h24" stroke="#b44242" stroke-width="2"/></svg>';
+  if(n==="napa cabbage")return '<svg '+common+'><path d="M36 10c12 8 18 21 15 34-3 12-10 19-15 22-6-3-13-10-16-22-3-13 4-26 16-34z" fill="#d9e8a8"/><path d="M36 14v48M36 28L23 20M36 36l15-11M36 45L24 39M36 51l12-7" stroke="#87ad62" stroke-width="2.5" fill="none"/></svg>';
+  if(n==="okra")return '<svg '+common+'><path d="M25 55L42 15l8 5-18 39z" fill="#4fa54e"/><path d="M42 15l-3-7 6-3 5 7z" fill="#3c7f3e"/><path d="M30 48l9-24M34 51l9-25" stroke="#9bd07f" stroke-width="2"/></svg>';
+  if(n==="potato")return '<svg '+common+'><path d="M17 39c0-14 9-25 21-25 13 0 22 10 20 25-2 15-9 24-22 24-13 0-19-10-19-24z" fill="#b77a4a"/><circle cx="29" cy="29" r="2" fill="#7f5233"/><circle cx="44" cy="24" r="2" fill="#7f5233"/><circle cx="48" cy="43" r="2" fill="#7f5233"/><circle cx="28" cy="48" r="2" fill="#7f5233"/></svg>';
+  if(n==="quinoa leaves")return '<svg '+common+'><path d="M35 62V10" stroke="#6c9442" stroke-width="3"/><g fill="#65a84f"><ellipse cx="26" cy="20" rx="8" ry="5" transform="rotate(-28 26 20)"/><ellipse cx="45" cy="25" rx="8" ry="5" transform="rotate(28 45 25)"/><ellipse cx="25" cy="34" rx="8" ry="5" transform="rotate(-30 25 34)"/><ellipse cx="46" cy="40" rx="8" ry="5" transform="rotate(30 46 40)"/><ellipse cx="26" cy="50" rx="8" ry="5" transform="rotate(-28 26 50)"/></g><g fill="#d9b04a"><circle cx="35" cy="12" r="2"/><circle cx="32" cy="16" r="2"/><circle cx="38" cy="17" r="2"/></g></svg>';
+  if(n==="radish")return '<svg '+common+'><path d="M36 28c11 0 18 8 16 18-2 10-9 16-16 16s-14-6-16-16c-2-10 5-18 16-18z" fill="#df465b"/><path d="M36 62l-3 8h6z" fill="#bd3146"/><path d="M33 29C27 17 20 15 16 12M39 29c4-11 10-15 16-18M36 28V9" stroke="#4b9848" stroke-width="5" fill="none" stroke-linecap="round"/></svg>';
+  if(n==="spinach")return '<svg '+common+'><path d="M36 11c15 7 24 23 18 35-5 11-18 14-18 14s-13-3-18-14c-6-12 3-28 18-35z" fill="#3d9b55"/><path d="M36 18v42M36 30L24 24M36 38l14-8M36 46l-11 6" stroke="#b8df9a" stroke-width="2.5" fill="none"/></svg>';
+  if(n==="turnip")return '<svg '+common+'><path d="M19 38c0-12 7-18 17-18s17 6 17 18c0 13-8 23-17 26-9-3-17-13-17-26z" fill="#f1ead7"/><path d="M19 37c2-10 8-17 17-17s15 7 17 17c-9 4-25 4-34 0z" fill="#8d58a7"/><path d="M34 21C27 11 20 9 16 8M39 21c4-9 10-12 16-14" stroke="#4f9a46" stroke-width="5" fill="none" stroke-linecap="round"/></svg>';
+  if(n==="ube")return '<svg '+common+'><path d="M22 43c3-17 17-27 27-20 10 8 4 28-8 38-10 8-22 0-19-18z" fill="#6f4aa7"/><path d="M28 48c5-7 10-13 17-18" stroke="#9e83ce" stroke-width="3" fill="none"/></svg>';
+  if(n==="vidalia onion")return '<svg '+common+'><path d="M36 25c12 0 19 10 18 20-1 11-9 18-18 18s-17-7-18-18c-1-10 6-20 18-20z" fill="#e0b84b"/><path d="M36 63l-3 6h6z" fill="#b18b31"/><path d="M36 25V8M32 25L25 9M40 25l8-17" stroke="#5e9d4e" stroke-width="4" fill="none" stroke-linecap="round"/></svg>';
+  if(n==="watercress")return '<svg '+common+'><path d="M35 63V13M35 27L22 19M35 35l14-8M35 44l-13 7M35 51l12 7" stroke="#4e963f" stroke-width="3" fill="none"/><g fill="#63ad50"><circle cx="21" cy="18" r="7"/><circle cx="51" cy="26" r="7"/><circle cx="20" cy="51" r="7"/><circle cx="48" cy="59" r="7"/><circle cx="35" cy="12" r="7"/></g></svg>';
+  if(n==="xanthosoma")return '<svg '+common+'><path d="M36 11c17 0 27 13 23 26-4 12-15 20-23 26-8-6-19-14-23-26-4-13 6-26 23-26z" fill="#4f9850"/><path d="M36 17v44M36 34L19 28M36 41l17-9" stroke="#afd18e" stroke-width="2.5" fill="none"/><path d="M31 57c-5 2-8 7-6 11 3 4 9 3 13-1 4-4 3-8-1-10z" fill="#b98958"/></svg>';
+  if(n==="yam")return '<svg '+common+'><path d="M18 42c3-18 15-29 29-23 14 7 9 29-4 41-12 11-28 1-25-18z" fill="#9a6544"/><circle cx="30" cy="35" r="2" fill="#6d4731"/><circle cx="42" cy="27" r="2" fill="#6d4731"/><circle cx="39" cy="49" r="2" fill="#6d4731"/></svg>';
+  if(n==="zucchini")return '<svg '+common+'><path d="M20 54c-5-5-4-13 1-19l23-23c5-5 12-5 17 0 5 5 5 12 0 17L38 52c-6 6-13 7-18 2z" fill="#3f8f42"/><path d="M24 50l30-30" stroke="#79b765" stroke-width="3"/><path d="M49 12l3-8 8 3-1 8" fill="#5d9b4d"/></svg>';
+  return '<svg '+common+'><circle cx="36" cy="36" r="24" fill="#e5e7eb"/><text x="36" y="42" text-anchor="middle" font-size="20" font-family="Arial" fill="#374151">?</text></svg>';
+}
+
+function vihaaVegVisual(name,letter,big){
+  return '<span class="veg-visual">'+(letter?'<span class="veg-letter">'+letter+'</span>':'')+vihaaVegSvg(name)+'</span>';
+}
+
+var vihaaOldOpenKidsCategoryV74=openKidsCategory;
+openKidsCategory=function(key){
+  var c=kidsData[key];if(!c)return;
+  kidsSession.category=key;el("kidsGame").hidden=false;
+  el("kidsGameTitle").textContent=c.icon+" "+c.title+" · "+kidsMasteredCount(key)+"/"+c.items.length;
+  el("kidsLearnGrid").innerHTML=c.items.map(function(x){
+    var mastered=(state.kidsMastered[key]||[]).indexOf(x[1])>=0;
+    var visual=key==="vegetables"?vihaaVegVisual(x[1],String(x[0]).charAt(0),false):'<span class="pic">'+x[0]+'</span>';
+    return '<button class="learn-item" data-say="'+x[1].replace(/"/g,"&quot;")+'">'+visual+'<b>'+x[1]+'</b><small style="display:block;color:var(--muted);margin-top:4px">'+(mastered?"✓ learned":"tap to hear")+'</small></button>';
+  }).join("");
+  el("kidsLearnGrid").querySelectorAll("[data-say]").forEach(function(b){b.onclick=function(){speak(this.getAttribute("data-say"));};});
+  el("kidsMatchArea").hidden=true;el("kidsGame").scrollIntoView({behavior:"smooth",block:"start"});
+};
+
+var vihaaOldRenderKidsQuestionV74=renderKidsQuestion;
+renderKidsQuestion=function(){
+  var item=kidsSession.round[kidsSession.index],c=kidsData[kidsSession.category];if(!item||!c)return;
+  kidsSession.answered=false;
+  if(kidsSession.category==="vegetables"){
+    el("kidsPromptPic").classList.add("veg-prompt");
+    el("kidsPromptPic").innerHTML=vihaaVegVisual(item[1],"",true);
+  }else{
+    el("kidsPromptPic").classList.remove("veg-prompt");
+    el("kidsPromptPic").textContent=item[0];
+  }
+  el("kidsRoundText").textContent=(kidsSession.index+1)+" of "+kidsSession.round.length;
+  el("kidsProgressBar").style.width=(kidsSession.index/kidsSession.round.length*100)+"%";
+  el("kidsResult").textContent="";el("nextKidsMatch").style.display="none";
+  var wrong=shuffleCopy(c.items.filter(function(x){return x[1]!==item[1];})).slice(0,3).map(function(x){return x[1];});
+  var opts=shuffleCopy([item[1]].concat(wrong));
+  el("kidsMatchOptions").innerHTML=opts.map(function(w){return '<button class="kids-match-btn" data-kids-word="'+w.replace(/"/g,"&quot;")+'">'+w+'</button>';}).join("");
+  el("kidsMatchOptions").querySelectorAll(".kids-match-btn").forEach(function(b){b.onclick=function(){answerKidsMatch(this,item);};});
+  speak(item[1]);
+};
+
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
 if(el("multiReset"))el("multiReset").onclick=function(){if(extraAdaptiveReview.active)resetExtraAdaptiveReview();else resetExtraQuestion();};
 if(el("multiNext"))el("multiNext").onclick=function(){if(extraAdaptiveReview.active)nextExtraAdaptiveReview();else nextExtraQuestion();};
