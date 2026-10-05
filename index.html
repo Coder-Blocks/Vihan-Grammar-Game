@@ -216,7 +216,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 10px 12p
   <div class="arcade-grid">
     <div class="arcade-card"><div class="arcade-icon">🧠</div><h3>Sentence Puzzle</h3><p>1,000 unique sentence-building challenges. Grammar complexity rises every 10 questions.</p><span class="arcade-score">🎯 Q <span id="sentenceQuestionNo">1</span> / 1000</span><div style="margin-top:12px"><button class="btn dark" id="playSentencePuzzle">Continue Challenge</button></div></div>
     <div class="arcade-card"><div class="arcade-icon">🔀</div><h3>Word Scramble</h3><p>1,000 unique spelling challenges. Vocabulary becomes harder every 10 questions.</p><span class="arcade-score">🎯 Q <span id="scrambleQuestionNo">1</span> / 1000</span><div style="margin-top:12px"><button class="btn dark" id="playWordScramble">Continue Challenge</button></div></div>
-    <div class="arcade-card"><div class="arcade-icon">🔤</div><h3>Guess the Letter</h3><p>1,000 unique spelling challenges. Difficulty rises after every 10 questions.</p><span class="arcade-score">🎯 Q <span id="letterQuestionNo">1</span> / 1000</span><div style="margin-top:12px"><button class="btn dark" id="playGuessLetter">Continue Challenge</button></div></div>
+    <div class="arcade-card"><div class="arcade-icon">🔤</div><h3>Guess the Letter</h3><p>1,000 different words · zero word repeats. Difficulty rises after every 10 questions.</p><span class="arcade-score">🎯 Q <span id="letterQuestionNo">1</span> / 1000</span><div style="margin-top:12px"><button class="btn dark" id="playGuessLetter">Continue Challenge</button></div></div>
   </div>
 
   <div class="mini-stage" id="sentenceStage" hidden>
@@ -2244,31 +2244,26 @@ function checkScramble(){
   save();renderMiniGameScores();renderHeader();beep(true);
 }
 var GUESS_LETTER_MAX=1000;
-var guessWordTiers=[
-  "book tree milk fish hand rain ball bird cake moon star shoe door home blue play jump sing walk read apple water chair table green smile house light clock river cloud happy work email learn speak write bread plant music phone train shirt glass beach dream dance laugh world family".split(" "),
-  "school friend travel office market doctor teacher window garden morning picture answer ticket coffee weather letter pencil lesson story money hotel airport driver nurse kitchen bottle orange banana animal people street village city country summer winter spring autumn clever strong quiet quick clean bright carry bring watch listen close start".split(" "),
-  "language sentence career journey practice meeting project message computer hospital business improve remember explain choose complete success future grammar reading writing speaking problem solution company customer manager service account payment invoice support website software mobile network design develop create health fitness energy nature planet science history culture library college memory".split(" "),
-  "confidence education knowledge communication technology experience important different beautiful wonderful adventure challenge progress creative powerful careful possible necessary personal professional community environment information attention decision direction condition position question relationship opportunity responsibility development achievement conversation pronunciation vocabulary understand discover imagine compare describe organize prepare continue balance purpose quality resource behavior".split(" "),
-  "extraordinary architecture psychology philosophy mathematics engineering creativity innovation professionalism determination concentration collaboration imagination comprehension independent significant complicated sophisticated remarkable intelligent enthusiastic leadership organization strategy analysis finance healthcare international successful perspective evidence evaluate accurate complex flexible efficient sustainable critical logical specific relevant essential advanced fluent interpret persuade negotiate precise dynamic practical".split(" ")
-];
-function uniqueGuessPositions(word){
-  var n=word.length,raw=[n-1,0,Math.floor(n/2),Math.max(1,Math.floor(n/3))],out=[];
-  for(var i=0;i<raw.length;i++){var p=Math.max(0,Math.min(n-1,raw[i]));if(out.indexOf(p)<0)out.push(p);}
-  for(var j=1;out.length<4&&j<n;j++)if(out.indexOf(j)<0)out.push(j);
-  return out.slice(0,4);
+function guessMissingIndex(word,qNo){
+  var stage=Math.min(100,Math.max(1,Math.ceil(qNo/10))),n=word.length;
+  if(n<=2)return Math.max(0,n-1);
+  if(stage<=15)return n-1;
+  if(stage<=30)return Math.floor(n/2);
+  if(stage<=50)return Math.max(1,Math.floor(n/3));
+  if(stage<=70)return Math.min(n-2,1+(qNo%(n-2)));
+  var seed=(Math.imul(qNo,2654435761)>>>0);
+  return 1+(seed%(n-2));
 }
 var guessQuestionBank=(function(){
-  var bank=[];
-  guessWordTiers.forEach(function(words,tier){
-    words.forEach(function(word,wi){
-      var upper=word.toUpperCase(),positions=uniqueGuessPositions(upper);
-      positions.forEach(function(pos,variant){
-        bank.push({w:upper,i:pos,tier:tier,variant:variant,key:upper+":"+pos,score:tier*320+variant*58+upper.length*7+wi*2});
-      });
-    });
-  });
-  bank.sort(function(a,b){return a.score-b.score||a.key.localeCompare(b.key);});
-  return bank.slice(0,GUESS_LETTER_MAX);
+  var seen={},bank=[];
+  for(var i=0;i<scrambleWordBank.length&&bank.length<GUESS_LETTER_MAX;i++){
+    var word=String(scrambleWordBank[i]).trim().toUpperCase();
+    if(!word||seen[word])continue;
+    seen[word]=1;
+    var qNo=bank.length+1;
+    bank.push({w:word,i:guessMissingIndex(word,qNo),key:word});
+  }
+  return bank;
 })();
 function guessDifficultyStage(qNo){return Math.min(100,Math.max(1,Math.ceil(qNo/10)));}
 function guessChoiceCount(stage){return Math.min(10,4+Math.floor((stage-1)/16));}
@@ -2287,9 +2282,9 @@ function guessHintFor(item,stage){
 function newLetterGame(){
   hideMiniStages();el("letterStage").hidden=false;miniSession.locked=false;
   var qNo=Math.min(GUESS_LETTER_MAX,Math.max(1,Number(state.guessLetter.current||1))),item=guessQuestionBank[qNo-1];
-  if(!item){el("letterHint").textContent="Challenge complete!";el("missingWord").textContent="🏆 1000 / 1000";el("letterOptions").innerHTML="";el("letterFeedback").className="mini-feedback show ok";el("letterFeedback").textContent="You completed all 1,000 unique Guess the Letter challenges!";el("nextLetterWord").style.display="none";return;}
+  if(!item){el("letterHint").textContent="Challenge complete!";el("missingWord").textContent="🏆 1000 / 1000";el("letterOptions").innerHTML="";el("letterFeedback").className="mini-feedback show ok";el("letterFeedback").textContent="You completed 1,000 different Guess the Letter words with zero repeats!";el("nextLetterWord").style.display="none";return;}
   miniSession.letter=item;var stage=guessDifficultyStage(qNo),chars=item.w.split(""),answer=chars[item.i];chars[item.i]="_";
-  el("missingWord").textContent=chars.join(" ");el("letterHint").textContent=guessHintFor(item,stage);el("letterProgressText").textContent="Question "+qNo+" / "+GUESS_LETTER_MAX;el("letterDifficulty").textContent="Difficulty "+stage+" / 100";el("letterProgressBar").style.width=((qNo-1)/GUESS_LETTER_MAX*100)+"%";el("letterToughnessText").textContent="Stage "+stage+" · Toughness increases every 10 questions. Correct answer only unlocks Next.";
+  el("missingWord").textContent=chars.join(" ");el("letterHint").textContent=guessHintFor(item,stage);el("letterProgressText").textContent="Question "+qNo+" / "+GUESS_LETTER_MAX;el("letterDifficulty").textContent="Difficulty "+stage+" / 100";el("letterProgressBar").style.width=((qNo-1)/GUESS_LETTER_MAX*100)+"%";el("letterToughnessText").textContent="Stage "+stage+" · Word "+qNo+" of 1000 is unique. No word repeats. Correct answer only unlocks Next.";
   var choiceCount=guessChoiceCount(stage),wrong=guessWrongLetters(answer,choiceCount-1,stage),opts=shuffleCopy([answer].concat(wrong));el("letterOptions").innerHTML=opts.map(function(x){return '<button class="letter-choice" data-letter="'+x+'">'+x+'</button>';}).join("");var f=el("letterFeedback");f.className="mini-feedback";f.textContent="";el("nextLetterWord").style.display="none";
   el("letterOptions").querySelectorAll(".letter-choice").forEach(function(b){b.onclick=function(){if(miniSession.locked)return;var ok=this.getAttribute("data-letter")===answer,f=el("letterFeedback");if(ok){this.style.background="#dcfaee";this.style.color="#117653";f.className="mini-feedback show ok";f.textContent="✅ Correct! "+item.w+" · Question "+qNo+" cleared.";miniSession.locked=true;state.guessLetter.correct=(state.guessLetter.correct||0)+1;state.miniGames.letter=(state.miniGames.letter||0)+1;state.xp+=10+Math.floor(stage/10);if(qNo>=GUESS_LETTER_MAX){state.guessLetter.completed=true;state.stars+=10;el("nextLetterWord").style.display="none";confetti();toast("🏆 1000 Challenge Complete! +10⭐");}else{state.guessLetter.current=qNo+1;el("nextLetterWord").style.display="inline-block";if(qNo%10===0){state.stars+=1;confetti();toast("🔥 Difficulty Up! Stage "+(stage+1)+" unlocked · +1⭐");}else toast("Correct! Next: Question "+(qNo+1));}save();renderMiniGameScores();renderHeader();beep(true);el("letterOptions").querySelectorAll(".letter-choice").forEach(function(x){x.disabled=true;});}else{this.disabled=true;this.style.opacity=".35";f.className="mini-feedback show no";f.textContent=stage<50?"Try again — focus on the spelling pattern.":"Not this letter. Keep going — the challenge is tougher now.";beep(false);} };});
 }
