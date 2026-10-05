@@ -226,6 +226,18 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
 .zero-hero-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-top:14px}.zero-hero-card{border:1px solid var(--line);background:#fff;border-radius:16px;padding:12px;text-align:left;color:var(--text);cursor:pointer;min-height:112px;transition:.15s}.zero-hero-card:hover{border-color:#8f7cff;transform:translateY(-2px);box-shadow:0 8px 20px rgba(61,54,120,.08)}.zero-hero-card span{font-size:27px;display:block;margin-bottom:6px}.zero-hero-card b{display:block;font-size:12px}.zero-hero-card small{display:block;color:var(--muted);font-size:10px;line-height:1.35;margin-top:4px;font-weight:750}
 .adaptive-passage{max-width:920px;margin:14px auto;background:linear-gradient(135deg,#fffef8,#f8fbff);border:1px solid #e6e4f1;border-radius:18px;padding:16px 18px;line-height:1.7;font-size:15px;font-weight:650;color:var(--text)}.adaptive-passage h3{margin:0 0 7px;font-size:18px}.adaptive-smart-q{max-width:900px;margin:18px auto 12px;text-align:center;font-weight:950;font-size:clamp(20px,2.5vw,28px)}.reading-card p{margin:0}.writing-prompt p{margin:0 0 8px}.writing-guide{display:flex;gap:7px;flex-wrap:wrap}.writing-guide span{padding:6px 9px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:10px;font-weight:900}.adaptive-writing-input{display:block;width:min(920px,100%);margin:14px auto;border:2px solid var(--line);border-radius:16px;padding:14px;font:inherit;font-weight:650;color:var(--text);background:var(--panel);resize:vertical;min-height:120px;outline:none}.adaptive-writing-input:focus{border-color:#7a66ff;box-shadow:0 0 0 4px rgba(122,102,255,.08)}.writing-model{background:#ecfbf5;border-color:#9bdfc0}.adaptive-meta{flex-wrap:wrap}
 @media(max-width:1050px){.zero-hero-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:650px){.zero-hero-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:420px){.zero-hero-grid{grid-template-columns:1fr}}
+
+.writing-teacher-report{width:min(920px,100%);margin:12px auto;min-height:0}
+.teacher-card{border:1px solid var(--line);background:#fff;border-radius:20px;padding:16px;box-shadow:0 8px 20px rgba(43,50,90,.06)}
+.teacher-top{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.teacher-score{width:82px;height:82px;border-radius:50%;display:grid;place-items:center;background:#f4f1ff;border:7px solid #7b66ff;font-size:22px;font-weight:950}
+.teacher-score.good{background:#ecfbf5;border-color:#42c78c}.teacher-score.mid{background:#fff9e9;border-color:#efb63e}.teacher-score.low{background:#fff0f2;border-color:#ef6b79}
+.teacher-summary{flex:1;min-width:220px}.teacher-summary h4{margin:0 0 5px;font-size:18px}.teacher-summary p{margin:0;color:var(--muted);font-weight:750;line-height:1.45}
+.teacher-rubric{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:13px}.teacher-rubric div{border:1px solid var(--line);background:#fafaff;border-radius:13px;padding:9px}.teacher-rubric b{display:block;font-size:10px;color:var(--muted)}.teacher-rubric strong{font-size:16px}
+.teacher-sections{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.teacher-section{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}.teacher-section h5{margin:0 0 7px;font-size:13px}.teacher-section ul{margin:0;padding-left:18px}.teacher-section li{margin:5px 0;font-size:12px;line-height:1.45}
+.teacher-correction{margin-top:12px;border:1px solid #b9e1cf;background:#eefbf5;border-radius:14px;padding:12px}.teacher-correction b{display:block;margin-bottom:5px}.teacher-correction p{margin:0;line-height:1.55;font-weight:750}
+.teacher-next{margin-top:10px;font-size:12px;font-weight:850;color:var(--muted)}
+@media(max-width:720px){.teacher-rubric{grid-template-columns:repeat(2,1fr)}.teacher-sections{grid-template-columns:1fr}}
 </style>
 </head>
 <body data-subject="english">
@@ -574,10 +586,10 @@ linear-gradient(145deg,#0f1532,#1e2455 50%,#342b73);display:grid;place-items:cen
 
   <div class="adaptive-stage" id="adaptiveWritingStage" hidden>
     <div class="adaptive-stage-head"><div><h2>✍️ Guided Writing Lab</h2><div class="slot-sub" id="adaptiveWritingLevel">Sentence Builder</div></div><button class="btn outline" data-close-adaptive>Close</button></div>
-    <div class="adaptive-meta"><span id="adaptiveWritingCount">Prompt 1 / 5</span><span id="adaptiveWritingTarget">Target: 8+ words</span></div>
+    <div class="adaptive-meta"><span id="adaptiveWritingCount">Prompt 1 / 5</span><span id="adaptiveWritingTarget">Target: 8+ words</span><span id="adaptiveWritingScore">Score: -- / 10</span></div>
     <div class="adaptive-passage writing-prompt"><h3 id="adaptiveWritingTitle">Write</h3><p id="adaptiveWritingPrompt"></p><div class="writing-guide" id="adaptiveWritingGuide"></div></div>
-    <textarea class="adaptive-writing-input" id="adaptiveWritingInput" rows="5" placeholder="Write your answer here..."></textarea>
-    <div class="adaptive-feedback" id="adaptiveWritingFeedback"></div>
+    <textarea class="adaptive-writing-input" id="adaptiveWritingInput" rows="5" lang="en" spellcheck="true" autocomplete="off" placeholder="Write your answer here..."></textarea>
+    <div class="writing-teacher-report" id="adaptiveWritingFeedback"></div>
     <div class="adaptive-passage writing-model" id="adaptiveWritingModel" hidden></div>
     <div class="monster-session-actions"><button class="btn dark" id="adaptiveWritingCheck">Check Writing</button><button class="btn green" id="adaptiveWritingNext" style="display:none">Next Prompt →</button></div>
   </div>
@@ -5479,7 +5491,7 @@ if(questionHistory.engineVersion!=="9.1.0"){
 
 
 /* VIHAA v9.2 HERO CLICK HARD-FIX */
-VIHAA_QUESTION_ENGINE_VERSION="10.0.0";
+VIHAA_QUESTION_ENGINE_VERSION="10.1.0";
 
 function vihaaFastUniqueBatch(worldId,count,tier){
   questionHistory.seen=questionHistory.seen||{};
@@ -5594,13 +5606,13 @@ renderHome=function(){
   }
   /* Make the loaded release obvious and normalize old cache-buster URLs without reloading. */
   try{
-    var wanted="?v=10.0.0";
+    var wanted="?v=10.1.0";
     if(location.search!==wanted)history.replaceState(null,"",location.pathname+wanted+location.hash);
   }catch(e){}
 };
 
-if(questionHistory.engineVersion!=="10.0.0"){
-  questionHistory.engineVersion="10.0.0";
+if(questionHistory.engineVersion!=="10.1.0"){
+  questionHistory.engineVersion="10.1.0";
   questionHistory.answerRecent={};
   questionHistory.answerTextRecent={};
   saveQuestionHistory();
@@ -5614,7 +5626,7 @@ if(questionHistory.engineVersion!=="10.0.0"){
 })();
 
 /* VIHAA v10.0 ZERO-TO-HERO ADAPTIVE ENGLISH */
-VIHAA_QUESTION_ENGINE_VERSION="10.0.0";
+VIHAA_QUESTION_ENGINE_VERSION="10.1.0";
 
 function ensureAdaptiveZeroHero(){
   if(!state.adaptive)state.adaptive={skills:{},cards:{},sessions:0};
@@ -5872,6 +5884,103 @@ startAdaptiveReview=function(){
 };
 
 ensureAdaptiveZeroHero();
+
+
+/* VIHAA v10.1 WRITING TEACHER SPELLING GRAMMAR SCORE */
+VIHAA_QUESTION_ENGINE_VERSION="10.1.0";
+
+var vihaaCommonTypos={
+"weakup":"wake up","wakeup":"wake up","writting":"writing","recieve":"receive","recieved":"received",
+"becuase":"because","beacuse":"because","definately":"definitely","seperate":"separate","occured":"occurred",
+"thier":"their","freind":"friend","adress":"address","enviroment":"environment","goverment":"government",
+"grammer":"grammar","langauge":"language","sentance":"sentence","tomorow":"tomorrow","yestarday":"yesterday",
+"mornig":"morning","morining":"morning","teh":"the","adn":"and","dont":"don't","doesnt":"doesn't",
+"didnt":"didn't","cant":"can't","wont":"won't","isnt":"isn't","im":"I'm","ive":"I've","alot":"a lot",
+"somthing":"something","wich":"which","pleae":"please","plese":"please"
+};
+
+function vihaaEscapeRe(s){return String(s).replace(/[.*+?^$(){}|[\]\\]/g,"\\$&");}
+function vihaaApplyCase(original,replacement){
+  if(original===original.toUpperCase()&&original.length>1)return replacement.toUpperCase();
+  if(original.charAt(0)===original.charAt(0).toUpperCase())return replacement.charAt(0).toUpperCase()+replacement.slice(1);
+  return replacement;
+}
+function vihaaWritingAnalyse(text,item){
+  var original=String(text||"").trim(),corrected=original,spelling=[],grammar=[],mechanics=[],teacher=[];
+  Object.keys(vihaaCommonTypos).forEach(function(bad){
+    var re=new RegExp("\\b"+vihaaEscapeRe(bad)+"\\b","gi"),m=original.match(re);
+    if(m){var good=vihaaCommonTypos[bad];spelling.push("Spelling: “"+m[0]+"” → “"+good+"”.");corrected=corrected.replace(re,function(x){return vihaaApplyCase(x,good);});}
+  });
+  if(/\b\d+\s+o\s*clock\b/i.test(original)){spelling.push("Write time as “o'clock” with an apostrophe.");corrected=corrected.replace(/\b(\d+)\s+o\s*clock\b/gi,"$1 o'clock");}
+  if(/\bdoing\s+brush\b/i.test(original)){grammar.push("Say “brush my teeth”, not “doing brush”.");corrected=corrected.replace(/\bdoing\s+brush\b/gi,"brush my teeth");}
+  if(/\b(?:doing\s+)?bath\b/i.test(original)&&/\bbrush/i.test(original)){grammar.push("For a daily routine, use “take a bath”.");corrected=corrected.replace(/\b(?:doing\s+)?bath\b/gi,"take a bath");}
+  if(/\band\s+going\s+to\b/i.test(original)&&/\b(?:every|each)\s+(?:morning|day|evening)\b/i.test(original)){grammar.push("Keep routine verbs parallel: wake up, brush, take, and go.");corrected=corrected.replace(/\band\s+going\s+to\b/gi,"and go to");}
+  if(/\band\s+doing\b/i.test(original)){grammar.push("Keep the same verb form when listing routine actions.");}
+  if(/\bI\s+is\b/i.test(original)){grammar.push("Use “I am”, not “I is”.");corrected=corrected.replace(/\bI\s+is\b/g,"I am");}
+  if(/\b(?:he|she|it)\s+are\b/i.test(original)){grammar.push("Use “is” with he, she or it.");corrected=corrected.replace(/\b(he|she|it)\s+are\b/gi,"$1 is");}
+  if(/\b(?:we|they|you)\s+is\b/i.test(original)){grammar.push("Use “are” with we, they or you.");corrected=corrected.replace(/\b(we|they|you)\s+is\b/gi,"$1 are");}
+  if(/\b(?:he|she|it)\s+have\b/i.test(original)){grammar.push("Use “has” with he, she or it.");corrected=corrected.replace(/\b(he|she|it)\s+have\b/gi,"$1 has");}
+  if(/\b(?:I|we|they|you)\s+has\b/i.test(original)){grammar.push("Use “have” with I, we, they or you.");corrected=corrected.replace(/\b(I|we|they|you)\s+has\b/gi,"$1 have");}
+  if(/\s+[,.;!?]/.test(original)){mechanics.push("Remove the space before punctuation marks.");corrected=corrected.replace(/\s+([,.;!?])/g,"$1");}
+  if(/[,.;!?][A-Za-z]/.test(original)){mechanics.push("Add a space after punctuation.");corrected=corrected.replace(/([,.;!?])([A-Za-z])/g,"$1 $2");}
+  var capital=/^[A-Z]/.test(original),punct=/[.!?]$/.test(original);
+  if(!capital){mechanics.push("Start with a capital letter.");corrected=corrected.charAt(0).toUpperCase()+corrected.slice(1);}
+  if(!punct){mechanics.push("End with . ? or !");corrected+=".";}
+  corrected=corrected.replace(/\s{2,}/g," ").replace(/\s+,/g,",").trim();
+  corrected=corrected.replace(/\bI\s+wake up([^.!?]*?)brush my teeth,?\s*take a bath\s+and go to work\b/i,function(all,middle){
+    return ("I wake up"+middle).replace(/\s+/g," ").trim()+", brush my teeth, take a bath, and go to work";
+  });
+
+  var words=original?original.split(/\s+/).filter(Boolean).length:0,minWords=Number(item&&item.min||6);
+  var spellingPts=Math.max(0,2-spelling.length*.7);
+  var grammarPts=Math.max(0,4-grammar.length);
+  var mechanicsPts=1.5-(capital?0:.5)-(punct?0:.5)-(mechanics.some(function(x){return x.indexOf("space")>=0||x.indexOf("punctuation marks")>=0;})?.5:0);
+  mechanicsPts=Math.max(0,mechanicsPts);
+  var taskPts=words>=minWords?2.5:Math.max(0,2.5-(minWords-words)*.4);
+  if(words>=minWords&&words<minWords+4)taskPts=Math.min(taskPts,2);
+  var score=Math.round((spellingPts+grammarPts+mechanicsPts+taskPts)*10)/10;score=Math.max(0,Math.min(10,score));
+  if(!spelling.length)teacher.push("No high-confidence spelling mistake was detected.");
+  if(!grammar.length)teacher.push("Sentence structure passed the current grammar checks.");
+  if(words>=minWords)teacher.push("You met the "+minWords+"+ word target.");
+  teacher.push(score>=7?"Read the correction once, then try writing the idea again without looking.":"Correct the sentence first, then press Check Writing again.");
+  return {score:score,spelling:spelling,grammar:grammar,mechanics:mechanics,teacher:teacher,corrected:corrected,words:words,min:minWords,
+    rubric:{spelling:Math.round(spellingPts*10)/10,grammar:Math.round(grammarPts*10)/10,mechanics:Math.round(mechanicsPts*10)/10,task:Math.round(taskPts*10)/10}};
+}
+function vihaaTeacherList(title,items,empty){
+  return '<div class="teacher-section"><h5>'+title+'</h5><ul>'+(items.length?items.map(function(x){return '<li>'+x+'</li>';}).join(""):'<li>'+empty+'</li>')+'</ul></div>';
+}
+function vihaaRenderWritingTeacher(r){
+  var cls=r.score>=8?"good":r.score>=6?"mid":"low";
+  var verdict=r.score>=9?"Excellent":r.score>=7?"Good — improve the small issues":r.score>=5?"Keep practising — corrections needed":"Teacher help needed before moving on";
+  el("adaptiveWritingScore").textContent="Score: "+r.score+" / 10";
+  el("adaptiveWritingFeedback").innerHTML=
+    '<div class="teacher-card"><div class="teacher-top"><div class="teacher-score '+cls+'">'+r.score+'/10</div><div class="teacher-summary"><h4>👩‍🏫 Teacher Feedback · '+verdict+'</h4><p>I checked spelling, grammar, sentence mechanics and task completion. Fix the points below and check again.</p></div></div>'+
+    '<div class="teacher-rubric"><div><b>Spelling</b><strong>'+r.rubric.spelling+' / 2</strong></div><div><b>Grammar</b><strong>'+r.rubric.grammar+' / 4</strong></div><div><b>Punctuation</b><strong>'+r.rubric.mechanics+' / 1.5</strong></div><div><b>Task & clarity</b><strong>'+r.rubric.task+' / 2.5</strong></div></div>'+
+    '<div class="teacher-sections">'+vihaaTeacherList("🔤 Spelling",r.spelling,"No spelling issue detected by the local checker.")+vihaaTeacherList("🧩 Grammar",r.grammar,"No grammar issue detected by the current rules.")+vihaaTeacherList("✒️ Punctuation & form",r.mechanics,"Capitalisation and punctuation look correct.")+vihaaTeacherList("🎯 Teacher advice",r.teacher,"Keep practising.")+'</div>'+
+    '<div class="teacher-correction"><b>✅ Teacher\'s suggested correction</b><p>'+r.corrected.replace(/</g,"&lt;").replace(/>/g,"&gt;")+'</p></div>'+
+    '<div class="teacher-next">'+(r.score>=7?"You scored 7/10 or higher, so Next Prompt is unlocked.":"Score 7/10 or higher to unlock Next Prompt. Edit your sentence and check again.")+'</div></div>';
+}
+var vihaaOldRenderAdaptiveWritingV101=renderAdaptiveWriting;
+renderAdaptiveWriting=function(){
+  vihaaOldRenderAdaptiveWritingV101();
+  if(el("adaptiveWritingScore"))el("adaptiveWritingScore").textContent="Score: -- / 10";
+  if(el("adaptiveWritingFeedback"))el("adaptiveWritingFeedback").innerHTML="";
+  if(el("adaptiveWritingInput")){el("adaptiveWritingInput").spellcheck=true;el("adaptiveWritingInput").disabled=false;}
+};
+checkAdaptiveWriting=function(){
+  if(adaptiveWritingSession.locked)return;
+  var item=adaptiveWritingSession.items[adaptiveWritingSession.index],txt=el("adaptiveWritingInput").value.trim();
+  if(!txt){el("adaptiveWritingFeedback").innerHTML='<div class="teacher-card"><b>👩‍🏫 Teacher:</b> Write your answer first. I will check spelling, grammar and give a score out of 10.</div>';return;}
+  var r=vihaaWritingAnalyse(txt,item);vihaaRenderWritingTeacher(r);ensureAdaptiveZeroHero();
+  state.adaptive.lastWritingScore=r.score;state.adaptive.writingScores=Array.isArray(state.adaptive.writingScores)?state.adaptive.writingScores:[];
+  state.adaptive.writingScores.push({score:r.score,stage:item.stage||1,title:item.title||"Writing",time:Date.now()});
+  if(state.adaptive.writingScores.length>50)state.adaptive.writingScores=state.adaptive.writingScores.slice(-50);
+  var pass=r.score>=7;trackAdaptiveSkill("writing",pass);
+  if(!pass){adaptiveWritingSession.locked=false;el("adaptiveWritingInput").disabled=false;el("adaptiveWritingNext").style.display="none";el("adaptiveWritingCheck").style.display="inline-block";beep(false);save();renderAdaptiveCoach();return;}
+  adaptiveWritingSession.locked=true;el("adaptiveWritingInput").disabled=true;el("adaptiveWritingModel").hidden=false;
+  el("adaptiveWritingModel").innerHTML="<b>📘 Model example (another correct way):</b><br>"+item.model;
+  el("adaptiveWritingNext").style.display="inline-block";el("adaptiveWritingCheck").style.display="none";state.xp+=Math.max(5,Math.round(r.score));beep(true);save();renderAdaptiveCoach();
+};
 
 document.querySelectorAll("[data-subject-choice]").forEach(function(b){b.onclick=function(){chooseSubject(this.getAttribute("data-subject-choice"),this);};});if(el("subjectSwitch"))el("subjectSwitch").onclick=openSubjectGate;if(el("multiContinue"))el("multiContinue").onclick=startExtraQuiz;if(el("multiStartQuiz"))el("multiStartQuiz").onclick=startExtraQuiz;
 if(el("multiReset"))el("multiReset").onclick=function(){if(extraAdaptiveReview.active)resetExtraAdaptiveReview();else resetExtraQuestion();};
